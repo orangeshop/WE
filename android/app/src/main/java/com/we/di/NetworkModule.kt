@@ -1,8 +1,21 @@
 package com.we.di
 
+import com.google.gson.GsonBuilder
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
+
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkMoudel {
+object NetworkModule {
 
     //local property로 빼기
     val baseUrl = ""
@@ -20,9 +33,8 @@ object NetworkMoudel {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(interceptor: AccessTokenInterceptor) = OkHttpClient.Builder().run {
+    fun provideOkHttpClient() = OkHttpClient.Builder().run {
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-        addInterceptor(interceptor)
         connectTimeout(120, TimeUnit.SECONDS)
         readTimeout(120, TimeUnit.SECONDS)
         writeTimeout(120, TimeUnit.SECONDS)
