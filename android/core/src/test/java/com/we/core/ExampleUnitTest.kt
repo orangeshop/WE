@@ -1,4 +1,4 @@
-package com.we
+package com.we.core
 
 import org.junit.Test
 

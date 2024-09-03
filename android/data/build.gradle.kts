@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.gradle.plugin)
-    id("org.jetbrains.kotlin.kapt")
+    id("kotlin-kapt")
     alias(libs.plugins.kotlinx.serialization)
 }
 
