@@ -11,7 +11,7 @@ const AppRouter: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/invite/info" element={<InfoTypeInvitation />} />
         <Route path="/invite/free" element={<FreeTypeInvitation />} />
-        {/* 추가적인 라우트들을 여기에 추가하세요 */}
+        {/* 추가적인 라우트들을 여기에 추가하세요@@ */}
       </Routes>
     </Router>
   );
