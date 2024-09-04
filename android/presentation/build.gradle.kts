@@ -77,4 +77,7 @@ dependencies {
     kapt(libs.hilt.compiler)
     kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.fragment)
+
+    // Dotindicator
+    implementation(libs.dotsindicator)
 }

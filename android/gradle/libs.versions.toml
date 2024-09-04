@@ -40,7 +40,8 @@ ted-permission = "3.3.0"
 googleidVersion = "1.1.1"
 jetbrainsKotlinJvm = "1.9.0"
 
-
+# Dotindicator
+dotsindicator = "5.0"
 
 [libraries]
 
@@ -96,6 +97,9 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-converter-sclars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
 retrofit-converter-kotlinxSerialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
+
+# Dotindicator
+dotsindicator = {module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator"}
 
 
 [plugins]
