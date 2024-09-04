@@ -1,6 +1,6 @@
 .home-container {
   text-align: center;
-  font-family: Arial, sans-serif;
+  font-family: 'Nanum_Bold';
 }
 
 .header {
@@ -14,10 +14,14 @@
 
 .video{
     width : 100%;
+    opacity: 70%;
 }
 .video video {
     width: 100%;
     height: auto; /* 비율을 유지하면서 너비에 맞게 조정합니다 */
+}
+.main_text {
+    font-size : 60px;
 }
 
 .overlay-text {
@@ -27,7 +31,7 @@
     transform: translate(-50%, -50%); /* 중앙 정렬을 위한 변환 */
     color: white; /* 텍스트 색상 */
     text-align: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Nanum_Bold';
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 텍스트에 그림자 효과 */
   }
   

@@ -14,8 +14,8 @@ const Home: React.FC = () => {
           <source src={video_intro} type="video/mp4" />        
         </video>
         <div className="overlay-text">
-          <h1>Welcome to Our Wedding</h1>
-          <p>Your special day, captured in every moment</p>
+          <div className = "main_text">[WE: ]</div>
+          <h2>'우리(WE)'가 함께 준비하는 '웨딩(WEdding)'</h2>
         </div>
         </div>
       </div>
