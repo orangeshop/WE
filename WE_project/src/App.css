@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Nanum_Bold';
-  src: url('./assets/fonts/NanumMyeongjo-Bold.ttf') format('truetype');
+  font-family: "Nanummyeongjo";
+  src: url("./assets/fonts/NanumMyeongjo-Reqular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
