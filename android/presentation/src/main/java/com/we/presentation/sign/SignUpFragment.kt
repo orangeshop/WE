@@ -2,22 +2,21 @@ package com.we.presentation.sign
 
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
-import com.we.presentation.databinding.FragmentSignInBinding
+import com.we.presentation.databinding.FragmentSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
 
+@AndroidEntryPoint
+class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
     override fun initView() {
         initClickEvent()
     }
 
     private fun initClickEvent() {
         binding.apply {
-            tvSignUp.setOnClickListener {
-                navigateDestination(R.id.action_fragment_sign_in_to_fragment_sign_up)
+            icTitle.ivBack.setOnClickListener {
+                navigatePopBackStack()
             }
         }
     }
-
 }

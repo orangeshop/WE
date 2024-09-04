@@ -4,5 +4,7 @@
     <string name="sign_up">회원가입</string>
     <string name="sign_email">이메일</string>
     <string name="sign_password">비밀번호</string>
+    <string name="sign_nickname">닉네임</string>
     <string name="sign_login">로그인</string>
+    <string name="sign_email_annotation">\@</string>
 </resources>

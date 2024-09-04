@@ -8,5 +8,14 @@
     <fragment
         android:id="@+id/fragment_sign_in"
         android:name="com.we.presentation.sign.SignInFragment"
-        tools:layout="@layout/fragment_sign_in" />
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_fragment_sign_in_to_fragment_sign_up"
+            app:destination="@id/fragment_sign_up" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_sign_up"
+        android:name="com.we.presentation.sign.SignUpFragment"
+        tools:layout="@layout/fragment_sign_up"/>
 </navigation>
