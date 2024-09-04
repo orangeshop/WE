@@ -1,7 +1,9 @@
 import React from "react";
 
 const InfoTypeInvitation: React.FC = () => {
-  return <div></div>;
+  return <div>
+    <h1>하잉</h1>
+  </div>;
 };
 
 export default InfoTypeInvitation;
