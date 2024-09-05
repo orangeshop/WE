@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState  } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Home.css";
@@ -8,13 +8,29 @@ import image3 from "../assets/images/image3.jpg";
 import image4 from "../assets/images/image4.jpg";
 
 const Home: React.FC = () => {
+  const [navbarBackground, setNavbarBackground] = useState(false);
+
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 2500 });
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setNavbarBackground(true);
+      } else {
+        setNavbarBackground(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <div className="home-container">
-      <nav className="navbar">
+      <nav className={`navbar ${navbarBackground ? "navbar-scrolled" : ""}`}>
         <div className="logo">[ WE : ]</div>
         <div className="nav-links">
           <a href="#invitation">Mobile Invitation Card</a>
