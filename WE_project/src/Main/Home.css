@@ -1,98 +1,150 @@
+/* Navbar */
 .navbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 30px 0px;
-  z-index: 10;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.navbar .logo {
-  font-size: 24px;
-  color: white;
-  margin-right: 100px;
-  margin-left: 50px;
-}
-
-.nav-links {
-  display: flex;
-  margin-top: 5px;
-  color: white;
-  gap: 50px;
-}
-
-.nav-links a {
-  color: white;
-  font-size: 18px;
-}
-
-.nav-links a:hover {
-  color: white;
-  text-decoration: underline;
-}
-
-.home-container {
-  text-align: center;
-  font-family: "Nanummyeongjo", sans-serif;
-}
-
-.video-container {
-  position: relative;
-  width: 100%;
-}
-
-.video video {
-  opacity: 70%;
-  width: 100%;
-  height: auto;
-}
-
-.overlay-text {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
-  font-family: "Nanummyeongjo", sans-serif;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.main-text {
-  color: beige;
-  font-size: 45px;
-}
-
-.sub-text {
-  font-size: 22px;
-}
-
-.sub-color {
-  color: beige;
-}
-
-.sections {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 40px;
-}
-
-.section {
-  flex: 1;
-  margin: 0 10px;
-}
-
-.section-image {
-  width: 100%;
-  height: auto;
-  max-width: 300px;
-}
-
-.footer {
-  margin-top: 40px;
-  font-size: 14px;
-  color: #777;
-}
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 20px 10px;
+    z-index: 100;
+    transition: background-color 0.3s ease, color 0.3s ease; /* 부드럽게 배경색 및 텍스트 색상 전환 */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    box-sizing: border-box;
+  }
+  
+  /* 스크롤 전 기본 상태 (투명) */
+  .navbar:not(.navbar-scrolled) {
+    background-color: rgba(0, 0, 0, 0); /* 완전히 투명 */
+  }
+  
+  /* 스크롤 후 배경색이 흰색으로 변경되는 상태 */
+  .navbar-scrolled {
+    background-color: white; /* 배경색을 흰색으로 변경 */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 경계선 색상도 변경 */
+  }
+  
+  /* 로고 및 링크 색상 변경 */
+  .navbar .logo{
+    font-size : 24px;
+    color : white;
+    margin-right: 100px;
+    margin-left: 50px;
+  }
+  .nav-links a {
+    color: white; /* 초기 색상은 흰색 */
+  }
+  
+  .navbar-scrolled .logo,
+  .navbar-scrolled .nav-links a {
+    color: black; /* 스크롤 후 색상은 검은색으로 변경 */
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 50px;
+    margin-top: 5px;
+    justify-content: center;
+  }
+  
+  .nav-links a {
+    font-size: 18px;
+    transition: color 0.3s ease; /* 텍스트 색상도 부드럽게 전환 */
+  }
+  
+  /* Main Container */
+  .home-container {
+    text-align: center;
+    font-family: "Nanummyeongjo", sans-serif;
+    box-sizing: border-box;
+  }
+  
+  /* Video Container */
+  .video-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden; /* 비율을 유지하기 위해 overflow 설정 */
+  }
+  
+  .video video {
+    opacity: 70%;
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* 비율을 유지하면서도 비디오가 잘리도록 설정 */
+  }
+  
+  /* Overlay Text */
+  .overlay-text {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-family: "Nanummyeongjo", sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .main-text {
+    color: beige;
+    font-size: 45px;
+  }
+  
+  .sub-text {
+    font-size: 22px;
+  }
+  
+  .sub-color {
+    color: beige;
+  }
+  
+  /* Sections */
+  .sections {
+    display: flex;
+    flex-wrap: wrap; /* 화면이 작아지면 섹션이 줄을 바꿀 수 있도록 설정 */
+    justify-content: space-around;
+    margin: 40px 0;
+  }
+  
+  .section {
+    flex: 1;
+    margin: 10px;
+    min-width: 250px; /* 섹션의 최소 너비를 설정해 작은 화면에서 줄어듦을 방지 */
+    max-width: 300px;
+  }
+  
+  .section-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Footer */
+  .footer {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #777;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center; /* 작은 화면에서도 중앙 정렬 */
+  }
+  
+  /* Media Queries */
+  @media (max-width: 768px) {
+    .main-text {
+      font-size: 36px; /* 작은 화면에서 글씨 크기 조정 */
+    }
+  
+    .sub-text {
+      font-size: 18px;
+    }
+  
+    .nav-links {
+      gap: 10px; /* 작은 화면에서 간격을 더 줄임 */
+    }
+  
+    .section {
+      margin: 10px auto;
+      max-width: 90%; /* 작은 화면에서는 섹션이 거의 전체 너비를 차지 */
+    }
+  }
+  
