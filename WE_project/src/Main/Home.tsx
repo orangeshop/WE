@@ -51,9 +51,9 @@ const Home: React.FC = () => {
           <div className="overlay-text">
             <div className="main-text">[ WE : ]</div>
             <div className="sub-text">
-              " 우리
+              '우리
               <span className="sub-color">[WE]</span>가 함께 준비하는 웨딩
-              <span className="sub-color">[WEdding] </span>"
+              <span className="sub-color">[WEdding] </span>'
             </div>
           </div>
         </div>
