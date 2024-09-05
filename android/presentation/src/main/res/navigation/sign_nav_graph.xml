@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_nav_graph"
+    app:startDestination="@id/fragment_sign_in">
+
+    <fragment
+        android:id="@+id/fragment_sign_in"
+        android:name="com.we.presentation.sign.SignInFragment"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_fragment_sign_in_to_fragment_sign_up"
+            app:destination="@id/fragment_sign_up" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_sign_up"
+        android:name="com.we.presentation.sign.SignUpFragment"
+        tools:layout="@layout/fragment_sign_up"/>
+</navigation>

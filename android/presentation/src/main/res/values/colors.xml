@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="rosy_brown">#FFC1C1</color>
+    <color name="we_pink">#FFD0DE</color>
+    <color name="we_brown">#A88E97</color>
     <color name="white">#FFFFFF </color>
     <color name="rosy_red">#B45B5B</color>
 </resources>
