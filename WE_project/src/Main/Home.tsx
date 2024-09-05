@@ -1,4 +1,4 @@
-import React, { useEffect, useState  } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./Home.css";
@@ -54,6 +54,15 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="">
+        <h2>[ WE : ]</h2>
+        <p>[ WE : ]는 결혼이라는 새로운 출발을 앞둔 '우리(WE)'와,</p>
+        <p>함께 준비하는 '웨딩(WEdding)'의 의미를 지녔습니다.</p>
+        <p>결혼 자금과 축의금 장부를 효과적으로 관리하고,</p>
+        <p>간편한 결혼 준비 체크리스트 확인과 직접 만드는 모바일 청첩장까지,</p>
+        <p>결혼 준비의 시작부터 끝까지 저희 [ WE : ]는 여러분과 함께 합니다.</p>
       </div>
 
       <div className="sections">
