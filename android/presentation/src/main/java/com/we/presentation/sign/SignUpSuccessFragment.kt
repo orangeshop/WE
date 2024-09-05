@@ -18,6 +18,7 @@ class SignUpSuccessFragment : BaseFragment<FragmentSignUpSuccessBinding>(R.layou
         binding.apply {
             tvSignSuccessComplete.setOnClickListener{
                 startActivity(Intent(requireActivity(), MainActivity::class.java))
+                requireActivity().finish()
             }
         }
     }
