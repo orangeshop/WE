@@ -20,16 +20,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         val test = arrayListOf("1","2","3")
 
         val adapter = HomeViewPagerAccountAdapter(test)
-        binding.vpHomeAccount.adapter = adapter
-        binding.vpHomeTotalAccountDotsIndicator.attachTo(binding.vpHomeAccount)
+
+        binding.apply {
+            vpHomeAccount.adapter = adapter
+            vpHomeTotalAccountDotsIndicator.attachTo(vpHomeAccount)
+        }
     }
 
     private fun setUpBannerViewPager(){
         val test = arrayListOf("1","2","3")
 
         val adapter = HomeViewPagerBannerAdapter(test)
-        binding.vpHomeBanner.adapter = adapter
-        binding.vpHomeTotalBannerDotsIndicator.attachTo(binding.vpHomeBanner)
+        binding.apply {
+            vpHomeBanner.adapter = adapter
+            vpHomeTotalBannerDotsIndicator.attachTo(vpHomeBanner)
+        }
     }
 
 }

@@ -130,63 +130,22 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
         >
-            <FrameLayout
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:background="@drawable/rectangle_white_10_90_90"
-                android:elevation="10dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-            >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/meal_ticket"
-                    style="@style/suite_bold_16"
+           <include
+               layout="@layout/include_home_button"
+                   app:title="@{@string/meal_ticket}"
+               />
+
+            <include
+                layout="@layout/include_home_button"
+                app:title="@{@string/invitation}"
                 />
-            </FrameLayout>
 
-            <FrameLayout
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:background="@drawable/rectangle_white_10_90_90"
-                android:elevation="10dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-
-            >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/invitation"
-                    style="@style/suite_bold_16"
-                    />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:background="@drawable/rectangle_white_10_90_90"
-                android:elevation="10dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-            >
-                <TextView
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/couple_register"
-                    style="@style/suite_bold_16"
+            <include
+                layout="@layout/include_home_button"
+                app:title="@{@string/couple_register}"
                 />
-            </FrameLayout>
+
+
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
