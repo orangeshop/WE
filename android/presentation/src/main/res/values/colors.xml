@@ -4,4 +4,6 @@
     <color name="we_pink">#FFD0DE</color>
     <color name="we_brown">#A88E97</color>
     <color name="white">#FFFFFF </color>
+    <color name="black">#000000</color>
+    <color name="light_gray">#F8F8F8</color>
 </resources>
