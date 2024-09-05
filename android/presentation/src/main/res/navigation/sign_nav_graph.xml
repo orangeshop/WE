@@ -26,5 +26,14 @@
     <fragment
         android:id="@+id/fragment_easy_password_register"
         android:name="com.we.presentation.sign.EasyPasswordRegisterFragment"
-        tools:layout="@layout/fragment_easy_password_register"/>
+        tools:layout="@layout/fragment_easy_password_register">
+        <action
+            android:id="@+id/action_fragment_easy_password_register_to_fragment_sign_up_success"
+            app:destination="@id/fragment_sign_up_success" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_sign_up_success"
+        android:name="com.we.presentation.sign.SignUpSuccessFragment"
+        tools:layout="@layout/fragment_sign_up_success"/>
 </navigation>

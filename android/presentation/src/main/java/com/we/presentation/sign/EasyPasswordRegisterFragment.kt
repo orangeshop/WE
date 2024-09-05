@@ -9,7 +9,6 @@ import com.we.presentation.databinding.FragmentEasyPasswordRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class EasyPasswordRegisterFragment :
@@ -44,6 +43,9 @@ class EasyPasswordRegisterFragment :
                 button.setOnClickListener {
                     setBtnSelected(button)
                 }
+            }
+            binding.btnTen.setOnClickListener {
+                navigateDestination(R.id.action_fragment_easy_password_register_to_fragment_sign_up_success)
             }
         }
     }
