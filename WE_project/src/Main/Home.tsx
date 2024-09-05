@@ -9,7 +9,7 @@ import image4 from "../assets/images/image4.jpg";
 
 const Home: React.FC = () => {
   useEffect(() => {
-    AOS.init({ duration: 1000 });
+    AOS.init({ duration: 2000 });
   }, []);
 
   return (
