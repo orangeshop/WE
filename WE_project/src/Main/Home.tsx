@@ -31,7 +31,9 @@ const Home: React.FC = () => {
   return (
     <div className="home-container">
       <nav className={`navbar ${navbarBackground ? "navbar-scrolled" : ""}`}>
-        <div className="logo">[ WE : ]</div>
+        <div className="logo">
+          <a href="">[ WE : ]</a>
+          </div>
         <div className="nav-links">
           <a href="#invitation">Mobile Invitation Card</a>
           <a href="#account">Account Book</a>
@@ -59,10 +61,12 @@ const Home: React.FC = () => {
       <div className="sections">
         <div className="section" data-aos="fade-up">
           <img src={image2} alt="QR 인식 송금" className="section-image" />
+          <p>Ep 01</p>
           <p>QR 인식으로 보다 편리한 축의금 송금</p>
         </div>
         <div className="section" data-aos="fade-up">
           <img src={image3} alt="모바일 청첩장" className="section-image" />
+          <p>Ep 02</p>
           <p>직접 커스텀해서 신랑, 신부가 함께 만드는 모바일 청첩장</p>
         </div>
         <div className="section" data-aos="fade-up">
@@ -71,6 +75,7 @@ const Home: React.FC = () => {
             alt="결혼준비 체크리스트"
             className="section-image"
           />
+          <p>Ep 03</p>
           <p>어려운 결혼준비 체크리스트, 캘린더로 손쉬운 일정 관리</p>
         </div>
       </div>
