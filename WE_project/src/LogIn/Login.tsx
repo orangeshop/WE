@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import flower from "../../src/assets/images/flower.png";
+import flower from "../../src/assets/images/flower.png"; // 배경 이미지는 필요에 따라 조정하세요
 
-const SignupForm: React.FC = () => {
+const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -14,26 +12,11 @@ const SignupForm: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
-    // 비밀번호 확인 필드에서만 에러 체크
-    if (name === "confirmPassword") {
-      if (value !== formData.password) {
-        setError("비밀번호가 일치하지 않습니다.");
-      } else {
-        setError(null);
-      }
-    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 비밀번호와 비밀번호 확인이 일치하는지 확인
-    if (formData.password !== formData.confirmPassword) {
-      setError("비밀번호가 일치하지 않습니다.");
-      return;
-    }
-
-    // 회원가입 처리 로직
+    // 로그인 처리 로직
     console.log(formData);
     setError(null); // 에러 메시지 초기화
   };
@@ -70,27 +53,9 @@ const SignupForm: React.FC = () => {
           <div className="mb-6">
             <label
               className="block text-gray-700 text-lg font-bold mb-2"
-              htmlFor="name"
-            >
-              성함
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              placeholder=""
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-lg font-bold mb-2"
               htmlFor="email"
             >
-              이메일
+              이메일 주소
             </label>
             <input
               id="email"
@@ -121,31 +86,13 @@ const SignupForm: React.FC = () => {
               required
             />
           </div>
-          <div className="mb-8">
-            <label
-              className="block text-gray-700 text-lg font-bold mb-2"
-              htmlFor="confirmPassword"
-            >
-              비밀번호 확인
-            </label>
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              placeholder=""
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
-              required
-            />
-          </div>
           {error && (
             <div className="mb-4 text-red-500 text-center">
               {error}
             </div>
           )}
           <button type="submit" className="w-full py-3 px-4 rounded-md text-lg bg-blue-500 text-white hover:bg-blue-600">
-            회원가입
+            로그인
           </button>
         </form>
       </div>
@@ -153,4 +100,4 @@ const SignupForm: React.FC = () => {
   );
 };
 
-export default SignupForm;
+export default LoginForm;
