@@ -5,7 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-resources/application-secret.yml
+
+
 
 ### IntelliJ IDEA ###
 .idea/
@@ -47,3 +48,6 @@ src/main/generated/
 
 ### zip files ###
 *.zip
+
+### secret file###
+application-secret.yml
