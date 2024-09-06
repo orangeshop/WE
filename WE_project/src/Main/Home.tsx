@@ -65,7 +65,7 @@ const Home: React.FC = () => {
             Account Book
           </a>
           <a
-            href="#signup"
+            href="signup"
             className={`${
               navbarBackground ? "text-black" : "text-white"
             } text-lg`}
@@ -93,23 +93,23 @@ const Home: React.FC = () => {
         >
           <source src={video_intro} type="video/mp4" />
         </video>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-md">
+        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-md">
           <div className="text-[#e5d8b5] text-5xl mb-4">[ WE : ]</div>
           <div className="text-xl">
             " 우리
             <span className="text-[#e5d8b5]">[WE]</span>가 함께 준비하는 웨딩
             <span className="text-[#e5d8b5]">[WEdding]</span> "
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Introduction Section */}
-      <div className="flex flex-col mt-40 items-center text-center">
+      <div className="flex flex-col mt-60 items-center text-center">
         {/* <img src={mainlogo} alt="mainlogo" className="w-80 mb-10" /> */}
         {/* <img src={we} alt="we" className="w-60 mb-20" /> */}
-        {/* <h2 className="text-5xl mb-8">[ WE : ]</h2> */}
-        <div className="mb-40 text-lg">
-          <p>[ WE : ]는 결혼이라는 새로운 출발을 앞둔 '우리(WE)'와,</p>
+        <h2 className="text-5xl mb-8">[ WE : ]</h2>
+        <div className="mb-60 text-lg">
+          <p>결혼이라는 새로운 출발을 앞둔 '우리(WE)'와,</p>
           <p>함께 준비하는 '웨딩(WEdding)'의 의미를 지녔습니다.</p>
           <p>결혼 자금과 축의금 장부를 효과적으로 관리하고,</p>
           <p>
@@ -122,10 +122,10 @@ const Home: React.FC = () => {
       </div>
 
       {/* Sections */}
-      <div className="mb-40 border border-gray-100"></div>
+      <div className="mb-60 mx-10 border border-gray-100"></div>
       <div className="items-center text-center text-4xl mb-20">Services</div>
 
-      <div className="flex justify-around gap-10 mt-10 mb-10 mx-10">
+      <div className="flex justify-around gap-10 mt-20 mb-10 mx-10">
         <div className="flex flex-col" data-aos="fade-up">
           <img src={happymoney} alt="QR 인식 송금" className="mb-3 h-80" />
           <div className="mx-2">
@@ -156,9 +156,10 @@ const Home: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="mt-20 text-sm text-gray-600 py-4 text-center">
-        <p>[WE: ] 구미시 삼성전자 어쩌구저쩌구 304호</p>
-        <p>Email: wei@ssafy.com</p>
+      <footer className="mt-20 text-sm text-gray-600 py-4 text-center bg-gray-100">
+        <p>ⓒ WE 웨딩</p>
+        <p>삼성 청년 SW 아카데미 D104팀</p>
+        <p>Email: wewedding@ssafy.com</p>
       </footer>
     </div>
   );
