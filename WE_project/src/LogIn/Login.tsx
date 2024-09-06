@@ -1,75 +1,98 @@
-import React from "react";
+import React, { useState } from "react";
+import flower from "../../src/assets/images/flower.png"; // 배경 이미지는 필요에 따라 조정하세요
 
-const SignUp: React.FC = () => {
+const LoginForm: React.FC = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // 로그인 처리 로직
+    console.log(formData);
+    setError(null); // 에러 메시지 초기화
+  };
+
   return (
-    <div className="min-h-screen flex font-nanum justify-center items-center">
-      <div className="max-w-lg w-full p-6 bg-white rounded-lg">
-        <h1 className="text-2xl font-bold text-center mb-6">로그인</h1>
-        <form>
-          {/* 성함 */}
-          <div className="mb-4">
-            <label htmlFor="name" className="block font-semibold mb-2">
-              성함 *
+    <div className="font-nanum bg-image">
+      <div>
+        <nav className="fixed top-0 left-0 w-full flex items-center py-9 px-3 z-50 bg-white border-b border-gray-300">
+          <div className="mr-24 ml-12 text-2xl">
+            <a href="/">[ WE : ]</a>
+          </div>
+          <div className="flex gap-12 justify-center mt-1">
+            <a href="/invitation" className="text-lg">
+              Mobile Invitation Card
+            </a>
+            <a href="/account" className="text-lg">
+              Account Book
+            </a>
+            <a href="/signup" className="text-lg">
+              Sign Up
+            </a>
+            <a href="/login" className="text-lg">
+              Login
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      <div className="flex justify-center mt-40 mb-20 w-[600px]">
+        <img src={flower} alt="flower" className="w-40" />
+      </div>
+      <div className="flex justify-center mb-20">
+        <form className="w-full" onSubmit={handleSubmit}>
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-lg font-bold mb-2"
+              htmlFor="email"
+            >
+              이메일 주소
             </label>
             <input
-              type="text"
-              id="name"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              required
-            />
-          </div>
-
-          {/* 연락처 */}
-          <div className="mb-4">
-            <label htmlFor="phone" className="block font-semibold mb-2">
-              연락처 *
-            </label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                id="phone-1"
-                maxLength={3}
-                className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg"
-                required
-              />
-              <span className="self-center">-</span>
-              <input
-                type="text"
-                id="phone-2"
-                maxLength={4}
-                className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg"
-                required
-              />
-              <span className="self-center">-</span>
-              <input
-                type="text"
-                id="phone-3"
-                maxLength={4}
-                className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg"
-                required
-              />
-            </div>
-          </div>
-
-          {/* 이메일 주소 */}
-          <div className="mb-4">
-            <label htmlFor="email" className="block font-semibold mb-2">
-              이메일 주소 *
-            </label>
-            <input
-              type="email"
               id="email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              name="email"
+              type="email"
+              placeholder=""
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
               required
             />
           </div>
-
-          {/* 제출 버튼 */}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600"
-          >
-            제출
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-lg font-bold mb-2"
+              htmlFor="password"
+            >
+              비밀번호
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder=""
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
+              required
+            />
+          </div>
+          {error && (
+            <div className="mb-4 text-red-500 text-center">
+              {error}
+            </div>
+          )}
+          <button type="submit" className="w-full py-3 px-4 rounded-md text-lg bg-blue-500 text-white hover:bg-blue-600">
+            로그인
           </button>
         </form>
       </div>
@@ -77,4 +100,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default LoginForm;

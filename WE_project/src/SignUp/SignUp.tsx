@@ -9,14 +9,33 @@ const SignupForm: React.FC = () => {
     confirmPassword: "",
   });
 
+  const [error, setError] = useState<string | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // 비밀번호 확인 필드에서만 에러 체크
+    if (name === "confirmPassword") {
+      if (value !== formData.password) {
+        setError("비밀번호가 일치하지 않습니다.");
+      } else {
+        setError(null);
+      }
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // 비밀번호와 비밀번호 확인이 일치하는지 확인
+    if (formData.password !== formData.confirmPassword) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
     // 회원가입 처리 로직
     console.log(formData);
+    setError(null); // 에러 메시지 초기화
   };
 
   return (
@@ -120,7 +139,12 @@ const SignupForm: React.FC = () => {
               required
             />
           </div>
-          <button type="submit" className="w-full py-3 px-4 rounded-md text-lg">
+          {error && (
+            <div className="mb-4 text-red-500 text-center">
+              {error}
+            </div>
+          )}
+          <button type="submit" className="w-full py-3 px-4 rounded-md text-lg bg-blue-500 text-white hover:bg-blue-600">
             회원가입
           </button>
         </form>
