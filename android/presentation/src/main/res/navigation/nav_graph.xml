@@ -27,6 +27,14 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.we.presentation.account.AccountFragment"
-        android:label="AccountFragment" />
+        android:label="AccountFragment" >
+        <action
+            android:id="@+id/action_accountFragment_to_accountTransferFragment"
+            app:destination="@id/accountTransferFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountTransferFragment"
+        android:name="com.we.presentation.account.AccountTransferFragment"
+        android:label="AccountTransferFragment" />
 
 </navigation>

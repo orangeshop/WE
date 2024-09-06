@@ -16,6 +16,15 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
     override fun initView() {
         backBtnClickListener()
         accountBottomSheetClickListener()
+        transferBtnClickListener()
+    }
+
+    private fun transferBtnClickListener(){
+        binding.apply {
+            tvRegisterAccount.setOnClickListener {
+                navigateDestination(R.id.action_accountFragment_to_accountTransferFragment)
+            }
+        }
     }
 
     private fun backBtnClickListener(){

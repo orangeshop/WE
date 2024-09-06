@@ -30,7 +30,7 @@
             app:layout_constraintStart_toEndOf="@+id/iv_account_back"
             android:text="@string/account_register"
             android:layout_marginStart="14dp"
-            style="suite_regular_20"
+            style="@style/suite_regular_20"
         />
 
         <TextView
