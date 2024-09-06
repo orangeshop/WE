@@ -9,14 +9,36 @@ const SignupForm: React.FC = () => {
     confirmPassword: "",
   });
 
+  const [agreeTerms, setAgreeTerms] = useState(false); // 개인정보 수집 동의 상태 추가
+  const [error, setError] = useState(""); // 에러 메시지 상태 추가
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "confirmPassword") {
+      if (value !== formData.password) {
+        setError("비밀번호가 일치하지 않습니다.");
+      } else {
+        setError("");
+      }
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 회원가입 처리 로직
+    if (formData.password !== formData.confirmPassword) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    if (!agreeTerms) {
+      setError("개인정보 수집 및 이용 동의에 체크해주세요.");
+      return;
+    }
+
     console.log(formData);
+    setError("");
   };
 
   return (
@@ -120,7 +142,35 @@ const SignupForm: React.FC = () => {
               required
             />
           </div>
-          <button type="submit" className="w-full py-3 px-4 rounded-md text-lg">
+          <div className="mb-6">
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={agreeTerms}
+                onChange={() => setAgreeTerms(!agreeTerms)}
+                className="mr-2 w-4 h-4"
+              />
+              <span className="text-gray-700 text-md">
+                개인정보 수집 및 이용에 동의합니다.
+              </span>
+              <span className="ml-4">
+                <a
+                  href="https://plip.kr/pcc/0d19f2d4-2de5-47ff-bd03-839c7e3ffaf8/privacy/1.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  자세히 보기
+                </a>
+              </span>
+            </label>
+          </div>
+          {error && (
+            <div className="mb-4 text-red-500 text-center">{error}</div>
+          )}
+          <button
+            type="submit"
+            className="w-full py-3 px-4 rounded-md text-lg bg-blue-500 text-white hover:bg-blue-600"
+          >
             회원가입
           </button>
         </form>
