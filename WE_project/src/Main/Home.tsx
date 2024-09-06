@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   const [navbarBackground, setNavbarBackground] = useState(false);
 
   useEffect(() => {
-    AOS.init({ duration: 2500 });
+    AOS.init({ duration: 2000 });
 
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -156,9 +156,10 @@ const Home: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="mt-20 text-sm text-gray-600 py-4 text-center">
-        <p>[WE: ] 구미시 삼성전자 어쩌구저쩌구 304호</p>
-        <p>Email: wei@ssafy.com</p>
+      <footer className="mt-20 text-sm text-gray-600 py-4 text-center bg-gray-100">
+        <p>ⓒ WE 웨딩</p>
+        <p>삼성 청년 SW 아카데미 D104팀</p>
+        <p>Email: wewedding@ssafy.com</p>
       </footer>
     </div>
   );
