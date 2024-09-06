@@ -55,7 +55,7 @@ const LoginForm: React.FC = () => {
               className="block text-gray-700 text-lg font-bold mb-2"
               htmlFor="email"
             >
-              이메일 주소
+              이메일
             </label>
             <input
               id="email"
@@ -87,11 +87,12 @@ const LoginForm: React.FC = () => {
             />
           </div>
           {error && (
-            <div className="mb-4 text-red-500 text-center">
-              {error}
-            </div>
+            <div className="mb-4 text-red-500 text-center">{error}</div>
           )}
-          <button type="submit" className="w-full py-3 px-4 rounded-md text-lg bg-blue-500 text-white hover:bg-blue-600">
+          <button
+            type="submit"
+            className="w-full py-3 px-4 rounded-md text-lg bg-[#f5f0e6] mt-5"
+          >
             로그인
           </button>
         </form>

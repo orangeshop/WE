@@ -9,33 +9,36 @@ const SignupForm: React.FC = () => {
     confirmPassword: "",
   });
 
-  const [error, setError] = useState<string | null>(null);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // 비밀번호 확인 필드에서만 에러 체크
     if (name === "confirmPassword") {
       if (value !== formData.password) {
         setError("비밀번호가 일치하지 않습니다.");
       } else {
-        setError(null);
+        setError("");
       }
     }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 비밀번호와 비밀번호 확인이 일치하는지 확인
     if (formData.password !== formData.confirmPassword) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }
 
-    // 회원가입 처리 로직
+    if (!agreeTerms) {
+      setError("개인정보 수집 및 이용 동의에 체크해주세요.");
+      return;
+    }
+
     console.log(formData);
-    setError(null); // 에러 메시지 초기화
+    setError("");
   };
 
   return (
@@ -139,12 +142,35 @@ const SignupForm: React.FC = () => {
               required
             />
           </div>
+          <div className="mb-6">
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={agreeTerms}
+                onChange={() => setAgreeTerms(!agreeTerms)}
+                className="mr-2 w-4 h-4"
+              />
+              <span className="text-gray-700 text-md">
+                개인정보 수집 및 이용에 동의합니다. (필수)
+              </span>
+              <span className="ml-4 text-[#535bf2] underline">
+                <a
+                  href="https://plip.kr/pcc/0d19f2d4-2de5-47ff-bd03-839c7e3ffaf8/privacy/1.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  자세히 보기
+                </a>
+              </span>
+            </label>
+          </div>
           {error && (
-            <div className="mb-4 text-red-500 text-center">
-              {error}
-            </div>
+            <div className="mb-4 text-red-500 text-center">{error}</div>
           )}
-          <button type="submit" className="w-full py-3 px-4 rounded-md text-lg bg-blue-500 text-white hover:bg-blue-600">
+          <button
+            type="submit"
+            className="w-full py-3 px-4 rounded-md text-lg bg-[#f5f0e6] mt-5"
+          >
             회원가입
           </button>
         </form>
