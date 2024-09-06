@@ -1,4 +1,6 @@
 package com.we.model
 
-class MyClass {
-}
+data class MyClass(
+    val example : String,
+    val data : String
+)
