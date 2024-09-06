@@ -5,8 +5,6 @@ import video_intro from "../assets/images/video_intro.mp4";
 import happymoney from "../assets/images/happymoney.png";
 import invitation from "../assets/images/invitation.jpg";
 import calendar from "../assets/images/calendar.jpg";
-// import mainlogo from "../assets/images/mainlogo.png";
-// import we from "../assets/images/WE.jpg";
 
 const Home: React.FC = () => {
   const [navbarBackground, setNavbarBackground] = useState(false);
@@ -31,9 +29,8 @@ const Home: React.FC = () => {
 
   return (
     <div className="font-nanum box-border">
-      {/* Navbar */}
       <nav
-        className={`fixed top-0 left-0 w-full flex items-center py-5 px-3 z-50 transition-colors duration-300 ease-in-out border-b ${
+        className={`fixed top-0 left-0 w-full flex items-center py-9 px-3 z-50 transition-colors duration-300 ease-in-out border-b ${
           navbarBackground
             ? "bg-white border-gray-300"
             : "bg-transparent border-white/30"
@@ -83,7 +80,6 @@ const Home: React.FC = () => {
         </div>
       </nav>
 
-      {/* Video Section */}
       <div className="relative w-full overflow-hidden">
         <video
           muted
@@ -93,20 +89,9 @@ const Home: React.FC = () => {
         >
           <source src={video_intro} type="video/mp4" />
         </video>
-        {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white drop-shadow-md">
-          <div className="text-[#e5d8b5] text-5xl mb-4">[ WE : ]</div>
-          <div className="text-xl">
-            " 우리
-            <span className="text-[#e5d8b5]">[WE]</span>가 함께 준비하는 웨딩
-            <span className="text-[#e5d8b5]">[WEdding]</span> "
-          </div>
-        </div> */}
       </div>
 
-      {/* Introduction Section */}
       <div className="flex flex-col mt-60 items-center text-center">
-        {/* <img src={mainlogo} alt="mainlogo" className="w-80 mb-10" /> */}
-        {/* <img src={we} alt="we" className="w-60 mb-20" /> */}
         <h2 className="text-5xl mb-8">[ WE : ]</h2>
         <div className="mb-60 text-lg">
           <p>결혼이라는 새로운 출발을 앞둔 '우리(WE)'와,</p>
@@ -121,7 +106,6 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Sections */}
       <div className="mb-60 mx-10 border border-gray-100"></div>
       <div className="items-center text-center text-4xl mb-20">Services</div>
 
@@ -155,7 +139,6 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="mt-20 text-sm text-gray-600 py-4 text-center bg-gray-100">
         <p>ⓒ WE 웨딩</p>
         <p>삼성 청년 SW 아카데미 D104팀</p>
