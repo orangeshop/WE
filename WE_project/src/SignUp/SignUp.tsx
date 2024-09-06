@@ -9,8 +9,8 @@ const SignupForm: React.FC = () => {
     confirmPassword: "",
   });
 
-  const [agreeTerms, setAgreeTerms] = useState(false); // 개인정보 수집 동의 상태 추가
-  const [error, setError] = useState(""); // 에러 메시지 상태 추가
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -151,9 +151,9 @@ const SignupForm: React.FC = () => {
                 className="mr-2 w-4 h-4"
               />
               <span className="text-gray-700 text-md">
-                개인정보 수집 및 이용에 동의합니다.
+                개인정보 수집 및 이용에 동의합니다. (필수)
               </span>
-              <span className="ml-4">
+              <span className="ml-4 text-[#535bf2] underline">
                 <a
                   href="https://plip.kr/pcc/0d19f2d4-2de5-47ff-bd03-839c7e3ffaf8/privacy/1.html"
                   target="_blank"
@@ -169,7 +169,7 @@ const SignupForm: React.FC = () => {
           )}
           <button
             type="submit"
-            className="w-full py-3 px-4 rounded-md text-lg bg-blue-500 text-white hover:bg-blue-600"
+            className="w-full py-3 px-4 rounded-md text-lg bg-[#f5f0e6] mt-5"
           >
             회원가입
           </button>
