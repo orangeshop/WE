@@ -4,6 +4,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+application-secret.yml
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -40,3 +42,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### QueryDSL ###
+src/main/generated/
+
+### zip files ###
+*.zip
