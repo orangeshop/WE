@@ -23,3 +23,4 @@ rootProject.name = "we"
 include(":data")
 include(":presentation")
 include(":core")
+include(":model")
