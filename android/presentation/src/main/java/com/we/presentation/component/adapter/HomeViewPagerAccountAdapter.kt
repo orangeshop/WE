@@ -5,10 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.we.presentation.databinding.ItemAccountBinding
 
-class HomeViewPagerAccountAdapter(val item: List<String>) : RecyclerView.Adapter<HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>() {
+class HomeViewPagerAccountAdapter(
+    val item: List<String>,
+    private val accountClickListener: () -> Unit
+) : RecyclerView.Adapter<HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>() {
     inner class HomeViewPagerAccountViewHolder(val binding: ItemAccountBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: String){
-//            binding.tvAccountNumber.text = item
+            binding.apply {
+                clItemAccount.setOnClickListener {
+                    accountClickListener()
+                }
+            }
         }
     }
 

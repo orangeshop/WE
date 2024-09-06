@@ -13,6 +13,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_account) {
     override fun initView() {
+        backBtnClickListener()
+    }
 
+    private fun backBtnClickListener(){
+        binding.apply {
+            ivAccountBack.setOnClickListener {
+                navigatePopBackStack()
+            }
+        }
     }
 }
