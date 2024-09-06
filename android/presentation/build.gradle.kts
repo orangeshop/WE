@@ -41,7 +41,7 @@ android {
 
 dependencies {
     implementation(project(":data"))
-
+    implementation(project(":model"))
     //androidX & test
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
