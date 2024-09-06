@@ -70,7 +70,7 @@ const Home: React.FC = () => {
             Sign Up
           </a>
           <a
-            href="#login"
+            href="login"
             className={`${
               navbarBackground ? "text-black" : "text-white"
             } text-lg`}
