@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="account_register">계좌 등록</string>
+    <string name="chose_bank">은행 선택</string>
+</resources>
