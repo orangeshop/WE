@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import flower from "../../src/assets/images/flower.png"; // 배경 이미지는 필요에 따라 조정하세요
+import flower from "../../src/assets/images/flower.png";
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +16,14 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(formData.email)) {
+      setError("이메일 형식이 올바르지 않습니다.");
+      return;
+    }
+
     // 로그인 처리 로직
     console.log(formData);
     setError(null); // 에러 메시지 초기화
@@ -66,6 +74,8 @@ const LoginForm: React.FC = () => {
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
               required
+              pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+              title="유효한 이메일 주소를 입력하세요. (예: ssafy@domain.com)"
             />
           </div>
           <div className="mb-6">
@@ -84,6 +94,8 @@ const LoginForm: React.FC = () => {
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
               required
+              pattern="(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"
+              title="비밀번호는 최소 8자 이상이며 특수 문자를 포함해야 합니다."
             />
           </div>
           {error && (
@@ -91,7 +103,7 @@ const LoginForm: React.FC = () => {
               {error}
             </div>
           )}
-          <button type="submit" className="w-full py-3 px-4 rounded-md text-lg bg-blue-500 text-white hover:bg-blue-600">
+          <button type="submit" className="w-full py-3 px-4 rounded-md text-lg bg-[#f5f0e6]">
             로그인
           </button>
         </form>
