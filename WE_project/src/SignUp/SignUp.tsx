@@ -169,7 +169,7 @@ const SignupForm: React.FC = () => {
           )}
           <button
             type="submit"
-            className="w-full py-3 px-4 rounded-md text-lg bg-[#f5f0e6]"
+            className="w-full py-3 px-4 rounded-md text-lg bg-[#f5f0e6] mt-5"
           >
             회원가입
           </button>
