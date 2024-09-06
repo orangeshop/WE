@@ -6,7 +6,6 @@ import image2 from "../assets/images/image2.png";
 import image3 from "../assets/images/image3.jpg";
 import image4 from "../assets/images/image4.jpg";
 // import mainlogo from "../assets/images/mainlogo.png";
-import we from "../assets/images/WE.jpg";
 
 const Home: React.FC = () => {
   const [navbarBackground, setNavbarBackground] = useState(false);
@@ -104,11 +103,11 @@ const Home: React.FC = () => {
       </div>
 
       {/* Introduction Section */}
-      <div className="flex flex-col mt-80 items-center text-center">
+      <div className="flex flex-col mt-40 items-center text-center">
         {/* <img src={mainlogo} alt="mainlogo" className="w-80 mb-10" /> */}
-        <img src={we} alt="we" className="w-60 mb-10" />
-        <h2 className="text-5xl mb-8">[ WE : ]</h2>
-        <div className="mb-80">
+        {/* <img src={we} alt="we" className="w-60 mb-10" />
+        <h2 className="text-5xl mb-8">[ WE : ]</h2> */}
+        <div className="mb-40">
           <p>[ WE : ]는 결혼이라는 새로운 출발을 앞둔 '우리(WE)'와,</p>
           <p>함께 준비하는 '웨딩(WEdding)'의 의미를 지녔습니다.</p>
           <p>결혼 자금과 축의금 장부를 효과적으로 관리하고,</p>
