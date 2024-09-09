@@ -1,84 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import video_intro from "../assets/images/video_intro.mp4";
 import happymoney from "../assets/images/happymoney.png";
 import invitation from "../assets/images/invitation.jpg";
 import calendar from "../assets/images/calendar.jpg";
+import Navbar from "../Components/Navbar";
 
 const Home: React.FC = () => {
-  const [navbarBackground, setNavbarBackground] = useState(false);
-
-  useEffect(() => {
+  React.useEffect(() => {
     AOS.init({ duration: 2000 });
-
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setNavbarBackground(true);
-      } else {
-        setNavbarBackground(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
 
   return (
     <div className="font-nanum box-border">
-      <nav
-        className={`fixed top-0 left-0 w-full flex items-center py-9 px-3 z-50 transition-colors duration-300 ease-in-out border-b ${
-          navbarBackground
-            ? "bg-white border-gray-300"
-            : "bg-transparent border-white/30"
-        }`}
-      >
-        <div className="mr-24 ml-12 text-2xl">
-          <a
-            href=""
-            className={`${navbarBackground ? "text-black" : "text-white"}`}
-          >
-            [ WE : ]
-          </a>
-        </div>
-        <div className="flex gap-12 justify-center mt-1">
-          <a
-            href="#invitation"
-            className={`${
-              navbarBackground ? "text-black" : "text-white"
-            } text-lg`}
-          >
-            Mobile Invitation Card
-          </a>
-          <a
-            href="#account"
-            className={`${
-              navbarBackground ? "text-black" : "text-white"
-            } text-lg`}
-          >
-            Account Book
-          </a>
-          <a
-            href="signup"
-            className={`${
-              navbarBackground ? "text-black" : "text-white"
-            } text-lg`}
-          >
-            Sign Up
-          </a>
-          <a
-            href="login"
-            className={`${
-              navbarBackground ? "text-black" : "text-white"
-            } text-lg`}
-          >
-            Login
-          </a>
-        </div>
-      </nav>
+      <Navbar isScrollSensitive={true} />
 
       <div className="relative w-full overflow-hidden">
         <video
