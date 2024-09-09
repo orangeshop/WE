@@ -9,7 +9,11 @@
     <fragment
         android:id="@+id/fragment_home"
         android:name="com.we.presentation.home.HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_fragment_home_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragment_my_page"
@@ -19,7 +23,7 @@
     <fragment
         android:id="@+id/fragment_schedule"
         android:name="com.we.presentation.schedule.ScheduleFragment"
-        tools:layout="@layout/fragment_schedule" >
+        tools:layout="@layout/fragment_schedule">
         <action
             android:id="@+id/action_fragment_schedule_to_fragment_schedule_register"
             app:destination="@id/fragment_schedule_register" />
@@ -28,5 +32,20 @@
     <fragment
         android:id="@+id/fragment_schedule_register"
         android:name="com.we.presentation.schedule.ScheduleRegisterFragment"
-        tools:layout="@layout/fragment_schedule_register"/>
+        tools:layout="@layout/fragment_schedule_register" />
+
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.we.presentation.account.AccountFragment"
+        android:label="AccountFragment">
+        <action
+            android:id="@+id/action_accountFragment_to_accountTransferFragment"
+            app:destination="@id/accountTransferFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountTransferFragment"
+        android:name="com.we.presentation.account.AccountTransferFragment"
+        android:label="AccountTransferFragment" />
+
+
 </navigation>
