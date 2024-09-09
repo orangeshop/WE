@@ -1,6 +1,8 @@
 package com.akdong.we.couple;
 
 import com.akdong.we.common.dto.SuccessResponse;
+import com.akdong.we.couple.entity.Couple;
+import com.akdong.we.couple.request.CoupleRegisterRequest;
 import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
@@ -13,9 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,4 +44,23 @@ public class CoupleController {
                 new SuccessResponse<>("성공적으로 코드를 생성했습니다.", response)
         );
     }
+
+    @PostMapping
+    @Operation(summary = "커플 생성", description = "커플을 생성합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "커플 생성 성공", useReturnTypeSchema = true)
+    })
+    public ResponseEntity<?> join(@RequestBody CoupleRegisterRequest coupleRegisterRequest, @Parameter(hidden = true)  @Login Member member) {
+        Couple couple = coupleService.createCouple(coupleRegisterRequest, member.getId());
+
+        // 데이터 객체 생성
+        Map<String, Long> response = new HashMap<>();
+        response.put("coupleId", couple.getId());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new SuccessResponse<>("성공적으로 커플을 생성했습니다.", response)
+        );
+
+    }
+
 }

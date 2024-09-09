@@ -8,4 +8,5 @@ import lombok.Getter;
 @Builder
 public class CreateCodeResponse {
     private String code;
+
 }

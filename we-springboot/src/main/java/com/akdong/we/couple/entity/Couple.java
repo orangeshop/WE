@@ -2,13 +2,17 @@ package com.akdong.we.couple.entity;
 
 import com.akdong.we.member.entity.Member;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Couple {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
