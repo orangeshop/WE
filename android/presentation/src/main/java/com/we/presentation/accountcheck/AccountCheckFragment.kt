@@ -5,7 +5,9 @@ import com.we.presentation.account.AccountModalBottomSheet
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.adapter.AccountCheckAdapter
 import com.we.presentation.databinding.FragmentAccountCheckBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AccountCheckFragment : BaseFragment<FragmentAccountCheckBinding>(R.layout.fragment_account_check) {
     override fun initView() {
         initAdapter()
