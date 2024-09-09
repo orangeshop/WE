@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Suite Heavy -->
+    <style name="suite_heavy_24">
+        <item name="fontFamily">@font/suite_extra_bold</item>
+        <item name="android:textSize">24sp</item>
+    </style>
 
     <!-- Suite Extra Bold -->
     <style name="suite_extra_bold_36">

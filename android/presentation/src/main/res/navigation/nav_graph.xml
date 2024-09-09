@@ -19,6 +19,14 @@
     <fragment
         android:id="@+id/fragment_schedule"
         android:name="com.we.presentation.schedule.ScheduleFragment"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule" >
+        <action
+            android:id="@+id/action_fragment_schedule_to_fragment_schedule_register"
+            app:destination="@id/fragment_schedule_register" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/fragment_schedule_register"
+        android:name="com.we.presentation.schedule.ScheduleRegisterFragment"
+        tools:layout="@layout/fragment_schedule_register"/>
 </navigation>
