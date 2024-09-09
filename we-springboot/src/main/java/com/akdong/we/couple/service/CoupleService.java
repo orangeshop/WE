@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -53,7 +54,17 @@ public class CoupleService {
                 .member2(member2)
                 .build();
 
+        member1.setCoupleJoined(true);
+        member2.setCoupleJoined(true);
+
+        member1.setCouple(couple);
+        member2.setCouple(couple);
+
         return coupleRepository.save(couple);
+    }
+
+    public Optional<Couple> getMyCoupleInfo(Member member){
+        return coupleRepository.findByMember1OrMember2(member, member);
     }
 
 
