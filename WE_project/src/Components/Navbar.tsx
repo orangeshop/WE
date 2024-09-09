@@ -47,14 +47,14 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
           [ WE : ]
         </a>
       </div>
-      <div className="flex gap-12 justify-center mt-1">
+      <div className="flex gap-12 justify-center flex-grow">
         <div
           className="relative"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <a
-            href="invitation"
+            href="/invitation"
             className={`${
               navbarBackground || !isScrollSensitive
                 ? "text-black"
@@ -88,22 +88,28 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
         >
           Account Book
         </a>
-        <a
-          href="/signup"
-          className={`${
-            navbarBackground || !isScrollSensitive ? "text-black" : "text-white"
-          } text-lg`}
-        >
-          Sign Up
-        </a>
-        <a
-          href="/login"
-          className={`${
-            navbarBackground || !isScrollSensitive ? "text-black" : "text-white"
-          } text-lg`}
-        >
-          Login
-        </a>
+        <div className="flex gap-12 ml-auto mr-12">
+          <a
+            href="/signup"
+            className={`${
+              navbarBackground || !isScrollSensitive
+                ? "text-black"
+                : "text-white"
+            } text-lg`}
+          >
+            Sign Up
+          </a>
+          <a
+            href="/login"
+            className={`${
+              navbarBackground || !isScrollSensitive
+                ? "text-black"
+                : "text-white"
+            } text-lg`}
+          >
+            Login
+          </a>
+        </div>
       </div>
     </nav>
   );

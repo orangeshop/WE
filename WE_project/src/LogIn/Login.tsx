@@ -46,6 +46,8 @@ const LoginForm: React.FC = () => {
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
+              pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+              title="유효한 이메일 주소를 입력하세요. (예: ssafy@domain.com)"
             />
           </div>
           <div className="mb-6">
@@ -64,6 +66,8 @@ const LoginForm: React.FC = () => {
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
+              pattern="(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"
+              title="비밀번호는 최소 8자 이상이며 특수 문자를 포함해야 합니다."
             />
           </div>
           {error && (
