@@ -71,15 +71,27 @@
             app:layout_constraintTop_toBottomOf="@+id/cl_schedule_top" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rc_schedule_calendar"
+            android:id="@+id/rv_schedule_calendar"
             android:layout_width="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ic_schedule_weekend"
             app:spanCount="7" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_schedule_todo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginBottom="30dp"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_schedule_calendar" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
