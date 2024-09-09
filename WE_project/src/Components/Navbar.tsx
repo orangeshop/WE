@@ -6,6 +6,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
   const [navbarBackground, setNavbarBackground] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
     if (isScrollSensitive) {
@@ -24,6 +25,9 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
       };
     }
   }, [isScrollSensitive]);
+
+  const handleMouseEnter = () => setDropdownVisible(true);
+  const handleMouseLeave = () => setDropdownVisible(false);
 
   return (
     <nav
@@ -44,16 +48,40 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
         </a>
       </div>
       <div className="flex gap-12 justify-center mt-1">
-        <a
-          href="invitation"
-          className={`${
-            navbarBackground || !isScrollSensitive ? "text-black" : "text-white"
-          } text-lg`}
+        <div
+          className="relative"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
-          Mobile Invitation Card
-        </a>
+          <a
+            href="invitation"
+            className={`${
+              navbarBackground || !isScrollSensitive
+                ? "text-black"
+                : "text-white"
+            } text-lg`}
+          >
+            Mobile Invitation Card
+          </a>
+          {dropdownVisible && (
+            <div className="absolute top-full w-48 bg-white shadow-lg border">
+              <a
+                href="/invitation"
+                className="block px-4 py-2 hover:bg-black hover:text-white"
+              >
+                청첩장 만들기
+              </a>
+              <a
+                href="/invitation/storage"
+                className="block px-4 py-2 hover:bg-black hover:text-white"
+              >
+                내 청첩장 보관함
+              </a>
+            </div>
+          )}
+        </div>
         <a
-          href="account"
+          href="/account"
           className={`${
             navbarBackground || !isScrollSensitive ? "text-black" : "text-white"
           } text-lg`}
@@ -61,7 +89,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
           Account Book
         </a>
         <a
-          href="signup"
+          href="/signup"
           className={`${
             navbarBackground || !isScrollSensitive ? "text-black" : "text-white"
           } text-lg`}
@@ -69,7 +97,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
           Sign Up
         </a>
         <a
-          href="login"
+          href="/login"
           className={`${
             navbarBackground || !isScrollSensitive ? "text-black" : "text-white"
           } text-lg`}
