@@ -10,53 +10,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:background="@drawable/rectangle_white_10_stroke_1_pink"
-        >
+        android:background="@drawable/rectangle_white_10_stroke_1_pink">
 
         <ImageView
             android:id="@+id/iv_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginVertical="25dp"
             android:layout_marginStart="15dp"
-            android:background="@drawable/selector_ic_rectangle_uncheck_to_ic_rectangle_check"/>
+            android:background="@drawable/selector_ic_rectangle_uncheck_to_ic_rectangle_check"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_check"
+            app:layout_constraintTop_toTopOf="parent"
 
             >
 
             <TextView
                 android:id="@+id/tv_title"
+                style="@style/suite_semibold_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="메이크업 예약"
-                style="@style/suite_semibold_16"
                 android:textColor="@color/dark_brown"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_location"
+                style="@style/suite_regular_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/suite_regular_14"
-                android:textColor="@color/dark_brown"
-                android:text="경북 구미시"
                 android:layout_marginTop="6dp"
+                android:text="경북 구미시"
+                android:textColor="@color/dark_brown"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -64,14 +63,15 @@
 
         <TextView
             android:id="@+id/tv_price"
+            style="@style/suite_semibold_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
             android:text="400,000원"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/dark_brown"
             app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/suite_semibold_16"
-            android:textColor="@color/dark_brown"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
