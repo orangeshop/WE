@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class MemberRegisterPostReq {
 	@NotBlank(message = "이메일을 입력해주세요")
-	@Schema(description = "이메일", example = "test1@gmail.com")
+	@Schema(description = "이메일", example = "d104test1@gmail.com")
 	private String email;
 
 	@NotBlank(message = "비밀번호를 입력해주세요")
