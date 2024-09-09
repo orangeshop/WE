@@ -11,6 +11,7 @@ const InfoTypeInvitation: React.FC = () => {
   const cropperRef = useRef<HTMLImageElement>(null);
   const [cropper, setCropper] = useState<Cropper | null>(null);
   const [aspectRatio, setAspectRatio] = useState<number>(1); // Default aspect ratio 1:1
+  const [brideOrder, setBrideOrder] = useState<string>("");
 
   useEffect(() => {
     if (cropperRef.current && imageSrc) {
@@ -66,6 +67,10 @@ const InfoTypeInvitation: React.FC = () => {
       cropper.setAspectRatio(ratio);
       setAspectRatio(ratio);
     }
+  };
+
+  const handleBrideOrderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setBrideOrder(event.target.value);
   };
 
   return (
@@ -190,18 +195,38 @@ const InfoTypeInvitation: React.FC = () => {
             />
           </div>
 
+          <div className="flex mb-3">
+          <select
+            id="bride-order"
+            name="bride-order"
+            value={brideOrder}
+            onChange={handleBrideOrderChange}
+            className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white ${
+              brideOrder === "" ? "text-gray-400" : "text-black"
+            }`}
+          >
+            <option value="" disabled hidden>
+              신랑 서열 (장남 / 차남 / 아들)
+            </option>
+            <option value="first">장남</option>
+            <option value="second">차남</option>
+            <option value="son">아들</option>
+          </select>
+          </div>
+
+
           <div className="flex justify-between gap-5 mb-3">
             <input
-              id="name"
-              name="name"
+              id="father-last-name"
+              name="father-last-name"
               type="text"
               placeholder="신랑 아버님 성"
               className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
               required
             />
             <input
-              id="name"
-              name="name"
+              id="father-name"
+              name="father-name"
               type="text"
               placeholder="신랑 아버님 이름"
               className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
@@ -210,22 +235,22 @@ const InfoTypeInvitation: React.FC = () => {
           </div>
           <div className="flex justify-between gap-5 mb-3">
             <input
-              id="name"
-              name="name"
+              id="mother-last-name"
+              name="mother-last-name"
               type="text"
               placeholder="신랑 어머님 성"
               className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
               required
             />
             <input
-              id="name"
-              name="name"
+              id="mother-name"
+              name="mother-name"
               type="text"
               placeholder="신랑 어머님 이름"
               className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
               required
             />
-          </div>
+          </div>         
         </div>
       </div>
     </div>
