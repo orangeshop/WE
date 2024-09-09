@@ -1,6 +1,8 @@
 package com.akdong.we.member.service;
 
 
+import com.akdong.we.api.FinApiCallService;
+import com.akdong.we.api.request.ApiMemberRegisterRequest;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.akdong.we.member.exception.member.MemberException;
@@ -10,10 +12,15 @@ import com.akdong.we.member.request.UpdateMemberInfoRequest;
 import com.akdong.we.member.request.UpdatedMemberInfoRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -26,6 +33,13 @@ import java.util.Optional;
 public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final FinApiCallService finApiCallService;
+	@Value("${fin-api.url}")
+	private String baseUrl;
+	@Autowired
+	private RestTemplate restTemplate;
+
+
 
 	@Transactional
 	public Member createUser(MemberRegisterPostReq userRegisterInfo) {
@@ -35,10 +49,16 @@ public class MemberService {
 			throw new MemberException(MemberErrorCode.MEMBER_EMAIL_EXIST_ERROR);
 		}
 
+		String userKey = finApiCallService.apiRegister(userRegisterInfo.getEmail());
+		if(userKey == null){
+			throw new MemberException(MemberErrorCode.API_CALL_ERROR);
+		}
 		Member member = Member.builder()
 				.email(userRegisterInfo.getEmail())
 				.password(passwordEncoder.encode(userRegisterInfo.getPassword()))
 				.nickname(userRegisterInfo.getNickname())
+				.regDate(LocalDateTime.now())
+				.userKey(userKey)
 				.build();
 
 		return memberRepository.save(member);
@@ -93,7 +113,7 @@ public class MemberService {
 	public void isLeavedMemberInRegister(String email){
 		Optional<Member> member = memberRepository.findByEmail(email);
 
-		if(member.isPresent() && member.get().isLeaved()){
+		if(member.isPresent() &&  member.get().isLeaved()){
 			throw new MemberException(MemberErrorCode.MEMBER_LEAVED_ERROR);
 		} else if(member.isPresent()){
 			throw new MemberException(MemberErrorCode.MEMBER_EMAIL_EXIST_ERROR);
