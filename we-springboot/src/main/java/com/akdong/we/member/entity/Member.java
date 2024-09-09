@@ -38,23 +38,35 @@ public class Member {
     private String nickname;
 
     @CreatedDate
-//    @Column(updatable = false, nullable = false)
     private LocalDateTime regDate;
-
 
     @ColumnDefault("0")
     private boolean isLeaved;
 
     private LocalDateTime leavedDate;
 
+    @Column(name="userKey", nullable = false)
+    private String userKey;
+
+    @Column(name="coupleJoined", nullable = false)
+    @ColumnDefault("0")
+    private boolean coupleJoined;
+
+    @Column(name="pin")
+    private String pin;
+
     @Builder
-    public Member(String email, String password, String nickname, LocalDateTime regDate, LocalDateTime leavedDate, boolean isLeaved){
+    public Member(String email, String password, String nickname, LocalDateTime regDate, LocalDateTime leavedDate, boolean isLeaved,
+                  String userKey, boolean coupleJoined, String pin){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.regDate = regDate;
         this.leavedDate = leavedDate;
         this.isLeaved = isLeaved;
+        this.userKey = userKey;
+        this.coupleJoined = coupleJoined;
+        this.pin = pin;
     }
 
 
