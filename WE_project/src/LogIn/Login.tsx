@@ -44,7 +44,7 @@ const LoginForm: React.FC = () => {
               placeholder=""
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
+              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
             />
           </div>
@@ -62,7 +62,7 @@ const LoginForm: React.FC = () => {
               placeholder=""
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
+              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
             />
           </div>
@@ -71,7 +71,7 @@ const LoginForm: React.FC = () => {
           )}
           <button
             type="submit"
-            className="w-full py-3 px-4 rounded-md text-lg bg-[#f5f0e6] mt-5"
+            className="w-full py-3 px-4 rounded-md text-lg font-bold bg-[#E5D4C1] mt-5"
           >
             로그인
           </button>

@@ -32,6 +32,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #fcfaf5;
 }
 
 h1 {
@@ -50,4 +51,8 @@ h1 {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.font-default {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
