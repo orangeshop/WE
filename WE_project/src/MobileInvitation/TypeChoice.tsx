@@ -22,7 +22,9 @@ const TypeChoice: React.FC = () => {
                 type="submit"
                 className="py-2 px-5 rounded-3xl text-md font-bold bg-[#FFD0DE] mt-5 font-default"
               >
-                <a href="/invite/info" className="hover:text-black">제작하기</a>
+                <a href="/invite/info" className="hover:text-black">
+                  제작하기
+                </a>
               </button>
             </div>
           </div>
@@ -41,7 +43,9 @@ const TypeChoice: React.FC = () => {
                 type="submit"
                 className="py-2 px-5 rounded-3xl text-md font-bold bg-[#FFD0DE] mt-5 font-default"
               >
-                <a href="/invite/free" className="hover:text-black">제작하기</a>
+                <a href="/invite/free" className="hover:text-black">
+                  제작하기
+                </a>
               </button>
             </div>
           </div>

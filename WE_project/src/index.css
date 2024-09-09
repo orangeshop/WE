@@ -56,3 +56,7 @@ h1 {
 .font-default {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+.custom-textarea {
+  height: 300px; /* 원하는 높이 */
+  width: 100%; /* 너비 100%로 설정 */
+}
