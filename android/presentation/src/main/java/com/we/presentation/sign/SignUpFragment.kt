@@ -17,6 +17,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
             icTitle.ivBack.setOnClickListener {
                 navigatePopBackStack()
             }
+            tvSignUpComplete.setOnClickListener {
+                navigateDestination(R.id.action_fragment_sign_up_to_fragment_easy_password_register)
+            }
         }
     }
 }
