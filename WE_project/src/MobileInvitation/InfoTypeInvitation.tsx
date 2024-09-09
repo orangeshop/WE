@@ -10,7 +10,7 @@ const InfoTypeInvitation: React.FC = () => {
   const [showCropper, setShowCropper] = useState(false);
   const cropperRef = useRef<HTMLImageElement>(null);
   const [cropper, setCropper] = useState<Cropper | null>(null);
-  const [aspectRatio, setAspectRatio] = useState<number>(1); // Default aspect ratio 1:1
+  const [aspectRatio, setAspectRatio] = useState<number>(1);
   const [brideOrder, setBrideOrder] = useState<string>("");
 
   useEffect(() => {
@@ -69,15 +69,17 @@ const InfoTypeInvitation: React.FC = () => {
     }
   };
 
-  const handleBrideOrderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleBrideOrderChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setBrideOrder(event.target.value);
   };
 
   return (
     <div className="font-nanum">
       <Navbar isScrollSensitive={false} />
-      <div className="font-default flex flex-col items-center justify-center min-h-screen bg-[#fcfaf5]">
-        <div className="relative w-80 h-80 flex items-center justify-center border bg-gray-100 mt-20">
+      <div className="font-default flex flex-col items-center justify-center">
+        <div className="relative w-80 h-80 flex items-center justify-center border bg-gray-100 mt-40">
           {selectedImage ? (
             <div className="relative w-80 h-80 flex items-center justify-center">
               <img
@@ -172,85 +174,182 @@ const InfoTypeInvitation: React.FC = () => {
         )}
         <p className="mt-5 text-md">메인 사진을 선택해 주세요.</p>
 
-        <div className="">
+        <div>
+          <div className="mt-20 border border-gray-200"></div>
           <p className="mt-20 mb-5 text-md text-center">
             신랑 측 정보를 작성해 주세요.
           </p>
           <div className="flex justify-between gap-5 mb-3">
             <input
-              id="name"
-              name="name"
+              id="husband-last-name"
+              name="husband-last-name"
               type="text"
               placeholder="신랑 성"
-              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
               required
             />
             <input
-              id="name"
-              name="name"
+              id="husband-name"
+              name="husband-name"
               type="text"
               placeholder="신랑 이름"
-              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
               required
             />
           </div>
 
           <div className="flex mb-3">
-          <select
-            id="bride-order"
-            name="bride-order"
-            value={brideOrder}
-            onChange={handleBrideOrderChange}
-            className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white ${
-              brideOrder === "" ? "text-gray-400" : "text-black"
-            }`}
-          >
-            <option value="" disabled hidden>
-              신랑 서열 (장남 / 차남 / 아들)
-            </option>
-            <option value="first">장남</option>
-            <option value="second">차남</option>
-            <option value="son">아들</option>
-          </select>
+            <select
+              id="husband--order"
+              name="husband--order"
+              value={brideOrder}
+              onChange={handleBrideOrderChange}
+              className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${
+                brideOrder === "" ? "text-gray-400" : "text-black"
+              }`}
+            >
+              <option value="" disabled hidden>
+                신랑 서열 (장남 / 차남 / 아들)
+              </option>
+              <option value="first">장남</option>
+              <option value="second">차남</option>
+              <option value="son">아들</option>
+            </select>
           </div>
-
 
           <div className="flex justify-between gap-5 mb-3">
             <input
-              id="father-last-name"
-              name="father-last-name"
+              id="husband-father-last-name"
+              name="husband-father-last-name"
               type="text"
               placeholder="신랑 아버님 성"
-              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
               required
             />
             <input
-              id="father-name"
-              name="father-name"
+              id="husband-father-name"
+              name="husband-father-name"
               type="text"
               placeholder="신랑 아버님 이름"
-              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
               required
             />
           </div>
           <div className="flex justify-between gap-5 mb-3">
             <input
-              id="mother-last-name"
-              name="mother-last-name"
+              id="husband-mother-last-name"
+              name="husband-mother-last-name"
               type="text"
               placeholder="신랑 어머님 성"
-              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
               required
             />
             <input
-              id="mother-name"
-              name="mother-name"
+              id="husband-mother-name"
+              name="husband-mother-name"
               type="text"
               placeholder="신랑 어머님 이름"
-              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 bg-[#fcfaf5] text-center bg-white"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
               required
             />
-          </div>         
+          </div>
+        </div>
+
+        <div className="mb-20">
+          <p className="mt-20 mb-5 text-md text-center">
+            신부 측 정보를 작성해 주세요.
+          </p>
+          <div className="flex justify-between gap-5 mb-3">
+            <input
+              id="bride-last-name"
+              name="bride-last-name"
+              type="text"
+              placeholder="신부 성"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
+              required
+            />
+            <input
+              id="bride-name"
+              name="bride-name"
+              type="text"
+              placeholder="신부 이름"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
+              required
+            />
+          </div>
+
+          <div className="flex mb-3">
+            <select
+              id="bride-order"
+              name="bride-order"
+              value={brideOrder}
+              onChange={handleBrideOrderChange}
+              className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${
+                brideOrder === "" ? "text-gray-400" : "text-black"
+              }`}
+            >
+              <option value="" disabled hidden>
+                신부 서열 (장녀 / 차녀 / 딸)
+              </option>
+              <option value="first">장녀</option>
+              <option value="second">차녀</option>
+              <option value="son">딸</option>
+            </select>
+          </div>
+
+          <div className="flex justify-between gap-5 mb-3">
+            <input
+              id="bride-father-last-name"
+              name="bride-father-last-name"
+              type="text"
+              placeholder="신부 아버님 성"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
+              required
+            />
+            <input
+              id="bride-father-name"
+              name="bride-father-name"
+              type="text"
+              placeholder="신부 아버님 이름"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
+              required
+            />
+          </div>
+          <div className="flex justify-between gap-5 mb-3">
+            <input
+              id="bride-mother-last-name"
+              name="bride-mother-last-name"
+              type="text"
+              placeholder="신부 어머님 성"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
+              required
+            />
+            <input
+              id="bride-mother-name"
+              name="bride-mother-name"
+              type="text"
+              placeholder="신부 어머님 이름"
+              className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
+              required
+            />
+          </div>
+          <div className="mt-20 border border-gray-200"></div>
+        </div>
+
+        <div className="w-full text-center">
+          <p>인사말을 작성해 주세요.</p>
+          <textarea
+            id="greetings"
+            name="greetings"
+            placeholder="인사말 작성"
+            className="mt-5 custom-textarea px-4 py-2 border border-gray-400 focus:border-gray-400 bg-white text-gray-700"
+            required
+          />
+          <div className="mt-20 border border-gray-200"></div>
+        </div>
+
+        <div className="mt-20">
+          <p>예식장 위치 / 예식 일자를 작성해 주세요.</p>
         </div>
       </div>
     </div>
