@@ -1,6 +1,7 @@
 package com.we.presentation.accountcheck
 
 import com.we.presentation.R
+import com.we.presentation.account.AccountModalBottomSheet
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.adapter.AccountCheckAdapter
 import com.we.presentation.databinding.FragmentAccountCheckBinding
@@ -26,6 +27,11 @@ class AccountCheckFragment : BaseFragment<FragmentAccountCheckBinding>(R.layout.
         binding.apply {
             ivAccountBack.setOnClickListener {
                 navigatePopBackStack()
+            }
+
+            llAccountCheckMenu.setOnClickListener {
+                val modal = AccountCheckBottomSheet()
+                modal.show(parentFragmentManager, modal.tag)
             }
         }
     }

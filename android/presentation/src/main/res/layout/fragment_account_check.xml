@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             />
 
         <TextView
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/iv_account_back"
             app:layout_constraintStart_toEndOf="@id/iv_account_back"
-            android:text="거래 내역 조회"
+            android:text="@string/view_transaction_history"
             android:layout_marginStart="14dp"
             style="@style/suite_regular_20"
             />
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="84dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="20dp"
             style="@style/suite_extra_bold_16"
         />
 
@@ -52,9 +52,35 @@
             app:layout_constraintTop_toBottomOf="@id/tv_check_account_number"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="20dp"
             style="@style/suite_extra_bold_30"
             />
+
+        <LinearLayout
+            android:id="@+id/ll_account_check_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_year"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_account_all"
+                style="@style/suite_extra_bold_16"
+            />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_down"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+            />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_year"
