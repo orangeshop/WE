@@ -44,7 +44,7 @@ const LoginForm: React.FC = () => {
               placeholder=""
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
+              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
               pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
               title="유효한 이메일 주소를 입력하세요. (예: ssafy@domain.com)"
@@ -64,7 +64,7 @@ const LoginForm: React.FC = () => {
               placeholder=""
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700"
+              className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
               pattern="(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"
               title="비밀번호는 최소 8자 이상이며 특수 문자를 포함해야 합니다."
@@ -75,7 +75,7 @@ const LoginForm: React.FC = () => {
           )}
           <button
             type="submit"
-            className="w-full py-3 px-4 rounded-md text-lg bg-[#f5f0e6] mt-5"
+            className="w-full py-3 px-4 rounded-md text-lg font-bold bg-[#E5D4C1] mt-5"
           >
             로그인
           </button>

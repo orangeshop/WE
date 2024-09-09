@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="font-nanum box-border">
+    <div className="font-nanum box-border bg-[#FFFFFF]">
       <Navbar isScrollSensitive={true} />
 
       <div className="relative w-full overflow-hidden">
