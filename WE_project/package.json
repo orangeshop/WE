@@ -11,14 +11,9 @@
     "build:css": "npx tailwindcss -i ./src/index.css -o ./dist/output.css --watch"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@types/cropperjs": "^1.3.0",
-    "aos": "^2.3.4",
-=======
     "@types/cropperjs": "^1.1.5",
     "aos": "^2.3.4",
     "canvas-toBlob": "^1.0.0",
->>>>>>> 6b8a1958eef3e6c6542b081f28660736811fa174
     "cropperjs": "^1.6.2",
     "file-saver": "^2.0.5",
     "react": "^18.3.1",

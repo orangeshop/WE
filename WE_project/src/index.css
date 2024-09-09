@@ -56,3 +56,8 @@ h1 {
 .font-default {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+.custom-textarea {
+  height: 300px;
+  width: 100%;
+}
