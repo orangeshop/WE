@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_fragment_home_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_fragment_home_to_accountCheckFragment"
+            app:destination="@id/accountCheckFragment" />
     </fragment>
 
     <fragment
@@ -46,6 +49,10 @@
         android:id="@+id/accountTransferFragment"
         android:name="com.we.presentation.account.AccountTransferFragment"
         android:label="AccountTransferFragment" />
+    <fragment
+        android:id="@+id/accountCheckFragment"
+        android:name="com.we.presentation.accountcheck.AccountCheckFragment"
+        android:label="AccountCheckFragment" />
 
 
 </navigation>

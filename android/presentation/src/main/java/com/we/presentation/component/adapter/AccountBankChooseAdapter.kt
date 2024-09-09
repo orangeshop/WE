@@ -13,7 +13,7 @@ class AccountBankChooseAdapter() : ListAdapter<String, AccountBankChooseAdapter.
     inner class AccountBankChooseViewHolder(val binding: ItemBankBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: String){
             binding.apply {
-                tvItemBank.text = item
+
             }
         }
     }
