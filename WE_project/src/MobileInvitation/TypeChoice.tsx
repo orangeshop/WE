@@ -20,11 +20,10 @@ const TypeChoice: React.FC = () => {
               <p>예쁜 모바일 청첩장이 완성돼요.</p>
               <button
                 type="submit"
-                className="py-2 px-5 rounded-3xl text-md font-bold bg-[#FFD0DE] mt-5 font-default"
+                className="py-2 px-5 rounded-3xl text-md bg-[#FFD0DE] mt-5 font-default"
+                onClick={() => (window.location.href = "/invite/info")}
               >
-                <a href="/invite/info" className="hover:text-black">
-                  제작하기
-                </a>
+                제작하기
               </button>
             </div>
           </div>
@@ -41,11 +40,10 @@ const TypeChoice: React.FC = () => {
               <p>나만의 모바일 청첩장을 만들 수 있어요.</p>
               <button
                 type="submit"
-                className="py-2 px-5 rounded-3xl text-md font-bold bg-[#FFD0DE] mt-5 font-default"
+                className="py-2 px-5 rounded-3xl text-md bg-[#FFD0DE] mt-5"
+                onClick={() => (window.location.href = "/invite/free")}
               >
-                <a href="/invite/free" className="hover:text-black">
-                  제작하기
-                </a>
+                제작하기
               </button>
             </div>
           </div>
