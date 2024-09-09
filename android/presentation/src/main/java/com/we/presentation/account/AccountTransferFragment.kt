@@ -25,6 +25,18 @@ class AccountTransferFragment : BaseFragment<FragmentAccountTransferBinding>(R.l
                     etTransferNumber2.requestFocus()
                 }
             }
+
+            etTransferNumber2.addTextChangedListener {
+                if("1".equals(it.toString())){
+                    etTransferNumber3.requestFocus()
+                }
+            }
+
+            etTransferNumber3.addTextChangedListener {
+                if("1".equals(it.toString())){
+                    etTransferNumber4.requestFocus()
+                }
+            }
         }
     }
 

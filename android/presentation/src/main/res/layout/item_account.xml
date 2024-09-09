@@ -57,8 +57,4 @@
         android:textColor="@color/white"
         android:background="@drawable/rectangle_red_10_50_20"
     />
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
