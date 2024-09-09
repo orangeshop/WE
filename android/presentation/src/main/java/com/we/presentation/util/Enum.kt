@@ -9,6 +9,10 @@ enum class CalendarType {
     AFTER
 }
 
+/**
+ * true -> visible
+ * false -> gone
+ */
 enum class Page(val hideBottomNav: Boolean) {
     HOME(true),
     SCHEDULE(true),
