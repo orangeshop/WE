@@ -14,26 +14,23 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_account) {
     override fun initView() {
-        backBtnClickListener()
+
         accountBottomSheetClickListener()
-        transferBtnClickListener()
+        initTransferClickListener()
     }
 
-    private fun transferBtnClickListener(){
+    private fun initTransferClickListener(){
         binding.apply {
             tvRegisterAccount.setOnClickListener {
                 navigateDestination(R.id.action_accountFragment_to_accountTransferFragment)
+
+                ivAccountBack.setOnClickListener {
+                    navigatePopBackStack()
+                }
             }
         }
     }
 
-    private fun backBtnClickListener(){
-        binding.apply {
-            ivAccountBack.setOnClickListener {
-                navigatePopBackStack()
-            }
-        }
-    }
 
     private fun accountBottomSheetClickListener(){
         binding.apply {
