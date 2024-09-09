@@ -23,10 +23,10 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
         binding.apply {
             tvRegisterAccount.setOnClickListener {
                 navigateDestination(R.id.action_accountFragment_to_accountTransferFragment)
+            }
 
-                ivAccountBack.setOnClickListener {
-                    navigatePopBackStack()
-                }
+            ivAccountBack.setOnClickListener {
+                navigatePopBackStack()
             }
         }
     }
