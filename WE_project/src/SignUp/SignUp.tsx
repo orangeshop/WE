@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import flower from "../../src/assets/images/flower.png";
+import Navbar from "../Components/Navbar";
 
 const SignupForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -42,28 +43,8 @@ const SignupForm: React.FC = () => {
   };
 
   return (
-    <div className="font-nanum bg-image">
-      <div>
-        <nav className="fixed top-0 left-0 w-full flex items-center py-9 px-3 z-50 bg-white border-b border-gray-300">
-          <div className="mr-24 ml-12 text-2xl">
-            <a href="/">[ WE : ]</a>
-          </div>
-          <div className="flex gap-12 justify-center mt-1">
-            <a href="/invitation" className="text-lg">
-              Mobile Invitation Card
-            </a>
-            <a href="/account" className="text-lg">
-              Account Book
-            </a>
-            <a href="/signup" className="text-lg">
-              Sign Up
-            </a>
-            <a href="/login" className="text-lg">
-              Login
-            </a>
-          </div>
-        </nav>
-      </div>
+    <div className="font-nanum">
+      <Navbar isScrollSensitive={false} />
 
       <div className="flex justify-center mt-40 mb-20 w-[600px]">
         <img src={flower} alt="flower" className="w-40" />
