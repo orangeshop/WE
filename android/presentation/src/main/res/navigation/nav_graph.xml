@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_fragment_home_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_invitation"
+            app:destination="@id/fragment_invitation" />
     </fragment>
 
     <fragment
@@ -47,5 +50,10 @@
         android:name="com.we.presentation.account.AccountTransferFragment"
         android:label="AccountTransferFragment" />
 
+    <!-- 청첩장 -->
+    <fragment
+        android:id="@+id/fragment_invitation"
+        android:name="com.we.presentation.home.InvitationFragment"
+        tools:layout="@layout/fragment_invitation" />
 
 </navigation>
