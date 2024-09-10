@@ -1,21 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".mypage.MyPageFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <include
+            android:id="@+id/ic_title"
+            layout="@layout/include_we_title"
+            app:title="@{@string/my_page}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content" />
 
-    </FrameLayout>
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="23dp"
+            android:background="@color/bronze"
+            app:layout_constraintTop_toBottomOf="@+id/ic_title" />
+
+        <TextView
+            android:id="@+id/tv_logout"
+            style="@style/suite_medium_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/logout"
+            android:textColor="@color/bronze"
+            app:layout_constraintTop_toBottomOf="@+id/view_line" />
+
+        <TextView
+            android:id="@+id/tv_sign_out"
+            style="@style/suite_medium_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/sign_out"
+            android:textColor="@color/bronze"
+            app:layout_constraintTop_toBottomOf="@+id/tv_logout" />
+
+        <TextView
+            android:id="@+id/tv_notification"
+            style="@style/suite_medium_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/notification"
+            android:textColor="@color/bronze"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sign_out" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sc_notification_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@null"
+            android:thumb="@drawable/ic_switch_button"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_notification"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_notification"
+            app:track="@drawable/rectangle_bronze_30" />
+
+        <TextView
+            android:id="@+id/tv_app_version"
+            style="@style/suite_medium_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/app_version"
+            android:textColor="@color/bronze"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_notification" />
+
+        <TextView
+            android:id="@+id/tv_app_version_value"
+            style="@style/suite_medium_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/app_version_value"
+            android:textColor="@color/bronze"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_app_version"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_app_version" />
+
+        <TextView
+            android:id="@+id/tv_inquiry"
+            style="@style/suite_medium_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/inquiry"
+            android:textColor="@color/bronze"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_app_version" />
+
+        <TextView
+            android:id="@+id/tv_service"
+            style="@style/suite_medium_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/service"
+            android:textColor="@color/bronze"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_inquiry" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
