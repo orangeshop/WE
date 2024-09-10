@@ -57,7 +57,7 @@ public class MemberController {
         Member member = memberService.createUser(registerInfo);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                new SuccessResponse<>("성공적으로 회원가입 되었습니다.", null)
+                new SuccessResponse<>("성공적으로 회원가입 되었습니다.", member.getId())
         );
     }
 
