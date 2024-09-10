@@ -50,4 +50,4 @@ src/main/generated/
 *.zip
 
 ### secret file###
-application-secret.yml
+# application-secret.yml
