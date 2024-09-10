@@ -27,7 +27,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 //            navigateDestination(R.id.action_fragment_home_to_accountFragment)
 
-            navigateDestination(R.id.action_fragment_home_to_accountCheckFragment)
+            navigateDestination(R.id.action_homeFragment_accountCheckFragment)
         })
 
         binding.apply {
@@ -50,7 +50,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun initClickEventListener() {
         binding.apply {
             icInvitation.flContent.setOnClickListener {
-                navigateDestination(R.id.action_fragment_home_to_fragment_invitation)
+                navigateDestination(R.id.action_homeFragment_to_invitationFragment)
             }
         }
     }

@@ -51,7 +51,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
     private fun initClickEventListener() {
         binding.apply {
             ivPlus.setOnClickListener {
-                navigateDestination(R.id.action_fragment_schedule_to_fragment_schedule_register)
+                navigateDestination(R.id.action_scheduleFragment_to_scheduleRegisterFragment)
             }
         }
     }
