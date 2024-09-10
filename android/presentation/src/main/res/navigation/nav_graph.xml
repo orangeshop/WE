@@ -13,7 +13,7 @@
         <action
             android:id="@+id/action_fragment_home_to_accountFragment"
             app:destination="@id/accountFragment" />
-        <action
+        
     </fragment>
 
     <fragment
