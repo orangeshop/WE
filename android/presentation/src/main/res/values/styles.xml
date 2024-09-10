@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="thumbIcon">@drawable/ic_switch_button</item>
+        <item name="track">@drawable/rectangle_bronze_30</item>
+        <item name="background">@null</item>
+    </style>
+
+</resources>
