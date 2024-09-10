@@ -25,6 +25,7 @@ const TypeChoice: React.FC = () => {
               >
                 제작하기
               </button>
+              
             </div>
           </div>
           <div className="border-l border-gray-300 h-100"></div>

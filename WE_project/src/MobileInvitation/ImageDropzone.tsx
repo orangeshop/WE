@@ -13,25 +13,28 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
   const [showCropper, setShowCropper] = useState(false);
   const cropperRef = useRef<HTMLImageElement>(null);
   const [cropper, setCropper] = useState<Cropper | null>(null);
-  const [aspectRatio, setAspectRatio] = useState<number>(1);
+  const [croppedImageSrc, setCroppedImageSrc] = useState<string | null>(null);
 
   useEffect(() => {
     if (cropperRef.current && imageSrc) {
       const newCropper = new Cropper(cropperRef.current, {
-        aspectRatio: aspectRatio,
         viewMode: 1,
         autoCropArea: 1,
         responsive: true,
         background: false,
         cropBoxResizable: true,
         cropBoxMovable: true,
+        movable: true,
+        zoomable: true,
+        scalable: true,
+        rotatable: true,
       });
       setCropper(newCropper);
       return () => {
         newCropper.destroy();
       };
     }
-  }, [imageSrc, aspectRatio]);
+  }, [imageSrc]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -45,44 +48,28 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
   const handleCrop = () => {
     if (cropper) {
       const canvas = cropper.getCroppedCanvas();
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const croppedFile = new File(
-            [blob],
-            selectedImage?.name || "image.jpg",
-            {
-              type: blob.type,
-            }
-          );
-          setImageSrc(URL.createObjectURL(blob));
-          onImageChange(croppedFile, URL.createObjectURL(blob));
-          setShowCropper(false);
-        }
-      });
+      const croppedImageURL = canvas.toDataURL();
+      setCroppedImageSrc(croppedImageURL);
+      onImageChange(selectedImage, croppedImageURL);
+      setShowCropper(false);
     }
   };
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
     setImageSrc(null);
+    setCroppedImageSrc(null);
     onImageChange(null, null);
   };
 
-  const handleAspectRatioChange = (ratio: number) => {
-    if (cropper) {
-      cropper.setAspectRatio(ratio);
-      setAspectRatio(ratio);
-    }
-  };
-
   return (
-    <div className="relative w-80 h-80 flex items-center justify-center border bg-gray-100 mt-40">
-      {selectedImage ? (
-        <div className="relative w-80 h-80 flex items-center justify-center">
+    <div className="relative w-80 h-80 flex items-center justify-center mt-40">
+      {croppedImageSrc ? (
+        <div className="relative flex items-center justify-center w-full h-full">
           <img
-            src={imageSrc || ""}
-            alt="Uploaded"
-            className="w-80 h-80 object-cover"
+            src={croppedImageSrc || ""}
+            alt="Cropped"
+            className="max-w-full max-h-full min-w-[300px] min-h-[300px] object-contain"
           />
           <button
             onClick={handleRemoveImage}
@@ -106,7 +93,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
         </div>
       ) : (
         <label
-          className="flex flex-col items-center justify-center cursor-pointer"
+          className="flex flex-col items-center justify-center cursor-pointer w-full h-full"
           htmlFor="file-input"
         >
           <input
@@ -116,7 +103,11 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
             onChange={handleFileChange}
             className="hidden"
           />
-          <img src={dropzone} alt="dropzone" />
+          <img
+            src={dropzone}
+            alt="dropzone"
+            className="w-full h-full object-cover"
+          />
         </label>
       )}
 
@@ -131,38 +122,18 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
                 style={{ width: "100%", height: "auto" }}
               />
             </div>
-            <div className="flex justify-between mb-4">
-              <button
-                onClick={() => handleAspectRatioChange(1)}
-                className={`px-4 py-2 ${
-                  aspectRatio === 1 ? "bg-blue-500 text-white" : "bg-gray-200"
-                }`}
-              >
-                1:1
-              </button>
-              <button
-                onClick={() => handleAspectRatioChange(3 / 4)}
-                className={`px-4 py-2 ${
-                  aspectRatio === 3 / 4
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200"
-                }`}
-              >
-                3:4
-              </button>
-            </div>
             <div className="flex justify-end">
               <button
                 onClick={() => setShowCropper(false)}
-                className="px-4 py-2 bg-gray-200 rounded-lg mr-2"
+                className="px-4 py-2 bg-[#FFECCA] rounded-lg mr-2"
               >
-                Cancel
+                취소
               </button>
               <button
                 onClick={handleCrop}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                className="px-4 py-2 bg-[#FFD0DE] rounded-lg"
               >
-                Crop
+                완료
               </button>
             </div>
           </div>
