@@ -136,6 +136,7 @@
                />
 
             <include
+                android:id="@+id/ic_invitation"
                 layout="@layout/include_home_button"
                 app:title="@{@string/invitation}"
                 />
