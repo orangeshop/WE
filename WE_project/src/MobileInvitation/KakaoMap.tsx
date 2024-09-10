@@ -53,9 +53,11 @@ const KakaoMap: React.FC = () => {
         }
       });
     } else if (!showMap) {
-      setMap(null);
+      if (map) {
+        map.relayout(); // 맵 리레이아웃
+      }
     }
-  }, [showMap]);
+  }, [showMap]); // Re-run the effect when showMap changes
 
   const onClickAddr = () => {
     if (window.daum && window.kakao) {
@@ -113,6 +115,7 @@ const KakaoMap: React.FC = () => {
         </button>
       </div>
 
+      {/* 지도 표시 여부 체크박스 */}
       <div className="mt-4">
         <label>
           <input
@@ -124,12 +127,17 @@ const KakaoMap: React.FC = () => {
         </label>
       </div>
 
-      {showMap && (
-        <div
-          id="map"
-          style={{ width: "400px", height: "300px", marginTop: "20px" }}
-        ></div>
-      )}
+      {/* 지도 숨기기/보이기: DOM을 삭제하지 않고 숨김 처리 */}
+      <div
+        id="map"
+        className="mb-20"
+        style={{
+          width: "400px",
+          height: "300px",
+          marginTop: "20px",
+          visibility: showMap ? "visible" : "hidden", // 지도 숨기기, 자리 유지
+        }}
+      ></div>
     </div>
   );
 };

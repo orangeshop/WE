@@ -9,7 +9,8 @@ import cal_2 from "../assets/images/cal_2.png";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Modal from "react-modal";
-// import moment from "moment";
+import moment from "moment";
+import "moment/locale/ko";
 
 Modal.setAppElement("#root");
 
@@ -34,6 +35,7 @@ const InfoTypeInvitation: React.FC = () => {
   const onChangeCalendar = useCallback((newValue: Value) => {
     setCalendarValue(newValue);
   }, []);
+  moment.locale("ko");
 
   const formatSelectedDates = () => {
     if (calendarValue === null) {
@@ -42,21 +44,25 @@ const InfoTypeInvitation: React.FC = () => {
     if (Array.isArray(calendarValue)) {
       return calendarValue
         .map((date) =>
-          date?.toLocaleDateString("ko-KR", {
+          date
+            ? new Intl.DateTimeFormat("ko-KR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                weekday: "long",
+              }).format(date)
+            : ""
+        )
+        .join(" - ");
+    } else {
+      return calendarValue
+        ? new Intl.DateTimeFormat("ko-KR", {
             year: "numeric",
             month: "long",
             day: "numeric",
             weekday: "long",
-          })
-        )
-        .join(" - ");
-    } else {
-      return calendarValue?.toLocaleDateString("ko-KR", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        weekday: "long",
-      });
+          }).format(calendarValue)
+        : "";
     }
   };
 
@@ -151,6 +157,12 @@ const InfoTypeInvitation: React.FC = () => {
                 <Calendar
                   onChange={onChangeCalendar}
                   value={calendarValue || undefined}
+                  calendarType="gregory"
+                  formatDay={(locale, date) =>
+                    moment(date)
+                      .locale(locale || "ko")
+                      .format("DD")
+                  }
                 />
                 <button
                   onClick={closeModal}
