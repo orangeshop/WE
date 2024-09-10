@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class S3Config {
 
-    // @Value("${cloud.accesskey1}")
+    @Value("${cloud.aws.credentials.accesskey1}")
     private String accessKey;
 
-    // @Value("${cloud.secretkey1}")
+    @Value("${cloud.aws.credentials.secretkey1}")
     private String secretKey;
 
-    //@Value("${cloud.aws.region.static}")
+    @Value("${cloud.aws.region.static}")
     private String region = Regions.AP_NORTHEAST_2.getName();
 
     public S3Config(
@@ -43,11 +43,6 @@ public class S3Config {
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withRegion(region)
                 .build();
-    }
-
-    @PostConstruct
-    public void postConstructS3() {
-        log.info("----------POST CONSTRUCT S3\"----------\naccessKey={}\nsecretKey={}", accessKey, secretKey);
     }
 }
 

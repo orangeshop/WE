@@ -5,7 +5,9 @@ spring:
     include: secret
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  servlet:
+    multipart:
+      max-file-size : 10MB
   jpa:
     database: mysql
     hibernate:
