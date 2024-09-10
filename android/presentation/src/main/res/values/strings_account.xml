@@ -6,4 +6,8 @@
     <string name="account_number">계좌 번호</string>
     <string name="won_transfer">1원 송금</string>
     <string name="dialog_choose_bank">은행을 선택하세요.</string>
+    <string name="dialog_account_all">전체</string>
+    <string name="dialog_account_man">신랑</string>
+    <string name="dialog_account_woman">신부</string>
+    <string name="view_transaction_history">거래 내역 조회</string>
 </resources>
