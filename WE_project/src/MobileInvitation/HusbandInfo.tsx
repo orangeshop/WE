@@ -14,7 +14,7 @@ const HusbandInfo: React.FC<HusbandInfoProps> = ({
 }) => {
   return (
     <div>
-      <p className="mt-20 mb-5 text-md text-center">
+      <p className="mt-20 mb-5 text-md text-center font-semibold">
         신랑 측 정보를 작성해 주세요.
       </p>
       <div className="flex justify-between gap-5 mb-3">

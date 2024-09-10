@@ -9,6 +9,8 @@ import cal_2 from "../assets/images/cal_2.png";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Modal from "react-modal";
+import moment from "moment";
+import "moment/locale/ko";
 
 Modal.setAppElement("#root");
 
@@ -33,6 +35,7 @@ const InfoTypeInvitation: React.FC = () => {
   const onChangeCalendar = useCallback((newValue: Value) => {
     setCalendarValue(newValue);
   }, []);
+  moment.locale("ko");
 
   const formatSelectedDates = () => {
     if (calendarValue === null) {
@@ -41,21 +44,25 @@ const InfoTypeInvitation: React.FC = () => {
     if (Array.isArray(calendarValue)) {
       return calendarValue
         .map((date) =>
-          date?.toLocaleDateString("ko-KR", {
+          date
+            ? new Intl.DateTimeFormat("ko-KR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                weekday: "long",
+              }).format(date)
+            : ""
+        )
+        .join(" - ");
+    } else {
+      return calendarValue
+        ? new Intl.DateTimeFormat("ko-KR", {
             year: "numeric",
             month: "long",
             day: "numeric",
             weekday: "long",
-          })
-        )
-        .join(" - ");
-    } else {
-      return calendarValue?.toLocaleDateString("ko-KR", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        weekday: "long",
-      });
+          }).format(calendarValue)
+        : "";
     }
   };
 
@@ -100,7 +107,9 @@ const InfoTypeInvitation: React.FC = () => {
       <div className="font-default flex flex-col items-center justify-center">
         <ImageDropzone onImageChange={handleImageChange} />
         <div className="w-full text-center">
-          <p className="mt-5 text-md">메인 사진을 선택해 주세요.</p>
+          <p className="mt-5 text-md font-semibold">
+            메인 사진을 선택해 주세요.
+          </p>
           <div className="mt-20 border border-gray-200"></div>
         </div>
 
@@ -118,7 +127,9 @@ const InfoTypeInvitation: React.FC = () => {
         <Greetings value={greetings} onChange={handleGreetingsChange} />
 
         <div className="mt-20 mb-5">
-          <p>예식장 위치 / 예식 일자를 작성해 주세요.</p>
+          <p className="font-semibold">
+            예식장 위치 / 예식 일자를 작성해 주세요.
+          </p>
         </div>
         <div className="relative w-full mb-3 mt-5 px-2 py-2 border border-gray-400 focus:border-gray-400 text-center text-gray-400 bg-white">
           <span className={`block ${calendarValue ? "hidden" : ""}`}>
@@ -139,14 +150,27 @@ const InfoTypeInvitation: React.FC = () => {
               isOpen={modalIsOpen}
               onRequestClose={closeModal}
               contentLabel="달력 모달"
-              className="flex modal justify-center"
+              className="modal"
               overlayClassName="overlay"
             >
-              <Calendar
-                onChange={onChangeCalendar}
-                value={calendarValue || undefined}
-              />
-              <button onClick={closeModal}>선택</button>
+              <div className="flex flex-col w-full h-full items-center justify-center">
+                <Calendar
+                  onChange={onChangeCalendar}
+                  value={calendarValue || undefined}
+                  calendarType="gregory"
+                  formatDay={(locale, date) =>
+                    moment(date)
+                      .locale(locale || "ko")
+                      .format("DD")
+                  }
+                />
+                <button
+                  onClick={closeModal}
+                  className="px-3 h-10 rounded-md text-md bg-[#FFD0DE] text-gray-500 self-end mt-4"
+                >
+                  선택
+                </button>
+              </div>
             </Modal>
           </div>
         </div>

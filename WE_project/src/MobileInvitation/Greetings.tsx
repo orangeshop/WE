@@ -7,8 +7,8 @@ interface Greetings {
 
 const GreetingsSection: React.FC<Greetings> = ({ value, onChange }) => {
   return (
-    <div className="w-full mt-20 text-center">
-      <p>인사말을 작성해 주세요.</p>
+    <div className="w-full mt-20 text-center ">
+      <p className="font-semibold">인사말을 작성해 주세요.</p>
       <textarea
         id="greetings"
         name="greetings"
