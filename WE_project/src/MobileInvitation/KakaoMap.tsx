@@ -15,9 +15,10 @@ interface IAddr {
 const KakaoMap: React.FC = () => {
   const [map, setMap] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
+  const [showMap, setShowMap] = useState<boolean>(true);
 
   useEffect(() => {
-    if (window.kakao && window.daum) {
+    if (window.kakao && window.daum && showMap) {
       window.kakao.maps.load(() => {
         const container = document.getElementById("map");
         const options = {
@@ -51,10 +52,10 @@ const KakaoMap: React.FC = () => {
           console.error("Geolocation is not supported by this browser.");
         }
       });
-    } else {
-      console.error("Kakao or Daum API not loaded.");
+    } else if (!showMap) {
+      setMap(null);
     }
-  }, []);
+  }, [showMap]);
 
   const onClickAddr = () => {
     if (window.daum && window.kakao) {
@@ -91,6 +92,10 @@ const KakaoMap: React.FC = () => {
     }
   };
 
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setShowMap(event.target.checked);
+  };
+
   return (
     <div className="w-full">
       <div className="flex justify-between">
@@ -100,7 +105,6 @@ const KakaoMap: React.FC = () => {
           className="border border-gray-400 w-72 h-10 text-center"
           placeholder="주소를 입력하세요"
         />
-
         <button
           onClick={onClickAddr}
           className="py-2 px-8 rounded-md text-md bg-[#FFD0DE] text-gray-500"
@@ -108,11 +112,24 @@ const KakaoMap: React.FC = () => {
           검색
         </button>
       </div>
-      {/* 이 위치에 지도 표시 여부 체크박스 추가 */}
-      <div
-        id="map"
-        style={{ width: "400px", height: "300px", marginTop: "20px" }}
-      ></div>
+
+      <div className="mt-4">
+        <label>
+          <input
+            type="checkbox"
+            checked={showMap}
+            onChange={handleCheckboxChange}
+          />{" "}
+          지도 표시
+        </label>
+      </div>
+
+      {showMap && (
+        <div
+          id="map"
+          style={{ width: "400px", height: "300px", marginTop: "20px" }}
+        ></div>
+      )}
     </div>
   );
 };
