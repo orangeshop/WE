@@ -15,9 +15,9 @@
         <include
             android:id="@+id/ic_title"
             layout="@layout/include_we_title"
-            app:title="@{@string/my_page}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:title="@{@string/my_page}" />
 
         <View
             android:id="@+id/view_line"
@@ -29,15 +29,49 @@
             app:layout_constraintTop_toBottomOf="@+id/ic_title" />
 
         <TextView
+            android:id="@+id/tv_my_account"
+            style="@style/suite_medium_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/my_account"
+            android:textColor="@color/bronze"
+            app:layout_constraintTop_toBottomOf="@+id/view_line" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_my_account"
+            android:layout_width="match_parent"
+            android:layout_height="155dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_my_account"
+            />
+
+        <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+            android:id="@+id/vp_total_account_dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dotsColor="@color/rosy_brown"
+            app:dotsCornerRadius="4dp"
+            app:dotsSize="8dp"
+            app:dotsSpacing="6dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vp_my_account"
+            />
+
+        <TextView
             android:id="@+id/tv_logout"
             style="@style/suite_medium_16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:text="@string/logout"
             android:textColor="@color/bronze"
-            app:layout_constraintTop_toBottomOf="@+id/view_line" />
+            app:layout_constraintTop_toBottomOf="@+id/vp_total_account_dots_indicator" />
 
         <TextView
             android:id="@+id/tv_sign_out"
@@ -67,12 +101,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:background="@null"
-            android:thumb="@drawable/ic_switch_button"
             app:layout_constraintBottom_toBottomOf="@+id/tv_notification"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_notification"
-            app:track="@drawable/rectangle_bronze_30" />
+            app:thumbTint="@color/white"
+            app:trackTint="@color/bronze" />
 
         <TextView
             android:id="@+id/tv_app_version"
