@@ -16,6 +16,11 @@
         <action
             android:id="@+id/action_fragment_home_to_accountCheckFragment"
             app:destination="@id/accountCheckFragment" />
+
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_invitation"
+            app:destination="@id/fragment_invitation" />
+
     </fragment>
 
     <fragment
