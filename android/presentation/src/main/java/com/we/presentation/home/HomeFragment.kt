@@ -54,6 +54,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             icInvitation.flContent.setOnClickListener {
                 navigateDestination(R.id.action_homeFragment_to_invitationFragment)
             }
+
+            icQrCode.flContent.setOnClickListener {
+                navigateDestination(R.id.action_homeFragment_to_guestBookFragment)
+            }
+
         }
     }
 

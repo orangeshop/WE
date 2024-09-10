@@ -11,4 +11,6 @@
 
     <string name="invitation_share">공유하기</string>
 
+    <string name="guest_book">qr 코드 생성</string>
+
 </resources>
