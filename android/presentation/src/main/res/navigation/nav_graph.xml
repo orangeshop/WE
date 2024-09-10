@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_homeFragment_to_guestBookFragment"
             app:destination="@id/guestBookFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_coupleFragment"
+            app:destination="@id/coupleFragment" />
 
     </fragment>
 
@@ -105,6 +108,12 @@
         android:name="com.we.presentation.guestbook.GuestBookFragment"
         android:label="GuestBookFragment"
         tools:layout="@layout/fragment_guest_book"
+        />
+    <fragment
+        android:id="@+id/coupleFragment"
+        android:name="com.we.presentation.couple.CoupleFragment"
+        android:label="CoupleFragment"
+        tools:layout="@layout/fragment_couple"
         />
 
 </navigation>
