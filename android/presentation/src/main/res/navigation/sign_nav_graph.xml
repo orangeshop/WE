@@ -3,37 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sign_nav_graph"
-    app:startDestination="@id/fragment_sign_in">
+    app:startDestination="@id/signInFragment">
 
     <fragment
-        android:id="@+id/fragment_sign_in"
+        android:id="@+id/signInFragment"
         android:name="com.we.presentation.sign.SignInFragment"
-        tools:layout="@layout/fragment_sign_in" >
+        tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_fragment_sign_in_to_fragment_sign_up"
-            app:destination="@id/fragment_sign_up" />
+            app:destination="@id/signUpFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_sign_up"
+        android:id="@+id/signUpFragment"
         android:name="com.we.presentation.sign.SignUpFragment"
         tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_fragment_sign_up_to_fragment_easy_password_register"
-            app:destination="@id/fragment_easy_password_register" />
+            app:destination="@id/easyPasswordRegisterFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_easy_password_register"
+        android:id="@+id/easyPasswordRegisterFragment"
         android:name="com.we.presentation.sign.EasyPasswordRegisterFragment"
         tools:layout="@layout/fragment_easy_password_register">
         <action
             android:id="@+id/action_fragment_easy_password_register_to_fragment_sign_up_success"
-            app:destination="@id/fragment_sign_up_success" />
+            app:destination="@id/signUpSuccessFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_sign_up_success"
+        android:id="@+id/signUpSuccessFragment"
         android:name="com.we.presentation.sign.SignUpSuccessFragment"
-        tools:layout="@layout/fragment_sign_up_success"/>
+        tools:layout="@layout/fragment_sign_up_success" />
 </navigation>

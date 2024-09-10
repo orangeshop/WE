@@ -3,40 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_home">
+    app:startDestination="@id/homeFragment">
 
 
     <fragment
-        android:id="@+id/fragment_home"
+        android:id="@+id/homeFragment"
         android:name="com.we.presentation.home.HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_fragment_home_to_accountFragment"
+            android:id="@+id/action_homeFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
+
         <action
-            android:id="@+id/action_fragment_home_to_accountCheckFragment"
+            android:id="@+id/action_homeFragment_accountCheckFragment"
             app:destination="@id/accountCheckFragment" />
         <action
             android:id="@+id/action_fragment_home_to_remittanceFragment"
             app:destination="@id/remittanceFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_invitationFragment"
+            app:destination="@id/invitationFragment" />
+
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_my_page"
+        android:id="@+id/myPageFragment"
         android:name="com.we.presentation.mypage.MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
 
     <fragment
-        android:id="@+id/fragment_schedule"
+        android:id="@+id/scheduleFragment"
         android:name="com.we.presentation.schedule.ScheduleFragment"
         tools:layout="@layout/fragment_schedule">
         <action
-            android:id="@+id/action_fragment_schedule_to_fragment_schedule_register"
-            app:destination="@id/fragment_schedule_register" />
+            android:id="@+id/action_scheduleFragment_to_scheduleRegisterFragment"
+            app:destination="@id/scheduleRegisterFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_schedule_register"
+        android:id="@+id/scheduleRegisterFragment"
         android:name="com.we.presentation.schedule.ScheduleRegisterFragment"
         tools:layout="@layout/fragment_schedule_register" />
 
@@ -86,5 +92,10 @@
         tools:layout="@layout/fragment_easy_password_register"
         />
 
+    <!-- 청첩장 -->
+    <fragment
+        android:id="@+id/invitationFragment"
+        android:name="com.we.presentation.home.InvitationFragment"
+        tools:layout="@layout/fragment_invitation" />
 
 </navigation>

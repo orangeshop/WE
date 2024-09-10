@@ -28,9 +28,9 @@ enum class Page(val hideBottomNav: Boolean) {
 
     val id: Int
         get() = when (this) {
-            HOME -> R.id.fragment_home
-            SCHEDULE -> R.id.fragment_schedule
-            MY_PAGE -> R.id.fragment_my_page
-            SCHEDULE_REGISTER -> R.id.fragment_schedule_register
+            HOME -> R.id.homeFragment
+            SCHEDULE -> R.id.scheduleFragment
+            MY_PAGE -> R.id.myPageFragment
+            SCHEDULE_REGISTER -> R.id.scheduleRegisterFragment
         }
 }
