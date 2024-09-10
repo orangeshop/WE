@@ -1,4 +1,3 @@
-// BrideInfo.tsx
 import React from "react";
 
 interface BrideInfoProps {
@@ -89,6 +88,7 @@ const BrideInfo: React.FC<BrideInfoProps> = ({
           required
         />
       </div>
+      <div className="mt-20 border border-gray-200"></div>
     </div>
   );
 };

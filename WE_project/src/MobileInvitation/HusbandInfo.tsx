@@ -1,4 +1,3 @@
-// HusbandInfo.tsx
 import React from "react";
 
 interface HusbandInfoProps {
