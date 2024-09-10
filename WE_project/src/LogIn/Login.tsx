@@ -25,14 +25,14 @@ const LoginForm: React.FC = () => {
     <div className="font-nanum bg-image">
       <Navbar isScrollSensitive={false} />
 
-      <div className="flex justify-center mt-40 mb-20 w-[600px]">
+      <div className="flex justify-center mt-40 mb-20 w-[480px]">
         <img src={flower} alt="flower" className="w-40" />
       </div>
       <div className="flex justify-center mb-20">
         <form className="w-full" onSubmit={handleSubmit}>
           <div className="mb-6">
             <label
-              className="block text-gray-700 text-lg font-bold mb-2"
+              className="block text-gray-700 font-bold mb-2"
               htmlFor="email"
             >
               이메일
@@ -52,7 +52,7 @@ const LoginForm: React.FC = () => {
           </div>
           <div className="mb-6">
             <label
-              className="block text-gray-700 text-lg font-bold mb-2"
+              className="block text-gray-700 font-bold mb-2"
               htmlFor="password"
             >
               비밀번호
