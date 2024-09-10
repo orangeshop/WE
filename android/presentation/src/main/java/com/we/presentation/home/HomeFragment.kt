@@ -22,13 +22,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun setUpAccountViewPager(){
         val test = arrayListOf("1","2","3")
 
-        val adapter = HomeViewPagerAccountAdapter(test, accountClickListener = {
-
-
+        val adapter = HomeViewPagerAccountAdapter(test,
+            accountClickListener = {
 //            navigateDestination(R.id.action_fragment_home_to_accountFragment)
-
             navigateDestination(R.id.action_fragment_home_to_accountCheckFragment)
-        })
+            },
+            accountRemittance = {
+                navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
+            }
+        )
 
         binding.apply {
             vpHomeAccount.adapter = adapter
