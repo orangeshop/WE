@@ -13,9 +13,7 @@
         <action
             android:id="@+id/action_fragment_home_to_accountFragment"
             app:destination="@id/accountFragment" />
-        <action
-            android:id="@+id/action_fragment_home_to_accountCheckFragment"
-            app:destination="@id/accountCheckFragment" />
+        
     </fragment>
 
     <fragment
@@ -54,5 +52,10 @@
         android:name="com.we.presentation.accountcheck.AccountCheckFragment"
         android:label="AccountCheckFragment" />
 
+    <!-- 청첩장 -->
+    <fragment
+        android:id="@+id/fragment_invitation"
+        android:name="com.we.presentation.home.InvitationFragment"
+        tools:layout="@layout/fragment_invitation" />
 
 </navigation>

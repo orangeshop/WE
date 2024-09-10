@@ -8,4 +8,7 @@
     <string name="remaining_days">결혼식까지 180일</string>
     <string name="invitation">청첩장</string>
     <string name="couple_register">연인 등록</string>
+
+    <string name="invitation_share">공유하기</string>
+
 </resources>
