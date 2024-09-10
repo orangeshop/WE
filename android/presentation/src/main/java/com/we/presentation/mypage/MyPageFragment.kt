@@ -17,7 +17,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
         val adapter = HomeViewPagerAccountAdapter(test, accountClickListener = {
             navigateDestination(R.id.action_homeFragment_accountCheckFragment)
-        })
+        }, accountRemittance = {})
         binding.apply {
             vpMyAccount.adapter = adapter
             vpTotalAccountDotsIndicator.attachTo(vpMyAccount)

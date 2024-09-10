@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_homeFragment_accountCheckFragment"
             app:destination="@id/accountCheckFragment" />
+        <action
+            android:id="@+id/action_fragment_home_to_remittanceFragment"
+            app:destination="@id/remittanceFragment" />
 
         <action
             android:id="@+id/action_homeFragment_to_invitationFragment"
@@ -46,7 +49,8 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.we.presentation.account.AccountFragment"
-        android:label="AccountFragment">
+        android:label="AccountFragment"
+        tools:layout="@layout/fragment_account">
         <action
             android:id="@+id/action_accountFragment_to_accountTransferFragment"
             app:destination="@id/accountTransferFragment" />
@@ -54,11 +58,39 @@
     <fragment
         android:id="@+id/accountTransferFragment"
         android:name="com.we.presentation.account.AccountTransferFragment"
-        android:label="AccountTransferFragment" />
+        android:label="AccountTransferFragment"
+        tools:layout="@layout/fragment_account_transfer"/>
     <fragment
         android:id="@+id/accountCheckFragment"
         android:name="com.we.presentation.accountcheck.AccountCheckFragment"
-        android:label="AccountCheckFragment" />
+        android:label="AccountCheckFragment"
+        tools:layout="@layout/fragment_account_check"/>
+    <fragment
+        android:id="@+id/remittanceFragment"
+        android:name="com.we.presentation.remittance.RemittanceFragment"
+        android:label="RemittanceFragment"
+        tools:layout="@layout/fragment_remittance"
+    >
+        <action
+            android:id="@+id/action_remittanceFragment_to_remittanceCheckFragment"
+            app:destination="@id/remittanceCheckFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/remittanceCheckFragment"
+        android:name="com.we.presentation.remittance.RemittanceCheckFragment"
+        android:label="RemittanceCheckFragment"
+        tools:layout="@layout/fragment_remittance_check"
+    >
+        <action
+            android:id="@+id/action_remittanceCheckFragment_to_easyPasswordRegisterFragment"
+            app:destination="@id/easyPasswordRegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/easyPasswordRegisterFragment"
+        android:name="com.we.presentation.sign.EasyPasswordRegisterFragment"
+        android:label="EasyPasswordRegisterFragment"
+        tools:layout="@layout/fragment_easy_password_register"
+        />
 
     <!-- 청첩장 -->
     <fragment
