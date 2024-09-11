@@ -32,6 +32,7 @@ class InvitationAdapter : ListAdapter<String, InvitationViewHolder>(
         val binding: ItemInvitationBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind() {
+
             binding.apply {
 
             }
