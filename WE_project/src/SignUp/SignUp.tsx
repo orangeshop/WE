@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import flower from "../../src/assets/images/flower.png";
 import Navbar from "../Components/Navbar";
-
+import { useNavigate } from "react-router-dom";
 import { joinMember, JoinMemberInfoDto } from "../apis/api/signup";
 
 const SignupForm: React.FC = () => {
@@ -14,7 +14,9 @@ const SignupForm: React.FC = () => {
 
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [, setSuccessMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -50,6 +52,10 @@ const SignupForm: React.FC = () => {
       };
       await joinMember(memberData);
       setSuccessMessage("회원가입이 성공적으로 완료되었습니다!");
+
+      setTimeout(() => {
+        navigate("/");
+      });
     } catch {
       setError("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
@@ -131,6 +137,9 @@ const SignupForm: React.FC = () => {
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
             />
+            {error && (
+              <div className="mt-4 text-red-500 text-center">{error}</div>
+            )}
           </div>
           <div className="mb-6">
             <label className="flex items-center">
@@ -154,14 +163,7 @@ const SignupForm: React.FC = () => {
               </span>
             </label>
           </div>
-          {error && (
-            <div className="mb-4 text-red-500 text-center">{error}</div>
-          )}
-          {successMessage && (
-            <div className="mb-4 text-green-500 text-center">
-              {successMessage}
-            </div>
-          )}
+
           <button
             type="submit"
             className="w-full py-3 px-4 rounded-md text-lg font-bold bg-[#FFECCA] mt-5"

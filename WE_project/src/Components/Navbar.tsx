@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { logout } from "../apis/api/logout";
+import LoginAlertModal from "./LoginAlertModal";
 
 interface NavbarProps {
   isScrollSensitive?: boolean;
@@ -7,8 +9,13 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
   const [navbarBackground, setNavbarBackground] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    setIsLoggedIn(!!accessToken);
+
     if (isScrollSensitive) {
       const handleScroll = () => {
         if (window.scrollY > 50) {
@@ -28,6 +35,36 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
 
   const handleMouseEnter = () => setDropdownVisible(true);
   const handleMouseLeave = () => setDropdownVisible(false);
+
+  const handleLogout = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (accessToken) {
+      try {
+        await logout(accessToken);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        setIsLoggedIn(false);
+        window.location.href = "/";
+      } catch (error) {
+        console.error("로그아웃 실패:", error);
+      }
+    }
+  };
+
+  const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isLoggedIn) {
+      event.preventDefault();
+      setShowModal(true);
+    }
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  const redirectToLogin = () => {
+    closeModal();
+    window.location.href = "/login";
+  };
 
   return (
     <nav
@@ -58,6 +95,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
         >
           <a
             href="/invitation"
+            onClick={handleLinkClick}
             className={`${
               navbarBackground || !isScrollSensitive
                 ? "text-black"
@@ -70,12 +108,14 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
             <div className="absolute top-full w-48 bg-white shadow-lg border">
               <a
                 href="/invitation"
+                onClick={handleLinkClick}
                 className="block px-4 py-2 hover:bg-black hover:text-white text-sm md:text-base lg:text-lg"
               >
                 청첩장 만들기
               </a>
               <a
                 href="/invitation/storage"
+                onClick={handleLinkClick}
                 className="block px-4 py-2 hover:bg-black hover:text-white text-sm md:text-base lg:text-lg"
               >
                 내 청첩장 보관함
@@ -85,6 +125,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
         </div>
         <a
           href="/account"
+          onClick={handleLinkClick}
           className={`${
             navbarBackground || !isScrollSensitive ? "text-black" : "text-white"
           } text-sm md:text-base lg:text-lg`}
@@ -92,28 +133,64 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
           Account Book
         </a>
         <div className="flex gap-8 md:gap-10 lg:gap-12 ml-auto mr-12">
-          <a
-            href="/signup"
-            className={`${
-              navbarBackground || !isScrollSensitive
-                ? "text-black"
-                : "text-white"
-            } text-sm md:text-base lg:text-lg`}
-          >
-            Sign Up
-          </a>
-          <a
-            href="/login"
-            className={`${
-              navbarBackground || !isScrollSensitive
-                ? "text-black"
-                : "text-white"
-            } text-sm md:text-base lg:text-lg`}
-          >
-            Login
-          </a>
+          {isLoggedIn ? (
+            <>
+              <a
+                href="/mypage"
+                className={`${
+                  navbarBackground || !isScrollSensitive
+                    ? "text-black"
+                    : "text-white"
+                } text-sm md:text-base lg:text-lg`}
+              >
+                Mypage
+              </a>
+              <a
+                href="#"
+                onClick={handleLogout}
+                className={`cursor-pointer ${
+                  navbarBackground || !isScrollSensitive
+                    ? "text-black"
+                    : "text-white"
+                } text-sm md:text-base lg:text-lg`}
+              >
+                Logout
+              </a>
+            </>
+          ) : (
+            <>
+              <a
+                href="/signup"
+                className={`${
+                  navbarBackground || !isScrollSensitive
+                    ? "text-black"
+                    : "text-white"
+                } text-sm md:text-base lg:text-lg`}
+              >
+                Sign Up
+              </a>
+              <a
+                href="/login"
+                className={`${
+                  navbarBackground || !isScrollSensitive
+                    ? "text-black"
+                    : "text-white"
+                } text-sm md:text-base lg:text-lg`}
+              >
+                Login
+              </a>
+            </>
+          )}
         </div>
       </div>
+
+      {showModal && (
+        <LoginAlertModal
+          message="로그인 후 이용 가능한 서비스입니다."
+          onClose={closeModal}
+          onRedirect={redirectToLogin}
+        />
+      )}
     </nav>
   );
 };
