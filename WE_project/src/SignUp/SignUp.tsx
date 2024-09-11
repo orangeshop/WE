@@ -4,7 +4,7 @@ import Navbar from "../Components/Navbar";
 
 const SignupForm: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    nickname: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -59,11 +59,11 @@ const SignupForm: React.FC = () => {
               성함
             </label>
             <input
-              id="name"
-              name="name"
+              id="nickname"
+              name="nickname"
               type="text"
               placeholder=""
-              value={formData.name}
+              value={formData.nickname}
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
