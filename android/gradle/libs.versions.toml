@@ -43,6 +43,9 @@ jetbrainsKotlinJvm = "1.9.0"
 # Dotindicator
 dotsindicator = "5.0"
 
+# Test
+truth = "1.0.1"
+
 [libraries]
 
 #AndroidX
@@ -57,6 +60,9 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigationFragment" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 lifecycle-extensions = { group = "androidx.lifecycle", name = "lifecycle-extensions", version.ref = "lifecycle-extensions" }
+
+#TEST
+google-truth = {module = "com.google.truth:truth", version.ref="truth"}
 
 
 #asynchroinze

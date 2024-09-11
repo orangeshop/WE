@@ -50,9 +50,15 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
     implementation(libs.androidx.activity)
+
+
+    //Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.google.truth)
+    androidTestImplementation(libs.google.truth)
+
 
     // Lifecycle
     implementation(libs.lifecycle.runtime.ktx)
