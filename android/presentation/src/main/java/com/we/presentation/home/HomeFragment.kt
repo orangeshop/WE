@@ -59,6 +59,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 navigateDestination(R.id.action_homeFragment_to_guestBookFragment)
             }
 
+            icCoupleRegister.flContent.setOnClickListener {
+                navigateDestination(R.id.action_homeFragment_to_coupleFragment)
+            }
         }
     }
 
