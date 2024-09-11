@@ -4,8 +4,10 @@ package com.akdong.we.member.service;
 import com.akdong.we.api.FinApiCallService;
 import com.akdong.we.api.request.ApiMemberRegisterRequest;
 import com.akdong.we.member.entity.Member;
+import com.akdong.we.member.entity.MemberAccount;
 import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.akdong.we.member.exception.member.MemberException;
+import com.akdong.we.member.repository.MemberAccountRepository;
 import com.akdong.we.member.repository.MemberRepository;
 import com.akdong.we.member.request.MemberRegisterPostReq;
 import com.akdong.we.member.request.UpdateMemberInfoRequest;
@@ -32,6 +34,8 @@ import java.util.Optional;
 @Slf4j
 public class MemberService {
 	private final MemberRepository memberRepository;
+	private final MemberAccountRepository memberAccountRepository;
+
 	private final PasswordEncoder passwordEncoder;
 	private final FinApiCallService finApiCallService;
 	@Value("${fin-api.url}")
@@ -51,8 +55,14 @@ public class MemberService {
 
 		String userKey = finApiCallService.apiRegister(userRegisterInfo.getEmail());
 		if(userKey == null){
-			throw new MemberException(MemberErrorCode.API_CALL_ERROR);
+			throw new MemberException(MemberErrorCode.API_REGISTER_ERROR);
 		}
+
+//		String accountNo = finApiCallService.makeAccount(userKey);
+//		if(accountNo == null){
+//			throw new MemberException(MemberErrorCode.API_MAKE_ACCOUNT_ERROR);
+//		}
+
 		Member member = Member.builder()
 				.email(userRegisterInfo.getEmail())
 				.password(passwordEncoder.encode(userRegisterInfo.getPassword()))
@@ -61,6 +71,12 @@ public class MemberService {
 				.userKey(userKey)
 				.build();
 
+//		MemberAccount memberAccount = MemberAccount.builder()
+//				.member(member)
+//				.account(accountNo)
+//				.build();
+
+//		memberAccountRepository.save(memberAccount);
 		return memberRepository.save(member);
 	}
 
