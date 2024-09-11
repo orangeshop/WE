@@ -18,16 +18,16 @@ const HusbandInfo: React.FC<HusbandInfoProps> = ({
       </p>
       <div className="flex justify-between gap-5 mb-3">
         <input
-          id="husband-last-name"
-          name="husband-last-name"
+          id="groom-last-name"
+          name="groom-last-name"
           type="text"
           placeholder="신랑 성"
           className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
           required
         />
         <input
-          id="husband-name"
-          name="husband-name"
+          id="groom-name"
+          name="groom-name"
           type="text"
           placeholder="신랑 이름"
           className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
@@ -37,8 +37,8 @@ const HusbandInfo: React.FC<HusbandInfoProps> = ({
 
       <div className="flex mb-3">
         <select
-          id="husband-order"
-          name="husband-order"
+          id="groom-order"
+          name="groom-order"
           value={husbandOrder}
           onChange={handleHusbandOrderChange}
           className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${
@@ -56,16 +56,16 @@ const HusbandInfo: React.FC<HusbandInfoProps> = ({
 
       <div className="flex justify-between gap-5 mb-3">
         <input
-          id="husband-father-last-name"
-          name="husband-father-last-name"
+          id="groom-father-last-name"
+          name="groom-father-last-name"
           type="text"
           placeholder="신랑 아버님 성"
           className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
           required
         />
         <input
-          id="husband-father-name"
-          name="husband-father-name"
+          id="groom-father-name"
+          name="groom-father-name"
           type="text"
           placeholder="신랑 아버님 이름"
           className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
@@ -74,16 +74,16 @@ const HusbandInfo: React.FC<HusbandInfoProps> = ({
       </div>
       <div className="flex justify-between gap-5 mb-3">
         <input
-          id="husband-mother-last-name"
-          name="husband-mother-last-name"
+          id="groom-mother-last-name"
+          name="groom-mother-last-name"
           type="text"
           placeholder="신랑 어머님 성"
           className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
           required
         />
         <input
-          id="husband-mother-name"
-          name="husband-mother-name"
+          id="groom-mother-name"
+          name="groom-mother-name"
           type="text"
           placeholder="신랑 어머님 이름"
           className="px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"

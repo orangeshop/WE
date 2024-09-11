@@ -7,8 +7,4 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// export const clearTokenInterceptors = (interceptorId: number) => {
-//   api.interceptors.request.eject(interceptorId);
-// };
-
 export default api;
