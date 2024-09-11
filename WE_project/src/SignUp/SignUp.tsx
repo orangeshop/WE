@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import flower from "../../src/assets/images/flower.png";
 import Navbar from "../Components/Navbar";
-
 import { joinMember, JoinMemberInfoDto } from "../apis/api/signup";
 
 const SignupForm: React.FC = () => {
