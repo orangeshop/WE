@@ -45,7 +45,8 @@ dotsindicator = "5.0"
 
 # Test
 truth = "1.0.1"
-
+mockk = "1.13.5"
+coroutineTest = "1.7.3"
 [libraries]
 
 #AndroidX
@@ -62,9 +63,9 @@ lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtim
 lifecycle-extensions = { group = "androidx.lifecycle", name = "lifecycle-extensions", version.ref = "lifecycle-extensions" }
 
 #TEST
-google-truth = {module = "com.google.truth:truth", version.ref="truth"}
-
-
+google-truth = { module = "com.google.truth:truth", version.ref = "truth" }
+mock = { module = "io.mockk:mockk", version.ref = "mockk" }
+coroutine-test={module="org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref="coroutineTest"}
 #asynchroinze
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
@@ -105,7 +106,7 @@ retrofit-converter-sclars = { module = "com.squareup.retrofit2:converter-scalars
 retrofit-converter-kotlinxSerialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 
 # Dotindicator
-dotsindicator = {module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator"}
+dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
 
 
 [plugins]
