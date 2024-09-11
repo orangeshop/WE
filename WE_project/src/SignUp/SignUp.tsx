@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import flower from "../../src/assets/images/flower.png";
 import Navbar from "../Components/Navbar";
 
+import { joinMember, JoinMemberInfoDto } from "../apis/api/signup";
+
 const SignupForm: React.FC = () => {
   const [formData, setFormData] = useState({
-    nickname: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -12,6 +14,7 @@ const SignupForm: React.FC = () => {
 
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,7 +29,7 @@ const SignupForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       setError("비밀번호가 일치하지 않습니다.");
@@ -38,8 +41,18 @@ const SignupForm: React.FC = () => {
       return;
     }
 
-    console.log(formData);
     setError("");
+    try {
+      const memberData: JoinMemberInfoDto = {
+        nickname: formData.name,
+        email: formData.email,
+        password: formData.password,
+      };
+      await joinMember(memberData);
+      setSuccessMessage("회원가입이 성공적으로 완료되었습니다!");
+    } catch {
+      setError("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -59,11 +72,10 @@ const SignupForm: React.FC = () => {
               성함
             </label>
             <input
-              id="nickname"
-              name="nickname"
+              id="name"
+              name="name"
               type="text"
-              placeholder=""
-              value={formData.nickname}
+              value={formData.name}
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
@@ -80,7 +92,6 @@ const SignupForm: React.FC = () => {
               id="email"
               name="email"
               type="email"
-              placeholder=""
               value={formData.email}
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
@@ -98,7 +109,6 @@ const SignupForm: React.FC = () => {
               id="password"
               name="password"
               type="password"
-              placeholder=""
               value={formData.password}
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
@@ -116,7 +126,6 @@ const SignupForm: React.FC = () => {
               id="confirmPassword"
               name="confirmPassword"
               type="password"
-              placeholder=""
               value={formData.confirmPassword}
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
@@ -147,6 +156,11 @@ const SignupForm: React.FC = () => {
           </div>
           {error && (
             <div className="mb-4 text-red-500 text-center">{error}</div>
+          )}
+          {successMessage && (
+            <div className="mb-4 text-green-500 text-center">
+              {successMessage}
+            </div>
           )}
           <button
             type="submit"
