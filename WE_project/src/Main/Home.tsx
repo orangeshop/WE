@@ -28,8 +28,8 @@ const Home: React.FC = () => {
       </div>
 
       <div className="flex flex-col mt-60 items-center text-center">
-        <h2 className="text-5xl mb-8">[ WE : ]</h2>
-        <div className="mb-60 text-lg">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl mb-8">[ WE : ]</h2>
+        <div className="mb-60 text-sm sm:text-base md:text-lg">
           <p>결혼이라는 새로운 출발을 앞둔 '우리(WE)'와,</p>
           <p>함께 준비하는 '웨딩(WEdding)'의 의미를 지녔습니다.</p>
           <p>결혼 자금과 축의금 장부를 효과적으로 관리하고,</p>
@@ -37,45 +37,67 @@ const Home: React.FC = () => {
             간편한 결혼 준비 체크리스트 확인과 직접 만드는 모바일 청첩장까지,
           </p>
           <p>
-            결혼 준비의 시작부터 끝까지 저희 [ WE : ]는 여러분과 함께 합니다.
+            결혼 준비의 시작부터 끝까지 [ WE : ]는 여러분과 함께 합니다.
           </p>
         </div>
       </div>
 
       <div className="mb-60 mx-10 border border-gray-100"></div>
-      <div className="items-center text-center text-4xl mb-20">Services</div>
+      <div className="items-center text-center text-2xl sm:text-3xl md:text-4xl mb-20">
+        Services
+      </div>
 
       <div className="flex justify-around gap-10 mt-20 mb-10 mx-10">
         <div className="flex flex-col" data-aos="fade-up">
-          <img src={happymoney} alt="QR 인식 송금" className="mb-3 h-80" />
+          <img
+            src={happymoney}
+            alt="QR 인식 송금"
+            className="mb-3 h-48 sm:h-60 md:h-80 w-auto"
+          />
           <div className="mx-2">
-            <p className="text-lg text-gray-400">Ep 01</p>
-            <p className="text-xl font-bold mb-4">축의금 관리</p>
+            <p className="text-sm sm:text-lg text-gray-400">Ep 01</p>
+            <p className="text-lg sm:text-xl font-bold mb-4">축의금 관리</p>
             <p className="text-md">
               QR 인식으로 보다 편리한 축의금 송금과 장부 관리
             </p>
           </div>
         </div>
         <div className="flex flex-col" data-aos="fade-up">
-          <img src={invitation} alt="모바일 청첩장" className="mb-3 h-80" />
+          <img
+            src={invitation}
+            alt="모바일 청첩장"
+            className="mb-3 h-48 sm:h-60 md:h-80 w-auto"
+          />
           <div className="mx-2">
-            <p className="text-lg text-gray-400">Ep 02</p>
-            <p className="text-xl font-bold mb-4">모바일 청첩장 제작</p>
-            <p>필요한 정보만 입력한 만들어지는 정보형 모바일 청첩장,</p>
-            <p>직접 커스텀해서 신랑 신부가 함께 만드는 자유형 모바일 청첩장</p>
+            <p className="text-sm sm:text-lg text-gray-400">Ep 02</p>
+            <p className="text-lg sm:text-xl font-bold mb-4">
+              모바일 청첩장 제작
+            </p>
+            <p className="text-md">
+              필요한 정보만 입력한 만들어지는 정보형 모바일 청첩장,
+            </p>
+            <p className="text-md">
+              직접 커스텀해서 신랑 신부가 함께 만드는 자유형 모바일 청첩장
+            </p>
           </div>
         </div>
         <div className="flex flex-col" data-aos="fade-up">
-          <img src={calendar} alt="결혼준비 체크리스트" className="mb-3 h-80" />
+          <img
+            src={calendar}
+            alt="결혼준비 체크리스트"
+            className="mb-3 h-48 sm:h-60 md:h-80 w-auto"
+          />
           <div className="mx-2">
-            <p className="text-lg text-gray-400">Ep 03</p>
-            <p className="text-xl font-bold mb-4">일정 관리</p>
-            <p>복잡한 결혼준비 체크리스트, 캘린더로 손쉬운 일정 관리</p>
+            <p className="text-sm sm:text-lg text-gray-400">Ep 03</p>
+            <p className="text-lg sm:text-xl font-bold mb-4">일정 관리</p>
+            <p className="text-md">
+              복잡한 결혼준비 체크리스트, 캘린더로 손쉬운 일정 관리
+            </p>
           </div>
         </div>
       </div>
 
-      <footer className="mt-20 text-sm text-gray-600 py-4 text-center bg-gray-100">
+      <footer className="mt-20 text-xs sm:text-sm md:text-base text-gray-600 py-4 text-center bg-gray-100">
         <p>ⓒ WE 웨딩</p>
         <p>삼성 청년 SW 아카데미 D104팀</p>
         <p>Email: wewedding@ssafy.com</p>
