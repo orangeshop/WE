@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import flower from "../../src/assets/images/flower.png";
 import Navbar from "../Components/Navbar";
 import { login, LoginDto } from "../apis/api/login";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,7 +27,15 @@ const LoginForm: React.FC = () => {
         email: formData.email,
         password: formData.password,
       };
-      await login(memberData);
+
+      const response = await login(memberData);
+
+      const { accessToken, refreshToken } = response.data.tokens;
+
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      navigate("/");
     } catch {
       setError("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
     }

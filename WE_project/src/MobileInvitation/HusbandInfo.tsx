@@ -37,8 +37,8 @@ const HusbandInfo: React.FC<HusbandInfoProps> = ({
 
       <div className="flex mb-3">
         <select
-          id="groom-birth-order"
-          name="groom-birth-order"
+          id="groom-order"
+          name="groom-order"
           value={husbandOrder}
           onChange={handleHusbandOrderChange}
           className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${
