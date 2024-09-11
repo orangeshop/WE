@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { logout } from "../apis/api/logout";
-import LoginAlertModal from "./LoginAlertModal";
+import Modal from "./Modal";
 
 interface NavbarProps {
   isScrollSensitive?: boolean;
@@ -185,10 +185,12 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
       </div>
 
       {showModal && (
-        <LoginAlertModal
+        <Modal
           message="로그인 후 이용 가능한 서비스입니다."
           onClose={closeModal}
           onRedirect={redirectToLogin}
+          showRedirectButton={true}
+          redirectButtonText="로그인하기"
         />
       )}
     </nav>
