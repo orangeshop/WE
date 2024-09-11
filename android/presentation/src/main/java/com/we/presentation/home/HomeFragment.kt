@@ -23,9 +23,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         val test = arrayListOf("1", "2", "3")
 
         val adapter = HomeViewPagerAccountAdapter(test,
-            accountClickListener = {
-//            navigateDestination(R.id.action_fragment_home_to_accountFragment)
-            navigateDestination(R.id.action_homeFragment_accountCheckFragment)
+            accountClickListener = {idx ->
+
+                if(idx == test.lastIndex){
+                    navigateDestination(R.id.action_homeFragment_to_accountFragment)
+                }else{
+                    navigateDestination(R.id.action_homeFragment_accountCheckFragment)
+                }
+
+
             },
             accountRemittance = {
                 navigateDestination(R.id.action_fragment_home_to_remittanceFragment)

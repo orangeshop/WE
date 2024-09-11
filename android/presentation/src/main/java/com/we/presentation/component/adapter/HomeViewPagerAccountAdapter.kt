@@ -7,14 +7,15 @@ import com.we.presentation.databinding.ItemAccountBinding
 
 class HomeViewPagerAccountAdapter(
     val item: List<String>,
-    private val accountClickListener: () -> Unit,
+    private val accountClickListener: (idx : Int) -> Unit,
     private val accountRemittance: () -> Unit
 ) : RecyclerView.Adapter<HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>() {
     inner class HomeViewPagerAccountViewHolder(val binding: ItemAccountBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: String){
             binding.apply {
+
                 clItemAccount.setOnClickListener {
-                    accountClickListener()
+                    accountClickListener(adapterPosition)
                 }
 
                 tvAccountAdapterRemittance.setOnClickListener {
