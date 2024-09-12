@@ -4,8 +4,9 @@ sealed interface SignUpUiState {
 
     data object SignUpSuccess : SignUpUiState
 
-    data class SignData(val data : String) : SignUpUiState
 
     data object SignUpLoading : SignUpUiState
+
+    data object SignUpEmpty : SignUpUiState
 
 }
