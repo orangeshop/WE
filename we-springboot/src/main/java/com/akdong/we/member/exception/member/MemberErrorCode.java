@@ -15,6 +15,7 @@ public enum MemberErrorCode implements ErrorCode {
     MEMBER_LEAVED_ERROR(HttpStatus.BAD_REQUEST, "탈퇴한 이용자입니다."),
     API_REGISTER_ERROR(HttpStatus.BAD_REQUEST, "FIN OPEN API 회원가입 오류입니다."),
     API_MAKE_ACCOUNT_ERROR(HttpStatus.BAD_REQUEST, "FIN OPEN API 계좌생성 오류입니다."),
+    API_DEPOSIT_ERROR(HttpStatus.BAD_REQUEST, "FIN OPEN API 입금 오류입니다."),
     COUPLE_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "커플을 찾을 수 없습니다."),
     ;
 

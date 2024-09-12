@@ -38,12 +38,6 @@ public class MemberService {
 
 	private final PasswordEncoder passwordEncoder;
 	private final FinApiCallService finApiCallService;
-	@Value("${fin-api.url}")
-	private String baseUrl;
-	@Autowired
-	private RestTemplate restTemplate;
-
-
 
 	@Transactional
 	public Member createUser(MemberRegisterPostReq userRegisterInfo) {
@@ -58,25 +52,32 @@ public class MemberService {
 			throw new MemberException(MemberErrorCode.API_REGISTER_ERROR);
 		}
 
-//		String accountNo = finApiCallService.makeAccount(userKey);
-//		if(accountNo == null){
-//			throw new MemberException(MemberErrorCode.API_MAKE_ACCOUNT_ERROR);
-//		}
+		String accountNo = finApiCallService.makeAccount(userKey);
+		if(accountNo == null){
+			throw new MemberException(MemberErrorCode.API_MAKE_ACCOUNT_ERROR);
+		}
+
+		String transactionUniqueNo = finApiCallService.deposit(accountNo, 50000000L, "초기 자본 금액 입금", userKey);
+		if(transactionUniqueNo == null){
+			throw new MemberException(MemberErrorCode.API_DEPOSIT_ERROR);
+		}
+		log.info("입금 거래 고유번호 : {}",transactionUniqueNo);
 
 		Member member = Member.builder()
 				.email(userRegisterInfo.getEmail())
 				.password(passwordEncoder.encode(userRegisterInfo.getPassword()))
 				.nickname(userRegisterInfo.getNickname())
+				.pin(userRegisterInfo.getPin())
 				.regDate(LocalDateTime.now())
 				.userKey(userKey)
 				.build();
 
-//		MemberAccount memberAccount = MemberAccount.builder()
-//				.member(member)
-//				.account(accountNo)
-//				.build();
+		MemberAccount memberAccount = MemberAccount.builder()
+				.member(member)
+				.account(accountNo)
+				.build();
 
-//		memberAccountRepository.save(memberAccount);
+		memberAccountRepository.save(memberAccount);
 		return memberRepository.save(member);
 	}
 
@@ -136,6 +137,4 @@ public class MemberService {
 		}
 
 	}
-
-
 }

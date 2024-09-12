@@ -23,5 +23,7 @@ public class MemberRegisterPostReq {
 	@Schema(description = "닉네임", example = "테스트1")
 	private String nickname;
 
+	@Schema(description = "간편비밀번호", example = "123456")
+	private String pin;
 
 }
