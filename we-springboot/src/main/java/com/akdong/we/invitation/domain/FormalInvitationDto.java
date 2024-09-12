@@ -15,7 +15,6 @@ public class FormalInvitationDto {
 
     // 초대장 URL
     private String url;
-    private MultipartFile file;
 
     // 신랑 측 정보
     private String groomLastName;
