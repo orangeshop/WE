@@ -3,8 +3,10 @@ package com.akdong.we.api;
 import com.akdong.we.api.request.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.services.storage.Storage;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -229,5 +231,91 @@ public class FinApiCallService {
             log.error("Exception occurred during FinAPI registration: {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
+    }
+
+    public String openAccountAuth(String userKey, String accountNo){
+        String[] dateAndTime = createFormatDateTime();
+
+        CommonRequestHeader Header = CommonRequestHeader.customBuilder()
+                .apiName("openAccountAuth")
+                .transmissionDate(dateAndTime[0])
+                .transmissionTime(dateAndTime[1])
+                .apiServiceCode("openAccountAuth")
+                .apiKey(apiKey)
+                .userKey(userKey)
+                .build();
+
+        OpenAccountAuthRequest openAccountAuthRequest = OpenAccountAuthRequest.builder()
+                .Header(Header)
+                .accountNo(accountNo)
+                .authText("akdong")
+                .build();
+
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<OpenAccountAuthRequest> requestEntity = new HttpEntity<>(openAccountAuthRequest, httpHeaders);
+        String url = baseUrl + "/edu/accountAuth/openAccountAuth";
+
+        try{
+            log.debug("sent openAccountAuth request to FinOpenApi server, url={}", url);
+            log.debug("Request Body: {}", objectMapper.writeValueAsString(requestEntity));
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            log.debug("received openAccountAuth response from FinOpenApi server, response={}", response);
+            String responseBody = response.getBody();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            JsonNode recNode = jsonNode.get("REC");
+            String transactionUniqueNo = recNode.get("transactionUniqueNo").asText();
+            return getTransactionHistory(userKey, accountNo, transactionUniqueNo);
+
+        }catch(Exception e){
+            log.error("Exception occurred during FinAPI openAccountAuth: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    public String getTransactionHistory(String userKey, String accountNo, String transactionUniqueNo){
+        String[] dateAndTime = createFormatDateTime();
+
+        CommonRequestHeader Header = CommonRequestHeader.customBuilder()
+                .apiName("inquireTransactionHistory")
+                .transmissionDate(dateAndTime[0])
+                .transmissionTime(dateAndTime[1])
+                .apiServiceCode("inquireTransactionHistory")
+                .apiKey(apiKey)
+                .userKey(userKey)
+                .build();
+
+        GetTransactionHistoryRequest getTransactionHistoryRequest = GetTransactionHistoryRequest.builder()
+                .Header(Header)
+                .accountNo(accountNo)
+                .transactionUniqueNo(transactionUniqueNo)
+                .build();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<GetTransactionHistoryRequest> requestEntity = new HttpEntity<>(getTransactionHistoryRequest, httpHeaders);
+        String url = baseUrl + "/edu/demandDeposit/inquireTransactionHistory";
+
+        try{
+            log.debug("sent getTransactionHistoryRequest request to FinOpenApi server, url={}", url);
+            log.debug("Request Body: {}", objectMapper.writeValueAsString(requestEntity));
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            log.debug("received getTransactionHistoryRequest response from FinOpenApi server, response={}", response);
+            String responseBody = response.getBody();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            JsonNode recNode = jsonNode.get("REC");
+            return recNode.get("transactionSummary").asText();
+
+        }catch(Exception e){
+            log.error("Exception occurred during FinAPI openAccountAuth: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+
+
     }
 }
