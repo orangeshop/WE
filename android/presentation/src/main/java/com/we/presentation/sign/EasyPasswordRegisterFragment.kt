@@ -2,10 +2,12 @@ package com.we.presentation.sign
 
 import android.widget.Button
 import android.widget.TableRow
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentEasyPasswordRegisterBinding
+import com.we.presentation.sign.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -13,12 +15,16 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class EasyPasswordRegisterFragment :
     BaseFragment<FragmentEasyPasswordRegisterBinding>(R.layout.fragment_easy_password_register) {
+
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
+
     private lateinit var buttonList: MutableList<Button>
+
     override fun initView() {
         initPassword()
         initClickEvent()
-
     }
+
 
     private fun initPassword() {
         buttonList = mutableListOf()
@@ -39,6 +45,9 @@ class EasyPasswordRegisterFragment :
 
     private fun initClickEvent() {
         binding.apply {
+            ivBack.setOnClickListener {
+                navigatePopBackStack()
+            }
             buttonList.forEach { button ->
                 button.setOnClickListener {
                     setBtnSelected(button)
@@ -57,7 +66,7 @@ class EasyPasswordRegisterFragment :
             pair.first.isSelected = true
             pair.second.isSelected = true
             button.isSelected = true
-            delay(300L)
+            delay(200L)
             pair.first.isSelected = false
             pair.second.isSelected = false
             button.isSelected = false

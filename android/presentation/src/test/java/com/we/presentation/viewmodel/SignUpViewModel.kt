@@ -36,11 +36,8 @@ class SignUpViewModel @Inject constructor(
     private val _nickname = MutableStateFlow<String>("")
     val nickname: StateFlow<String> get() = _nickname
 
-    private val _easyPassword = MutableStateFlow<List<String>>(mutableListOf())
-    val easyPassword: StateFlow<List<String>> get() = _easyPassword
 
-
-     val _nextButtonActivate = MutableSharedFlow<Boolean>(1)
+    val _nextButtonActivate = MutableSharedFlow<Boolean>(1)
     val nextButtonActivate: SharedFlow<Boolean> get() = _nextButtonActivate
 
     fun setEmail(email: String) {
@@ -57,6 +54,28 @@ class SignUpViewModel @Inject constructor(
 
     fun setNickName(nickname: String) {
         _nickname.value = nickname
+    }
+
+    private val _easyPassword = MutableStateFlow<MutableList<String>>(mutableListOf())
+    val easyPassword: StateFlow<List<String>> get() = _easyPassword
+
+    fun addEasyPassword(value: String) {
+        _easyPassword.value.add(value)
+    }
+
+    fun removeEasyPassword() {
+        _easyPassword.value.removeLast()
+    }
+
+    private val _easyPasswordCheck = MutableStateFlow<MutableList<String>>(mutableListOf())
+    val easyPasswordCheck: StateFlow<List<String>> get() = _easyPasswordCheck
+
+    fun addEasyPasswordCheck(value: String) {
+        _easyPasswordCheck.value.add(value)
+    }
+
+    fun removeEasyPasswordCheck() {
+        _easyPasswordCheck.value.removeLast()
     }
 
     private fun checkSignNext() {
