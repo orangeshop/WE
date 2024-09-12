@@ -8,10 +8,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @Builder
-public class CreateAccountRequest {
+public class HeaderOnlyRequest {
     @JsonProperty("Header")
     private CommonRequestHeader Header;
-    private String accountTypeUniqueNo;
 }

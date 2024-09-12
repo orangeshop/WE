@@ -1,8 +1,6 @@
 package com.akdong.we.api;
 
-import com.akdong.we.api.request.ApiMemberRegisterRequest;
-import com.akdong.we.api.request.CommonRequestHeader;
-import com.akdong.we.api.request.CreateAccountRequest;
+import com.akdong.we.api.request.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
@@ -36,6 +34,24 @@ public class FinApiCallService {
     @PostConstruct
     public void printLogBaseUrl() {
         log.info("----------FinAPI URL={}----------", baseUrl);
+    }
+
+    public String[] createFormatDateTime(){
+        String[] dateAndTime = new String[2];
+
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HHmmss");
+
+        String formattedDate = currentDate.format(dateFormatter);
+        String formattedTime = currentTime.format(timeFormatter);
+
+        dateAndTime[0] = formattedDate;
+        dateAndTime[1] = formattedTime;
+
+        return dateAndTime;
     }
 
     public String apiRegister(String email) {
@@ -97,7 +113,6 @@ public class FinApiCallService {
                 .accountTypeUniqueNo("001-1-0914b8aac1e947")
                 .build();
 
-
         // HTTP 헤더 설정
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -130,6 +145,87 @@ public class FinApiCallService {
             log.error("ResourceAccessException: {}", e.getMessage(), e);
             return null;
         } catch (Exception e) {
+            log.error("Exception occurred during FinAPI registration: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String deposit(String accountNo, Long transactionBalance, String transactionSummary, String userKey){
+
+        String[] dateAndTime = createFormatDateTime();
+
+        CommonRequestHeader Header = CommonRequestHeader.customBuilder()
+                .apiName("updateDemandDepositAccountDeposit")
+                .transmissionDate(dateAndTime[0])
+                .transmissionTime(dateAndTime[1])
+                .apiServiceCode("updateDemandDepositAccountDeposit")
+                .apiKey(apiKey)
+                .userKey(userKey)
+                .build();
+
+        UpdateDepositRequest updateDepositRequest = UpdateDepositRequest.builder()
+                .Header(Header)
+                .accountNo(accountNo)
+                .transactionBalance(transactionBalance)
+                .transactionSummary(transactionSummary)
+                .build();
+
+        // HTTP 헤더 설정
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        // HTTP 요청 생성 (요청 본문에 AccountRequest 포함)
+        HttpEntity<UpdateDepositRequest> requestEntity = new HttpEntity<>(updateDepositRequest, httpHeaders);
+        String url = baseUrl + "/edu/demandDeposit/updateDemandDepositAccountDeposit";
+        try{
+            log.debug("sent Deposit request to FinOpenApi server, url={}", url);
+            log.debug("Request Body: {}", objectMapper.writeValueAsString(requestEntity));
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            log.debug("received Deposit response from FinOpenApi server, response={}", response);
+            String responseBody = response.getBody();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            JsonNode recNode = jsonNode.get("REC");
+            return recNode.get("transactionUniqueNo").asText();
+
+        }catch(Exception e){
+            log.error("Exception occurred during FinAPI registration: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public JsonNode accountList(String userKey){
+        String[] dateAndTime = createFormatDateTime();
+
+        CommonRequestHeader Header = CommonRequestHeader.customBuilder()
+                .apiName("inquireDemandDepositAccountList")
+                .transmissionDate(dateAndTime[0])
+                .transmissionTime(dateAndTime[1])
+                .apiServiceCode("inquireDemandDepositAccountList")
+                .apiKey(apiKey)
+                .userKey(userKey)
+                .build();
+
+        HeaderOnlyRequest headerOnlyRequest = HeaderOnlyRequest.builder()
+                .Header(Header)
+                .build();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<HeaderOnlyRequest> requestEntity = new HttpEntity<>(headerOnlyRequest, httpHeaders);
+        String url = baseUrl + "/edu/demandDeposit/inquireDemandDepositAccountList";
+
+        try{
+            log.debug("sent 계좌 목록 조회 request to FinOpenApi server, url={}", url);
+            log.debug("Request Body: {}", objectMapper.writeValueAsString(requestEntity));
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            log.debug("received Deposit response from FinOpenApi server, response={}", response);
+            String responseBody = response.getBody();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            JsonNode recNode = jsonNode.get("REC");
+            return recNode;
+
+        }catch(Exception e){
             log.error("Exception occurred during FinAPI registration: {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
