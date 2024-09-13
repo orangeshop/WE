@@ -4,7 +4,9 @@ import Home from "./Main/Home";
 import TypeChoice from "./MobileInvitation/TypeChoice";
 import Storage from "./MobileInvitation/Storage";
 import InfoTypeInvitation from "./MobileInvitation/InfoTypeInvitation";
+import InfoTypeSample from "./MobileInvitation/InfoTypeSample";
 import FreeTypeInvitation from "./MobileInvitation/FreeTypeInvitation";
+import FreeTypeSample from "./MobileInvitation/FreeTypeSample";
 import SignUp from "./SignUp/SignUp";
 import LogIn from "./LogIn/Login";
 import Mypage from "./MyPage/mypage";
@@ -20,7 +22,9 @@ const AppRouter: React.FC = () => {
         <Route path="/invitation" element={<TypeChoice />} />
         <Route path="/invitation/storage" element={<Storage />} />
         <Route path="/invite/info" element={<InfoTypeInvitation />} />
+        <Route path="/invite/info/sample" element={<InfoTypeSample />} />
         <Route path="/invite/free" element={<FreeTypeInvitation />} />
+        <Route path="/invite/free/sample" element={<FreeTypeSample />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/account" element={<AccountBook />} />
         {/* 추가적인 라우트들을 여기에 추가하세요@@ */}
