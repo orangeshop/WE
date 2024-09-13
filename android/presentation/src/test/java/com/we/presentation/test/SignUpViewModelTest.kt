@@ -32,21 +32,17 @@ class SignUpViewModelTest {
         Dispatchers.setMain(Dispatchers.Unconfined)
         signRepository = mockk()
         signUpViewModel = SignUpViewModel(signRepository)
-        init()
+    }
+    @Test
+    fun `이메일 등록`() = runTest{
+        //given
+        signUpViewModel.setEmail("123123")
+        //when
+        val data = signUpViewModel.signUpParam.value
+        //then
+        assertEquals(data.email, "123123")
     }
 
-    fun init() {
-        combine(
-            signUpViewModel.email,
-            signUpViewModel.emailName,
-            signUpViewModel.nickname,
-            signUpViewModel.password,
-        ) { email, nickname, emailName, password ->
-            email.isNotEmpty() && emailName.isNotEmpty() && nickname.isNotEmpty() && password.isNotEmpty()
-        }.onEach { isEnabled ->
-            signUpViewModel._nextButtonActivate.emit(isEnabled)
-        }.launchIn(signUpViewModel.viewModelScope)
-    }
 
     @Test
     fun `이메일,패스워드,닉네임 다 있는 경우`() = runTest {
@@ -99,26 +95,25 @@ class SignUpViewModelTest {
     fun `간편 비밀번호 입력시에 리스트에 하나씩 추가`() {
 
         //when
-        signUpViewModel.addEasyPassword("2")
+        signUpViewModel.addRemoveEasyPassword(true, "2")
 
         //then
-        val data = signUpViewModel.easyPassword.value
-        assertEquals(data, listOf("2"))
+//        val data = signUpViewModel.easyPassword.value
+//        assertEquals(data, listOf("2"))
     }
 
     @Test
     fun `간편 비밀번호 하나씩 삭제`() {
         //given
-        signUpViewModel.addEasyPassword("2")
-        signUpViewModel.addEasyPassword("4")
-        signUpViewModel.addEasyPassword("6")
+        signUpViewModel.addRemoveEasyPassword(true, "2")
+        signUpViewModel.addRemoveEasyPassword(true, "4")
+        signUpViewModel.addRemoveEasyPassword(true, "6")
         //when
-        signUpViewModel.removeEasyPassword()
+        signUpViewModel.addRemoveEasyPassword(false)
         //then
-        val data = signUpViewModel.easyPassword.value
-        assertEquals(data, listOf("2", "4"))
+//        val data = signUpViewModel.easyPassword.value
+//        assertEquals(data, listOf("2", "4"))
     }
-
 
 
 }

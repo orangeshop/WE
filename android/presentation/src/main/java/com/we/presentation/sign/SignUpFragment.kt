@@ -11,6 +11,7 @@ import com.we.presentation.sign.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -21,10 +22,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     override fun initView() {
         initClickEvent()
         observeNextButton()
-        observeParam()
+        observeUserInput()
+        observeSignParam()
     }
 
-    private fun observeParam() {
+    private fun observeUserInput() {
         binding.apply {
             etSignUpEmail.addTextChangedListener {
                 signUpViewModel.setEmail(it.toString())
@@ -39,7 +41,14 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                 signUpViewModel.setNickName(it.toString())
             }
         }
+    }
 
+    private fun observeSignParam() {
+        signUpViewModel.signUpParam.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                signUpViewModel.isSignUpParamValid(it)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
 

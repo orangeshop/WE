@@ -1,22 +1,15 @@
 package com.we.presentation.sign.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.data.repository.SignRepository
-import com.data.util.ApiResult
-import com.data.util.safeApiCall
 import com.we.model.SignUpParam
 import com.we.presentation.sign.model.SignUpUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,78 +17,85 @@ class SignUpViewModel @Inject constructor(
     private val signRepository: SignRepository
 ) : ViewModel() {
 
-    private val _email = MutableStateFlow<String>("")
-    val email: StateFlow<String> get() = _email
 
-    private val _emailName = MutableStateFlow<String>("")
-    val emailName: StateFlow<String> get() = _emailName
+    private val _signUpParam = MutableStateFlow<SignUpParam>(SignUpParam())
+    val signUpParam: StateFlow<SignUpParam> get() = _signUpParam
 
-    private val _password = MutableStateFlow<String>("")
-    val password: StateFlow<String> get() = _password
-
-    private val _nickname = MutableStateFlow<String>("")
-    val nickname: StateFlow<String> get() = _nickname
-
-    private val _easyPassword = MutableStateFlow<List<String>>(mutableListOf())
-    val easyPassword: StateFlow<List<String>> get() = _easyPassword
+    private val _easyPasswordType = MutableStateFlow<Boolean>(true)
+    val easyPasswordType: StateFlow<Boolean> get() = _easyPasswordType
 
 
-     val _nextButtonActivate = MutableSharedFlow<Boolean>(1)
+    fun addRemoveEasyPassword(type: Boolean, value: String = "") {
+        _signUpParam.update {
+            it.copy(easyPassword =
+            it.easyPassword.toMutableList().also { list ->
+                if (type) list.add(value) else list.removeLast()
+            }
+            )
+        }
+    }
+
+    fun addRemoveEasyPasswordCheck(type: Boolean, value: String = "") {
+        _signUpParam.update {
+            it.copy(easyPasswordCheck =
+            it.easyPasswordCheck.toMutableList().also { list ->
+                if (type) list.add(value) else list.removeLast()
+            }
+            )
+        }
+    }
+
+    suspend fun isSignUpParamValid(param: SignUpParam) {
+        _nextButtonActivate.emit(
+            param.email.isNotEmpty() &&
+                    param.emailName.isNotEmpty() &&
+                    param.password.isNotEmpty() &&
+                    param.nickname.isNotEmpty()
+        )
+    }
+
+
+    val _nextButtonActivate = MutableSharedFlow<Boolean>(1)
     val nextButtonActivate: SharedFlow<Boolean> get() = _nextButtonActivate
 
     fun setEmail(email: String) {
-        _email.value = email
+        _signUpParam.update { it.copy(email = email) }
     }
 
     fun setEmailName(emailName: String) {
-        _emailName.value = emailName
+        _signUpParam.update { it.copy(emailName = emailName) }
     }
 
     fun setPassword(password: String) {
-        _password.value = password
+        _signUpParam.update { it.copy(password = password) }
     }
 
     fun setNickName(nickname: String) {
-        _nickname.value = nickname
+        _signUpParam.update { it.copy(nickname = nickname) }
     }
 
-    private fun checkSignNext() {
-        combine(
-            email,
-            emailName,
-            nickname,
-            password,
-        ) { email, nickname, emailName, password ->
-            email.isNotEmpty() && emailName.isNotEmpty() && nickname.isNotEmpty() && password.isNotEmpty()
-        }.onEach { isEnabled ->
-            _nextButtonActivate.emit(isEnabled)
-        }.launchIn(viewModelScope)
+    fun setEasyPasswordType(type: Boolean) {
+        _easyPasswordType.value = type
     }
 
-    init {
-        checkSignNext()
-    }
-
-    private val _signUpUiState = MutableStateFlow(SignUpUiState.SignUpEmpty)
-    val signUpUiState: StateFlow<SignUpUiState> get() = _signUpUiState
-
-    fun signUp(email: String, password: String, nickname: String) {
-        viewModelScope.launch {
-            when (val response = safeApiCall(Dispatchers.IO) {
-                signRepository.postSignUp(
-                    SignUpParam(
-                        "", "", ""
-                    )
-                )
-            }) {
-                is ApiResult.Success -> {
-
-                }
-
-                is ApiResult.Error -> {
-
-                }
-            }
+    fun checkEasyPasswordEquals(){
+        val easyPassword = signUpParam.value.easyPassword
+        val easyPasswordCheck = signUpParam.value.easyPasswordCheck
+        _signUpUiState.value = if(easyPassword.equals(easyPasswordCheck)){
+            SignUpUiState.EasyPasswordSuccess
+        }else{
+            SignUpUiState.SignUpError("에러입니다요")
         }
     }
+
+
+    private val _signUpUiState = MutableStateFlow<SignUpUiState>(SignUpUiState.SignUpEmpty)
+    val signUpUiState : StateFlow<SignUpUiState> get() = _signUpUiState
+
+    fun setSignUpUiState(value : SignUpUiState){
+        _signUpUiState.value = value
+    }
+
+
+
 }
