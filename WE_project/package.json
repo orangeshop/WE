@@ -32,10 +32,7 @@
     "react-load-script": "^0.0.6",
     "react-modal": "^3.16.1",
     "react-router": "^6.26.2",
-<<<<<<< HEAD
-=======
     "react-router-dom": "^6.26.2",
->>>>>>> e31a95357ceb7800e98480fe468fc159db144136
     "react-sketch": "^0.5.1"
   },
   "devDependencies": {
