@@ -4,7 +4,8 @@ import ImageDropzone from "./ImageDropzone";
 import HusbandInfo from "./HusbandInfo";
 import BrideInfo from "./BrideInfo";
 import Greetings from "./Greetings";
-import WeddingLocationAndDate from "./LocationAndDate";
+import LocationAndDate from "./LocationAndDate";
+
 
 const InfoTypeInvitation: React.FC = () => {
   const [, setSelectedImage] = useState<File | null>(null);
@@ -73,7 +74,7 @@ const InfoTypeInvitation: React.FC = () => {
           />
         </div>
         <Greetings value={greetings} onChange={handleGreetingsChange} />
-        <WeddingLocationAndDate
+        <LocationAndDate
           time_day={time_day}
           time_hour={time_hour}
           time_minute={time_minute}
