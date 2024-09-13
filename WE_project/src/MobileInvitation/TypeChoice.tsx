@@ -7,10 +7,8 @@ const TypeChoice: React.FC = () => {
   const handleCreateInvitation = async () => {
     try {
       await createFormalInvitation({});
-      alert("Invitation creation request sent!");
     } catch (error) {
       console.error("Error creating invitation:", error);
-      alert("Failed to send invitation request.");
     }
   };
 
@@ -42,7 +40,7 @@ const TypeChoice: React.FC = () => {
                   className="py-2 px-5 rounded-3xl text-md bg-[#FFD0DE] mt-5 font-default"
                   onClick={() => {
                     handleCreateInvitation();
-                    window.location.href = "/invite/info";
+                    // window.location.href = "/invite/info"; //콘솔 확인하려고 일단 주석 처리 해둠
                   }}
                 >
                   제작하기

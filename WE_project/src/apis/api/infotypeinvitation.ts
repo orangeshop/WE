@@ -54,7 +54,8 @@ export const createFormalInvitation = async (
       },
     });
     console.log(response);
-    return response.data.id;
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error("Error during formal invitation creation:", error);
     throw error;

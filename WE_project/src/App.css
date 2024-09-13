@@ -34,6 +34,14 @@
   letter-spacing: 8px;
 }
 
+.letter-space-sm {
+  letter-spacing: 2px;
+}
+
 .word-space {
   word-spacing: 20px;
+}
+
+.line-height {
+  line-height: 30px;
 }
