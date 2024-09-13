@@ -30,3 +30,10 @@
 .modal button {
   align-self: flex-end;
 }
+.letter-space {
+  letter-spacing: 8px;
+}
+
+.word-space {
+  word-spacing: 20px;
+}
