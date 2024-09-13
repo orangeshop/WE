@@ -35,8 +35,8 @@ const BrideInfo: React.FC<BrideInfoProps> = ({
 
       <div className="flex mb-3">
         <select
-          id="bride-order"
-          name="bride-order"
+          id="bride-birth-order"
+          name="bride-birth-order"
           value={brideOrder}
           onChange={handleBrideOrderChange}
           className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${

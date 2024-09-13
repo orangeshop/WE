@@ -5,10 +5,11 @@ import HusbandInfo from "./HusbandInfo";
 import BrideInfo from "./BrideInfo";
 import Greetings from "./Greetings";
 import LocationAndDate from "./LocationAndDate";
-
+import { inputImage } from "../apis/api/imagedropzone";
+import { useParams } from "react-router-dom";
 
 const InfoTypeInvitation: React.FC = () => {
-  const [, setSelectedImage] = useState<File | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [, setImageSrc] = useState<string | null>(null);
   const [brideOrder, setBrideOrder] = useState<string>("");
   const [greetings, setGreetings] = useState<string>("");
@@ -16,6 +17,7 @@ const InfoTypeInvitation: React.FC = () => {
   const [time_day, setDayTime] = useState<string>("");
   const [time_hour, setHourTime] = useState<string>("");
   const [time_minute, setMinuteTime] = useState<string>("");
+  const { invitationId } = useParams();
 
   const handleHusbandOrderChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -50,6 +52,23 @@ const InfoTypeInvitation: React.FC = () => {
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setGreetings(event.target.value);
+  };
+
+  const ImageUpload = async () => {
+    if (selectedImage && invitationId) {
+      const dto = {
+        url: selectedImage,
+      };
+
+      try {
+        await inputImage(invitationId, dto);
+        alert("이미지 업로드 완료!");
+      } catch (error) {
+        console.error("이미지 업로드 중 오류 발생:", error);
+      }
+    } else {
+      alert("이미지가 선택되지 않았습니다.");
+    }
   };
 
   return (
@@ -87,7 +106,10 @@ const InfoTypeInvitation: React.FC = () => {
           <button className="w-24 h-10 text-sm rounded-md text-md bg-[#FFECCA]">
             임시저장
           </button>
-          <button className="w-24 h-10 text-sm rounded-md text-md bg-[#FFD0DE]">
+          <button
+            className="w-24 h-10 text-sm rounded-md text-md bg-[#FFD0DE]"
+            onClick={ImageUpload}
+          >
             만들기
           </button>
         </div>

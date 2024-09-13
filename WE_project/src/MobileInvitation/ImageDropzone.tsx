@@ -39,6 +39,12 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+
+      if (!file.type.startsWith("image/")) {
+        alert("이미지 파일만 업로드 가능합니다.");
+        return;
+      }
+
       setImageSrc(URL.createObjectURL(file));
       setSelectedImage(file);
       setShowCropper(true);
@@ -94,10 +100,10 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
       ) : (
         <label
           className="flex flex-col items-center justify-center cursor-pointer w-full h-full"
-          htmlFor="file-input"
+          htmlFor="url"
         >
           <input
-            id="file-input"
+            id="url"
             type="file"
             accept="image/*"
             onChange={handleFileChange}

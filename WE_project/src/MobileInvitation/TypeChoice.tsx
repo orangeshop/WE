@@ -6,7 +6,8 @@ import { createFormalInvitation } from "../apis/api/infotypeinvitation";
 const TypeChoice: React.FC = () => {
   const handleCreateInvitation = async () => {
     try {
-      await createFormalInvitation({});
+      const invitationId = await createFormalInvitation({});
+      window.location.href = `/invite/info/${invitationId}`;
     } catch (error) {
       console.error("Error creating invitation:", error);
     }
@@ -38,10 +39,7 @@ const TypeChoice: React.FC = () => {
                 <button
                   type="submit"
                   className="py-2 px-5 rounded-3xl text-md bg-[#FFD0DE] mt-5 font-default"
-                  onClick={() => {
-                    handleCreateInvitation();
-                    // window.location.href = "/invite/info"; //콘솔 확인하려고 일단 주석 처리 해둠
-                  }}
+                  onClick={handleCreateInvitation}
                 >
                   제작하기
                 </button>
@@ -70,10 +68,6 @@ const TypeChoice: React.FC = () => {
                 <button
                   type="submit"
                   className="py-2 px-5 rounded-3xl text-md bg-[#FFD0DE] mt-5"
-                  onClick={() => {
-                    handleCreateInvitation();
-                    window.location.href = "/invite/free";
-                  }}
                 >
                   제작하기
                 </button>
