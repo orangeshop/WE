@@ -21,7 +21,10 @@ const AppRouter: React.FC = () => {
         <Route path="/login" element={<LogIn />} />
         <Route path="/invitation" element={<TypeChoice />} />
         <Route path="/invitation/storage" element={<Storage />} />
-        <Route path="/invite/info" element={<InfoTypeInvitation />} />
+        <Route
+          path="/invite/info/:invitationId"
+          element={<InfoTypeInvitation />}
+        />
         <Route path="/invite/info/sample" element={<InfoTypeSample />} />
         <Route path="/invite/free" element={<FreeTypeInvitation />} />
         <Route path="/invite/free/sample" element={<FreeTypeSample />} />

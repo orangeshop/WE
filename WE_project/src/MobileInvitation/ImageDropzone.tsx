@@ -40,7 +40,6 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
 
-      // 이미지 파일만 허용
       if (!file.type.startsWith("image/")) {
         alert("이미지 파일만 업로드 가능합니다.");
         return;

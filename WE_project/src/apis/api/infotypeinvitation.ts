@@ -46,18 +46,16 @@ export type FormalInvitationDto = {
 
 export const createFormalInvitation = async (
   dto: FormalInvitationDto
-): Promise<void> => {
+): Promise<string> => {
   try {
     const response = await api.post(`/invitation/formal`, dto, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log(response);
-    console.log(response.data);
-    return response.data;
+    return response.data.invitation_id;
   } catch (error) {
-    console.error("Error during formal invitation creation:", error);
+    console.error("Formal invitation 생성 중 오류 발생:", error);
     throw error;
   }
 };
