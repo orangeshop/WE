@@ -70,4 +70,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.converter.sclars)
 
+    // DataStore
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore.core)
 }

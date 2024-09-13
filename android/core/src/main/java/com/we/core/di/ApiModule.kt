@@ -16,7 +16,9 @@ object ApiModule {
     @Singleton
     @Provides
     fun provideSignApi(
+        @NetworkModule.NoInterceptorRetrofit
         retrofit: Retrofit
     ): SignApi = retrofit.create()
+
 
 }
