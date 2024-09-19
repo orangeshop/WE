@@ -4,22 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
+import androidx.databinding.DataBindingUtil.inflate
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class BaseBottomSheet<VB : ViewBinding> : BottomSheetDialogFragment() {
+abstract class BaseBottomSheet<VB : ViewBinding>(private val layoutResId: Int) :
+    BottomSheetDialogFragment() {
 
     private var _binding: VB? = null
     protected val binding get() = _binding!!
-
-    abstract fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = getViewBinding(inflater, container)
+        _binding = inflate(inflater, layoutResId, container, false)
         return binding.root
     }
 
@@ -29,6 +31,15 @@ abstract class BaseBottomSheet<VB : ViewBinding> : BottomSheetDialogFragment() {
     }
 
     abstract fun setupViews()
+
+    //Navigation 이동
+    fun navigateDestination(@IdRes action: Int) {
+        findNavController().navigate(action)
+    }
+
+    fun navigatePopBackStack() {
+        findNavController().popBackStack()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

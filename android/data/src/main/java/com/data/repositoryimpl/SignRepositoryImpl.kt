@@ -22,9 +22,11 @@ class SignRepositoryImpl @Inject constructor(
 ) : SignRepository {
     override fun postSignUp(signUpParam: SignUpParam): Flow<ApiResult<ResponseSignUp>> {
         return flow {
-            safeApiCall {
-                signDataSource.postSignUp(signUpParam.toModel())
-            }
+            emit(
+                safeApiCall {
+                    signDataSource.postSignUp(signUpParam.toModel())
+                }
+            )
         }
     }
 
