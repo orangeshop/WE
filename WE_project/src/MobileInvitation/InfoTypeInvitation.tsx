@@ -13,17 +13,10 @@ const InfoTypeInvitation: React.FC = () => {
   const [, setImageSrc] = useState<string | null>(null);
   const [brideOrder, setBrideOrder] = useState<string>("");
   const [greetings, setGreetings] = useState<string>("");
-  const [husbandOrder, setHusbandOrder] = useState<string>("");
   const [time_day, setDayTime] = useState<string>("");
   const [time_hour, setHourTime] = useState<string>("");
   const [time_minute, setMinuteTime] = useState<string>("");
   const { invitationId } = useParams();
-
-  const handleHusbandOrderChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setHusbandOrder(event.target.value);
-  };
 
   const handleBrideOrderChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -83,10 +76,7 @@ const InfoTypeInvitation: React.FC = () => {
           <div className="mt-20 border border-gray-200"></div>
         </div>
         <div>
-          <HusbandInfo
-            husbandOrder={husbandOrder}
-            handleHusbandOrderChange={handleHusbandOrderChange}
-          />
+          <HusbandInfo />
           <BrideInfo
             brideOrder={brideOrder}
             handleBrideOrderChange={handleBrideOrderChange}
