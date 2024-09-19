@@ -22,7 +22,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun setNavGraph() {
-        val type = Intent().getBooleanExtra("type", false)
+        val type = Intent().getBooleanExtra("type", true)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController

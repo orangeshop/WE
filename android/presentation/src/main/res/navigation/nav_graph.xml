@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/homeFragment">
+    app:startDestination="@id/myPageFragment">
 
     <fragment
         android:id="@+id/guestFragment"
         android:name="com.we.presentation.guest.GuestFragment"
-        tools:layout="@layout/fragment_guest" />
+        tools:layout="@layout/fragment_guest" >
+        <action
+            android:id="@+id/action_guestFragment_to_coupleFragment"
+            app:destination="@id/coupleFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/homeFragment"
