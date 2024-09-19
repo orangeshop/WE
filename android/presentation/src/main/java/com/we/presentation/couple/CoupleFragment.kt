@@ -25,13 +25,15 @@ class CoupleFragment : BaseFragment<FragmentCoupleBinding>(R.layout.fragment_cou
 
     override fun initView() {
         initClickEventListener()
-        coupleViewModel.getCoupleCode(){
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
-                    coupleViewModel.coupleCode.collect{ coupleData ->
-                        Timber.d("Succese "+coupleData)
-                        binding.tvCoupleCode.text = coupleData.code
-                    }
+        initCoupleCode()
+    }
+
+    private fun initCoupleCode(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                coupleViewModel.coupleCode.collect { coupleData ->
+
+                    binding.tvCoupleCode.text = coupleData.code
                 }
             }
         }

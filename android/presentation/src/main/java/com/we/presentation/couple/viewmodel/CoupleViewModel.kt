@@ -34,21 +34,20 @@ class CoupleViewModel @Inject constructor(
     val coupleCode: Flow<CoupleData> get() = _coupleCode
 
     init {
-//        getCoupleCode()
+        getCoupleCode()
     }
 
-    fun setCode(coupleCode: String){
+    fun setCode(coupleCode: String) {
         _coupleCode.update { it.copy(coupleCode) }
     }
 
-    fun getCoupleCode(onSucces: (String) -> Unit) {
+    fun getCoupleCode() {
         viewModelScope.launch {
             coupleRepository.getCoupleCode().collectLatest {
                 when (it) {
                     is ApiResult.Success -> {
                         Timber.d("success " + it.data.code)
                         setCode(it.data.code)
-                        onSucces(it.data.code)
                     }
 
                     is ApiResult.Error -> {
