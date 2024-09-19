@@ -54,11 +54,12 @@ dependencies {
 
     //Test
     testImplementation(libs.junit)
+    testImplementation(libs.coroutine.test)
+    testImplementation(libs.google.truth)
+    testImplementation(libs.mock)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    testImplementation(libs.google.truth)
     androidTestImplementation(libs.google.truth)
-
 
     // Lifecycle
     implementation(libs.lifecycle.runtime.ktx)

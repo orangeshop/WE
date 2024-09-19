@@ -6,6 +6,7 @@ import com.data.model.request.RequestLogin
 import com.data.model.request.RequestSignUp
 import com.data.model.response.ResponseLogin
 import com.data.model.response.ResponseSignUp
+import timber.log.Timber
 import javax.inject.Inject
 
 class SignDataSourceImpl @Inject constructor(

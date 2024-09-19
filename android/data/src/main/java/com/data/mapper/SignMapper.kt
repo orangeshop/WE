@@ -5,8 +5,9 @@ import com.we.model.SignUpParam
 
 fun SignUpParam.toModel(): RequestSignUp {
     return RequestSignUp(
-        email = this.email,
+        email = "${this.email}@${this.emailName}",
         password = this.password,
-        nickname = this.nickname
+        nickname = this.nickname,
+        pin = this.easyPassword.joinToString("")
     )
 }

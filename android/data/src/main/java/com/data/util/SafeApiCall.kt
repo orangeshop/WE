@@ -18,7 +18,6 @@ suspend fun <T> safeApiCall(
         } catch (throwable: Throwable) {
             when (throwable) {
                 is IOException -> {
-                    throwable.printStackTrace()
                     ApiResult.error(Exception(NETWORK_ERROR))
                 }
 
