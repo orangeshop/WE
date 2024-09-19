@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import {
   GroomInfoDto,
   BirthOrder,
@@ -6,7 +6,7 @@ import {
 } from "../apis/api/groominfo";
 import { useParams } from "react-router-dom";
 
-const HusbandInfo: React.FC = () => {
+const HusbandInfo = forwardRef((_, ref) => {
   const [lastName, setGroomLastName] = useState("");
   const [firstName, setGroomFirstName] = useState("");
   const [birthOrder, setGroomBirthOrder] = useState<BirthOrder | "">("");
@@ -35,12 +35,17 @@ const HusbandInfo: React.FC = () => {
     try {
       if (dto && invitationId) {
         await inputGroomInfo(invitationId, dto);
+        alert("신랑 정보가 등록되었습니다.");
       }
     } catch (error) {
       console.error("신랑 정보 업로드 중 오류 발생:", error);
       alert("신랑 정보 업로드 중 오류가 발생했습니다.");
     }
   };
+
+  useImperativeHandle(ref, () => ({
+    submit: handleSubmit,
+  }));
 
   return (
     <div>
@@ -134,15 +139,8 @@ const HusbandInfo: React.FC = () => {
           required
         />
       </div>
-
-      <button
-        onClick={handleSubmit}
-        className="border border-gray-400 px-4 py-2"
-      >
-        등록
-      </button>
     </div>
   );
-};
+});
 
 export default HusbandInfo;

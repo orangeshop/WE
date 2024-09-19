@@ -1,12 +1,12 @@
 import api from "../utils/instance";
 
 export enum BirthOrder {
-  FIRST = "FIRST", //장남
-  SECOND = "SECOND", //차남
-  OTHER = "OTHER", //아들
+  FIRST = "FIRST", //장녀
+  SECOND = "SECOND", //차녀
+  OTHER = "OTHER", //딸
 }
 
-export type GroomInfoDto = {
+export type BrideInfoDto = {
   lastName: string;
   firstName: string;
   birthOrder: BirthOrder;
@@ -17,13 +17,13 @@ export type GroomInfoDto = {
   motherFirstName: string;
 };
 
-export const inputGroomInfo = async (
+export const inputBrideInfo = async (
   invitationId: string,
-  dto: GroomInfoDto
+  dto: BrideInfoDto
 ): Promise<void> => {
   try {
     const response = await api.patch(
-      `/invitation/formal/groom/${invitationId}`,
+      `/invitation/formal/bride/${invitationId}`,
       dto,
       {
         headers: {
@@ -35,7 +35,7 @@ export const inputGroomInfo = async (
     console.log(response);
     return response.data;
   } catch (error) {
-    console.error("신랑 정보 업로드 중 오류 발생:", error);
+    console.error("신부 정보 업로드 중 오류 발생:", error);
     throw error;
   }
 };
