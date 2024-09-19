@@ -315,7 +315,45 @@ public class FinApiCallService {
             log.error("Exception occurred during FinAPI openAccountAuth: {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
+    }
 
+    public String checkAuthCode(String userKey, String accountNo, String authText, String authCode){
+        String[] dateAndTime = createFormatDateTime();
 
+        CommonRequestHeader Header = CommonRequestHeader.customBuilder()
+                .apiName("checkAuthCode")
+                .transmissionDate(dateAndTime[0])
+                .transmissionTime(dateAndTime[1])
+                .apiServiceCode("checkAuthCode")
+                .apiKey(apiKey)
+                .userKey(userKey)
+                .build();
+
+        CheckAuthRequest checkAuthRequest = CheckAuthRequest.builder()
+                .Header(Header)
+                .accountNo(accountNo)
+                .authText(authText)
+                .authCode(authCode)
+                .build();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<CheckAuthRequest> requestEntity = new HttpEntity<>(checkAuthRequest, httpHeaders);
+        String url = baseUrl + "/edu/accountAuth/checkAuthCode";
+
+        try{
+            log.debug("Request Body: {}", objectMapper.writeValueAsString(requestEntity));
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            log.debug("received checkAuthCode response from FinOpenApi server, response={}", response);
+            String responseBody = response.getBody();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            JsonNode recNode = jsonNode.get("REC");
+            return recNode.get("status").asText();
+
+        }catch(Exception e){
+            log.error("Exception occurred during FinAPI openAccountAuth: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
     }
 }
