@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { GroomInfoDto, BirthOrder } from "../apis/api/groominfo";
 
 interface HusbandInfoProps {
-  onChange: (data: GroomInfoDto) => void; // 신랑 정보가 변경될 때 부모 컴포넌트로 전달
+  onChange: (data: GroomInfoDto) => void;
 }
 
 const HusbandInfo: React.FC<HusbandInfoProps> = ({ onChange }) => {
@@ -14,7 +14,6 @@ const HusbandInfo: React.FC<HusbandInfoProps> = ({ onChange }) => {
   const [motherLastName, setGroomMotherLastName] = useState("");
   const [motherFirstName, setGroomMotherFirstName] = useState("");
 
-  // onChange를 useCallback으로 감싸서 매번 동일한 함수가 유지되도록 함
   const handleGroomInfoChange = useCallback(() => {
     if (birthOrder) {
       const dto: GroomInfoDto = {
@@ -26,7 +25,7 @@ const HusbandInfo: React.FC<HusbandInfoProps> = ({ onChange }) => {
         motherLastName,
         motherFirstName,
       };
-      onChange(dto); // 신랑 정보가 바뀔 때마다 부모로 전달
+      onChange(dto);
     }
   }, [
     lastName,
