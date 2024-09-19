@@ -8,6 +8,9 @@ import com.data.util.safeApiCall
 import com.we.model.LoginParam
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -17,22 +20,22 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val signRepository: SignRepository
 ) : ViewModel() {
+
+    private val _signInParam = MutableStateFlow<LoginParam>(LoginParam())
+    val signInParam: StateFlow<LoginParam> get() = _signInParam
+
     fun singIn() {
 
         viewModelScope.launch {
-            when (val response = safeApiCall(Dispatchers.IO) {
-                signRepository.postLogin(
-                    LoginParam(
-                        "d104test1027@gmail.com", "1234"
-                    )
-                )
-            }) {
-                is ApiResult.Success -> {
-                    Timber.d("Success " + response.data.first())
-                }
+            signRepository.postLogin(signInParam.value).collectLatest {
+                when (it) {
+                    is ApiResult.Success -> {
+                        Timber.d("Success " + it.data)
+                    }
 
-                is ApiResult.Error -> {
-                    Timber.d("Error")
+                    is ApiResult.Error -> {
+                        Timber.d("Error")
+                    }
                 }
             }
         }

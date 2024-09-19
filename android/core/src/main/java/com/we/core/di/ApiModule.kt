@@ -26,6 +26,7 @@ object ApiModule {
     @Singleton
     @Provides
     fun provideCoupleApi(
+        @Qualifier.InterceptorRetrofit
         retrofit: Retrofit
     ): CoupleApi = retrofit.create()
 

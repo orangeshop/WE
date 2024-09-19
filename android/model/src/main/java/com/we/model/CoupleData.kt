@@ -1,5 +1,5 @@
 package com.we.model
 
-data class CoupleParam(
+data class CoupleData(
     val code : String
 )
