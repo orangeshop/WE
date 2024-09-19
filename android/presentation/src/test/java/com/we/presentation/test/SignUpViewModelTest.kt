@@ -35,9 +35,9 @@ class SignUpViewModelTest {
     }
     @Test
     fun `이메일 등록`() = runTest{
-        //given
+        //given : 이메일 데이터 넣기
         signUpViewModel.setEmail("123123")
-        //when
+        //when : 이메일 데이터 들어갔는지 확인
         val data = signUpViewModel.signUpParam.value
         //then
         assertEquals(data.email, "123123")
@@ -45,50 +45,67 @@ class SignUpViewModelTest {
 
 
     @Test
-    fun `이메일,패스워드,닉네임 다 있는 경우`() = runTest {
-
-        //when
+    fun `이메일,비밀번호,닉네임 다 있는 경우`() = runTest {
+        //given : 이메일, 패스워드, 닉네임 다 있는 경우
         signUpViewModel.setEmail("123")
         signUpViewModel.setEmailName("1424")
         signUpViewModel.setPassword("14242")
         signUpViewModel.setNickName("242424")
 
 
-        //then
-        assertEquals(signUpViewModel.nextButtonActivate.first(), true)
+        //when : 다음 버튼이 활성화 되어야 한다.
+        signUpViewModel.isSignUpParamValid(signUpViewModel.signUpParam.value)
+        val checkNextButton = signUpViewModel.nextButtonActivate.first()
+
+        //then : 다음 버튼 활성화가 true로 변경되었는지 확인
+        assertEquals(checkNextButton, true)
     }
 
     @Test
-    fun `이메일이 빈 경우,패스워드,닉네임 다 있는 경우`() = runTest {
-        //when
+    fun `비밀번호,닉네임만 있는 경우`() = runTest {
+        //given : 패스워드, 닉네임만 있는 경우
         signUpViewModel.setPassword("14242")
         signUpViewModel.setNickName("242424")
 
-        //then
-        assertEquals(signUpViewModel.nextButtonActivate.first(), false)
+
+        //when : 다음 버튼이 비활성화 되어야 한다.
+        signUpViewModel.isSignUpParamValid(signUpViewModel.signUpParam.value)
+        val checkNextButton = signUpViewModel.nextButtonActivate.first()
+
+        //then : 다음 버튼 활성화가 false로 변경되었는지 확인
+        assertEquals(checkNextButton, false)
     }
 
     @Test
-    fun `패스워드가 빈 경우,이메일,닉네임 다 있는 경우`() = runTest {
-        //when
+    fun `이메일,닉네임 만 있는 경우`() = runTest {
+        //given : 이메일, 닉네임 만 있는 경우
         signUpViewModel.setEmail("123")
         signUpViewModel.setEmailName("1424")
         signUpViewModel.setNickName("242424")
 
 
-        //then
-        assertEquals(signUpViewModel.nextButtonActivate.first(), false)
+        //when : 다음 버튼이 비활성화 되어야 한다.
+        signUpViewModel.isSignUpParamValid(signUpViewModel.signUpParam.value)
+        val checkNextButton = signUpViewModel.nextButtonActivate.first()
+
+        //then : 다음 버튼 활성화가 false로 변경되었는지 확인
+        assertEquals(checkNextButton, false)
     }
 
     @Test
-    fun `닉네임이 빈 경우,이메일,패스워드 다 있는 경우`() = runTest {
-        //when
+    fun `닉네임이 빈 경우,이메일,비밀번호만 있는 경우`() = runTest {
+        //given : 이메일, 닉네임 만 있는 경우
         signUpViewModel.setEmail("123")
         signUpViewModel.setEmailName("1424")
-        signUpViewModel.setPassword("14242")
+        signUpViewModel.setPassword("242424")
 
-        //then
-        assertEquals(signUpViewModel.nextButtonActivate.first(), false)
+
+        //when : 다음 버튼이 비활성화 되어야 한다.
+        signUpViewModel.isSignUpParamValid(signUpViewModel.signUpParam.value)
+        val checkNextButton = signUpViewModel.nextButtonActivate.first()
+
+        //then : 다음 버튼 활성화가 false로 변경되었는지 확인
+        assertEquals(checkNextButton, false)
     }
 
     @Test
