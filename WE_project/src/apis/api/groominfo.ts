@@ -22,19 +22,14 @@ export const inputGroomInfo = async (
   dto: GroomInfoDto
 ): Promise<void> => {
   try {
-    const formData = new FormData();
-    formData.append("lastName", dto.lastName);
-    formData.append("firstName", dto.firstName);
-    formData.append("birthOrder", dto.birthOrder);
-    formData.append("fatherLastName", dto.fatherLastName);
-    formData.append("fatherFirstName", dto.fatherFirstName);
-    formData.append("motherLastName", dto.motherLastName);
-    formData.append("motherFirstName", dto.motherFirstName);
-
-    const response = await api.post(
+    const response = await api.patch(
       `/invitation/formal/groom/${invitationId}`,
-      formData,
-      {}
+      dto,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
 
     console.log(response);

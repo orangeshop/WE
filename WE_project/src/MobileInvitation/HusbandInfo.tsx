@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import {
-  GroomInfoDto,
-  BirthOrder,
-  inputGroomInfo,
-} from "../apis/api/groominfo";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { GroomInfoDto, BirthOrder } from "../apis/api/groominfo";
 
-const HusbandInfo: React.FC = () => {
+interface HusbandInfoProps {
+  onChange: (data: GroomInfoDto) => void; // 신랑 정보가 변경될 때 부모 컴포넌트로 전달
+}
+
+const HusbandInfo: React.FC<HusbandInfoProps> = ({ onChange }) => {
   const [lastName, setGroomLastName] = useState("");
   const [firstName, setGroomFirstName] = useState("");
   const [birthOrder, setGroomBirthOrder] = useState<BirthOrder | "">("");
@@ -14,33 +13,36 @@ const HusbandInfo: React.FC = () => {
   const [fatherFirstName, setGroomFatherFirstName] = useState("");
   const [motherLastName, setGroomMotherLastName] = useState("");
   const [motherFirstName, setGroomMotherFirstName] = useState("");
-  const { invitationId } = useParams();
 
-  const handleSubmit = async () => {
-    if (!birthOrder) {
-      alert("신랑 서열을 선택해 주세요.");
-      return;
+  // onChange를 useCallback으로 감싸서 매번 동일한 함수가 유지되도록 함
+  const handleGroomInfoChange = useCallback(() => {
+    if (birthOrder) {
+      const dto: GroomInfoDto = {
+        lastName,
+        firstName,
+        birthOrder: birthOrder as BirthOrder,
+        fatherLastName,
+        fatherFirstName,
+        motherLastName,
+        motherFirstName,
+      };
+      onChange(dto); // 신랑 정보가 바뀔 때마다 부모로 전달
     }
+  }, [
+    lastName,
+    firstName,
+    birthOrder,
+    fatherLastName,
+    fatherFirstName,
+    motherLastName,
+    motherFirstName,
+    onChange,
+  ]);
 
-    const dto: GroomInfoDto = {
-      lastName,
-      firstName,
-      birthOrder: birthOrder as BirthOrder,
-      fatherLastName,
-      fatherFirstName,
-      motherLastName,
-      motherFirstName,
-    };
-
-    try {
-      if (dto && invitationId) {
-        await inputGroomInfo(invitationId, dto);
-      }
-    } catch (error) {
-      console.error("신랑 정보 업로드 중 오류 발생:", error);
-      alert("신랑 정보 업로드 중 오류가 발생했습니다.");
-    }
-  };
+  // 입력 값들이 변할 때마다 handleGroomInfoChange 함수 호출
+  useEffect(() => {
+    handleGroomInfoChange();
+  }, [handleGroomInfoChange]);
 
   return (
     <div>
@@ -134,13 +136,13 @@ const HusbandInfo: React.FC = () => {
           required
         />
       </div>
-
+      {/* 
       <button
         onClick={handleSubmit}
         className="border border-gray-400 px-4 py-2"
       >
         등록
-      </button>
+      </button> */}
     </div>
   );
 };
