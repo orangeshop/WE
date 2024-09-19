@@ -6,13 +6,12 @@ import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentSignInBinding
 import com.we.presentation.main.MainActivity
-import com.we.presentation.sign.viewmodel.SignUpViewModel
+import com.we.presentation.sign.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
-    private val signInViewModel : SignUpViewModel by viewModels()
+    private val signInViewModel : SignInViewModel by viewModels()
     override fun initView() {
         initClickEvent()
     }

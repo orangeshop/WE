@@ -12,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Qualifier
+import com.we.core.util.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -22,10 +22,10 @@ object NetworkModule {
     //local property로 빼기
     val baseUrl = "http://192.168.100.149:8080/v1/"
 
-    @com.we.core.util.Qualifier.InterceptorRetrofit
+    @Qualifier.InterceptorRetrofit
     @Singleton
     @Provides
-    fun provideInterceptorRetrofit(@com.we.core.util.Qualifier.InterceptorOkHttpClient okHttpClient: OkHttpClient): Retrofit {
+    fun provideInterceptorRetrofit(@Qualifier.InterceptorOkHttpClient okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -35,10 +35,10 @@ object NetworkModule {
     }
 
 
-    @com.we.core.util.Qualifier.NoInterceptorRetrofit
+    @Qualifier.NoInterceptorRetrofit
     @Singleton
     @Provides
-    fun provideRetrofit(@com.we.core.util.Qualifier.NoInterceptorOkHttpClient okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(@Qualifier.NoInterceptorOkHttpClient okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -48,7 +48,7 @@ object NetworkModule {
     }
 
 
-    @com.we.core.util.Qualifier.NoInterceptorOkHttpClient
+    @Qualifier.NoInterceptorOkHttpClient
     @Singleton
     @Provides
     fun provideOkHttpClient() = OkHttpClient.Builder().run {
@@ -60,7 +60,7 @@ object NetworkModule {
     }
 
 
-    @com.we.core.util.Qualifier.InterceptorOkHttpClient
+    @Qualifier.InterceptorOkHttpClient
     @Singleton
     @Provides
     fun provideInterceptorOkHttpClient(interceptor: TokenInterceptor) = OkHttpClient.Builder().run {
