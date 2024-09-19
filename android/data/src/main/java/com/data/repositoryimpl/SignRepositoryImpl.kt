@@ -19,7 +19,6 @@ class SignRepositoryImpl @Inject constructor(
         return flow {
             emit(
                 safeApiCall {
-                    Timber.d("레포지토리 회원가입ㅁ ${signUpParam.toModel()}")
                     signDataSource.postSignUp(signUpParam.toModel())
                 }
             )

@@ -50,6 +50,16 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+     fun clearEasyPasswordAndCheck(){
+         _easyPasswordType.value = true
+        _signUpParam.update {
+            it.copy(
+                easyPassword = mutableListOf(),
+                easyPasswordCheck = mutableListOf()
+            )
+        }
+    }
+
     suspend fun isSignUpParamValid(param: SignUpParam) {
         _nextButtonActivate.emit(
             param.email.isNotEmpty() &&
@@ -88,7 +98,6 @@ class SignUpViewModel @Inject constructor(
         val easyPasswordCheck = signUpParam.value.easyPasswordCheck.joinToString("")
 
         if (easyPassword.equals(easyPasswordCheck)) {
-            Timber.d("간편 비밀번호 확인 $easyPassword  + $easyPasswordCheck")
             setSignUpUiState(SignUpUiState.EasyPasswordSuccess)
         } else {
             setSignUpUiState(SignUpUiState.SignUpError("에러입니다요"))
@@ -105,16 +114,13 @@ class SignUpViewModel @Inject constructor(
 
     fun signUp() {
         viewModelScope.launch {
-            Timber.d("회원가입 호출 ${signUpParam.value}")
             signRepository.postSignUp(signUpParam.value).collectLatest {
                 when (it) {
                     is ApiResult.Success -> {
-                        Timber.d("회원가입 호출 성공")
                         _signUpUiState.emit(SignUpUiState.SignUpSuccess)
                     }
 
                     is ApiResult.Error -> {
-                        Timber.d("회원가입 호출 실패 ${it.exception}")
                         _signUpUiState.emit(SignUpUiState.SignUpError(it.exception.toString()))
                     }
                 }

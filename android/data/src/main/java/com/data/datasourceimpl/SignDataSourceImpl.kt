@@ -12,7 +12,6 @@ class SignDataSourceImpl @Inject constructor(
 ) : SignDataSource {
 
     override suspend fun postSignUp(requestSignUp: RequestSignUp): ResponseSignUp {
-        Timber.d("데이터 소스 회원가입")
         return signApi.postSignUp(requestSignUp)
     }
 }

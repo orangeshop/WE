@@ -61,12 +61,13 @@ class EasyPasswordRegisterFragment :
         clPassword.children.forEach {
             passwordList.add(it)
         }
-
     }
+
 
     private fun initClickEvent() {
         binding.apply {
             ivBack.setOnClickListener {
+                signUpViewModel.clearEasyPasswordAndCheck()
                 navigatePopBackStack()
             }
             buttonList.forEach { button ->
@@ -150,6 +151,10 @@ class EasyPasswordRegisterFragment :
         }
     }
 
+    private fun clearPasswordList() {
+        passwordList = mutableListOf()
+    }
+
     private fun observeSignUpUiState() {
         signUpViewModel.signUpUiState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
@@ -165,7 +170,7 @@ class EasyPasswordRegisterFragment :
                     }
 
                     is SignUpUiState.SignUpError -> {
-                        Timber.d("오류 ${it.error}")
+                        Timber.d("회원가입 오류 ${it.error}")
                     }
                 }
             }
