@@ -68,4 +68,8 @@ dependencies {
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.converter.gson)
+
+    // DataStore
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore.core)
 }

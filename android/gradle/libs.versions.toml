@@ -46,6 +46,9 @@ dotsindicator = "5.0"
 # Test
 truth = "1.0.1"
 
+# DataStore
+datastore = "1.0.0"
+
 [libraries]
 
 #AndroidX
@@ -107,6 +110,9 @@ retrofit-converter-kotlinxSerialization = { module = "com.squareup.retrofit2:con
 # Dotindicator
 dotsindicator = {module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator"}
 
+# DataStore
+datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

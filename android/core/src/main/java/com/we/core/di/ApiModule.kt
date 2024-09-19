@@ -2,6 +2,7 @@ package com.we.di
 
 import com.data.api.CoupleApi
 import com.data.api.SignApi
+import com.we.core.util.Qualifier
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +18,7 @@ object ApiModule {
     @Singleton
     @Provides
     fun provideSignApi(
+        @Qualifier.NoInterceptorRetrofit
         retrofit: Retrofit
     ): SignApi = retrofit.create()
 
