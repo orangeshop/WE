@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback, useImperativeHandle, forwardRef } from "react";
 import cal_2 from "../assets/images/cal_2.png";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -6,31 +6,27 @@ import Modal from "react-modal";
 import KakaoMap from "./KakaoMap";
 import moment from "moment";
 import "moment/locale/ko";
+import {
+  inputDateLocation,
+  DateLocationDto,
+  Timezone,
+} from "../apis/api/datelocation";
+import { useParams } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-interface Props {
-  time_day: string;
-  time_hour: string;
-  time_minute: string;
-  onDayChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  onHourChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  onMinuteChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-}
-
-const LocationAndDate: React.FC<Props> = ({
-  time_day,
-  time_hour,
-  time_minute,
-  onDayChange,
-  onHourChange,
-  onMinuteChange,
-}) => {
+const LocationAndDate = forwardRef((_, ref) => {
   const [calendarValue, setCalendarValue] = useState<Value>(null);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [timeDay, setTimeDay] = useState<string>("am");
+  const [timeHour, setTimeHour] = useState<number>(1);
+  const [timeMinute, setTimeMinute] = useState<string>("zero");
+  const [wedding_hall, setWeddingHall] = useState<string>("");
+  const [address_detail, setAddressDetail] = useState<string>("");
+  const { invitationId } = useParams();
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
@@ -38,6 +34,7 @@ const LocationAndDate: React.FC<Props> = ({
   const onChangeCalendar = useCallback((newValue: Value) => {
     setCalendarValue(newValue);
   }, []);
+
   moment.locale("ko");
 
   const formatSelectedDates = () => {
@@ -68,6 +65,46 @@ const LocationAndDate: React.FC<Props> = ({
         : "";
     }
   };
+
+  const handleSubmit = async () => {
+    if (!calendarValue || !wedding_hall || !address_detail) {
+      alert("모든 필드를 채워주세요.");
+      return;
+    }
+
+    const selectedDate = Array.isArray(calendarValue)
+      ? calendarValue[0]
+      : calendarValue;
+
+    const date = moment(selectedDate).format("YYYY-MM-DD");
+    const timezone = timeDay === "am" ? Timezone.AM : Timezone.PM;
+    const hour = timeHour;
+    const minute = timeMinute === "zero" ? 0 : 30;
+
+    const dto: DateLocationDto = {
+      date,
+      timezone,
+      hour,
+      minute,
+      wedding_hall,
+      address: "Sample address", // KakaoMap에서 받아오는 실제 주소로 교체 필요
+      address_detail,
+    };
+
+    try {
+      if (dto && invitationId) {
+        await inputDateLocation(invitationId, dto);
+        alert("예식 정보가 저장되었습니다.");
+      }
+    } catch (error) {
+      console.error("예식 정보 저장 중 오류 발생:", error);
+      alert("저장 중 오류가 발생했습니다.");
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    submit: handleSubmit,
+  }));
 
   return (
     <div>
@@ -117,14 +154,16 @@ const LocationAndDate: React.FC<Props> = ({
           </div>
         </Modal>
       </div>
+
+      {/* Time selection */}
       <div className="w-full flex justify-between gap-3 mb-3">
         <select
           id="time_day"
           name="time_day"
-          value={time_day}
-          onChange={onDayChange}
+          value={timeDay}
+          onChange={(e) => setTimeDay(e.target.value)}
           className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${
-            time_day === "" ? "text-gray-400" : "text-black"
+            timeDay === "" ? "text-gray-400" : "text-black"
           }`}
         >
           <option value="am">오전</option>
@@ -134,45 +173,49 @@ const LocationAndDate: React.FC<Props> = ({
         <select
           id="time_hour"
           name="time_hour"
-          value={time_hour}
-          onChange={onHourChange}
+          value={timeHour}
+          onChange={(e) => setTimeHour(parseInt(e.target.value, 10))} // 숫자로 변환
           className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${
-            time_hour === "" ? "text-gray-400" : "text-black"
+            timeHour === 0 ? "text-gray-400" : "text-black"
           }`}
         >
-          <option value="one">1시</option>
-          <option value="two">2시</option>
-          <option value="three">3시</option>
-          <option value="four">4시</option>
-          <option value="five">5시</option>
-          <option value="six">6시</option>
-          <option value="seven">7시</option>
-          <option value="eight">8시</option>
-          <option value="nine">9시</option>
-          <option value="ten">10시</option>
-          <option value="eleven">11시</option>
-          <option value="twelve">12시</option>
+          <option value={1}>1시</option>
+          <option value={2}>2시</option>
+          <option value={3}>3시</option>
+          <option value={4}>4시</option>
+          <option value={5}>5시</option>
+          <option value={6}>6시</option>
+          <option value={7}>7시</option>
+          <option value={8}>8시</option>
+          <option value={9}>9시</option>
+          <option value={10}>10시</option>
+          <option value={11}>11시</option>
+          <option value={12}>12시</option>
         </select>
 
         <select
           id="time_minute"
           name="time_minute"
-          value={time_minute}
-          onChange={onMinuteChange}
+          value={timeMinute}
+          onChange={(e) => setTimeMinute(e.target.value)}
           className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${
-            time_minute === "" ? "text-gray-400" : "text-black"
+            timeMinute === "" ? "text-gray-400" : "text-black"
           }`}
         >
           <option value="zero">00분</option>
           <option value="thirty">30분</option>
         </select>
       </div>
+
+      {/* Wedding hall and floor input */}
       <div className="w-full">
         <input
           id="weddinghall-name"
           name="weddinghall-name"
           type="text"
           placeholder="예식장 명"
+          value={wedding_hall}
+          onChange={(e) => setWeddingHall(e.target.value)}
           className="mb-3 w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
           required
         />
@@ -181,6 +224,8 @@ const LocationAndDate: React.FC<Props> = ({
           name="hallfloor-name"
           type="text"
           placeholder="층과 홀"
+          value={address_detail}
+          onChange={(e) => setAddressDetail(e.target.value)}
           className="mb-3 w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
           required
         />
@@ -188,6 +233,6 @@ const LocationAndDate: React.FC<Props> = ({
       </div>
     </div>
   );
-};
+});
 
 export default LocationAndDate;
