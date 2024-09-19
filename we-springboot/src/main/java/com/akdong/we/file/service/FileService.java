@@ -2,6 +2,7 @@ package com.akdong.we.file.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
 @Slf4j
@@ -33,31 +35,18 @@ public class FileService {
         String uniqueFileName = UUID.randomUUID() + "_" + originalFileName.replaceAll("\\s", "_");
         String fileName = dirName + "/" + uniqueFileName;
 
-        File uploadFile = convertFile(file);
-        return upload(uploadFile, fileName);
-    }
+        // S3 클라이언트 객체 사용
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(file.getSize());
+        metadata.setContentType(file.getContentType());
 
-    private File convertFile(MultipartFile file) throws IOException {
-        String originalFileName = file.getOriginalFilename();
-        String uuid = UUID.randomUUID().toString();
-        String uniqueFileName = uuid + "_" + originalFileName.replaceAll("\\s", "_");
-
-        File convertFile = new File(uniqueFileName);
-        if (convertFile.createNewFile()) {
-            try (FileOutputStream fos = new FileOutputStream(convertFile)) {
-                fos.write(file.getBytes());
-            } catch (IOException e) {
-                log.error("파일 변환 중 오류 발생: {}", e.getMessage());
-                throw e;
-            }
-            return convertFile;
+        try (InputStream inputStream = file.getInputStream()) {
+            amazonS3.putObject(bucket, fileName, inputStream, metadata);
+        } catch (IOException e) {
+            log.error("S3 업로드 중 오류 발생: {}", e.getMessage());
+            throw e;
         }
-        throw new IllegalArgumentException(String.format("파일 변환에 실패했습니다. %s", originalFileName));
-    }
 
-    private String upload(File file, String fileName) {
-        amazonS3.putObject(new PutObjectRequest(bucket, fileName, file)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 }
