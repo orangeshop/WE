@@ -13,16 +13,17 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("v1/bank")
@@ -57,5 +58,28 @@ public class BankController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse<>("계좌 리스트 조회 중 오류가 발생했습니다.", e));
         }
+    }
+    @PostMapping("/accountAuth")
+    @Operation(summary = "1원 송금 요청", description = "1원 송금을 요청합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "1원 송금 요청 성공", useReturnTypeSchema = true),
+    })
+
+    @Transactional
+    public ResponseEntity<?> accountAuth(
+            @Parameter(hidden = true)  @Login Member member,
+            @RequestBody PostAccountAuthRequest request){
+        String authCode = finApiCallService.openAccountAuth(member.getUserKey(), request.getAccountNo());
+
+        // "authCode": authCode 형식으로 Map을 생성
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("authCode", authCode);
+
+        return ResponseEntity.ok(
+                new SuccessResponse<>(
+                        "나의 계좌 리스트 조회에 성공했습니다.",
+                        responseMap
+                )
+        );
     }
 }
