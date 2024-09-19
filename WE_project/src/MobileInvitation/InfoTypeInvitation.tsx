@@ -20,29 +20,21 @@ interface GreetingsHandle {
   submit: () => void;
 }
 
+interface LocationAndDateHandle {
+  submit: () => void;
+}
+
 const InfoTypeInvitation: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [, setImageSrc] = useState<string | null>(null);
   const [greetings, setGreetings] = useState<string>("");
-  const [time_day, setDayTime] = useState<string>("");
-  const [time_hour, setHourTime] = useState<string>("");
-  const [time_minute, setMinuteTime] = useState<string>("");
+
   const husbandInfoRef = useRef<HusbandInfoHandle | null>(null);
   const brideInfoRef = useRef<BrideInfoHandle | null>(null);
   const greetingsRef = useRef<GreetingsHandle | null>(null);
+  const locationAndDateRef = useRef<LocationAndDateHandle | null>(null);
+
   const { invitationId } = useParams();
-
-  const timeDayChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setDayTime(event.target.value);
-  };
-
-  const timeHourChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setHourTime(event.target.value);
-  };
-
-  const timeMinuteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setMinuteTime(event.target.value);
-  };
 
   const handleImageChange = (file: File | null, imageSrc: string | null) => {
     setSelectedImage(file);
@@ -92,6 +84,12 @@ const InfoTypeInvitation: React.FC = () => {
     } else {
       alert("인사말을 먼저 작성해 주세요.");
     }
+
+    if (locationAndDateRef.current) {
+      await locationAndDateRef.current.submit();
+    } else {
+      alert("예식 장소와 일자를 먼저 입력해 주세요.");
+    }
   };
 
   return (
@@ -114,14 +112,7 @@ const InfoTypeInvitation: React.FC = () => {
             onChange={handleGreetingsChange}
           />
         </div>
-        <LocationAndDate
-          time_day={time_day}
-          time_hour={time_hour}
-          time_minute={time_minute}
-          onDayChange={timeDayChange}
-          onHourChange={timeHourChange}
-          onMinuteChange={timeMinuteChange}
-        />
+        <LocationAndDate ref={locationAndDateRef} />
         <div className="w-full flex justify-end gap-3 mt-10 mb-10">
           <button className="w-24 h-10 text-sm rounded-md text-md bg-[#FFECCA]">
             임시저장
