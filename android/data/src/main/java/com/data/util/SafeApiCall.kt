@@ -18,7 +18,7 @@ suspend fun <T> safeApiCall(
         } catch (throwable: Throwable) {
             when (throwable) {
                 is IOException -> {
-                    throwable.printStackTrace()
+                    Timber.d("api 오류 ${throwable.printStackTrace()}")
                     ApiResult.error(Exception(NETWORK_ERROR))
                 }
 

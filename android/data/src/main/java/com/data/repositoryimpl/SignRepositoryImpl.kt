@@ -9,6 +9,7 @@ import com.data.util.safeApiCall
 import com.we.model.SignUpParam
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 import javax.inject.Inject
 
 class SignRepositoryImpl @Inject constructor(
@@ -16,9 +17,12 @@ class SignRepositoryImpl @Inject constructor(
 ) : SignRepository {
     override fun postSignUp(signUpParam: SignUpParam): Flow<ApiResult<ResponseSignUp>> {
         return flow {
-            safeApiCall {
-                signDataSource.postSignUp(signUpParam.toModel())
-            }
+            emit(
+                safeApiCall {
+                    Timber.d("레포지토리 회원가입ㅁ ${signUpParam.toModel()}")
+                    signDataSource.postSignUp(signUpParam.toModel())
+                }
+            )
         }
     }
 }

@@ -11,8 +11,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -82,9 +84,11 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun checkEasyPasswordEquals() {
-        val easyPassword = signUpParam.value.easyPassword
-        val easyPasswordCheck = signUpParam.value.easyPasswordCheck
-        if (easyPassword == easyPasswordCheck) {
+        val easyPassword = signUpParam.value.easyPassword.joinToString("")
+        val easyPasswordCheck = signUpParam.value.easyPasswordCheck.joinToString("")
+
+        if (easyPassword.equals(easyPasswordCheck)) {
+            Timber.d("간편 비밀번호 확인 $easyPassword  + $easyPasswordCheck")
             setSignUpUiState(SignUpUiState.EasyPasswordSuccess)
         } else {
             setSignUpUiState(SignUpUiState.SignUpError("에러입니다요"))
@@ -101,14 +105,17 @@ class SignUpViewModel @Inject constructor(
 
     fun signUp() {
         viewModelScope.launch {
-            signRepository.postSignUp(signUpParam.value).collect {
+            Timber.d("회원가입 호출 ${signUpParam.value}")
+            signRepository.postSignUp(signUpParam.value).collectLatest {
                 when (it) {
                     is ApiResult.Success -> {
-                        setSignUpUiState(SignUpUiState.SignUpSuccess)
+                        Timber.d("회원가입 호출 성공")
+                        _signUpUiState.emit(SignUpUiState.SignUpSuccess)
                     }
 
                     is ApiResult.Error -> {
-                        setSignUpUiState(SignUpUiState.SignUpError(it.exception.toString()))
+                        Timber.d("회원가입 호출 실패 ${it.exception}")
+                        _signUpUiState.emit(SignUpUiState.SignUpError(it.exception.toString()))
                     }
                 }
             }

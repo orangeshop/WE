@@ -161,7 +161,7 @@ class EasyPasswordRegisterFragment :
                     }
 
                     is SignUpUiState.EasyPasswordSuccess -> {
-
+                        signUpViewModel.signUp()
                     }
 
                     is SignUpUiState.SignUpError -> {
