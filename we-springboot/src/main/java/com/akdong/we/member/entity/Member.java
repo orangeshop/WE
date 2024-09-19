@@ -57,9 +57,9 @@ public class Member {
     @Column(name="pin")
     private String pin;
 
-    @OneToOne(mappedBy = "member1")
-    private Couple couple;
-
+//    @ManyToOne
+//    @JoinColumn(name = "coupleId", nullable = true)
+//    private Couple couple;
 
     @Builder
     public Member(String email, String password, String nickname, LocalDateTime regDate, LocalDateTime leavedDate, boolean isLeaved,

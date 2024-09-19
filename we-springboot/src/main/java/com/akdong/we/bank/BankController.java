@@ -3,9 +3,12 @@ package com.akdong.we.bank;
 import com.akdong.we.api.FinApiCallService;
 import com.akdong.we.common.dto.ErrorResponse;
 import com.akdong.we.common.dto.SuccessResponse;
+import com.akdong.we.common.exception.BusinessException;
+import com.akdong.we.couple.entity.Couple;
+import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,10 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("v1/bank")
@@ -32,6 +32,7 @@ import java.util.Map;
 @Tag(name = "Bank API", description = "Bank API입니다.")
 public class BankController {
     private final FinApiCallService finApiCallService;
+    private final CoupleService coupleService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping("/my-account")
@@ -62,9 +63,8 @@ public class BankController {
     @PostMapping("/accountAuth")
     @Operation(summary = "1원 송금 요청", description = "1원 송금을 요청합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "1원 송금 요청 성공", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "200", description = "1원 송금 요청 성공", useReturnTypeSchema = true),
     })
-
     @Transactional
     public ResponseEntity<?> accountAuth(
             @Parameter(hidden = true)  @Login Member member,
@@ -78,6 +78,39 @@ public class BankController {
         return ResponseEntity.ok(
                 new SuccessResponse<>(
                         "나의 계좌 리스트 조회에 성공했습니다.",
+                        responseMap
+                )
+        );
+    }
+
+
+    @PostMapping("/checkAuthCode")
+    @Operation(summary = "1원 송금 검증 요청", description = "1원 송금 검증을 요청합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "1원 송금 검증 요청 성공", useReturnTypeSchema = true),
+    })
+    @Transactional
+    public ResponseEntity<?> checkAuthCode(
+            @Parameter(hidden = true) @Login Member member,
+            @RequestBody CheckAuthUserRequest request){
+
+        String status = finApiCallService.checkAuthCode(member.getUserKey(), request.getAccountNo(), request.getAuthText(), request.getAuthCode());
+
+        // "authCode": authCode 형식으로 Map을 생성
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("Status", status);
+
+        if(status.equals("SUCCESS")){
+            Couple couple = coupleService.getMyCoupleInfo(member)
+                    .orElseThrow(() ->new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+            couple.setBankbookCreated(true);
+            couple.setAccountNumber(request.getAccountNo());
+        }
+
+
+        return ResponseEntity.ok(
+                new SuccessResponse<>(
+                        "1원 송금 검증 요청에 성공했습니다.",
                         responseMap
                 )
         );
