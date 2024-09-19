@@ -22,26 +22,10 @@ object NetworkModule {
     //local property로 빼기
     val baseUrl = "http://192.168.100.149:8080/v1/"
 
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class InterceptorOkHttpClient
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class NoInterceptorOkHttpClient
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class InterceptorRetrofit
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class NoInterceptorRetrofit
-
-    @InterceptorRetrofit
+    @com.we.core.util.Qualifier.InterceptorRetrofit
     @Singleton
     @Provides
-    fun provideInterceptorRetrofit(@InterceptorOkHttpClient okHttpClient: OkHttpClient): Retrofit {
+    fun provideInterceptorRetrofit(@com.we.core.util.Qualifier.InterceptorOkHttpClient okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -51,10 +35,10 @@ object NetworkModule {
     }
 
 
-    @NoInterceptorRetrofit
+    @com.we.core.util.Qualifier.NoInterceptorRetrofit
     @Singleton
     @Provides
-    fun provideRetrofit(@NoInterceptorOkHttpClient okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(@com.we.core.util.Qualifier.NoInterceptorOkHttpClient okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
@@ -64,7 +48,7 @@ object NetworkModule {
     }
 
 
-    @NoInterceptorOkHttpClient
+    @com.we.core.util.Qualifier.NoInterceptorOkHttpClient
     @Singleton
     @Provides
     fun provideOkHttpClient() = OkHttpClient.Builder().run {
@@ -76,7 +60,7 @@ object NetworkModule {
     }
 
 
-    @InterceptorOkHttpClient
+    @com.we.core.util.Qualifier.InterceptorOkHttpClient
     @Singleton
     @Provides
     fun provideInterceptorOkHttpClient(interceptor: TokenInterceptor) = OkHttpClient.Builder().run {
