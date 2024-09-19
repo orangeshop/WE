@@ -48,6 +48,7 @@ public class FormalInvitationService {
 
         invitation.setBride_last_name(bride.getLastName());
         invitation.setBride_first_name(bride.getFirstName());
+        invitation.setBride_birth_order(bride.getBirthOrder());
 
         invitation.setBride_father_first_name(bride.getFatherFirstName());
         invitation.setBride_father_last_name(bride.getFatherLastName());
@@ -66,6 +67,7 @@ public class FormalInvitationService {
 
         invitation.setGroom_last_name(groom.getLastName());
         invitation.setGroom_first_name(groom.getFirstName());
+        invitation.setGroom_birth_order(groom.getBirthOrder());
 
         invitation.setGroom_father_first_name(groom.getFatherFirstName());
         invitation.setGroom_father_last_name(groom.getFatherLastName());

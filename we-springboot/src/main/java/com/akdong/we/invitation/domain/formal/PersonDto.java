@@ -1,5 +1,6 @@
 package com.akdong.we.invitation.domain.formal;
 
+import com.akdong.we.invitation.domain.BirthOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class PersonDto {
     private String lastName;
     private String firstName;
+    private BirthOrder birthOrder;
 
     private String fatherLastName;
     private String fatherFirstName;
