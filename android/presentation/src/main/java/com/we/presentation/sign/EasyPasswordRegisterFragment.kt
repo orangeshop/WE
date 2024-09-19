@@ -156,13 +156,16 @@ class EasyPasswordRegisterFragment :
                 when (it) {
                     is SignUpUiState.SignUpEmpty -> {}
                     is SignUpUiState.SignUpLoading -> {}
-                    is SignUpUiState.SignUpSuccess -> {}
+                    is SignUpUiState.SignUpSuccess -> {
+                        navigateDestination(R.id.action_fragment_easy_password_register_to_fragment_sign_up_success)
+                    }
+
                     is SignUpUiState.EasyPasswordSuccess -> {
 
                     }
 
                     is SignUpUiState.SignUpError -> {
-
+                        Timber.d("오류 ${it.error}")
                     }
                 }
             }

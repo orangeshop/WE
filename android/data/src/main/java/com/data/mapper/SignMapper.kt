@@ -7,6 +7,7 @@ fun SignUpParam.toModel(): RequestSignUp {
     return RequestSignUp(
         email = this.email,
         password = this.password,
-        nickname = this.nickname
+        nickname = this.nickname,
+        pin = this.easyPassword.joinToString("")
     )
 }

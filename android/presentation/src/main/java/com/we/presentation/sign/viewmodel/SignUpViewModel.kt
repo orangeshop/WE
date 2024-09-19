@@ -1,7 +1,9 @@
 package com.we.presentation.sign.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.data.repository.SignRepository
+import com.data.util.ApiResult
 import com.we.model.SignUpParam
 import com.we.presentation.sign.model.SignUpUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,24 +81,39 @@ class SignUpViewModel @Inject constructor(
         _easyPasswordType.value = type
     }
 
-    fun checkEasyPasswordEquals(){
+    fun checkEasyPasswordEquals() {
         val easyPassword = signUpParam.value.easyPassword
         val easyPasswordCheck = signUpParam.value.easyPasswordCheck
-        _signUpUiState.value = if(easyPassword.equals(easyPasswordCheck)){
-            SignUpUiState.EasyPasswordSuccess
-        }else{
-            SignUpUiState.SignUpError("에러입니다요")
+        if (easyPassword == easyPasswordCheck) {
+            setSignUpUiState(SignUpUiState.EasyPasswordSuccess)
+        } else {
+            setSignUpUiState(SignUpUiState.SignUpError("에러입니다요"))
         }
     }
 
 
     private val _signUpUiState = MutableStateFlow<SignUpUiState>(SignUpUiState.SignUpEmpty)
-    val signUpUiState : StateFlow<SignUpUiState> get() = _signUpUiState
+    val signUpUiState: StateFlow<SignUpUiState> get() = _signUpUiState
 
-    fun setSignUpUiState(value : SignUpUiState){
+    fun setSignUpUiState(value: SignUpUiState) {
         _signUpUiState.value = value
     }
 
+    fun signUp() {
+        viewModelScope.launch {
+            signRepository.postSignUp(signUpParam.value).collect {
+                when (it) {
+                    is ApiResult.Success -> {
+                        setSignUpUiState(SignUpUiState.SignUpSuccess)
+                    }
+
+                    is ApiResult.Error -> {
+                        setSignUpUiState(SignUpUiState.SignUpError(it.exception.toString()))
+                    }
+                }
+            }
+        }
+    }
 
 
 }
