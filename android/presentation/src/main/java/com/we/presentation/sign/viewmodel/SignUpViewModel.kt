@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,8 +49,8 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-     fun clearEasyPasswordAndCheck(){
-         _easyPasswordType.value = true
+    fun clearEasyPasswordAndCheck() {
+        _easyPasswordType.value = true
         _signUpParam.update {
             it.copy(
                 easyPassword = mutableListOf(),
