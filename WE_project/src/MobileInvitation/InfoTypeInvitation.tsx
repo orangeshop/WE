@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Navbar from "../Components/Navbar";
 import ImageDropzone from "./ImageDropzone";
 import HusbandInfo from "./HusbandInfo";
@@ -8,21 +8,24 @@ import LocationAndDate from "./LocationAndDate";
 import { inputImage } from "../apis/api/imagedropzone";
 import { useParams } from "react-router-dom";
 
+interface HusbandInfoHandle {
+  submit: () => void;
+}
+
+interface BrideInfoHandle {
+  submit: () => void;
+}
+
 const InfoTypeInvitation: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [, setImageSrc] = useState<string | null>(null);
-  const [brideOrder, setBrideOrder] = useState<string>("");
   const [greetings, setGreetings] = useState<string>("");
   const [time_day, setDayTime] = useState<string>("");
   const [time_hour, setHourTime] = useState<string>("");
   const [time_minute, setMinuteTime] = useState<string>("");
+  const husbandInfoRef = useRef<HusbandInfoHandle | null>(null);
+  const brideInfoRef = useRef<BrideInfoHandle | null>(null);
   const { invitationId } = useParams();
-
-  const handleBrideOrderChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setBrideOrder(event.target.value);
-  };
 
   const timeDayChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setDayTime(event.target.value);
@@ -64,6 +67,20 @@ const InfoTypeInvitation: React.FC = () => {
     }
   };
 
+  const handleCreate = () => {
+    ImageUpload();
+    if (husbandInfoRef.current) {
+      husbandInfoRef.current.submit();
+    } else {
+      alert("신랑 정보를 먼저 입력해 주세요.");
+    }
+    if (brideInfoRef.current) {
+      brideInfoRef.current.submit();
+    } else {
+      alert("신부 정보를 먼저 입력해 주세요.");
+    }
+  };
+
   return (
     <div className="font-nanum">
       <Navbar isScrollSensitive={false} />
@@ -76,11 +93,8 @@ const InfoTypeInvitation: React.FC = () => {
           <div className="mt-20 border border-gray-200"></div>
         </div>
         <div>
-          <HusbandInfo />
-          <BrideInfo
-            brideOrder={brideOrder}
-            handleBrideOrderChange={handleBrideOrderChange}
-          />
+          <HusbandInfo ref={husbandInfoRef} />
+          <BrideInfo ref={brideInfoRef} />
         </div>
         <Greetings value={greetings} onChange={handleGreetingsChange} />
         <LocationAndDate
@@ -98,7 +112,7 @@ const InfoTypeInvitation: React.FC = () => {
           </button>
           <button
             className="w-24 h-10 text-sm rounded-md text-md bg-[#FFD0DE]"
-            onClick={ImageUpload}
+            onClick={handleCreate}
           >
             만들기
           </button>
