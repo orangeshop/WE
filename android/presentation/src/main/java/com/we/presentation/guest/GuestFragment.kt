@@ -7,7 +7,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest) {
+
     override fun initView() {
-        TODO("Not yet implemented")
+
     }
 }

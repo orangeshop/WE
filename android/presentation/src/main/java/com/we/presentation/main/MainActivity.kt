@@ -1,5 +1,6 @@
 package com.we.presentation.main
 
+import android.content.Intent
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -15,15 +16,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
 
     override fun init() {
+        setNavGraph()
         initBottomNavigation()
         setBottomNavHide()
     }
 
-
-    private fun initBottomNavigation() { //바텀 네비게이션 초기화
+    private fun setNavGraph() {
+        val type = Intent().getBooleanExtra("type", false)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
+        navController.navInflater.inflate(R.navigation.nav_graph).apply {
+            val id = if (type) {
+                R.id.homeFragment
+            } else {
+                R.id.guestFragment
+            }
+            setStartDestination(id)
+            navController.setGraph(this, null)
+        }
+    }
+
+    private fun initBottomNavigation() { //바텀 네비게이션 초기화
+
         binding.bottomNavMain.setupWithNavController(navController)
     }
 
