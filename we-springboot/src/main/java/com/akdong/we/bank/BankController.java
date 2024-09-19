@@ -6,6 +6,11 @@ import com.akdong.we.common.dto.SuccessResponse;
 import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.service.CoupleService;
+import com.akdong.we.ledger.entity.Gift;
+import com.akdong.we.ledger.entity.Ledger;
+import com.akdong.we.ledger.repository.GiftRepository;
+import com.akdong.we.ledger.repository.LedgerGiftRepository;
+import com.akdong.we.ledger.repository.LedgerRepository;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.exception.member.MemberErrorCode;
@@ -33,7 +38,12 @@ import java.util.*;
 public class BankController {
     private final FinApiCallService finApiCallService;
     private final CoupleService coupleService;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    private final GiftRepository giftRepository;
+    private final LedgerRepository ledgerRepository;
+    private final LedgerGiftRepository ledgerGiftRepository;
 
     @GetMapping("/my-account")
     @Operation(summary = "나의 계좌 목록(1원 송금 등록용)", description = "나의 계좌 목록을 조회합니다")
@@ -111,6 +121,41 @@ public class BankController {
         return ResponseEntity.ok(
                 new SuccessResponse<>(
                         "1원 송금 검증 요청에 성공했습니다.",
+                        responseMap
+                )
+        );
+    }
+
+    @PostMapping("/transfer")
+    @Operation(summary = "계좌 이체", description = "금융망으로 계좌 이체를 요청합니다..")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "계좌 이체 성공", useReturnTypeSchema = true),
+    })
+    @Transactional
+    public ResponseEntity<?> transfer(
+            @Parameter(hidden = true)  @Login Member member,
+            @RequestBody TransferRequest request){
+
+        String responseCode = finApiCallService.transfer(member.getUserKey(), request);
+        if(Objects.equals(responseCode, "H0000")){
+            Gift gift = Gift.builder()
+                    .member(member)
+                    .isBride(request.getIsBride())
+                    .charge(request.getTransactionBalance())
+                    .build();
+
+            giftRepository.save(gift);
+
+            // 장부도 추가해야함. 지금 장부 생성 api가 없어서 여기까지만 함
+
+        }
+
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("STATUS", "Success");
+
+        return ResponseEntity.ok(
+                new SuccessResponse<>(
+                        "송금에 성공했습니다.",
                         responseMap
                 )
         );

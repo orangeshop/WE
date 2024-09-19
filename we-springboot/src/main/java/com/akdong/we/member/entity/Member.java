@@ -1,10 +1,8 @@
 package com.akdong.we.member.entity;
 
-import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.member.request.UpdatedMemberInfoRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.akdong.we.member.request.UpdatedMemberInfoRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
