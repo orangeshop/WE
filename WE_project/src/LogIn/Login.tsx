@@ -20,7 +20,6 @@ const LoginForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
     setError(null);
     try {
       const memberData: LoginDto = {

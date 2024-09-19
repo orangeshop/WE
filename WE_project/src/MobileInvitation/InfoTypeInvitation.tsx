@@ -3,7 +3,7 @@ import Navbar from "../Components/Navbar";
 import ImageDropzone from "./ImageDropzone";
 import HusbandInfo from "./HusbandInfo";
 import BrideInfo from "./BrideInfo";
-import Greetings from "./Greetings";
+import GreetingsSection from "./Greetings";
 import LocationAndDate from "./LocationAndDate";
 import { inputImage } from "../apis/api/imagedropzone";
 import { useParams } from "react-router-dom";
@@ -16,6 +16,10 @@ interface BrideInfoHandle {
   submit: () => void;
 }
 
+interface GreetingsHandle {
+  submit: () => void;
+}
+
 const InfoTypeInvitation: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [, setImageSrc] = useState<string | null>(null);
@@ -25,6 +29,7 @@ const InfoTypeInvitation: React.FC = () => {
   const [time_minute, setMinuteTime] = useState<string>("");
   const husbandInfoRef = useRef<HusbandInfoHandle | null>(null);
   const brideInfoRef = useRef<BrideInfoHandle | null>(null);
+  const greetingsRef = useRef<GreetingsHandle | null>(null);
   const { invitationId } = useParams();
 
   const timeDayChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -67,17 +72,25 @@ const InfoTypeInvitation: React.FC = () => {
     }
   };
 
-  const handleCreate = () => {
-    ImageUpload();
+  const handleCreate = async () => {
+    await ImageUpload();
+
     if (husbandInfoRef.current) {
-      husbandInfoRef.current.submit();
+      await husbandInfoRef.current.submit();
     } else {
       alert("신랑 정보를 먼저 입력해 주세요.");
     }
+
     if (brideInfoRef.current) {
-      brideInfoRef.current.submit();
+      await brideInfoRef.current.submit();
     } else {
       alert("신부 정보를 먼저 입력해 주세요.");
+    }
+
+    if (greetingsRef.current) {
+      await greetingsRef.current.submit();
+    } else {
+      alert("인사말을 먼저 작성해 주세요.");
     }
   };
 
@@ -95,8 +108,12 @@ const InfoTypeInvitation: React.FC = () => {
         <div>
           <HusbandInfo ref={husbandInfoRef} />
           <BrideInfo ref={brideInfoRef} />
+          <GreetingsSection
+            ref={greetingsRef}
+            value={greetings}
+            onChange={handleGreetingsChange}
+          />
         </div>
-        <Greetings value={greetings} onChange={handleGreetingsChange} />
         <LocationAndDate
           time_day={time_day}
           time_hour={time_hour}
@@ -105,7 +122,6 @@ const InfoTypeInvitation: React.FC = () => {
           onHourChange={timeHourChange}
           onMinuteChange={timeMinuteChange}
         />
-
         <div className="w-full flex justify-end gap-3 mt-10 mb-10">
           <button className="w-24 h-10 text-sm rounded-md text-md bg-[#FFECCA]">
             임시저장
