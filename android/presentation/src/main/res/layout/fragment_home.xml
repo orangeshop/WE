@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -115,46 +116,53 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vp_home_account" />
 
-            <LinearLayout
-                android:id="@+id/ll_home_btn"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_home_btn"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="40dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginEnd="16dp"
-                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vp_home_total_account_dots_indicator">
 
                 <include
+                    android:id="@+id/ic_home_button"
                     layout="@layout/include_home_button"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="17dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/ic_invitation"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:title="@{@string/meal_ticket}" />
 
                 <include
                     android:id="@+id/ic_invitation"
                     layout="@layout/include_home_button"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="27dp"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/ic_qr_code"
+                    app:layout_constraintStart_toEndOf="@+id/ic_home_button"
                     app:title="@{@string/invitation}" />
-
-                <include
-                    android:id="@+id/ic_couple_register"
-                    layout="@layout/include_home_button"
-                    app:title="@{@string/couple_register}" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="120dp"
-                android:layout_height="130dp"
-
-                android:layout_marginEnd="16dp"
-                app:layout_constraintStart_toStartOf="@id/ll_home_btn"
-                app:layout_constraintTop_toBottomOf="@id/ll_home_btn">
 
                 <include
                     android:id="@+id/ic_qr_code"
                     layout="@layout/include_home_button"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginEnd="17dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ic_invitation"
                     app:title="@{@string/guest_book}" />
-
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
