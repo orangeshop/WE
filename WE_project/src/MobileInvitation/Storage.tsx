@@ -32,6 +32,20 @@ const Storage: React.FC = () => {
     return <div>No invitation data available</div>;
   }
 
+  const groomBirthOrderLabel =
+    invitationData.groomBirthOrder === "FIRST"
+      ? "장남"
+      : invitationData.groomBirthOrder === "SECOND"
+      ? "차남"
+      : "아들";
+
+  const brideBirthOrderLabel =
+    invitationData.brideBirthOrder === "FIRST"
+      ? "장녀"
+      : invitationData.brideBirthOrder === "SECOND"
+      ? "차녀"
+      : "딸";
+
   return (
     <div>
       <h1>청첩장 보관함</h1>
@@ -45,8 +59,15 @@ const Storage: React.FC = () => {
         {invitationData.groomFatherLastName}
         {invitationData.groomFatherFirstName}{" "}
         {invitationData.groomMotherLastName}
-        {invitationData.groomMotherFirstName}의 {invitationData.groomBirthOrder}
+        {invitationData.groomMotherFirstName}의 {groomBirthOrderLabel}{" "}
+        {invitationData.groomFirstName}
+      </p>
+      <p>
         {invitationData.brideFatherLastName}
+        {invitationData.brideFatherFirstName}{" "}
+        {invitationData.brideMotherLastName}
+        {invitationData.brideMotherFirstName}의 {brideBirthOrderLabel}{" "}
+        {invitationData.brideFirstName}
       </p>
       <p>{invitationData.date}</p>
       <p>
