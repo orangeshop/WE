@@ -104,6 +104,12 @@ public class FormalInvitationEntity {
     @Column
     private String wedding_hall;
 
+    @Column
+    private double longtitude;
+
+    @Column
+    private double latitude;
+
     public FormalInvitationDto asDto(){
         return FormalInvitationDto.builder()
 
@@ -189,6 +195,8 @@ public class FormalInvitationEntity {
                 .address(address)
                 .address_detail(address_detail)
                 .wedding_hall(wedding_hall)
+                .latitude(latitude)
+                .longitude(longtitude)
                 .build();
     }
 

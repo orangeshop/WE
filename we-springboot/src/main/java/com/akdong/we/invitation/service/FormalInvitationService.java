@@ -10,6 +10,8 @@ import com.akdong.we.invitation.domain.formal.PersonDto;
 import com.akdong.we.invitation.repository.FormalInvitationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,16 +47,7 @@ public class FormalInvitationService {
     @Transactional
     public PersonDto updateFormalInvitationBride(long id, PersonDto bride) {
         FormalInvitationEntity invitation = getFormalIvnitationEntity(id);
-
-        invitation.setBride_last_name(bride.getLastName());
-        invitation.setBride_first_name(bride.getFirstName());
-        invitation.setBride_birth_order(bride.getBirthOrder());
-
-        invitation.setBride_father_first_name(bride.getFatherFirstName());
-        invitation.setBride_father_last_name(bride.getFatherLastName());
-
-        invitation.setBride_mother_last_name(bride.getMotherLastName());
-        invitation.setBride_mother_first_name(bride.getMotherFirstName());
+        bride.setBrideAttribute(invitation);
 
         return formalInvitationRepository
                 .save(invitation)
@@ -64,16 +57,7 @@ public class FormalInvitationService {
     public PersonDto updateFormalInvitationGroom(long id, PersonDto groom)
     {
         FormalInvitationEntity invitation = getFormalIvnitationEntity(id);
-
-        invitation.setGroom_last_name(groom.getLastName());
-        invitation.setGroom_first_name(groom.getFirstName());
-        invitation.setGroom_birth_order(groom.getBirthOrder());
-
-        invitation.setGroom_father_first_name(groom.getFatherFirstName());
-        invitation.setGroom_father_last_name(groom.getFatherLastName());
-
-        invitation.setGroom_mother_last_name(groom.getMotherLastName());
-        invitation.setGroom_mother_first_name(groom.getMotherFirstName());
+        groom.setGroomAttribute(invitation);
 
         return formalInvitationRepository
                 .save(invitation)
@@ -96,14 +80,7 @@ public class FormalInvitationService {
     public MetaInfo updateFormalInvitationMetaInfo(long id, MetaInfo metaInfo)
     {
         FormalInvitationEntity invitation = getFormalIvnitationEntity(id);
-        invitation.setDate(metaInfo.getDate());
-        invitation.setTimezone(metaInfo.getTimezone());
-        invitation.setHour(metaInfo.getHour());
-        invitation.setMinute(metaInfo.getMinute());
-
-        invitation.setAddress(metaInfo.getAddress());
-        invitation.setAddress_detail(metaInfo.getAddress_detail());
-        invitation.setWedding_hall(metaInfo.getWedding_hall());
+        metaInfo.setAttribute(invitation);
 
         return formalInvitationRepository
                 .save(invitation)
@@ -137,5 +114,11 @@ public class FormalInvitationService {
 
     private FormalInvitationEntity getFormalIvnitationEntity(long id) {
         return formalInvitationRepository.findById(id).orElseThrow();
+    }
+
+    private long getUserIdFromJWT()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return Long.parseLong(authentication.getPrincipal().toString());
     }
 }
