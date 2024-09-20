@@ -1,10 +1,10 @@
 package com.data.model.response
 
-data class ResponseCouple(
+data class ResponseCouples(
     val `data`: Data,
     val message: String
 ) {
     data class Data(
-        val code: String
+        val coupleId: Int
     )
 }
