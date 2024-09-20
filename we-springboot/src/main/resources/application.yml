@@ -27,6 +27,7 @@ spring:
     redis:
       host: redis
       port: 6379
+      password: 'BLUB7CLE2bjQ01I'
   sql:
     init:
       mode: always
@@ -55,10 +56,8 @@ spring:
       on-profile: local
     import: application-secret.yml
 
-  data:
-    redis:
-      host: localhost
-      port: 6379
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
 
-fast-api:
-  url: http://192.168.100.149:8000
