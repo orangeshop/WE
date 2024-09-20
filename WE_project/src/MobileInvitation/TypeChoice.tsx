@@ -68,6 +68,7 @@ const TypeChoice: React.FC = () => {
                 <button
                   type="submit"
                   className="py-2 px-5 rounded-3xl text-md bg-[#FFD0DE] mt-5"
+                  onClick={() => (window.location.href = "/invite/free")}
                 >
                   제작하기
                 </button>

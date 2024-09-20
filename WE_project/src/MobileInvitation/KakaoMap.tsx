@@ -12,7 +12,11 @@ interface IAddr {
   address: string;
 }
 
-const KakaoMap: React.FC = () => {
+interface KakaoMapProps {
+  onLocationChange: (address: string, latitude: number, longitude: number) => void;
+}
+
+const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange }) => {
   const [map, setMap] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
   const [showMap, setShowMap] = useState<boolean>(true);
@@ -80,6 +84,9 @@ const KakaoMap: React.FC = () => {
                 marker.setMap(null);
                 marker.setPosition(currentPos);
                 marker.setMap(map);
+
+                // Call the callback with the address and coordinates
+                onLocationChange(addrData.address, result[0].y, result[0].x);
               } else {
                 alert("주소를 찾을 수 없습니다.");
               }
