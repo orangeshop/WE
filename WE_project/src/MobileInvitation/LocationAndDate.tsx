@@ -86,7 +86,7 @@ const LocationAndDate = forwardRef((_, ref) => {
       ? calendarValue[0]
       : calendarValue;
 
-    const date = moment(selectedDate).format("YYYY-MM-DD dddd");
+    const date = moment(selectedDate).format("YYYY년 M월 D일 dddd");
 
     const timezone = timeDay === "am" ? Timezone.AM : Timezone.PM;
     const hour = timeHour;
