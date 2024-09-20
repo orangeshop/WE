@@ -14,8 +14,6 @@ import java.time.Duration;
 public class RedisUtil {
     private final RedisTemplate<String, String> redisTemplate;
 
-
-
     public void setValueWithTTL(String key, String value, Duration ttl) {
         ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
         valueOps.set(key, value);
