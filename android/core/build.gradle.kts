@@ -3,6 +3,10 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.gradle.plugin)
     id("kotlin-kapt")
+//    id("com.android.application")
+
+    // Add the Google services Gradle plugin
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -73,4 +77,9 @@ dependencies {
     // DataStore
     implementation(libs.datastore.preferences)
     implementation(libs.datastore.core)
+
+    // firebase
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 }

@@ -1,5 +1,6 @@
 package com.we.di
 
+import com.data.api.CoupleApi
 import com.data.api.SignApi
 import com.we.core.util.Qualifier
 import dagger.Module
@@ -21,5 +22,12 @@ object ApiModule {
         retrofit: Retrofit
     ): SignApi = retrofit.create()
 
+
+    @Singleton
+    @Provides
+    fun provideCoupleApi(
+        @Qualifier.InterceptorRetrofit
+        retrofit: Retrofit
+    ): CoupleApi = retrofit.create()
 
 }

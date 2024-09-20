@@ -50,6 +50,7 @@ coroutineTest = "1.7.3"
 
 # DataStore
 datastore = "1.0.0"
+firebaseMessagingKtx = "24.0.1"
 
 [libraries]
 
@@ -94,6 +95,7 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 # Firebase
 firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "fcm" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = {module = "com.google.firebase:firebase-analytics"}
 
 # Logging
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
@@ -115,6 +117,7 @@ dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindi
 # DataStore
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
+firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
