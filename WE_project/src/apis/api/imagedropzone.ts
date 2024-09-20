@@ -18,7 +18,6 @@ export const inputImage = async (
       {}
     );
 
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("이미지 업로드 중 오류 발생:", error);

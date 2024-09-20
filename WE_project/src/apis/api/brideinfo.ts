@@ -32,7 +32,6 @@ export const inputBrideInfo = async (
       }
     );
 
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("신부 정보 업로드 중 오류 발생:", error);

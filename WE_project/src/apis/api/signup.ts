@@ -13,7 +13,6 @@ export const joinMember = async (dto: JoinMemberInfoDto): Promise<void> => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error during member registration:", error);

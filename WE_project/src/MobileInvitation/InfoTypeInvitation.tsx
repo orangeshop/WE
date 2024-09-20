@@ -55,7 +55,6 @@ const InfoTypeInvitation: React.FC = () => {
 
       try {
         await inputImage(invitationId, dto);
-        alert("이미지 업로드 완료!");
       } catch (error) {
         console.error("이미지 업로드 중 오류 발생:", error);
       }
