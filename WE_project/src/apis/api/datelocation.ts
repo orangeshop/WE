@@ -14,8 +14,8 @@ export type DateLocationDto = {
   address: string; // 주소
   address_detail: string; // 층과 홀
   wedding_hall: string; // 예식장 명
-  latitude?: number; // 위도
-  longitude?: number; // 경도
+  latitude: number; // 위도
+  longitude: number; // 경도
 };
 
 export const inputDateLocation = async (
