@@ -25,7 +25,6 @@ const GreetingsSection = forwardRef<GreetingsHandle, GreetingsProps>(
       try {
         if (invitationId) {
           await inputGreeting(invitationId, { greetings: greeting });
-          alert("인사말이 업로드되었습니다.");
         }
       } catch (error) {
         console.error("인사말 업로드 중 오류 발생:", error);

@@ -108,7 +108,6 @@ const LocationAndDate = forwardRef((_, ref) => {
     try {
       if (dto && invitationId) {
         await inputDateLocation(invitationId, dto);
-        alert("예식 정보가 저장되었습니다.");
       }
     } catch (error) {
       console.error("예식 정보 저장 중 오류 발생:", error);

@@ -12,7 +12,7 @@ const Storage: React.FC = () => {
   useEffect(() => {
     const fetchInvitation = async () => {
       try {
-        const data = await getFormalInvitation(4); // 추후에 실제 id로 수정
+        const data = await getFormalInvitation(12); // 추후에 실제 id로 수정
         setInvitationData(data);
         setLoading(false);
       } catch (error) {

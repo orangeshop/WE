@@ -32,7 +32,6 @@ export const inputGroomInfo = async (
       }
     );
 
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("신랑 정보 업로드 중 오류 발생:", error);

@@ -35,7 +35,6 @@ const HusbandInfo = forwardRef((_, ref) => {
     try {
       if (dto && invitationId) {
         await inputGroomInfo(invitationId, dto);
-        alert("신랑 정보가 등록되었습니다.");
       }
     } catch (error) {
       console.error("신랑 정보 업로드 중 오류 발생:", error);

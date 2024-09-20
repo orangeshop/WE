@@ -13,7 +13,11 @@ interface IAddr {
 }
 
 interface KakaoMapProps {
-  onLocationChange: (address: string, latitude: number, longitude: number) => void;
+  onLocationChange: (
+    address: string,
+    latitude: number,
+    longitude: number
+  ) => void;
 }
 
 const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange }) => {
