@@ -27,7 +27,7 @@ spring:
     redis:
       host: redis
       port: 6379
-      password: BLUB7CLE2bjQ01I
+      password: 'BLUB7CLE2bjQ01I'
   sql:
     init:
       mode: always
