@@ -2,14 +2,15 @@ package com.akdong.we.couple.entity;
 
 import com.akdong.we.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,12 +27,7 @@ public class Couple {
     @JoinColumn(name = "member2Id")
     private Member member2;
 
-    // 이미지 구현하면 추가
-//    @JoinColumn(name = "imageId")
-//    private Image image;
-
     @Column(name="bankbookCreated", nullable = false)
-    @ColumnDefault("false")
     private boolean bankbookCreated;
 
     @Column(name="accountNumber")

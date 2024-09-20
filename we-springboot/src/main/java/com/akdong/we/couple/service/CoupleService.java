@@ -49,22 +49,28 @@ public class CoupleService {
         Member member2 = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessException(MemberErrorCode.MEMBER_NOT_FOUND_ERROR));
 
+        // 멤버가 이미 다른 커플에 속해 있는지 확인
+        if (getMyCoupleInfo(member1).isPresent() || getMyCoupleInfo(member2).isPresent()) {
+            throw new IllegalStateException("One or both members are already in a couple.");
+        }
+
+        // 새로운 Couple 객체 생성 및 초기화
         Couple couple = Couple.builder()
                 .member1(member1)
                 .member2(member2)
+                .bankbookCreated(false)
                 .build();
 
-        member1.setCoupleJoined(true);
-        member2.setCoupleJoined(true);
-
-        member1.setCouple(couple);
-        member2.setCouple(couple);
+//        member1.setCouple(couple);
+//        member1.setCoupleJoined(true);
+//        member2.setCouple(couple);
+//        member2.setCoupleJoined(true);
 
         return coupleRepository.save(couple);
     }
 
-    public Optional<Couple> getMyCoupleInfo(Member member){
-        return coupleRepository.findByMember1OrMember2(member, member);
+    public Optional<Couple> getMyCoupleInfo(Member member) {
+        return coupleRepository.findByMember(member);
     }
 
 

@@ -1,10 +1,8 @@
 package com.akdong.we.member.entity;
 
-import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.member.request.UpdatedMemberInfoRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.akdong.we.member.request.UpdatedMemberInfoRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -57,9 +55,9 @@ public class Member {
     @Column(name="pin")
     private String pin;
 
-    @OneToOne(mappedBy = "member1")
-    private Couple couple;
-
+//    @ManyToOne
+//    @JoinColumn(name = "coupleId", nullable = true)
+//    private Couple couple;
 
     @Builder
     public Member(String email, String password, String nickname, LocalDateTime regDate, LocalDateTime leavedDate, boolean isLeaved,

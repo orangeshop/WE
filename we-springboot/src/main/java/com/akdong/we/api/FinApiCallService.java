@@ -1,10 +1,16 @@
 package com.akdong.we.api;
 
 import com.akdong.we.api.request.*;
+import com.akdong.we.bank.TransferRequest;
+import com.akdong.we.ledger.entity.Gift;
+import com.akdong.we.ledger.repository.GiftRepository;
+import com.akdong.we.ledger.repository.LedgerGiftRepository;
+import com.akdong.we.ledger.repository.LedgerRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.services.storage.Storage;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +24,10 @@ import org.springframework.http.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class FinApiCallService {
     @Value("${fin-api.url}")
@@ -32,6 +40,8 @@ public class FinApiCallService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+
 
     @PostConstruct
     public void printLogBaseUrl() {
@@ -315,7 +325,82 @@ public class FinApiCallService {
             log.error("Exception occurred during FinAPI openAccountAuth: {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
+    }
 
+    public String checkAuthCode(String userKey, String accountNo, String authText, String authCode){
+        String[] dateAndTime = createFormatDateTime();
+
+        CommonRequestHeader Header = CommonRequestHeader.customBuilder()
+                .apiName("checkAuthCode")
+                .transmissionDate(dateAndTime[0])
+                .transmissionTime(dateAndTime[1])
+                .apiServiceCode("checkAuthCode")
+                .apiKey(apiKey)
+                .userKey(userKey)
+                .build();
+
+        CheckAuthRequest checkAuthRequest = CheckAuthRequest.builder()
+                .Header(Header)
+                .accountNo(accountNo)
+                .authText(authText)
+                .authCode(authCode)
+                .build();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<CheckAuthRequest> requestEntity = new HttpEntity<>(checkAuthRequest, httpHeaders);
+        String url = baseUrl + "/edu/accountAuth/checkAuthCode";
+
+        try{
+            log.debug("Request Body: {}", objectMapper.writeValueAsString(requestEntity));
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            log.debug("received checkAuthCode response from FinOpenApi server, response={}", response);
+            String responseBody = response.getBody();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            JsonNode recNode = jsonNode.get("REC");
+            return recNode.get("status").asText();
+
+        }catch(Exception e){
+            log.error("Exception occurred during FinAPI openAccountAuth: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String transfer(String userKey, TransferRequest request){
+
+        String[] dateAndTime = createFormatDateTime();
+
+        CommonRequestHeader Header = CommonRequestHeader.customBuilder()
+                .apiName("updateDemandDepositAccountTransfer")
+                .transmissionDate(dateAndTime[0])
+                .transmissionTime(dateAndTime[1])
+                .apiServiceCode("updateDemandDepositAccountTransfer")
+                .apiKey(apiKey)
+                .userKey(userKey)
+                .build();
+
+        request.setHeader(Header);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<TransferRequest> requestEntity = new HttpEntity<>(request, httpHeaders);
+        String url = baseUrl + "/edu/demandDeposit/updateDemandDepositAccountTransfer";
+
+        try{
+            log.debug("Request Body: {}", objectMapper.writeValueAsString(requestEntity));
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            log.debug("received checkAuthCode response from FinOpenApi server, response={}", response);
+            String responseBody = response.getBody();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            JsonNode HeaderNode = jsonNode.get("Header");
+            return HeaderNode.get("responseCode").asText();
+
+        }catch(Exception e){
+            log.error("Exception occurred during FinAPI openAccountAuth: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
 
     }
 }
