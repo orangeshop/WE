@@ -89,6 +89,8 @@ const InfoTypeInvitation: React.FC = () => {
     } else {
       alert("예식 장소와 일자를 먼저 입력해 주세요.");
     }
+
+    window.location.href = "/invitation/storage";
   };
 
   return (
@@ -113,14 +115,11 @@ const InfoTypeInvitation: React.FC = () => {
         </div>
         <LocationAndDate ref={locationAndDateRef} />
         <div className="w-full flex justify-end gap-3 mt-10 mb-10">
-          <button className="w-24 h-10 text-sm rounded-md text-md bg-[#FFECCA]">
-            임시저장
-          </button>
           <button
             className="w-24 h-10 text-sm rounded-md text-md bg-[#FFD0DE]"
             onClick={handleCreate}
           >
-            만들기
+            저장하기
           </button>
         </div>
       </div>

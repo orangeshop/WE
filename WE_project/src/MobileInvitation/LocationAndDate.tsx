@@ -34,7 +34,6 @@ const LocationAndDate = forwardRef((_, ref) => {
 
   const openModal = () => {
     setModalIsOpen(true);
-    console.log(moment.locale());
   };
   const closeModal = () => setModalIsOpen(false);
 
