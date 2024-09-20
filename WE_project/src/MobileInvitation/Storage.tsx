@@ -5,80 +5,63 @@ import {
 } from "../apis/api/getinfotypeinvitation";
 
 const Storage: React.FC = () => {
-  const [invitationData, setInvitationData] =
-    useState<GetFormalInvitationDto | null>(null);
+  const [invitations, setInvitations] = useState<GetFormalInvitationDto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchInvitation = async () => {
-      try {
-        const data = await getFormalInvitation(12); // 추후에 실제 id로 수정
-        setInvitationData(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("정보형 청첩장 조회 중 오류 발생:", error);
-        throw error;
+    const fetchAllInvitations = async () => {
+      const fetchedInvitations: GetFormalInvitationDto[] = [];
+      let invitationId = 1;
+      let continueFetching = true;
+
+      while (continueFetching) {
+        try {
+          const invitation = await getFormalInvitation(invitationId);
+
+          if (invitation.url) {
+            fetchedInvitations.push(invitation);
+          }
+
+          invitationId++;
+        } catch (error) {
+          console.error(
+            `Error fetching invitation with ID ${invitationId}:`,
+            error
+          );
+          continueFetching = false;
+        }
       }
+
+      setInvitations(fetchedInvitations);
+      setLoading(false);
     };
 
-    fetchInvitation();
+    fetchAllInvitations();
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <p>Loading...</p>;
   }
-
-  if (!invitationData) {
-    return <div>No invitation data available</div>;
-  }
-
-  const groomBirthOrderLabel =
-    invitationData.groomBirthOrder === "FIRST"
-      ? "장남"
-      : invitationData.groomBirthOrder === "SECOND"
-      ? "차남"
-      : "아들";
-
-  const brideBirthOrderLabel =
-    invitationData.brideBirthOrder === "FIRST"
-      ? "장녀"
-      : invitationData.brideBirthOrder === "SECOND"
-      ? "차녀"
-      : "딸";
 
   return (
     <div>
-      <h1>청첩장 보관함</h1>
-      <p>
-        {invitationData.groomLastName}
-        {invitationData.groomFirstName} {invitationData.brideLastName}
-        {invitationData.brideFirstName}
-      </p>
-      <img src={invitationData.url} alt="대표 사진" />
-      <p>
-        {invitationData.groomFatherLastName}
-        {invitationData.groomFatherFirstName}{" "}
-        {invitationData.groomMotherLastName}
-        {invitationData.groomMotherFirstName}의 {groomBirthOrderLabel}{" "}
-        {invitationData.groomFirstName}
-      </p>
-      <p>
-        {invitationData.brideFatherLastName}
-        {invitationData.brideFatherFirstName}{" "}
-        {invitationData.brideMotherLastName}
-        {invitationData.brideMotherFirstName}의 {brideBirthOrderLabel}{" "}
-        {invitationData.brideFirstName}
-      </p>
-      <p>{invitationData.date}</p>
-      <p>
-        {invitationData.timezone === "AM" ? "오전" : "오후"}{" "}
-        {invitationData.hour}시 {invitationData.minute}분
-      </p>
-      <p>
-        {invitationData.weddingHall}, {invitationData.addressDetail}
-      </p>
-      <p>{invitationData.address}</p>
-      <p>인사말: {invitationData.greetings}</p>
+      {invitations.length > 0 ? (
+        <ul className="grid grid-cols-3 gap-4">
+          {invitations.map((invitation) => (
+            <li key={invitation.invitationId} className="flex justify-center">
+              <a href={`/invitation/storage/${invitation.invitationId}`}>
+                <img
+                  src={invitation.url}
+                  alt="thumbnail"
+                  className="w-48 h-48 object-cover"
+                />
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>청첩장이 없습니다.</p>
+      )}
     </div>
   );
 };

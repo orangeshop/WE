@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Main/Home";
 import TypeChoice from "./MobileInvitation/TypeChoice";
 import Storage from "./MobileInvitation/Storage";
+import StorageDetail from "./MobileInvitation/StorageDetail";
 import InfoTypeInvitation from "./MobileInvitation/InfoTypeInvitation";
 import InfoTypeSample from "./MobileInvitation/InfoTypeSample";
 import FreeTypeInvitation from "./MobileInvitation/FreeTypeInvitation";
@@ -21,6 +22,10 @@ const AppRouter: React.FC = () => {
         <Route path="/login" element={<LogIn />} />
         <Route path="/invitation" element={<TypeChoice />} />
         <Route path="/invitation/storage" element={<Storage />} />
+        <Route
+          path="/invitation/storage/:invitationId"
+          element={<StorageDetail />}
+        />
         <Route
           path="/invite/info/:invitationId"
           element={<InfoTypeInvitation />}

@@ -32,7 +32,9 @@ const LocationAndDate = forwardRef((_, ref) => {
   const { invitationId } = useParams();
   moment.locale("ko");
 
-  const openModal = () => setModalIsOpen(true);
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
   const closeModal = () => setModalIsOpen(false);
 
   const onChangeCalendar = useCallback((newValue: Value) => {
