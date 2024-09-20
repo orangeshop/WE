@@ -26,6 +26,9 @@ const LocationAndDate = forwardRef((_, ref) => {
   const [timeMinute, setTimeMinute] = useState<string>("zero");
   const [wedding_hall, setWeddingHall] = useState<string>("");
   const [address_detail, setAddressDetail] = useState<string>("");
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
+  const [address, setAddress] = useState<string>("");
   const { invitationId } = useParams();
 
   const openModal = () => setModalIsOpen(true);
@@ -66,6 +69,12 @@ const LocationAndDate = forwardRef((_, ref) => {
     }
   };
 
+  const handleLocationChange = (addr: string, lat: number, lon: number) => {
+    setAddress(addr);
+    setLatitude(lat);
+    setLongitude(lon);
+  };
+
   const handleSubmit = async () => {
     if (!calendarValue || !wedding_hall || !address_detail) {
       alert("모든 필드를 채워주세요.");
@@ -87,8 +96,10 @@ const LocationAndDate = forwardRef((_, ref) => {
       hour,
       minute,
       wedding_hall,
-      address: "Sample address", // KakaoMap에서 받아오는 실제 주소로 교체 필요
+      address,
       address_detail,
+      latitude,
+      longitude,
     };
 
     try {
@@ -229,7 +240,7 @@ const LocationAndDate = forwardRef((_, ref) => {
           className="mb-3 w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
           required
         />
-        <KakaoMap />
+        <KakaoMap onLocationChange={handleLocationChange} />
       </div>
     </div>
   );
