@@ -1,5 +1,6 @@
 package com.we.di
 
+import com.data.api.BankApi
 import com.data.api.CoupleApi
 import com.data.api.SignApi
 import com.we.core.util.Qualifier
@@ -29,5 +30,13 @@ object ApiModule {
         @Qualifier.InterceptorRetrofit
         retrofit: Retrofit
     ): CoupleApi = retrofit.create()
+
+    @Singleton
+    @Provides
+    fun provideBankApi(
+        @Qualifier.InterceptorRetrofit
+        retrofit: Retrofit
+    ): BankApi = retrofit.create()
+
 
 }

@@ -1,8 +1,10 @@
 package com.we.di
 
 import com.data.api.SignApi
+import com.data.datasource.BankDataSource
 import com.data.datasource.CoupleDataSource
 import com.data.datasource.SignDataSource
+import com.data.datasourceimpl.BankDataSourceImpl
 import com.data.datasourceimpl.CoupleDataSourceImpl
 import com.data.datasourceimpl.SignDataSourceImpl
 import dagger.Binds
@@ -28,4 +30,11 @@ interface DataSourceModule {
     fun bindsCoupleDataSource(
         coupleDataSourceImpl: CoupleDataSourceImpl
     ) : CoupleDataSource
+
+    @Singleton
+    @Binds
+    fun bindsBankDataSource(
+        bankDataSourceImpl: BankDataSourceImpl
+    ) : BankDataSource
+
 }

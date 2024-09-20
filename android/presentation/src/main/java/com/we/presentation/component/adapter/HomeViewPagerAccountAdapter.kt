@@ -1,25 +1,41 @@
 package com.we.presentation.component.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.we.model.BankData
 import com.we.presentation.databinding.ItemAccountBinding
 
 class HomeViewPagerAccountAdapter(
-    val item: List<String>,
+    val item: List<BankData>,
     private val accountClickListener: (idx : Int) -> Unit,
-    private val accountRemittance: () -> Unit
+    private val accountRemittance: () -> Unit,
+    private val typeCheck : Boolean
 ) : RecyclerView.Adapter<HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>() {
     inner class HomeViewPagerAccountViewHolder(val binding: ItemAccountBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item: String){
+        fun bind(item: BankData){
             binding.apply {
 
-                clItemAccount.setOnClickListener {
-                    accountClickListener(adapterPosition)
-                }
+                tvHomeAccount.text = item.bankName
+                tvHomeNo.text = item.accountNo
+                tvHomeMoney.text = item.accountBalance
 
-                tvAccountAdapterRemittance.setOnClickListener {
-                    accountRemittance()
+                when(typeCheck){
+                    true -> {
+                        tvAccountAdapterRemittance.visibility = View.GONE
+                        tvHomeMoney.visibility = View.GONE
+                        ivReload.visibility = View.GONE
+                    }
+                    false -> {
+                        clItemAccount.setOnClickListener {
+                            accountClickListener(adapterPosition)
+                        }
+
+                        tvAccountAdapterRemittance.setOnClickListener {
+                            accountRemittance()
+                        }
+                    }
                 }
             }
         }
@@ -41,4 +57,5 @@ class HomeViewPagerAccountAdapter(
     override fun onBindViewHolder(holder: HomeViewPagerAccountViewHolder, position: Int) {
         holder.bind(item[position])
     }
+
 }
