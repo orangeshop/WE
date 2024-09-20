@@ -15,6 +15,7 @@ export type GetFormalInvitationDto = {
   invitationId: number;
   coupleId: number;
   url: string;
+  title: string;
 
   groomLastName: string;
   groomFirstName: string;

@@ -9,6 +9,7 @@ interface ImageDropzoneProps {
 
 const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
+
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [showCropper, setShowCropper] = useState(false);
   const cropperRef = useRef<HTMLImageElement>(null);
@@ -69,7 +70,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
   };
 
   return (
-    <div className="relative w-80 h-80 flex items-center justify-center mt-40">
+    <div className="relative w-80 h-80 items-center justify-center">
       {croppedImageSrc ? (
         <div className="relative flex items-center justify-center w-full h-full">
           <img

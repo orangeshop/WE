@@ -2,6 +2,7 @@ import api from "../utils/instance";
 
 export type ImageDto = {
   url: File;
+  title: string;
 };
 
 export const inputImage = async (
@@ -11,6 +12,7 @@ export const inputImage = async (
   try {
     const formData = new FormData();
     formData.append("file", dto.url);
+    formData.append("title", dto.title);
 
     const response = await api.post(
       `/invitation/formal/file/${invitationId}`,
