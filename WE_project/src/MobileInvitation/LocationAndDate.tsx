@@ -5,7 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import Modal from "react-modal";
 import KakaoMap from "./KakaoMap";
 import moment from "moment";
-import "moment/locale/ko";
+import "moment/dist/locale/ko";
 import {
   inputDateLocation,
   DateLocationDto,
@@ -30,6 +30,7 @@ const LocationAndDate = forwardRef((_, ref) => {
   const [longitude, setLongitude] = useState<number>(0);
   const [address, setAddress] = useState<string>("");
   const { invitationId } = useParams();
+  moment.locale("ko");
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
@@ -37,8 +38,6 @@ const LocationAndDate = forwardRef((_, ref) => {
   const onChangeCalendar = useCallback((newValue: Value) => {
     setCalendarValue(newValue);
   }, []);
-
-  moment.locale("ko");
 
   const formatSelectedDates = () => {
     if (calendarValue === null) {
@@ -48,7 +47,7 @@ const LocationAndDate = forwardRef((_, ref) => {
       return calendarValue
         .map((date) =>
           date
-            ? new Intl.DateTimeFormat("ko-KR", {
+            ? new Intl.DateTimeFormat("ko", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -59,7 +58,7 @@ const LocationAndDate = forwardRef((_, ref) => {
         .join(" - ");
     } else {
       return calendarValue
-        ? new Intl.DateTimeFormat("ko-KR", {
+        ? new Intl.DateTimeFormat("ko", {
             year: "numeric",
             month: "long",
             day: "numeric",
@@ -85,7 +84,8 @@ const LocationAndDate = forwardRef((_, ref) => {
       ? calendarValue[0]
       : calendarValue;
 
-    const date = moment(selectedDate).format("YYYY-MM-DD");
+    const date = moment(selectedDate).format("YYYY-MM-DD dddd");
+
     const timezone = timeDay === "am" ? Timezone.AM : Timezone.PM;
     const hour = timeHour;
     const minute = timeMinute === "zero" ? 0 : 30;
@@ -105,7 +105,6 @@ const LocationAndDate = forwardRef((_, ref) => {
     try {
       if (dto && invitationId) {
         await inputDateLocation(invitationId, dto);
-        alert("예식 정보가 저장되었습니다.");
       }
     } catch (error) {
       console.error("예식 정보 저장 중 오류 발생:", error);
