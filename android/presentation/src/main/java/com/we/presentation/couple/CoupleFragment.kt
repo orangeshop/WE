@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.we.presentation.R
@@ -17,6 +18,8 @@ import com.we.presentation.base.BaseFragment
 import com.we.presentation.couple.viewmodel.CoupleViewModel
 import com.we.presentation.databinding.FragmentCoupleBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -32,10 +35,11 @@ class CoupleFragment : BaseFragment<FragmentCoupleBinding>(R.layout.fragment_cou
     private fun initCoupleCode() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                coupleViewModel.coupleCode.collect { coupleData ->
-
-                    binding.tvCoupleCode.text = coupleData.code
-                }
+                coupleViewModel.coupleCode.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                    .onEach {
+                        binding.tvCoupleCode.text = it.code
+                    }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
     }
@@ -49,12 +53,13 @@ class CoupleFragment : BaseFragment<FragmentCoupleBinding>(R.layout.fragment_cou
 
             tvInputComplete.setOnClickListener {
                 coupleViewModel.setCoupleSuccessCode(etInputCouple.text.toString())
-                coupleViewModel.postCouple(){
-                    when(it){
+                coupleViewModel.postCouple() {
+                    when (it) {
                         true -> {
                             Toast.makeText(requireContext(), "매칭 성공", Toast.LENGTH_SHORT).show()
                         }
-                        false ->{
+
+                        false -> {
                             Toast.makeText(requireContext(), "매칭 실패", Toast.LENGTH_SHORT).show()
                         }
                     }
