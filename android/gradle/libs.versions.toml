@@ -52,6 +52,9 @@ coroutineTest = "1.7.3"
 datastore = "1.0.0"
 firebaseMessagingKtx = "24.0.1"
 
+# Lottie
+lottie = "5.0.2"
+
 [libraries]
 
 #AndroidX
@@ -113,6 +116,9 @@ retrofit-converter-kotlinxSerialization = { module = "com.squareup.retrofit2:con
 
 # Dotindicator
 dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
+
+#Lottie
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie"}
 
 # DataStore
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }

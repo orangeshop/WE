@@ -87,4 +87,7 @@ dependencies {
 
     // Dotindicator
     implementation(libs.dotsindicator)
+
+    //Lottie
+    implementation(libs.lottie)
 }
