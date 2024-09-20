@@ -1,8 +1,10 @@
 package com.we.di
 
 import com.data.repository.DataStoreRepository
+import com.data.repository.CoupleRepository
 import com.data.repository.SignRepository
 import com.data.repositoryimpl.DataStoreRepositoryImpl
+import com.data.repositoryimpl.CoupleRepositoryImpl
 import com.data.repositoryimpl.SignRepositoryImpl
 import com.data.util.TokenProvider
 import dagger.Binds
@@ -23,6 +25,11 @@ interface RepositoryModule {
         signRepositoryImpl: SignRepositoryImpl
     ): SignRepository
 
+    @Singleton
+    @Binds
+    fun bindsCoupleRepository(
+        coupleRepositoryImpl: CoupleRepositoryImpl
+    ): CoupleRepository
 
     @Singleton
     @Binds
