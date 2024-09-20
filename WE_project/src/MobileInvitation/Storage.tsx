@@ -33,7 +33,7 @@ const Storage: React.FC = () => {
         }
       }
 
-      setInvitations(fetchedInvitations);
+      setInvitations(fetchedInvitations.reverse());
       setLoading(false);
     };
 
