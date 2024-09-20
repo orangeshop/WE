@@ -28,6 +28,7 @@ const InfoTypeInvitation: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [, setImageSrc] = useState<string | null>(null);
   const [greetings, setGreetings] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
 
   const husbandInfoRef = useRef<HusbandInfoHandle | null>(null);
   const brideInfoRef = useRef<BrideInfoHandle | null>(null);
@@ -51,6 +52,7 @@ const InfoTypeInvitation: React.FC = () => {
     if (selectedImage && invitationId) {
       const dto = {
         url: selectedImage,
+        title: title,
       };
 
       try {
@@ -96,10 +98,20 @@ const InfoTypeInvitation: React.FC = () => {
   return (
     <div className="font-nanum">
       <Navbar isScrollSensitive={false} />
-      <div className="font-default flex flex-col items-center justify-center">
+      <div className="mt-40 font-default flex flex-col items-center justify-center">
+        <input
+          id="title"
+          name="title"
+          type="text"
+          placeholder="청첩장 제목을 입력하세요"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full mb-20 text-center px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
+          required
+        />
         <ImageDropzone onImageChange={handleImageChange} />
         <div className="w-full text-center">
-          <p className="mt-5 text-md font-semibold">
+          <p className="mt-20 text-md font-semibold">
             메인 사진을 선택해 주세요.
           </p>
           <div className="mt-20 border border-gray-200"></div>
