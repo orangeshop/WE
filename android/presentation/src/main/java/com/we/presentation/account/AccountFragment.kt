@@ -1,25 +1,56 @@
 package com.we.presentation.account
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.we.presentation.R
+import com.we.presentation.account.util.BankList
+import com.we.presentation.account.viewmodel.AccountViewModel
 import com.we.presentation.base.BaseFragment
-import com.we.presentation.component.adapter.AccountBankChooseAdapter
 import com.we.presentation.databinding.FragmentAccountBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_account) {
+    private val accountViewModel: AccountViewModel by activityViewModels()
+
     override fun initView() {
 
         accountBottomSheetClickListener()
         initTransferClickListener()
+        bankChooseComplete()
     }
 
-    private fun initTransferClickListener(){
+    private fun bankChooseComplete() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                    .onEach {
+
+                        if (it.bankName != "") {
+                            binding.apply {
+                                tvAccountBankComplete.text = it.bankName
+                                tvInputAccount.visibility = View.VISIBLE
+                                etAccountNumber.visibility = View.VISIBLE
+                            }
+                        }
+                    }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+        }
+    }
+
+    private fun initTransferClickListener() {
         binding.apply {
             tvRegisterAccount.setOnClickListener {
                 navigateDestination(R.id.action_accountFragment_to_accountTransferFragment)
@@ -32,7 +63,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
     }
 
 
-    private fun accountBottomSheetClickListener(){
+    private fun accountBottomSheetClickListener() {
         binding.apply {
             flChooseBank.setOnClickListener {
                 val modal = AccountModalBottomSheet()
