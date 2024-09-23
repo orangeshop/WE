@@ -24,8 +24,4 @@ public class Gift {
     private Long charge;
 
     private String message;
-
-
-
-
 }

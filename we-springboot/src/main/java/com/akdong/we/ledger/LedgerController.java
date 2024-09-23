@@ -4,8 +4,8 @@ import com.akdong.we.common.dto.SuccessResponse;
 import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.service.CoupleService;
-import com.akdong.we.file.service.FileService;
 import com.akdong.we.ledger.entity.Ledger;
+import com.akdong.we.ledger.response.LedgerInfo;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.exception.member.MemberErrorCode;
@@ -18,9 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +31,6 @@ import java.util.Map;
 public class LedgerController {
     private final LedgerService ledgerService;
     private final CoupleService coupleService;
-
 
     @PostMapping
     @Operation(summary = "장부 생성", description = "장부를 생성합니다.")
@@ -52,6 +49,48 @@ public class LedgerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 new SuccessResponse<>("성공적으로 장부를 생성했습니다.", response)
         );
+    }
 
+    @GetMapping("/{ledgerId}/transfer")
+    @Operation(summary = "장부 id로 계좌번호 조회", description = "장부 id로 계좌번호 조회합니다.(QR 링크 접속 이후 요청 전송하기)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "장부 조회 성공", useReturnTypeSchema = true)
+    })
+    public ResponseEntity<?> findAccountByLedgerId(
+            @PathVariable Long ledgerId,
+            @Parameter(hidden = true)  @Login Member member
+            ) {
+        String account = ledgerService.findAccountByLedgerId(ledgerId);
+
+        // 데이터 객체 생성
+        Map<String, String> response = new HashMap<>();
+        response.put("accountNo", account);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new SuccessResponse<>("성공적으로 계좌번호를 조회했습니다.", response)
+        );
+    }
+
+    @GetMapping
+    @Operation(summary = "MY 장부 조회", description = "로그인 정보로 커플의 축의금 장부 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "장부 조회 성공", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "405", description = "커플만 해당 기능을 사용할 수 있습니다.")
+    })
+    public ResponseEntity<?> findLedgerByCoupleId(
+            @Parameter(hidden = true)  @Login Member member
+    ) {
+        Couple couple = coupleService.getMyCoupleInfo(member)
+                .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+
+        Ledger ledger = couple.getLedger();
+
+        // 데이터 객체 생성
+        Map<String, LedgerInfo> response = new HashMap<>();
+        response.put("LedgerInfo", LedgerInfo.of(ledger));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new SuccessResponse<>("성공적으로 장부를 조회했습니다.", response)
+        );
     }
 }

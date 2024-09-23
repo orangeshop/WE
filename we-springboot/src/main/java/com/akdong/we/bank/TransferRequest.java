@@ -15,7 +15,7 @@ public class TransferRequest {
     @Schema(hidden = true)
     @JsonProperty("Header")
     private CommonRequestHeader Header; // Header
-
+    private Long ledgerId;
     private String depositAccountNo; // 입금 계좌 번호
     private Long transactionBalance; // 거래 금액
     private String withdrawalAccountNo; // 출금 계좌번호

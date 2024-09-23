@@ -70,4 +70,14 @@ public class LedgerService {
 
     }
 
+    @Transactional
+    public String findAccountByLedgerId(Long ledgerId){
+        Ledger ledger = ledgerRepository.findById(ledgerId)
+                .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
+
+        Couple couple = ledger.getCouple();
+
+        return couple.getAccountNumber();
+    }
+
 }
