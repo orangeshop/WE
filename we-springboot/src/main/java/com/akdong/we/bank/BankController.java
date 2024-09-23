@@ -6,7 +6,10 @@ import com.akdong.we.common.dto.SuccessResponse;
 import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.service.CoupleService;
+import com.akdong.we.ledger.LedgerErrorCode;
 import com.akdong.we.ledger.entity.Gift;
+import com.akdong.we.ledger.entity.Ledger;
+import com.akdong.we.ledger.entity.LedgerGift;
 import com.akdong.we.ledger.repository.GiftRepository;
 import com.akdong.we.ledger.repository.LedgerGiftRepository;
 import com.akdong.we.ledger.repository.LedgerRepository;
@@ -135,17 +138,26 @@ public class BankController {
             @RequestBody TransferRequest request){
 
         String responseCode = finApiCallService.transfer(member.getUserKey(), request);
+
         if(Objects.equals(responseCode, "H0000")){
             Gift gift = Gift.builder()
                     .member(member)
                     .isBride(request.getIsBride())
                     .charge(request.getTransactionBalance())
                     .build();
-
             giftRepository.save(gift);
 
-            // 장부도 추가해야함. 지금 장부 생성 api가 없어서 여기까지만 함
 
+            // 장부도 추가해야함. 지금 장부 생성 api가 없어서 여기까지만
+            Ledger ledger = ledgerRepository.findById(request.getLedgerId())
+                    .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
+
+            LedgerGift ledgerGift = LedgerGift.builder()
+                    .ledger(ledger)
+                    .gift(gift)
+                    .build();
+
+            ledgerGiftRepository.save(ledgerGift);
         }
 
         Map<String, String> responseMap = new HashMap<>();
