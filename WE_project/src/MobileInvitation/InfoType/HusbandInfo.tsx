@@ -1,4 +1,4 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
 import {
   GroomInfoDto,
   BirthOrder,
@@ -6,45 +6,73 @@ import {
 } from "../../apis/api/groominfo";
 import { useParams } from "react-router-dom";
 
-const HusbandInfo = forwardRef((_, ref) => {
-  const [lastName, setGroomLastName] = useState("");
-  const [firstName, setGroomFirstName] = useState("");
-  const [birthOrder, setGroomBirthOrder] = useState<BirthOrder | "">("");
-  const [fatherLastName, setGroomFatherLastName] = useState("");
-  const [fatherFirstName, setGroomFatherFirstName] = useState("");
-  const [motherLastName, setGroomMotherLastName] = useState("");
-  const [motherFirstName, setGroomMotherFirstName] = useState("");
-  const { invitationId } = useParams();
+interface HusbandInfoHandle {
+  submit: () => Promise<void>;
+}
 
-  const handleSubmit = async () => {
-    if (!birthOrder) {
-      alert("신랑 서열을 선택해 주세요.");
-      return;
-    }
 
-    const dto: GroomInfoDto = {
-      lastName,
-      firstName,
-      birthOrder: birthOrder as BirthOrder,
-      fatherLastName,
-      fatherFirstName,
-      motherLastName,
-      motherFirstName,
+interface HusbandInfoProps {
+  initialGroomInfo: {
+    lastName: string;
+    firstName: string;
+    birthOrder: BirthOrder | "";
+    fatherLastName: string;
+    fatherFirstName: string;
+    motherLastName: string;
+    motherFirstName: string;
+  };
+}
+
+const HusbandInfo = forwardRef<HusbandInfoHandle, HusbandInfoProps>(
+  ({ initialGroomInfo }, ref) => {
+    const [lastName, setGroomLastName] = useState(initialGroomInfo.lastName);
+    const [firstName, setGroomFirstName] = useState(initialGroomInfo.firstName);
+    const [birthOrder, setGroomBirthOrder] = useState<BirthOrder | "">(initialGroomInfo.birthOrder);
+    const [fatherLastName, setGroomFatherLastName] = useState(initialGroomInfo.fatherLastName);
+    const [fatherFirstName, setGroomFatherFirstName] = useState(initialGroomInfo.fatherFirstName);
+    const [motherLastName, setGroomMotherLastName] = useState(initialGroomInfo.motherLastName);
+    const [motherFirstName, setGroomMotherFirstName] = useState(initialGroomInfo.motherFirstName);
+    const { invitationId } = useParams();
+
+    useEffect(() => {
+      setGroomLastName(initialGroomInfo.lastName);
+      setGroomFirstName(initialGroomInfo.firstName);
+      setGroomBirthOrder(initialGroomInfo.birthOrder);
+      setGroomFatherLastName(initialGroomInfo.fatherLastName);
+      setGroomFatherFirstName(initialGroomInfo.fatherFirstName);
+      setGroomMotherLastName(initialGroomInfo.motherLastName);
+      setGroomMotherFirstName(initialGroomInfo.motherFirstName);
+    }, [initialGroomInfo]);
+
+    const handleSubmit = async () => {
+      if (!birthOrder) {
+        alert("신랑 서열을 선택해 주세요.");
+        return;
+      }
+
+      const dto: GroomInfoDto = {
+        lastName,
+        firstName,
+        birthOrder: birthOrder as BirthOrder,
+        fatherLastName,
+        fatherFirstName,
+        motherLastName,
+        motherFirstName,
+      };
+
+      try {
+        if (dto && invitationId) {
+          await inputGroomInfo(invitationId, dto);
+        }
+      } catch (error) {
+        console.error("신랑 정보 업로드 중 오류 발생:", error);
+        alert("신랑 정보 업로드 중 오류가 발생했습니다.");
+      }
     };
 
-    try {
-      if (dto && invitationId) {
-        await inputGroomInfo(invitationId, dto);
-      }
-    } catch (error) {
-      console.error("신랑 정보 업로드 중 오류 발생:", error);
-      alert("신랑 정보 업로드 중 오류가 발생했습니다.");
-    }
-  };
-
-  useImperativeHandle(ref, () => ({
-    submit: handleSubmit,
-  }));
+    useImperativeHandle(ref, () => ({
+      submit: handleSubmit,
+    }));
 
   return (
     <div>

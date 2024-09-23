@@ -3,7 +3,7 @@ import {
   getFormalInvitation,
   GetFormalInvitationDto,
 } from "../../apis/api/getinfotypeinvitation";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import flower_sm from "../../assets/images/flower-sm.png";
 import leaf from "../../assets/images/leaf.png";
 import rose from "../../assets/images/rose.png";
@@ -24,6 +24,8 @@ const StorageDetail: React.FC = () => {
   const { invitationId } = useParams<{ invitationId: string }>();
   const [showGroomDropdown, setShowGroomDropdown] = useState(false);
   const [showBrideDropdown, setShowBrideDropdown] = useState(false);
+
+  const navigate = useNavigate();
 
   const parseDateString = (dateString: string): Date => {
     const parts = dateString.match(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/);
@@ -83,6 +85,10 @@ const StorageDetail: React.FC = () => {
 
   const markDate = parseDateString(invitationData.date);
 
+  const handleEdit = () => {
+    navigate(`/invite/info/edit/${invitationId}`);
+  };
+
   return (
     <div className="relative font-nanum min-w-[1500px] w-full">
       <div
@@ -94,12 +100,25 @@ const StorageDetail: React.FC = () => {
       />
       <div className="relative z-10 text-center w-full">
         <button className="flex justify-start ml-20 absolute mt-10 bg-transparent">
-          <a href="/invitation">
+          <a href="/invitation/storage">
             <p className="text-[#C1A56C]">{"<<"} 뒤로가기</p>
           </a>
         </button>
 
-        <div className="text-2xl font-semibold letter-space pt-20 text-[#800000]">
+        <div className="absolute mt-10 right-20 flex space-x-4">
+          <button
+            className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
+            onClick={handleEdit}
+          >
+            수정
+          </button>
+          <span className="text-[#C1A56C] py-2">|</span>
+          <button className="bg-transparent text-[#C1A56C] px-2 py-2 rounded">
+            삭제
+          </button>
+        </div>
+
+        <div className="text-2xl font-semibold letter-space pt-36 text-[#800000]">
           WEDDING INVITATION
         </div>
 
