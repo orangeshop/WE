@@ -15,4 +15,7 @@
     <string name="schedule_date">일시</string>
     <string name="schedule_price">가격(선택사항)</string>
     <string name="schedule_register_complete">작성완료</string>
+
+    <string name="schedule_year">%s년</string>
+    <string name="schedule_month">%s월</string>
 </resources>
