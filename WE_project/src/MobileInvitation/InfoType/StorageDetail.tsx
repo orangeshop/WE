@@ -16,6 +16,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./StorageDetail.css";
 import dayjs from "dayjs";
+import { deleteFormalInvitation } from "../../apis/api/deleteinfotypeinvitation";
 
 const StorageDetail: React.FC = () => {
   const [invitationData, setInvitationData] =
@@ -89,6 +90,19 @@ const StorageDetail: React.FC = () => {
     navigate(`/invite/info/edit/${invitationId}`);
   };
 
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+    if (confirmDelete) {
+      try {
+        await deleteFormalInvitation(Number(invitationId));
+        navigate("/invitation/storage");
+      } catch (error) {
+        console.error("청첩장 삭제 중 오류 발생:", error);
+        alert("삭제에 실패했습니다.");
+      }
+    }
+  };
+
   return (
     <div className="relative font-nanum min-w-[1500px] w-full">
       <div
@@ -113,7 +127,10 @@ const StorageDetail: React.FC = () => {
             수정
           </button>
           <span className="text-[#C1A56C] py-2">|</span>
-          <button className="bg-transparent text-[#C1A56C] px-2 py-2 rounded">
+          <button
+            className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
+            onClick={handleDelete}
+          >
             삭제
           </button>
         </div>
