@@ -20,6 +20,8 @@ class AccountViewModel @Inject constructor(
     private val _chooseBank = MutableStateFlow(BankList())
     val chooseBank: Flow<BankList> get() = _chooseBank
 
+    private val _accountNumber = MutableStateFlow("")
+    val accountNumber: Flow<String> get() = _accountNumber
 
     init {
         setBankList(BankList.bankLs)
@@ -31,6 +33,10 @@ class AccountViewModel @Inject constructor(
 
     fun setChooseBank(bank: BankList){
         _chooseBank.update { it.copy(bankName = bank.bankName, bankIcList = bank.bankIcList) }
+    }
+
+    fun setAccountNumber(number: String){
+        _accountNumber.update { number }
     }
 
 

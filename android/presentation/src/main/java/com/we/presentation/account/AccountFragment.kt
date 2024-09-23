@@ -1,6 +1,7 @@
 package com.we.presentation.account
 
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -29,6 +30,15 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
         accountBottomSheetClickListener()
         initTransferClickListener()
         bankChooseComplete()
+        accountInputComplete()
+    }
+
+    private fun accountInputComplete() {
+        binding.apply {
+            etAccountNumber.addTextChangedListener {
+                accountViewModel.setAccountNumber(it.toString())
+            }
+        }
     }
 
     private fun bankChooseComplete() {
