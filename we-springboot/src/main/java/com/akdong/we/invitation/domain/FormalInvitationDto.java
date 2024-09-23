@@ -1,6 +1,7 @@
 package com.akdong.we.invitation.domain;
 
 import com.akdong.we.invitation.service.FormalInvitationService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +53,7 @@ public class FormalInvitationDto {
     private String addressDetail;
     private String weddingHall;
 
+    @Schema(hidden = true)
     public FormalInvitationEntity asEntity(){
         return FormalInvitationEntity.builder()
 

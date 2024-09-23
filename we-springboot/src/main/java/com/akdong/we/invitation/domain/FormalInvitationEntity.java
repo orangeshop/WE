@@ -1,5 +1,9 @@
 package com.akdong.we.invitation.domain;
 
+import com.akdong.we.file.domain.FileDto;
+import com.akdong.we.invitation.domain.formal.GreetingsDto;
+import com.akdong.we.invitation.domain.formal.MetaInfo;
+import com.akdong.we.invitation.domain.formal.PersonDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Setter
-@Table(name="formal_invitation_entity")
+@Table(name="formal_invitation")
 public class FormalInvitationEntity {
 
     @Id
@@ -100,6 +104,12 @@ public class FormalInvitationEntity {
     @Column
     private String wedding_hall;
 
+    @Column
+    private double longtitude;
+
+    @Column
+    private double latitude;
+
     public FormalInvitationDto asDto(){
         return FormalInvitationDto.builder()
 
@@ -136,6 +146,64 @@ public class FormalInvitationEntity {
                 .address(address)
                 .addressDetail(address_detail)
                 .weddingHall(wedding_hall)
+                .build();
+    }
+
+    public PersonDto asBrideDto()
+    {
+        return PersonDto
+            .builder()
+            .lastName(bride_last_name)
+            .firstName(bride_first_name)
+            .birthOrder(bride_birth_order)
+            .fatherLastName(bride_father_last_name)
+            .fatherFirstName(bride_father_last_name)
+            .motherLastName(bride_mother_last_name)
+            .motherFirstName(bride_mother_first_name)
+            .build();
+    }
+
+    public PersonDto asGroomDto()
+    {
+        return PersonDto
+                .builder()
+                .lastName(groom_last_name)
+                .firstName(groom_first_name)
+                .birthOrder(groom_birth_order)
+                .fatherLastName(groom_father_last_name)
+                .fatherFirstName(groom_father_last_name)
+                .motherLastName(groom_mother_last_name)
+                .motherFirstName(groom_mother_first_name)
+                .build();
+    }
+
+    public FileDto asFileDto()
+    {
+        return FileDto.builder()
+                .url(url)
+                .build();
+    }
+
+    public MetaInfo asMetaInfoDto()
+    {
+        return MetaInfo
+                .builder()
+                .date(date)
+                .timezone(timezone)
+                .hour(hour)
+                .minute(minute)
+                .address(address)
+                .address_detail(address_detail)
+                .wedding_hall(wedding_hall)
+                .latitude(latitude)
+                .longitude(longtitude)
+                .build();
+    }
+
+    public GreetingsDto asGreetingDto()
+    {
+        return GreetingsDto.builder()
+                .greetings(greetings)
                 .build();
     }
 }
