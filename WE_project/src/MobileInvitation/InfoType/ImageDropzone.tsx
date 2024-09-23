@@ -5,11 +5,11 @@ import dropzone from "../../assets/images/dropzone.jpg";
 
 interface ImageDropzoneProps {
   onImageChange: (file: File | null, imageSrc: string | null) => void;
+  initialImage?: string | null; // Keep this as optional
 }
 
-const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-
+const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange, initialImage = null }) => {
+  const [imageSrc, setImageSrc] = useState<string | null>(initialImage);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [showCropper, setShowCropper] = useState(false);
   const cropperRef = useRef<HTMLImageElement>(null);
@@ -110,11 +110,19 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange }) => {
             onChange={handleFileChange}
             className="hidden"
           />
-          <img
-            src={dropzone}
-            alt="dropzone"
-            className="w-full h-full object-cover"
-          />
+          {initialImage ? (
+            <img
+              src={initialImage}
+              alt="Existing"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img
+              src={dropzone}
+              alt="dropzone"
+              className="w-full h-full object-cover"
+            />
+          )}
         </label>
       )}
 

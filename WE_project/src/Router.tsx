@@ -5,6 +5,7 @@ import TypeChoice from "./MobileInvitation/TypeChoice";
 import Storage from "./MobileInvitation/InfoType/Storage";
 import StorageDetail from "./MobileInvitation/InfoType/StorageDetail";
 import InfoTypeInvitation from "./MobileInvitation/InfoType/Invitation";
+import InvitationEdit from "./MobileInvitation/InfoType/InvitationEdit";
 import InfoTypeSample from "./MobileInvitation/InfoType/Sample";
 import FreeTypeInvitation from "./MobileInvitation/FreeType/FreeTypeInvitation";
 import FreeTypeSample from "./MobileInvitation/FreeType/FreeTypeSample";
@@ -29,6 +30,10 @@ const AppRouter: React.FC = () => {
         <Route
           path="/invite/info/:invitationId"
           element={<InfoTypeInvitation />}
+        />
+        <Route
+          path="invite/info/edit/:invitationId"
+          element={<InvitationEdit />}
         />
         <Route path="/invite/info/sample" element={<InfoTypeSample />} />
         <Route path="/invite/free" element={<FreeTypeInvitation />} />

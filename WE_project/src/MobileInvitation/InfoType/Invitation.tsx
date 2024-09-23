@@ -7,21 +7,22 @@ import GreetingsSection from "./Greetings";
 import LocationAndDate from "./LocationAndDate";
 import { inputImage } from "../../apis/api/imagedropzone";
 import { useParams } from "react-router-dom";
+import { BirthOrder } from "../../apis/api/getinfotypeinvitation";
 
 interface HusbandInfoHandle {
-  submit: () => void;
+  submit: () => Promise<void>;
 }
 
 interface BrideInfoHandle {
-  submit: () => void;
+  submit: () => Promise<void>; 
 }
 
 interface GreetingsHandle {
-  submit: () => void;
+  submit: () => Promise<void>;
 }
 
 interface LocationAndDateHandle {
-  submit: () => void;
+  submit: () => Promise<void>; 
 }
 
 const InfoTypeInvitation: React.FC = () => {
@@ -29,6 +30,26 @@ const InfoTypeInvitation: React.FC = () => {
   const [, setImageSrc] = useState<string | null>(null);
   const [greetings, setGreetings] = useState<string>("");
   const [title, setTitle] = useState<string>("");
+
+  const initialGroomInfo = {
+    lastName: "",
+    firstName: "",
+    birthOrder: "" as "" | BirthOrder,
+    fatherLastName: "",
+    fatherFirstName: "",
+    motherLastName: "",
+    motherFirstName: "",
+  };
+
+  const initialBrideInfo = {
+    lastName: "",
+    firstName: "",
+    birthOrder: "" as "" | BirthOrder,
+    fatherLastName: "",
+    fatherFirstName: "",
+    motherLastName: "",
+    motherFirstName: "",
+  };
 
   const husbandInfoRef = useRef<HusbandInfoHandle | null>(null);
   const brideInfoRef = useRef<BrideInfoHandle | null>(null);
@@ -94,6 +115,17 @@ const InfoTypeInvitation: React.FC = () => {
 
     window.location.href = "/invitation/storage";
   };
+  const initialCalendarValue = null;
+  const initialWeddingHall = "";
+  const initialAddressDetail = "";
+  const initialAddress = "";
+  const initialLatitude = 0;
+  const initialLongitude = 0;
+  const initialTime = {
+    day: "am",
+    hour: 0,
+    minute: 0,
+  };
 
   return (
     <div className="font-nanum">
@@ -117,15 +149,27 @@ const InfoTypeInvitation: React.FC = () => {
           <div className="mt-20 border border-gray-200"></div>
         </div>
         <div>
-          <HusbandInfo ref={husbandInfoRef} />
-          <BrideInfo ref={brideInfoRef} />
+          <HusbandInfo
+            ref={husbandInfoRef}
+            initialGroomInfo={initialGroomInfo}
+          />
+          <BrideInfo ref={brideInfoRef} initialBrideInfo={initialBrideInfo} />
           <GreetingsSection
             ref={greetingsRef}
             value={greetings}
             onChange={handleGreetingsChange}
           />
         </div>
-        <LocationAndDate ref={locationAndDateRef} />
+        <LocationAndDate
+          ref={locationAndDateRef}
+          initialCalendarValue={initialCalendarValue}
+          initialWeddingHall={initialWeddingHall}
+          initialAddressDetail={initialAddressDetail}
+          initialAddress={initialAddress}
+          initialLatitude={initialLatitude}
+          initialLongitude={initialLongitude}
+          initialTime={initialTime}
+        />
         <div className="w-full flex justify-end gap-3 mt-10 mb-10">
           <button
             className="w-24 h-10 text-sm rounded-md text-md bg-[#FFD0DE]"

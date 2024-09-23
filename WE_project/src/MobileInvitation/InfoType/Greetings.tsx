@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from "react";
+import React, { useState, forwardRef, useImperativeHandle, useEffect } from "react";
 import { inputGreeting } from "../../apis/api/greeting";
 import { useParams } from "react-router-dom";
 
@@ -15,6 +15,11 @@ const GreetingsSection = forwardRef<GreetingsHandle, GreetingsProps>(
   ({ value, onChange }, ref) => {
     const { invitationId } = useParams();
     const [greeting, setGreeting] = useState(value);
+
+    // Update local state when value prop changes
+    useEffect(() => {
+      setGreeting(value);
+    }, [value]);
 
     const handleSubmit = async () => {
       if (!greeting) {

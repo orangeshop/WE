@@ -18,12 +18,14 @@ interface KakaoMapProps {
     latitude: number,
     longitude: number
   ) => void;
+  initialAddress?: string;
 }
 
-const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange }) => {
+const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange, initialAddress }) => {
   const [map, setMap] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
   const [showMap, setShowMap] = useState<boolean>(true);
+  const [address, setAddress] = useState<string>(initialAddress || ""); // 주소 상태 추가
 
   useEffect(() => {
     if (window.kakao && window.daum && showMap) {
@@ -80,8 +82,7 @@ const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange }) => {
                   result[0].x
                 );
 
-                (document.getElementById("addr") as HTMLInputElement).value =
-                  addrData.address;
+                setAddress(addrData.address); // 주소 상태 업데이트
 
                 map.panTo(currentPos);
 
@@ -89,7 +90,6 @@ const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange }) => {
                 marker.setPosition(currentPos);
                 marker.setMap(map);
 
-                // Call the callback with the address and coordinates
                 onLocationChange(addrData.address, result[0].y, result[0].x);
               } else {
                 alert("주소를 찾을 수 없습니다.");
@@ -107,11 +107,17 @@ const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange }) => {
     setShowMap(event.target.checked);
   };
 
+  // 초기 주소가 변경될 때 주소 입력 필드 업데이트
+  useEffect(() => {
+    setAddress(initialAddress || "");
+  }, [initialAddress]);
+
   return (
     <div className="w-full">
       <div className="flex justify-between">
         <input
           id="addr"
+          value={address} // 상태 값으로 제어
           readOnly
           className="border border-gray-400 w-72 h-10 text-center"
           placeholder="주소를 입력하세요"
