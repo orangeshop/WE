@@ -71,4 +71,16 @@
         android:textColor="@color/white"
         android:background="@drawable/rectangle_red_10_50_20"
     />
+
+    <ImageView
+        android:id="@+id/iv_rotate_arrow"
+        android:visibility="gone"
+        android:src="@drawable/ic_plus_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+    />
 </androidx.constraintlayout.widget.ConstraintLayout>

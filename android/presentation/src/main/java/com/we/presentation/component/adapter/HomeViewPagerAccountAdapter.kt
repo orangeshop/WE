@@ -10,7 +10,7 @@ import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemAccountBinding
 
 class HomeViewPagerAccountAdapter(
-    val item: List<BankData>,
+    val itemLS: List<BankData>,
     private val accountClickListener: (idx : Int) -> Unit,
     private val accountRemittance: () -> Unit,
     private val typeCheck : Boolean
@@ -30,12 +30,24 @@ class HomeViewPagerAccountAdapter(
                         ivReload.visibility = View.GONE
                     }
                     false -> {
-                        clItemAccount.setOnClickListener {
-                            accountClickListener(adapterPosition)
-                        }
 
-                        tvAccountAdapterRemittance.setOnClickListener {
-                            accountRemittance()
+                        if(itemLS.lastIndex == adapterPosition){
+
+                            tvAccountAdapterRemittance.visibility = View.GONE
+                            tvHomeMoney.visibility = View.GONE
+                            ivReload.visibility = View.GONE
+                            tvAccountAdapterRemittance.visibility = View.GONE
+
+                            ivRotateArrow.visibility = View.VISIBLE
+
+                            clItemAccount.setOnClickListener {
+                                accountClickListener(adapterPosition)
+                            }
+                        }
+                        else{
+                            tvAccountAdapterRemittance.setOnClickListener {
+                                accountRemittance()
+                            }
                         }
                     }
                 }
@@ -53,11 +65,11 @@ class HomeViewPagerAccountAdapter(
     }
 
     override fun getItemCount(): Int {
-        return item.size
+        return itemLS.size
     }
 
     override fun onBindViewHolder(holder: HomeViewPagerAccountViewHolder, position: Int) {
-        holder.bind(item[position])
+        holder.bind(itemLS[position])
     }
 
 }
