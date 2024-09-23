@@ -1,8 +1,10 @@
 package com.we.di
 
+import com.data.repository.BankRepository
 import com.data.repository.DataStoreRepository
 import com.data.repository.CoupleRepository
 import com.data.repository.SignRepository
+import com.data.repositoryimpl.BankRepositoryImpl
 import com.data.repositoryimpl.DataStoreRepositoryImpl
 import com.data.repositoryimpl.CoupleRepositoryImpl
 import com.data.repositoryimpl.SignRepositoryImpl
@@ -36,4 +38,11 @@ interface RepositoryModule {
     fun bindsDataStoreRepository(
         dataStoreRepositoryImpl: DataStoreRepositoryImpl
     ): DataStoreRepository
+
+    @Singleton
+    @Binds
+    fun bindsBankRepository(
+        bankRepositoryImpl: BankRepositoryImpl
+    ): BankRepository
+
 }

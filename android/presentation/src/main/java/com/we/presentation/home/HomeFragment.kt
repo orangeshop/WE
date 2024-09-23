@@ -1,5 +1,6 @@
 package com.we.presentation.home
 
+import com.we.model.BankData
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.adapter.HomeViewPagerAccountAdapter
@@ -20,14 +21,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
     private fun setUpAccountViewPager() {
-        val test = arrayListOf("1", "2", "3")
+        val test = arrayListOf(BankData("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "", "","", ""))
 
         val adapter = HomeViewPagerAccountAdapter(test,
-            accountClickListener = {idx ->
+            accountClickListener = { idx ->
 
-                if(idx == test.lastIndex){
+                if (idx == test.lastIndex) {
                     navigateDestination(R.id.action_homeFragment_to_accountFragment)
-                }else{
+                } else {
                     navigateDestination(R.id.action_homeFragment_accountCheckFragment)
                 }
 
@@ -35,7 +36,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             },
             accountRemittance = {
                 navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
-            }
+            },
+            typeCheck = false
         )
 
         binding.apply {
