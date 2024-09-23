@@ -11,7 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".sign.SignInFragment">
-
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            app:lottie_rawRes="@raw/blossom"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
         <ImageView
             android:id="@+id/iv_sign_in_ring"
             android:layout_width="wrap_content"

@@ -11,6 +11,8 @@
         tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_fragment_sign_in_to_fragment_sign_up"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/signUpFragment" />
     </fragment>
 
@@ -20,6 +22,8 @@
         tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_fragment_sign_up_to_fragment_easy_password_register"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/easyPasswordRegisterFragment" />
     </fragment>
 
@@ -30,6 +34,8 @@
         <action
             android:id="@+id/action_fragment_easy_password_register_to_fragment_sign_up_success"
             app:popUpTo="@+id/signInFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/signUpSuccessFragment" />
     </fragment>
 
