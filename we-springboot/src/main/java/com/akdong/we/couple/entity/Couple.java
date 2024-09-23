@@ -1,12 +1,10 @@
 package com.akdong.we.couple.entity;
 
+import com.akdong.we.ledger.entity.Ledger;
 import com.akdong.we.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -33,4 +31,9 @@ public class Couple {
     @Column(name="accountNumber")
     private String accountNumber;
 
+    @Column(name="ledgerCreated", nullable = false)
+    private boolean ledgerCreated;
+
+    @OneToOne(mappedBy = "couple", cascade = CascadeType.ALL)
+    private Ledger ledger;
 }

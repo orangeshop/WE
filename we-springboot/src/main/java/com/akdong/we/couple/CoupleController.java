@@ -4,6 +4,7 @@ import com.akdong.we.common.dto.SuccessResponse;
 import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.request.CoupleRegisterRequest;
+import com.akdong.we.couple.response.CoupleInfo;
 import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
@@ -75,8 +76,8 @@ public class CoupleController {
                 orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
 
         // 데이터 객체 생성
-        Map<String, Long> response = new HashMap<>();
-        response.put("coupleId", couple.getId());
+        Map<String, CoupleInfo> response = new HashMap<>();
+        response.put("coupleInfo", CoupleInfo.of(couple));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 new SuccessResponse<>("성공적으로 커플을 조회했습니다.", response)

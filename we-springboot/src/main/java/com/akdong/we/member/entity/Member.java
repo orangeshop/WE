@@ -55,13 +55,16 @@ public class Member {
     @Column(name="pin")
     private String pin;
 
+    @Column(name="deviceToken")
+    private String deviceToken;
+
 //    @ManyToOne
 //    @JoinColumn(name = "coupleId", nullable = true)
 //    private Couple couple;
 
     @Builder
     public Member(String email, String password, String nickname, LocalDateTime regDate, LocalDateTime leavedDate, boolean isLeaved,
-                  String userKey, boolean coupleJoined, String pin){
+                  String userKey, boolean coupleJoined, String pin, String deviceToken){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -71,6 +74,7 @@ public class Member {
         this.userKey = userKey;
         this.coupleJoined = coupleJoined;
         this.pin = pin;
+        this.deviceToken = deviceToken;
     }
 
 

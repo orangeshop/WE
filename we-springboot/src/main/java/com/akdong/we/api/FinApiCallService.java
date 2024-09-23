@@ -41,8 +41,6 @@ public class FinApiCallService {
     @Autowired
     private RestTemplate restTemplate;
 
-
-
     @PostConstruct
     public void printLogBaseUrl() {
         log.info("----------FinAPI URL={}----------", baseUrl);
@@ -401,6 +399,5 @@ public class FinApiCallService {
             log.error("Exception occurred during FinAPI openAccountAuth: {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
-
     }
 }
