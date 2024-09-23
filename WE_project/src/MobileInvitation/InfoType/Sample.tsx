@@ -1,8 +1,8 @@
 import React from "react";
-import couple from "../assets/images/couple.jpg";
-import flowerframe from "../assets/images/flowerframe.png";
-import back from "../assets/images/back.png";
-import flower_sm from "../assets/images/flower-sm.png";
+import couple from "../../assets/images/couple.jpg";
+import flowerframe from "../../assets/images/flowerframe.png";
+import back from "../../assets/images/back.png";
+import flower_sm from "../../assets/images/flower-sm.png";
 
 const InfoTypeSample: React.FC = () => {
   return (

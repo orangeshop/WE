@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
-import Navbar from "../Components/Navbar";
+import Navbar from "../../Components/Navbar";
 import ImageDropzone from "./ImageDropzone";
 import HusbandInfo from "./HusbandInfo";
 import BrideInfo from "./BrideInfo";
 import GreetingsSection from "./Greetings";
 import LocationAndDate from "./LocationAndDate";
-import { inputImage } from "../apis/api/imagedropzone";
+import { inputImage } from "../../apis/api/imagedropzone";
 import { useParams } from "react-router-dom";
 
 interface HusbandInfoHandle {

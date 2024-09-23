@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../Components/Navbar";
+import Navbar from "../../Components/Navbar";
 import {
   getFormalInvitation,
   GetFormalInvitationDto,
-} from "../apis/api/getinfotypeinvitation";
+} from "../../apis/api/getinfotypeinvitation";
 
 const Storage: React.FC = () => {
   const [invitations, setInvitations] = useState<GetFormalInvitationDto[]>([]);

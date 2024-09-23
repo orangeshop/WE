@@ -1,5 +1,5 @@
 import React, { useState, forwardRef, useImperativeHandle } from "react";
-import { inputGreeting } from "../apis/api/greeting";
+import { inputGreeting } from "../../apis/api/greeting";
 import { useParams } from "react-router-dom";
 
 interface GreetingsProps {
