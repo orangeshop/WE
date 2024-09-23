@@ -19,7 +19,7 @@ pipeline{
                 script{
                     sh 'docker build -f we-springboot/Dockerfile -t jenkins-we .'
                     sh 'docker rm -f jenkins-we'
-                    sh 'docker run -d --name jenkins-we --net mybridge -p 8080:8080 jenkins-we'
+                    sh 'docker run -d --name jenkins-we --net host -p 8080:8080 jenkins-we'
                 }
             }
         }
