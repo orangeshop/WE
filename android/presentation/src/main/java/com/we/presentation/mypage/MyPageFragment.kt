@@ -23,10 +23,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private fun setUpAccountViewPager() {
-
+        lateinit var adapter : HomeViewPagerAccountAdapter
         lifecycleScope.launch {
             myPageViewModel.accountList.collect { list ->
-                val adapter = HomeViewPagerAccountAdapter(
+                adapter = HomeViewPagerAccountAdapter(
                     list.toMutableList(),
                     accountClickListener = {
                         Toast.makeText(requireContext(), "허용하지 않음", Toast.LENGTH_SHORT).show()
@@ -36,12 +36,11 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     },
                     true
                 )
-
-                binding.apply {
-                    vpMyAccount.adapter = adapter
-                    vpTotalAccountDotsIndicator.attachTo(vpMyAccount)
-                }
             }
+        }
+        binding.apply {
+            vpMyAccount.adapter = adapter
+            vpTotalAccountDotsIndicator.attachTo(vpMyAccount)
         }
     }
 }

@@ -3,8 +3,10 @@ package com.we.presentation.component.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.we.model.BankData
+import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemAccountBinding
 
 class HomeViewPagerAccountAdapter(
@@ -12,7 +14,7 @@ class HomeViewPagerAccountAdapter(
     private val accountClickListener: (idx : Int) -> Unit,
     private val accountRemittance: () -> Unit,
     private val typeCheck : Boolean
-) : RecyclerView.Adapter<HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>() {
+) : ListAdapter<BankData, HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>(BaseDiffUtil<BankData>()) {
     inner class HomeViewPagerAccountViewHolder(val binding: ItemAccountBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: BankData){
             binding.apply {
