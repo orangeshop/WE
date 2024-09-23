@@ -1,5 +1,5 @@
 import { useState, useCallback, useImperativeHandle, forwardRef } from "react";
-import cal_2 from "../assets/images/cal_2.png";
+import cal_2 from "../../assets/images/cal_2.png";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Modal from "react-modal";
@@ -10,7 +10,7 @@ import {
   inputDateLocation,
   DateLocationDto,
   Timezone,
-} from "../apis/api/datelocation";
+} from "../../apis/api/datelocation";
 import { useParams } from "react-router-dom";
 
 Modal.setAppElement("#root");

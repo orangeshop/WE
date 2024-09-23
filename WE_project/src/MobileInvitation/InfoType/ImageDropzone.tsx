@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.min.css";
-import dropzone from "../assets/images/dropzone.jpg";
+import dropzone from "../../assets/images/dropzone.jpg";
 
 interface ImageDropzoneProps {
   onImageChange: (file: File | null, imageSrc: string | null) => void;

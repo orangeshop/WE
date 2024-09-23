@@ -3,7 +3,7 @@ import {
   GroomInfoDto,
   BirthOrder,
   inputGroomInfo,
-} from "../apis/api/groominfo";
+} from "../../apis/api/groominfo";
 import { useParams } from "react-router-dom";
 
 const HusbandInfo = forwardRef((_, ref) => {
