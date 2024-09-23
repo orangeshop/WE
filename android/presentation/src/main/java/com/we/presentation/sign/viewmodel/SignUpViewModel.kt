@@ -29,7 +29,7 @@ class SignUpViewModel @Inject constructor(
     val easyPasswordType: StateFlow<Boolean> get() = _easyPasswordType
 
 
-    fun addRemoveEasyPassword(type: Boolean, value: String = "") {
+    fun addRemoveEasyPassword(type: Boolean, value: String = "") { //간편 비밀 번호 추가 삭제
         _signUpParam.update {
             it.copy(easyPassword =
             it.easyPassword.toMutableList().also { list ->
@@ -39,7 +39,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun addRemoveEasyPasswordCheck(type: Boolean, value: String = "") {
+    fun addRemoveEasyPasswordCheck(type: Boolean, value: String = "") { //간편 비밀 번호 확인 추가 삭제
         _signUpParam.update {
             it.copy(easyPasswordCheck =
             it.easyPasswordCheck.toMutableList().also { list ->
@@ -49,7 +49,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun clearEasyPasswordAndCheck() {
+    fun clearEasyPasswordAndCheck() { // 간편 비밀번호 초기화
         _easyPasswordType.value = true
         _signUpParam.update {
             it.copy(
@@ -59,7 +59,11 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    suspend fun isSignUpParamValid(param: SignUpParam) {
+    fun clearSignUpParam() { //Sign Param 초기화
+        _signUpParam.update { SignUpParam.DEFAULT }
+    }
+
+    suspend fun isSignUpParamValid(param: SignUpParam) { // 회원가입 파라미터 유효성 검증
         _nextButtonActivate.emit(
             param.email.isNotEmpty() &&
                     param.emailName.isNotEmpty() &&
