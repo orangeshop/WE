@@ -11,6 +11,7 @@ class SignUpSuccessFragment :
 
     override fun initView() {
         initClickEvent()
+
     }
 
     private fun initClickEvent() {

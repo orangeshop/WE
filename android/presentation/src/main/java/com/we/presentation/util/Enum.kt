@@ -4,8 +4,8 @@ import com.we.presentation.R
 
 enum class CalendarType {
     BEFORE,
-    TODAY,
     CURRENT,
+    TODAY,
     AFTER
 }
 
