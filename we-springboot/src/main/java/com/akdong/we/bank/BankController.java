@@ -7,7 +7,6 @@ import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.ledger.entity.Gift;
-import com.akdong.we.ledger.entity.Ledger;
 import com.akdong.we.ledger.repository.GiftRepository;
 import com.akdong.we.ledger.repository.LedgerGiftRepository;
 import com.akdong.we.ledger.repository.LedgerRepository;
@@ -92,7 +91,6 @@ public class BankController {
                 )
         );
     }
-
 
     @PostMapping("/checkAuthCode")
     @Operation(summary = "1원 송금 검증 요청", description = "1원 송금 검증을 요청합니다.")
