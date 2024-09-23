@@ -15,7 +15,9 @@ class ScheduleCalendarAdapter :
     ListAdapter<CalendarItem, ScheduleCalendarAdapter.ScheduleViewHolder>(
         BaseDiffUtil<CalendarItem>()
     ) {
-
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

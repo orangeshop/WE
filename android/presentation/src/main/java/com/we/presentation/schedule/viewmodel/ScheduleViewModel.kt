@@ -93,7 +93,7 @@ class ScheduleViewModel @Inject constructor(
         // 현재 달의 날짜 추가
         days += (0 until daysInMonth).map { i ->
             val currentDate = firstOfMonth.plusDays(i.toLong())
-            val type = if(now.dayOfMonth == currentDate.dayOfMonth)CalendarType.TODAY else CalendarType.CURRENT
+            val type = if(currentDate.isEqual(now))CalendarType.TODAY else CalendarType.CURRENT
             CalendarItem(
                 date = currentDate,
                 calendarType = type
