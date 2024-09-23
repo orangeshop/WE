@@ -27,6 +27,8 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
 
     override fun initView() {
 
+        accountViewModel.setChooseBank(BankList(0, ""))
+
         accountBottomSheetClickListener()
         initTransferClickListener()
         bankChooseComplete()

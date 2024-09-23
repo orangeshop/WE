@@ -17,7 +17,7 @@ class AccountViewModel @Inject constructor(
     private val _bankList = MutableStateFlow<List<BankList>>(mutableListOf())
     val bankList: Flow<List<BankList>> get() =  _bankList
 
-    private val _chooseBank = MutableStateFlow(BankList())
+    private val _chooseBank = MutableStateFlow(BankList(0, ""))
     val chooseBank: Flow<BankList> get() = _chooseBank
 
     private val _accountNumber = MutableStateFlow("")
@@ -25,6 +25,8 @@ class AccountViewModel @Inject constructor(
 
     init {
         setBankList(BankList.bankLs)
+        setChooseBank(BankList(0, ""))
+        setAccountNumber("")
     }
 
     private fun setBankList(list: List<BankList>) {
