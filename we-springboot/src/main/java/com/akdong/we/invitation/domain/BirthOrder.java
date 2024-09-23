@@ -1,13 +1,9 @@
 package com.akdong.we.invitation.domain;
 
 
-enum BirthOrder {
+public enum BirthOrder {
     FIRST,
     SECOND,
     OTHER
 }
 
-enum TIMEZONE{
-    AM,
-    PM
-}
