@@ -41,6 +41,7 @@ class ScheduleCalendarAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(calendarItem: CalendarItem) {
             binding.apply {
+                petalVisible = calendarItem.isScheduled
                 date = calendarItem.date.dayOfMonth.toString()
                 val context = binding.root.context
                 var drawable: Int? = null
