@@ -131,7 +131,7 @@ const InfoTypeInvitation: React.FC = () => {
             className="w-24 h-10 text-sm rounded-md text-md bg-[#FFD0DE]"
             onClick={handleCreate}
           >
-            저장하기
+            만들기
           </button>
         </div>
       </div>
