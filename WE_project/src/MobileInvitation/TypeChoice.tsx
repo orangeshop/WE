@@ -6,7 +6,11 @@ import { createFormalInvitation } from "../apis/api/infotypeinvitation";
 const TypeChoice: React.FC = () => {
   const handleCreateInvitation = async () => {
     try {
-      const invitationId = await createFormalInvitation({});
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+      const invitationId = await createFormalInvitation(accessToken, {});
       window.location.href = `/invite/info/${invitationId}`;
     } catch (error) {
       console.error("Error creating invitation:", error);

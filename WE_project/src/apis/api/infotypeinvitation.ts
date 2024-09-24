@@ -45,12 +45,14 @@ export type FormalInvitationDto = {
 };
 
 export const createFormalInvitation = async (
+  accessToken: string,
   dto: FormalInvitationDto
 ): Promise<string> => {
   try {
     const response = await api.post(`/invitation/formal`, dto, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
     });
     return response.data.invitation_id;
