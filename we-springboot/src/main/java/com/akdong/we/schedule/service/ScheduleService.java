@@ -1,10 +1,12 @@
 package com.akdong.we.schedule.service;
 
+import com.akdong.we.couple.repository.CoupleRepository;
 import com.akdong.we.schedule.domain.ScheduleDto;
 import com.akdong.we.schedule.domain.ScheduleEntity;
 import com.akdong.we.schedule.domain.ScheduleList;
 import com.akdong.we.schedule.domain.ScheduleRequest;
 import com.akdong.we.schedule.repository.ScheduleRepository;
+import com.akdong.we.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 @Service
 public class ScheduleService {
+    private final CoupleRepository coupleRepository;
     private final ScheduleRepository scheduleRepository;
 
     public ScheduleDto saveSchedule(ScheduleRequest schedule)
@@ -30,7 +33,7 @@ public class ScheduleService {
                 .year(year)
                 .month(month)
                 .scheduleList(scheduleRepository
-                        .getScheduleByDate(year,month)
+                        .getScheduleByDate(year,month, Util.getCoupleIdFromJwt(coupleRepository))
                         .stream()
                         .map(ScheduleEntity::asDto)
                         .toList()
