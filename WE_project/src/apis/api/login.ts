@@ -19,7 +19,9 @@ export type LoginResponse = {
     };
     coupleInfo: {
       id: number;
+      accountNumber: string;
     };
+
     tokens: {
       accessToken: string;
       refreshToken: string;
