@@ -2,10 +2,15 @@ package com.akdong.we.member.controller;
 
 import com.akdong.we.common.dto.ErrorResponse;
 import com.akdong.we.common.dto.SuccessResponse;
+import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.common.jwt.JwtUtil;
 import com.akdong.we.common.redis.RedisUtil;
+import com.akdong.we.couple.entity.Couple;
+import com.akdong.we.couple.response.CoupleInfo;
+import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
+import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.akdong.we.member.request.*;
 import com.akdong.we.member.response.MemberAndTokensResponse;
 import com.akdong.we.member.response.MemberInfo;
@@ -33,6 +38,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 인증 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -50,6 +56,7 @@ public class AuthController {
     private final RedisUtil redisUtil;
     private final EmailService emailService;
     private final AuthService authService;
+    private final CoupleService coupleService;
 
 
     @PostMapping("/login")
@@ -99,14 +106,25 @@ public class AuthController {
 
 
         Member loginMember = memberService.getMemberByEmail(loginInfo.getEmail());
-
+        Optional<Couple> couple = coupleService.getMyCoupleInfo(loginMember);
         authService.isLeavedMemberInLogin(loginMember.getEmail());
+        MemberAndTokensResponse memberAndTokensResponse;
+        if (couple.isPresent()) {
+            Couple coupleValue = couple.get();  // Optional에서 값을 꺼냄
+            memberAndTokensResponse = MemberAndTokensResponse
+                    .builder()
+                    .memberInfo(MemberInfo.of(loginMember))
+                    .coupleInfo(CoupleInfo.of(coupleValue))  // coupleValue를 전달
+                    .tokens(tokens)
+                    .build();
+        } else {
+            memberAndTokensResponse = MemberAndTokensResponse
+                    .builder()
+                    .memberInfo(MemberInfo.of(loginMember))
+                    .tokens(tokens)  // couple이 없을 경우 coupleInfo는 포함하지 않음
+                    .build();
+        }
 
-        MemberAndTokensResponse memberAndTokensResponse = MemberAndTokensResponse
-                .builder()
-                .memberInfo(MemberInfo.of(loginMember))
-                .tokens(tokens)
-                .build();
 
         return ResponseEntity.ok(
                 new SuccessResponse<>("로그인 되었습니다.", memberAndTokensResponse)
