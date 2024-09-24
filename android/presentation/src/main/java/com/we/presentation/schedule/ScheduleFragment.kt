@@ -60,7 +60,9 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             ivScheduleLeft.setOnClickListener {
                 scheduleViewModel.plusMinusMonth(false)
             }
-
+            scheduleCalendarAdapter.setScheduleClickListener {
+                
+            }
         }
     }
 

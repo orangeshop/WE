@@ -15,6 +15,9 @@ class ScheduleCalendarAdapter :
     ListAdapter<CalendarItem, ScheduleCalendarAdapter.ScheduleViewHolder>(
         BaseDiffUtil<CalendarItem>()
     ) {
+
+    private var onScheduleClickListener: (() -> Unit)? = null
+
     override fun getItemViewType(position: Int): Int {
         return position
     }
@@ -34,6 +37,14 @@ class ScheduleCalendarAdapter :
         position: Int
     ) {
         holder.bind(getItem(holder.adapterPosition))
+
+        if (getItem(holder.adapterPosition).isScheduled) {
+            holder.binding.clScheduleDate.setOnClickListener {
+                onScheduleClickListener?.let {
+                    it()
+                }
+            }
+        }
     }
 
     class ScheduleViewHolder(
@@ -72,5 +83,9 @@ class ScheduleCalendarAdapter :
                 }
             }
         }
+    }
+
+    fun setScheduleClickListener(listener: () -> Unit) {
+        this.onScheduleClickListener = listener
     }
 }
