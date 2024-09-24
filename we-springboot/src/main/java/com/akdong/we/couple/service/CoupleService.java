@@ -72,6 +72,4 @@ public class CoupleService {
     public Optional<Couple> getMyCoupleInfo(Member member) {
         return coupleRepository.findByMember(member);
     }
-
-
 }
