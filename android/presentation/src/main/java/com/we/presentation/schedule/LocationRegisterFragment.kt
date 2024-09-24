@@ -14,14 +14,24 @@ import timber.log.Timber
 
 
 @AndroidEntryPoint
-class LocationRegisterFragment : BaseDialogFragment<FragmentLocationRegisterBinding>(R.layout.fragment_location_register) {
+class LocationRegisterFragment :
+    BaseDialogFragment<FragmentLocationRegisterBinding>(R.layout.fragment_location_register) {
     override fun initCreateDialog(): Dialog = Dialog(requireContext(), theme)
 
     override fun initView(savedInstanceState: Bundle?) {
         initWebView()
+        initClickEventListener()
     }
 
-    private fun initWebView(){
+    private fun initClickEventListener() {
+        binding.apply {
+            icTitle.ivBack.setOnClickListener {
+                navigatePopBackStack()
+            }
+        }
+    }
+
+    private fun initWebView() {
         binding.wvLocation.apply {
             clearCache(true)
             settings.javaScriptEnabled = true
