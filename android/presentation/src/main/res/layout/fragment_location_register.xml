@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{``}" />
+            app:title="@{@string/schedule_location_register}" />
 
         <WebView
             android:id="@+id/wv_location"

@@ -6,16 +6,23 @@ import android.os.Bundle
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.lifecycleScope
 import com.presentation.base.BaseDialogFragment
 import com.we.presentation.R
 import com.we.presentation.databinding.FragmentLocationRegisterBinding
+import com.we.presentation.schedule.viewmodel.ScheduleRegisterViewModel
+import com.we.presentation.util.ScheduleRegisterType
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
 @AndroidEntryPoint
 class LocationRegisterFragment :
     BaseDialogFragment<FragmentLocationRegisterBinding>(R.layout.fragment_location_register) {
+    private val scheduleRegisterViewModel: ScheduleRegisterViewModel by hiltNavGraphViewModels(R.id.schedule_register_nav_graph)
+
     override fun initCreateDialog(): Dialog = Dialog(requireContext(), theme)
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -49,8 +56,11 @@ class LocationRegisterFragment :
 
     inner class BridgeInterface() {
         @JavascriptInterface
-        fun processDATA(fullRoadAddress: String) {
-            Timber.tag("도로명 검색").d(fullRoadAddress)
+        fun processDATA(fullRoadAddr: String) {
+            viewLifecycleOwner.lifecycleScope.launch{
+                scheduleRegisterViewModel.setRegisterParam(ScheduleRegisterType.LOCATION, fullRoadAddr)
+                navigatePopBackStack()
+            }
         }
 
     }
