@@ -13,6 +13,13 @@
   text-decoration: none;
 }
 
-/* .react-calendar__navigation {
+.detailcalendar .react-calendar__navigation {
   display: none;
-} */
+}
+
+.detailcalendar .react-calendar__tile--now {
+  background-color: transparent;
+}
+.detailcalendar {
+  pointer-events: none; /* 모든 클릭 이벤트 비활성화 */
+}

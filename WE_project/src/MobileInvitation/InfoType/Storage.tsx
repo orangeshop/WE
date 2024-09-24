@@ -15,16 +15,16 @@ const Storage: React.FC = () => {
         if (!accessToken) {
           throw new Error("Access token not found");
         }
-        // 청첩장 정보를 가져옴
         const response = await getCoupleInvitation(accessToken);
         setInvitations(response);
+
       } catch (err) {
         console.error(err);
       }
     };
 
     fetchCoupleInvitations();
-  }, [accessToken]); // accessToken이 변경될 때마다 다시 호출
+  }, [accessToken]);
 
   return (
     <div className="font-nanum min-w-[1260px]">

@@ -243,6 +243,7 @@ const StorageDetail: React.FC = () => {
                 <p className="text-[18px] mb-5">{invitationData.date}</p>
                 <div className="flex justify-center mb-20">
                   <Calendar
+                    className="detailcalendar"
                     value={markDate}
                     locale="en-US"
                     formatDay={(_, date) => dayjs(date).format("DD")}
