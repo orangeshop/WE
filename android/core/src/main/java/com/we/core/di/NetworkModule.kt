@@ -21,7 +21,7 @@ object NetworkModule {
 
     //local property로 빼기
     val baseUrl = "http://192.168.100.149:8080/v1/"
-
+    val ec2 = "http://http://3.36.87.173:8080/v1/"
     @Qualifier.InterceptorRetrofit
     @Singleton
     @Provides
