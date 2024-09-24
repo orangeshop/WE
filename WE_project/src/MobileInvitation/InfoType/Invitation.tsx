@@ -14,7 +14,7 @@ interface HusbandInfoHandle {
 }
 
 interface BrideInfoHandle {
-  submit: () => Promise<void>; 
+  submit: () => Promise<void>;
 }
 
 interface GreetingsHandle {
@@ -22,7 +22,7 @@ interface GreetingsHandle {
 }
 
 interface LocationAndDateHandle {
-  submit: () => Promise<void>; 
+  submit: () => Promise<void>;
 }
 
 const InfoTypeInvitation: React.FC = () => {

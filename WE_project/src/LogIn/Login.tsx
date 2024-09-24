@@ -85,7 +85,7 @@ const LoginForm: React.FC = () => {
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
-              pattern="(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"
+              // pattern="(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"
               title="비밀번호는 최소 8자 이상이며 특수 문자를 포함해야 합니다."
             />
           </div>
