@@ -34,7 +34,7 @@ public class FormalInvitationService {
 
     public EmptyFormalInvitation saveFormalInvitation(){
         FormalInvitationDto ret = formalInvitationRepository
-                .save(FormalInvitationEntity.builder().build())
+                .save(FormalInvitationEntity.builder().couple_id(getCoupleIdFromJwt()).build())
                 .asDto();
 
         return EmptyFormalInvitation.builder()

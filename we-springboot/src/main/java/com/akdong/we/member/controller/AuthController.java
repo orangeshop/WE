@@ -2,7 +2,6 @@ package com.akdong.we.member.controller;
 
 import com.akdong.we.common.dto.ErrorResponse;
 import com.akdong.we.common.dto.SuccessResponse;
-import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.common.jwt.JwtUtil;
 import com.akdong.we.common.redis.RedisUtil;
 import com.akdong.we.couple.entity.Couple;
@@ -10,7 +9,6 @@ import com.akdong.we.couple.response.CoupleInfo;
 import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
-import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.akdong.we.member.request.*;
 import com.akdong.we.member.response.MemberAndTokensResponse;
 import com.akdong.we.member.response.MemberInfo;
@@ -124,7 +122,6 @@ public class AuthController {
                     .tokens(tokens)  // couple이 없을 경우 coupleInfo는 포함하지 않음
                     .build();
         }
-
 
         return ResponseEntity.ok(
                 new SuccessResponse<>("로그인 되었습니다.", memberAndTokensResponse)

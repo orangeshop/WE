@@ -5,8 +5,12 @@ import com.akdong.we.common.qr.QRCodeGenerator;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.repository.CoupleRepository;
 import com.akdong.we.file.service.FileService;
+import com.akdong.we.ledger.entity.Gift;
 import com.akdong.we.ledger.entity.Ledger;
+import com.akdong.we.ledger.entity.LedgerGift;
+import com.akdong.we.ledger.repository.LedgerGiftRepository;
 import com.akdong.we.ledger.repository.LedgerRepository;
+import com.akdong.we.ledger.response.GiftInfo;
 import com.google.zxing.WriterException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("ledgerService")
 @RequiredArgsConstructor
@@ -25,6 +31,7 @@ public class LedgerService {
     private final LedgerRepository ledgerRepository;
     private final CoupleRepository coupleRepository;
     private final FileService fileService;
+    private final LedgerGiftRepository ledgerGiftRepository;
 
     @Transactional
     public Ledger createLedger(Couple couple){
@@ -78,6 +85,19 @@ public class LedgerService {
         Couple couple = ledger.getCouple();
 
         return couple.getAccountNumber();
+    }
+
+    @Transactional
+    public List<GiftInfo> findLedgerGift(Long ledgerId){
+        // Find all LedgerGift entries for the given ledgerId
+        List<LedgerGift> ledgerGifts = ledgerGiftRepository.findByLedgerId(ledgerId);
+
+        // Extract the Gift objects from the LedgerGift entries
+        List<GiftInfo> giftInfoList = ledgerGifts.stream()
+                .map(ledgerGift -> GiftInfo.of(ledgerGift.getGift()))
+                .collect(Collectors.toList());
+
+        return giftInfoList;
     }
 
 }
