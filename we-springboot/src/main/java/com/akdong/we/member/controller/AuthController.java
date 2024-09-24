@@ -104,24 +104,12 @@ public class AuthController {
 
 
         Member loginMember = memberService.getMemberByEmail(loginInfo.getEmail());
-        Optional<Couple> couple = coupleService.getMyCoupleInfo(loginMember);
         authService.isLeavedMemberInLogin(loginMember.getEmail());
-        MemberAndTokensResponse memberAndTokensResponse;
-        if (couple.isPresent()) {
-            Couple coupleValue = couple.get();  // Optional에서 값을 꺼냄
-            memberAndTokensResponse = MemberAndTokensResponse
-                    .builder()
-                    .memberInfo(MemberInfo.of(loginMember))
-                    .coupleInfo(CoupleInfo.of(coupleValue))  // coupleValue를 전달
-                    .tokens(tokens)
-                    .build();
-        } else {
-            memberAndTokensResponse = MemberAndTokensResponse
-                    .builder()
-                    .memberInfo(MemberInfo.of(loginMember))
-                    .tokens(tokens)  // couple이 없을 경우 coupleInfo는 포함하지 않음
-                    .build();
-        }
+        MemberAndTokensResponse memberAndTokensResponse = MemberAndTokensResponse
+                .builder()
+                .memberInfo(MemberInfo.of(loginMember))
+                .tokens(tokens)  // couple이 없을 경우 coupleInfo는 포함하지 않음
+                .build();
 
         return ResponseEntity.ok(
                 new SuccessResponse<>("로그인 되었습니다.", memberAndTokensResponse)
