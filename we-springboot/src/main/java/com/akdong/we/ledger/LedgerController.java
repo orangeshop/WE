@@ -93,4 +93,19 @@ public class LedgerController {
                 new SuccessResponse<>("성공적으로 장부를 조회했습니다.", response)
         );
     }
+
+//    @GetMapping
+//    @Operation(summary = "MY 축의금 조회(신랑측 + 신부측)", description = "로그인 정보로 축의금 내역을 조회합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "MY 축의금 조회 조회 성공", useReturnTypeSchema = true),
+//            @ApiResponse(responseCode = "405", description = "커플만 해당 기능을 사용할 수 있습니다.")
+//    })
+//    public ResponseEntity<?> findLedgerGift(
+//            @Parameter(hidden = true)  @Login Member member
+//    ){
+//        Couple couple = coupleService.getMyCoupleInfo(member)
+//                .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+//
+//        Ledger ledger = couple.getLedger();
+//    }
 }
