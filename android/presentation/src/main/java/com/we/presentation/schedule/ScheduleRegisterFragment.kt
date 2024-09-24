@@ -18,6 +18,9 @@ class ScheduleRegisterFragment :
             icTitle.ivBack.setOnClickListener {
                 navigatePopBackStack()
             }
+            btnLocation.setOnClickListener {
+                navigateDestination(R.id.action_scheduleRegisterFragment_to_locationRegisterFragment)
+            }
         }
     }
 }
