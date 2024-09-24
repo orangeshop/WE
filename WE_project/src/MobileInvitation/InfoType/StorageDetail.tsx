@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   getFormalInvitation,
   GetFormalInvitationDto,
@@ -17,6 +17,10 @@ import "react-calendar/dist/Calendar.css";
 import "./StorageDetail.css";
 import dayjs from "dayjs";
 import { deleteFormalInvitation } from "../../apis/api/deleteinfotypeinvitation";
+import {
+  getAccountInfo,
+  GetAccountInfoDto,
+} from "../../apis/api/getaccountinfo";
 
 const StorageDetail: React.FC = () => {
   const [invitationData, setInvitationData] =
@@ -25,6 +29,27 @@ const StorageDetail: React.FC = () => {
   const { invitationId } = useParams<{ invitationId: string }>();
   const [showGroomDropdown, setShowGroomDropdown] = useState(false);
   const [showBrideDropdown, setShowBrideDropdown] = useState(false);
+
+  const [, setAccountNo] = useState<number>(0);
+  const [, setBankName] = useState<string>("");
+  const accessToken = localStorage.getItem("accessToken");
+
+  const getAccount = useCallback(async () => {
+    try {
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+      const accountInfo: GetAccountInfoDto = await getAccountInfo(accessToken);
+      const accountNo = accountInfo.data.accountNo;
+      const bankName = accountInfo.data.bankName;
+      console.log(accountInfo);
+
+      setAccountNo(accountNo);
+      setBankName(bankName);
+    } catch (error) {
+      console.error("Error fetching account info:", error);
+    }
+  }, [accessToken]);
 
   const navigate = useNavigate();
 
@@ -59,8 +84,10 @@ const StorageDetail: React.FC = () => {
       }
     };
 
+    getAccount();
+
     fetchInvitation();
-  }, [invitationId]);
+  }, [invitationId, getAccount]);
 
   if (loading) {
     return <div>Loading...</div>;
