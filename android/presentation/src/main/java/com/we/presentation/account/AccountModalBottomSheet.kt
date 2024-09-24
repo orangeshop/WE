@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +25,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class AccountModalBottomSheet : BottomSheetDialogFragment() {
     lateinit var binding: DialogChooseBankBinding
-    private val accountViewModel: AccountViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by hiltNavGraphViewModels(R.id.nav_graph)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

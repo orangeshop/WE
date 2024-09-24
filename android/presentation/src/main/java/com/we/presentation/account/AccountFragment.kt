@@ -4,6 +4,7 @@ import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +24,7 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_account) {
-    private val accountViewModel: AccountViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun initView() {
 
@@ -45,21 +46,21 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
 
     private fun bankChooseComplete() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                    .onEach {
 
-                        if (it.bankName != "") {
-                            binding.apply {
-                                tvAccountBankComplete.text = it.bankName
-                                tvInputAccount.visibility = View.VISIBLE
-                                etAccountNumber.visibility = View.VISIBLE
-                            }
+            accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .onEach {
+
+                    if (it.bankName != "") {
+                        binding.apply {
+                            tvAccountBankComplete.text = it.bankName
+                            tvInputAccount.visibility = View.VISIBLE
+                            etAccountNumber.visibility = View.VISIBLE
                         }
                     }
-                    .launchIn(viewLifecycleOwner.lifecycleScope)
-            }
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
         }
+
     }
 
     private fun initTransferClickListener() {

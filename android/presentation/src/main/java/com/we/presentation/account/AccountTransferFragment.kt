@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.we.presentation.R
@@ -20,7 +21,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class AccountTransferFragment :
     BaseFragment<FragmentAccountTransferBinding>(R.layout.fragment_account_transfer) {
-    private val accountViewModel: AccountViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by hiltNavGraphViewModels(R.id.nav_graph)
     override fun initView() {
         backBtnClickListener()
         autoFocusMove()
