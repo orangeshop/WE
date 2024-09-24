@@ -136,6 +136,7 @@ const InvitationEdit: React.FC = () => {
     setImageSrc(imageSrc);
   };
 
+  // FIX > 수정 기능 제목만 수정 가능하게
   const imageUpload = async () => {
     if (selectedImage && invitationId) {
       const dto = {

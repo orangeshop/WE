@@ -9,27 +9,28 @@ const Storage: React.FC = () => {
   const [invitations, setInvitations] = useState<GetFormalInvitationDto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  // FIX > 반복문으로 말고 api로 받는 방식으로 바꾸기
   useEffect(() => {
     const fetchAllInvitations = async () => {
       const fetchedInvitations: GetFormalInvitationDto[] = [];
-      let invitationId = 1;
-      let continueFetching = true;
+      const maxInvitations = 100;
 
-      while (continueFetching) {
+      for (
+        let invitationId = 1;
+        invitationId <= maxInvitations;
+        invitationId++
+      ) {
         try {
           const invitation = await getFormalInvitation(invitationId);
 
           if (invitation.url) {
             fetchedInvitations.push(invitation);
           }
-
-          invitationId++;
         } catch (error) {
           console.error(
             `Error fetching invitation with ID ${invitationId}:`,
             error
           );
-          continueFetching = false;
         }
       }
 
