@@ -11,8 +11,6 @@ import java.sql.Timestamp;
 @Builder
 public class ScheduleRequest {
 
-    private Long couple_id;
-
     private String content;
     private String address;
 
@@ -22,12 +20,12 @@ public class ScheduleRequest {
 
     private boolean isDone;
 
-    public ScheduleEntity asEntity()
+    public ScheduleEntity asEntity(Long couple_id)
     {
-        return asEntity(null);
+        return asEntity(null, couple_id);
     }
 
-    public ScheduleEntity asEntity(Long scheduledId)
+    public ScheduleEntity asEntity(Long scheduledId,Long couple_id)
     {
         return ScheduleEntity
                 .builder()

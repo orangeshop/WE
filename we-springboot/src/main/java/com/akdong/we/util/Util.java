@@ -13,6 +13,15 @@ public class Util {
         return getCoupleIdFromMember(getMemberFromJwt(),coupleRepository);
     }
 
+    public static long getUserIdFromJwt(){
+        return ((MemberDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal())
+                .getUser()
+                .getId();
+    }
+
     private static MemberDetails getMemberFromJwt() {
         return (MemberDetails) SecurityContextHolder
                 .getContext()
