@@ -31,6 +31,9 @@ public class MemberInfo {
     @Schema(description = "탈퇴 여부", example = "false")
     private final boolean isLeaved;
 
+    @Schema(description = "커플 여부", example = "0")
+    private final boolean coupleJoined;
+
     public static MemberInfo of(Member member) {
         return builder()
                 .id(member.getId())
@@ -39,6 +42,7 @@ public class MemberInfo {
                 .regDate(member.getRegDate())
                 .leavedDate(member.getLeavedDate())
                 .isLeaved(member.isLeaved())
+                .coupleJoined(member.isCoupleJoined())
                 .build();
     }
 }

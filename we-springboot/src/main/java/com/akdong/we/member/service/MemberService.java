@@ -68,6 +68,7 @@ public class MemberService {
 				.password(passwordEncoder.encode(userRegisterInfo.getPassword()))
 				.nickname(userRegisterInfo.getNickname())
 				.pin(userRegisterInfo.getPin())
+				.deviceToken(userRegisterInfo.getDeviceToken())
 				.regDate(LocalDateTime.now())
 				.userKey(userKey)
 				.build();

@@ -26,4 +26,7 @@ public class MemberRegisterPostReq {
 	@Schema(description = "간편비밀번호", example = "123456")
 	private String pin;
 
+	@Schema(description = "디바이스 토큰(FCM)", example = "12345678987654321")
+	private String deviceToken;
+
 }

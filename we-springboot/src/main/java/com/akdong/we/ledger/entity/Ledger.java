@@ -20,6 +20,4 @@ public class Ledger {
     private Couple couple;
 
     private String qrCodeUrl;
-
-
 }
