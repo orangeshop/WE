@@ -1,4 +1,4 @@
-import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import {
   BrideInfoDto,
   BirthOrder,
@@ -6,51 +6,16 @@ import {
 } from "../../apis/api/brideinfo";
 import { useParams } from "react-router-dom";
 
-interface BrideInfoProps {
-  initialBrideInfo: {
-    lastName: string;
-    firstName: string;
-    birthOrder: "" | BirthOrder;
-    fatherLastName: string;
-    fatherFirstName: string;
-    motherLastName: string;
-    motherFirstName: string;
-  };
-}
-
-const BrideInfo = forwardRef((props: BrideInfoProps, ref) => {
-  const [lastName, setBrideLastName] = useState(
-    props.initialBrideInfo.lastName
-  );
-  const [firstName, setBrideFirstName] = useState(
-    props.initialBrideInfo.firstName
-  );
-  const [birthOrder, setBrideBirthOrder] = useState<BirthOrder | "">(
-    props.initialBrideInfo.birthOrder
-  );
-  const [fatherLastName, setBrideFatherLastName] = useState(
-    props.initialBrideInfo.fatherLastName
-  );
-  const [fatherFirstName, setBrideFatherFirstName] = useState(
-    props.initialBrideInfo.fatherFirstName
-  );
-  const [motherLastName, setBrideMotherLastName] = useState(
-    props.initialBrideInfo.motherLastName
-  );
-  const [motherFirstName, setBrideMotherFirstName] = useState(
-    props.initialBrideInfo.motherFirstName
-  );
+const BrideInfo = forwardRef((_, ref) => {
+  const [lastName, setBrideLastName] = useState("");
+  const [firstName, setBrideFirstName] = useState("");
+  const [birthOrder, setBrideBirthOrder] = useState<BirthOrder | "">("");
+  const [fatherLastName, setBrideFatherLastName] = useState("");
+  const [fatherFirstName, setBrideFatherFirstName] = useState("");
+  const [motherLastName, setBrideMotherLastName] = useState("");
+  const [motherFirstName, setBrideMotherFirstName] = useState("");
   const { invitationId } = useParams();
 
-  useEffect(() => {
-    setBrideLastName(props.initialBrideInfo.lastName);
-    setBrideFirstName(props.initialBrideInfo.firstName);
-    setBrideBirthOrder(props.initialBrideInfo.birthOrder);
-    setBrideFatherLastName(props.initialBrideInfo.fatherLastName);
-    setBrideFatherFirstName(props.initialBrideInfo.fatherFirstName);
-    setBrideMotherLastName(props.initialBrideInfo.motherLastName);
-    setBrideMotherFirstName(props.initialBrideInfo.motherFirstName);
-  }, [props.initialBrideInfo]);
   const handleSubmit = async () => {
     if (!birthOrder) {
       alert("신부 서열을 선택해 주세요.");
@@ -80,6 +45,7 @@ const BrideInfo = forwardRef((props: BrideInfoProps, ref) => {
   useImperativeHandle(ref, () => ({
     submit: handleSubmit,
   }));
+
   return (
     <div>
       <p className="mt-20 mb-5 text-md text-center font-semibold">
