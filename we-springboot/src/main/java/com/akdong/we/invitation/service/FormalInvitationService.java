@@ -116,6 +116,7 @@ public class FormalInvitationService {
                 .findFormalInvitationByCoupleId(getCoupleIdFromJwt())
                 .stream()
                 .map(FormalInvitationEntity::asDto)
+                .filter(it->it.getTitle() != null)
                 .toList();
     }
 
