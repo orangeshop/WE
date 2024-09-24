@@ -66,6 +66,7 @@
         android:label="AccountFragment"
         tools:layout="@layout/fragment_account">
         <action
+            app:popUpTo="@id/homeFragment"
             android:id="@+id/action_accountFragment_to_accountTransferFragment"
             app:destination="@id/accountTransferFragment" />
     </fragment>
