@@ -1,17 +1,23 @@
 package com.we.presentation.home
 
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.we.model.BankData
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.adapter.HomeViewPagerAccountAdapter
 import com.we.presentation.component.adapter.HomeViewPagerBannerAdapter
 import com.we.presentation.databinding.FragmentHomeBinding
+import com.we.presentation.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 private const val TAG = "HomeFragment_싸피"
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun initView() {
         setUpAccountViewPager()
@@ -21,24 +27,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
     private fun setUpAccountViewPager() {
-        val test = arrayListOf(BankData("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "", "","", ""))
+        lateinit var adapter : HomeViewPagerAccountAdapter
 
-        val adapter = HomeViewPagerAccountAdapter(test,
-            accountClickListener = { idx ->
+        lifecycleScope.launch {
+            homeViewModel.accountList.collect { list ->
+                adapter = HomeViewPagerAccountAdapter(
+                    list,
+                    accountClickListener = { idx ->
 
-                if (idx == test.lastIndex) {
-                    navigateDestination(R.id.action_homeFragment_to_accountFragment)
-                } else {
-                    navigateDestination(R.id.action_homeFragment_accountCheckFragment)
-                }
+                        if (idx == list.lastIndex) {
+                            navigateDestination(R.id.action_homeFragment_to_accountFragment)
+                        } else {
+                            navigateDestination(R.id.action_homeFragment_accountCheckFragment)
+                        }
+                    },
+                    accountRemittance = {
+                        navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
+                    },
+                    typeCheck = false
+                )
+            }
+        }
 
-
-            },
-            accountRemittance = {
-                navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
-            },
-            typeCheck = false
-        )
 
         binding.apply {
             vpHomeAccount.adapter = adapter
