@@ -23,6 +23,9 @@ public class FormalInvitationEntity {
     private long invitation_id;
 
     @Column
+    private String title;
+
+    @Column
     private String url;
 
     @Column
@@ -115,6 +118,8 @@ public class FormalInvitationEntity {
 
                 .invitationId(invitation_id)
                 .coupleId(couple_id)
+
+                .title(title)
                 .url(url)
 
                 .groomLastName(groom_last_name)
@@ -146,6 +151,9 @@ public class FormalInvitationEntity {
                 .address(address)
                 .addressDetail(address_detail)
                 .weddingHall(wedding_hall)
+
+                .latitude(latitude)
+                .longitude(longtitude)
                 .build();
     }
 

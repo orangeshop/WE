@@ -14,6 +14,8 @@ public class FormalInvitationDto {
     private long invitationId;
     private long coupleId;
 
+    private String title;
+
     // 초대장 URL
     private String url;
 
@@ -52,6 +54,9 @@ public class FormalInvitationDto {
     private String address;
     private String addressDetail;
     private String weddingHall;
+
+    private double longitude;
+    private double latitude;
 
     @Schema(hidden = true)
     public FormalInvitationEntity asEntity(){

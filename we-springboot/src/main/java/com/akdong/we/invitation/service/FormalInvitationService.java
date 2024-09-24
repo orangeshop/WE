@@ -1,5 +1,8 @@
 package com.akdong.we.invitation.service;
 
+import com.akdong.we.common.auth.MemberDetails;
+import com.akdong.we.couple.entity.Couple;
+import com.akdong.we.couple.repository.CoupleRepository;
 import com.akdong.we.file.domain.FileDto;
 import com.akdong.we.invitation.domain.FormalInvitationDto;
 import com.akdong.we.invitation.domain.FormalInvitationEntity;
@@ -8,6 +11,8 @@ import com.akdong.we.invitation.domain.formal.GreetingsDto;
 import com.akdong.we.invitation.domain.formal.MetaInfo;
 import com.akdong.we.invitation.domain.formal.PersonDto;
 import com.akdong.we.invitation.repository.FormalInvitationRepository;
+import com.akdong.we.member.entity.Member;
+import com.akdong.we.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -23,6 +28,8 @@ import java.util.List;
 @Service
 public class FormalInvitationService {
 
+    private final MemberRepository memberRepository;
+    private final CoupleRepository coupleRepository;
     private final FormalInvitationRepository formalInvitationRepository;
 
     public EmptyFormalInvitation saveFormalInvitation(){
@@ -104,9 +111,9 @@ public class FormalInvitationService {
         formalInvitationRepository.deleteById(id);
     }
 
-    public List<FormalInvitationDto> findAllFormalInvitation(long coupleId){
+    public List<FormalInvitationDto> findAllFormalInvitation(){
         return formalInvitationRepository
-                .findFormalInvitationByCoupleId(coupleId)
+                .findFormalInvitationByCoupleId(getCoupleIdFromJwt())
                 .stream()
                 .map(FormalInvitationEntity::asDto)
                 .toList();
@@ -116,9 +123,29 @@ public class FormalInvitationService {
         return formalInvitationRepository.findById(id).orElseThrow();
     }
 
-    private long getUserIdFromJWT()
+    public FormalInvitationDto updateTitle(long id,String title) {
+        FormalInvitationEntity invitation = getFormalIvnitationEntity(id);
+        invitation.setTitle(title);
+        return formalInvitationRepository.save(invitation).asDto();
+    }
+
+    private long getCoupleIdFromJwt()
     {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return Long.parseLong(authentication.getPrincipal().toString());
+        return getCoupleIdFromMember(getMemberFromJwt());
+    }
+
+    private MemberDetails getMemberFromJwt() {
+        return (MemberDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+    }
+
+    private long getCoupleIdFromMember(MemberDetails member)
+    {
+        return coupleRepository
+                .findByMember(member.getUser())
+                .orElseThrow()
+                .getId();
     }
 }
