@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt.gradle.plugin)
     id("kotlin-kapt")
     alias(libs.plugins.navigation.safe.args)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -50,6 +51,8 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
     implementation(libs.androidx.activity)
+    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.androidx.work.runtime.ktx)
 
 
     //Test
@@ -90,4 +93,9 @@ dependencies {
 
     //Lottie
     implementation(libs.lottie)
+
+    //FCM
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+
 }

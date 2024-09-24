@@ -2,6 +2,7 @@ package com.we.presentation.account.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.data.model.request.RequestAccountAuth
 import com.data.model.request.RequestAuthCode
 import com.data.repository.BankRepository
 import com.data.util.ApiResult
@@ -83,6 +84,20 @@ class AccountViewModel @Inject constructor(
                         onResult(false)
                     }
                 }
+            }
+        }
+    }
+
+    fun accountAuth(){
+        viewModelScope.launch {
+            bankRepository.accountAuth(RequestAccountAuth(accountNumber.first())).collect{
+                when(it){
+                    is ApiResult.Success -> {
+                        Timber.d("AccountAuth : success")
+                    }
+                    is ApiResult.Error -> {
+                        Timber.d("AccountAuth : fail")
+                    }                    }
             }
         }
     }
