@@ -48,7 +48,9 @@ public class InvitationController {
     @Operation(summary = "정보형 청첩장 파일 업로드", description = "정보형 청첩장 파일 업로드")
     public FileDto updateFormalInvitationFile(
             @PathVariable("invitationId") long id,
+            @RequestParam("title") String title,
             @RequestParam("file") MultipartFile file) throws IOException {
+        formalInvitationService.updateTitle(id,title);
         return formalInvitationService.updateFormalInvitationFile(
                 fileService.upload(file,DIR_NAME), id);
     }
@@ -101,9 +103,9 @@ public class InvitationController {
         return formalInvitationService.findFormalInvitationById(invitationId);
     }
 
-    @GetMapping("/formal/couple/{coupleId}")
-    @Operation(summary = "정보형 청첩장 조회", description = "커플 ID로 조회")
-    public List<FormalInvitationDto> findAllFormalInvitation(@PathVariable("coupleId") Long coupleId) throws Exception {
-        return formalInvitationService.findAllFormalInvitation(coupleId);
+    @GetMapping("/formal/couple")
+    @Operation(summary = "커플 ID로 모든 정보형 청첩장 조회", description = "커플 ID로 모든 청첩장 조회")
+    public List<FormalInvitationDto> findAllFormalInvitation() throws Exception {
+        return formalInvitationService.findAllFormalInvitation();
     }
 }
