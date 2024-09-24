@@ -22,7 +22,7 @@ public class ScheduleService {
     public ScheduleDto saveSchedule(ScheduleRequest schedule)
     {
         return scheduleRepository
-                .save(schedule.asEntity())
+                .save(schedule.asEntity(Util.getCoupleIdFromJwt(coupleRepository)))
                 .asDto();
     }
 
@@ -46,7 +46,7 @@ public class ScheduleService {
         return scheduleRepository
                 .findById(scheduleId)
                 .map(schedule -> new ResponseEntity<>(scheduleRepository
-                        .save(scheduleRequest.asEntity(scheduleId))
+                        .save(scheduleRequest.asEntity(scheduleId,Util.getCoupleIdFromJwt(coupleRepository)))
                         .asDto(), HttpStatus.OK))
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -59,6 +59,7 @@ public class ScheduleService {
                 .findById(scheduleId)
                 .map(schedule -> {
                     schedule.setDone(!schedule.isDone());
+                    scheduleRepository.save(schedule);
                     return new ResponseEntity<>(schedule.asDto(), HttpStatus.OK);
                 })
                 .orElseThrow(() ->
