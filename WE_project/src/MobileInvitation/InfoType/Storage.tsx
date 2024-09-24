@@ -13,7 +13,7 @@ const Storage: React.FC = () => {
   useEffect(() => {
     const fetchAllInvitations = async () => {
       const fetchedInvitations: GetFormalInvitationDto[] = [];
-      const maxInvitations = 100;
+      const maxInvitations = 40;
 
       for (
         let invitationId = 1;
