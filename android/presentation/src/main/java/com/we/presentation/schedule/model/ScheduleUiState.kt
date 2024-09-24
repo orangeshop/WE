@@ -1,8 +1,12 @@
 package com.we.presentation.schedule.model
 
-import com.we.presentation.util.CalendarType
+import java.time.LocalDate
 
-sealed class ScheduleUiState {
-    data object Loading : ScheduleUiState()
-    data class ScheduleSet(val calendarType: CalendarType, val date: String) : ScheduleUiState()
+sealed interface ScheduleUiState {
+    data object Loading : ScheduleUiState
+    data class CalendarSet(val date: LocalDate, val calendarItem : List<CalendarItem>) : ScheduleUiState
+    data class ScheduleSet(
+        val calendarItem: List<CalendarItem>,
+    ) : ScheduleUiState
+
 }
