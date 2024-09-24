@@ -27,8 +27,10 @@ const LoginForm: React.FC = () => {
         password: formData.password,
       };
 
-      const response = await login(memberData);
+      const response = await login(memberData); // 로그인 응답을 받음
+      console.log("로그인 응답:", response);
 
+      // 응답에서 토큰을 가져옴
       const { accessToken, refreshToken } = response.data.tokens;
 
       localStorage.setItem("accessToken", accessToken);
@@ -60,7 +62,6 @@ const LoginForm: React.FC = () => {
               id="email"
               name="email"
               type="email"
-              placeholder=""
               value={formData.email}
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
@@ -80,12 +81,10 @@ const LoginForm: React.FC = () => {
               id="password"
               name="password"
               type="password"
-              placeholder=""
               value={formData.password}
               onChange={handleChange}
               className="w-full px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
               required
-              // pattern="(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}"
               title="비밀번호는 최소 8자 이상이며 특수 문자를 포함해야 합니다."
             />
           </div>

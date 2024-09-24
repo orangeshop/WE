@@ -17,6 +17,9 @@ export type LoginResponse = {
       leavedDate: string | null;
       leaved: boolean;
     };
+    coupleInfo: {
+      id: number;
+    };
     tokens: {
       accessToken: string;
       refreshToken: string;
@@ -32,9 +35,9 @@ export const login = async (dto: LoginDto): Promise<LoginResponse> => {
       },
     });
 
-    return response.data;
+    return response.data; // API 응답을 반환
   } catch (error) {
-    console.error("Error during login:", error);
+    console.error("Login error:", error);
     throw error;
   }
 };

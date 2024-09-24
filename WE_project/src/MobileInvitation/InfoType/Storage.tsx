@@ -1,44 +1,36 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar";
 import {
-  getFormalInvitation,
-  GetFormalInvitationDto,
-} from "../../apis/api/getinfotypeinvitation";
+  getCoupleInvitation,
+  GetCoupleInvitationDto,
+} from "../../apis/api/coupleinvitation";
 
 const Storage: React.FC = () => {
-  const [invitations, setInvitations] = useState<GetFormalInvitationDto[]>([]);
+  const [invitations, setInvitations] = useState<GetCoupleInvitationDto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // FIX > 반복문으로 말고 api로 받는 방식으로 바꾸기
   useEffect(() => {
-    const fetchAllInvitations = async () => {
-      const fetchedInvitations: GetFormalInvitationDto[] = [];
-      const maxInvitations = 40;
+    const fetchCoupleInvitations = async () => {
+      try {
+        const coupleId = localStorage.getItem("coupleId");
+        const accessToken = localStorage.getItem("accessToken");
 
-      for (
-        let invitationId = 1;
-        invitationId <= maxInvitations;
-        invitationId++
-      ) {
-        try {
-          const invitation = await getFormalInvitation(invitationId);
+        if (coupleId && accessToken) {
+          const fetchedInvitations = await getCoupleInvitation(accessToken);
+          console.log("Fetched Invitations:", fetchedInvitations); // 응답 데이터 확인
 
-          if (invitation.url) {
-            fetchedInvitations.push(invitation);
-          }
-        } catch (error) {
-          console.error(
-            `Error fetching invitation with ID ${invitationId}:`,
-            error
-          );
+          setInvitations(fetchedInvitations);
+        } else {
+          console.error("coupleId 또는 accessToken이 존재하지 않습니다.");
         }
+      } catch (error) {
+        console.error("청첩장 목록을 가져오는 중 오류 발생:", error);
+      } finally {
+        setLoading(false);
       }
-
-      setInvitations(fetchedInvitations.reverse());
-      setLoading(false);
     };
 
-    fetchAllInvitations();
+    fetchCoupleInvitations();
   }, []);
 
   if (loading) {
