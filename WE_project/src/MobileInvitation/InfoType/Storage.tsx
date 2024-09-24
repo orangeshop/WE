@@ -1,82 +1,51 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar";
 import {
-  getFormalInvitation,
-  GetFormalInvitationDto,
-} from "../../apis/api/getinfotypeinvitation";
+  GetCoupleInvitationDto,
+  getCoupleInvitation,
+} from "../../apis/api/coupleinvitation";
 
 const Storage: React.FC = () => {
-  const [invitations, setInvitations] = useState<GetFormalInvitationDto[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [invitations, setInvitations] = useState<GetCoupleInvitationDto[]>([]);
 
-  // FIX > 반복문으로 말고 api로 받는 방식으로 바꾸기
   useEffect(() => {
-    const fetchAllInvitations = async () => {
-      const fetchedInvitations: GetFormalInvitationDto[] = [];
-      const maxInvitations = 40;
-
-      for (
-        let invitationId = 1;
-        invitationId <= maxInvitations;
-        invitationId++
-      ) {
-        try {
-          const invitation = await getFormalInvitation(invitationId);
-
-          if (invitation.url) {
-            fetchedInvitations.push(invitation);
-          }
-        } catch (error) {
-          console.error(
-            `Error fetching invitation with ID ${invitationId}:`,
-            error
-          );
+    const fetchCoupleInvitations = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          throw new Error("Access token not found");
         }
+        const response = await getCoupleInvitation(accessToken);
+        console.log(response);
+        setInvitations(response);
+      } catch (err) {
+        console.error(err);
       }
-
-      setInvitations(fetchedInvitations.reverse());
-      setLoading(false);
     };
 
-    fetchAllInvitations();
+    fetchCoupleInvitations();
   }, []);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <div className="font-nanum min-w-[1260px]">
       <Navbar isScrollSensitive={false} />
-      <div className="mt-40">
-        {invitations.length > 0 ? (
-          <ul className="grid grid-cols-3 gap-4 mb-20">
-            {invitations.map((invitation) => (
-              <li
+      <div className="p-4">
+        <div className="space-y-4">
+          {invitations.length > 0 ? (
+            invitations.map((invitation) => (
+              <div
                 key={invitation.invitationId}
-                className="flex justify-center mb-10"
+                className="border p-4 rounded-md shadow-md"
               >
-                <a
-                  href={`/invitation/storage/${invitation.invitationId}`}
-                  className="transform transition-transform duration-300 hover:scale-105"
-                >
-                  <img
-                    src={invitation.url}
-                    alt="thumbnail"
-                    className="w-56 h-72 object-cover shadow-lg rounded-lg"
-                  />
-                  <p className="text-center mt-5">
-                    {invitation.title
-                      ? invitation.title
-                      : `청첩장 ${invitation.invitationId}`}
-                  </p>
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>청첩장이 없습니다.</p>
-        )}
+                <h3 className="text-xl font-bold">{invitation.title}</h3>
+                <p>Couple ID: {invitation.coupleId}</p>
+                <p>URL: {invitation.url}</p>
+              </div>
+            ))
+          ) : (
+            <p>No invitations found.</p>
+          )}
+        </div>
       </div>
     </div>
   );

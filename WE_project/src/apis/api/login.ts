@@ -17,6 +17,11 @@ export type LoginResponse = {
       leavedDate: string | null;
       leaved: boolean;
     };
+    coupleInfo: {
+      id: number;
+      accountNumber: string;
+    };
+
     tokens: {
       accessToken: string;
       refreshToken: string;
