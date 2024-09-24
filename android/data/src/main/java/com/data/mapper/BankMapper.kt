@@ -1,7 +1,9 @@
 package com.data.mapper
 
+import com.data.model.response.ResponseAccountAuth
 import com.data.model.response.ResponseAuthCode
 import com.data.model.response.ResponseBank
+import com.we.model.AccountAuthData
 import com.we.model.AuthCodeData
 import com.we.model.BankData
 
@@ -27,5 +29,11 @@ fun ResponseBank.Data.toEntity(): BankData {
 fun ResponseAuthCode.Data.toModel(): AuthCodeData{
     return AuthCodeData(
         Status = Status
+    )
+}
+
+fun ResponseAccountAuth.Data.toModel(): AccountAuthData{
+    return AccountAuthData(
+        authCode = authCode
     )
 }

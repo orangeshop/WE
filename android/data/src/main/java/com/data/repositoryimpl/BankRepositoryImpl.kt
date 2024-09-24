@@ -3,12 +3,14 @@ package com.data.repositoryimpl
 import com.data.datasource.BankDataSource
 import com.data.mapper.toEntity
 import com.data.mapper.toModel
+import com.data.model.request.RequestAccountAuth
 import com.data.model.request.RequestAuthCode
 import com.data.model.request.RequestCouple
 import com.data.model.response.ResponseBank
 import com.data.repository.BankRepository
 import com.data.util.ApiResult
 import com.data.util.safeApiCall
+import com.we.model.AccountAuthData
 import com.we.model.AuthCodeData
 import com.we.model.BankData
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +37,16 @@ class BankRepositoryImpl @Inject constructor(
         return flow {
             val result = safeApiCall {
                 val authCode = bankDataSource.checkAuthCode(requestAuthCode).data.toModel()
+                authCode
+            }
+            emit(result)
+        }
+    }
+
+    override suspend fun accountAuth(requestAccountAuth: RequestAccountAuth): Flow<ApiResult<AccountAuthData>> {
+        return flow{
+            val result = safeApiCall {
+                val authCode = bankDataSource.accountAuth(requestAccountAuth).data.toModel()
                 authCode
             }
             emit(result)
