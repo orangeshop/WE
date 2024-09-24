@@ -28,5 +28,4 @@ public class MemberRegisterPostReq {
 
 	@Schema(description = "디바이스 토큰(FCM)", example = "12345678987654321")
 	private String deviceToken;
-
 }

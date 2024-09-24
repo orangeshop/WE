@@ -16,6 +16,7 @@ import com.akdong.we.ledger.repository.LedgerRepository;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.exception.member.MemberErrorCode;
+import com.akdong.we.notification.service.FirebaseService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -40,6 +42,7 @@ import java.util.*;
 public class BankController {
     private final FinApiCallService finApiCallService;
     private final CoupleService coupleService;
+    private final FirebaseService firebaseService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -80,8 +83,14 @@ public class BankController {
     @Transactional
     public ResponseEntity<?> accountAuth(
             @Parameter(hidden = true)  @Login Member member,
-            @RequestBody PostAccountAuthRequest request){
+            @RequestBody PostAccountAuthRequest request) throws IOException {
         String authCode = finApiCallService.openAccountAuth(member.getUserKey(), request.getAccountNo());
+
+        try{
+            firebaseService.sendMessageTo(member.getId(), "인증 코드입니다.", authCode);
+        }catch (Exception e){
+            log.info(e.getMessage());
+        }
 
         // "authCode": authCode 형식으로 Map을 생성
         Map<String, String> responseMap = new HashMap<>();
@@ -89,7 +98,7 @@ public class BankController {
 
         return ResponseEntity.ok(
                 new SuccessResponse<>(
-                        "나의 계좌 리스트 조회에 성공했습니다.",
+                        "1원 송금 요청에 성공했습니다.",
                         responseMap
                 )
         );
@@ -135,7 +144,7 @@ public class BankController {
     @Transactional
     public ResponseEntity<?> transfer(
             @Parameter(hidden = true)  @Login Member member,
-            @RequestBody TransferRequest request){
+            @RequestBody TransferRequest request) throws IOException {
 
         String responseCode = finApiCallService.transfer(member.getUserKey(), request);
 
@@ -146,7 +155,6 @@ public class BankController {
                     .charge(request.getTransactionBalance())
                     .build();
             giftRepository.save(gift);
-
 
             // 장부도 추가해야함. 지금 장부 생성 api가 없어서 여기까지만
             Ledger ledger = ledgerRepository.findById(request.getLedgerId())
@@ -162,6 +170,15 @@ public class BankController {
 
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("STATUS", "Success");
+        Ledger ledger = ledgerRepository.findById(request.getLedgerId())
+                        .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
+        Couple couple = ledger.getCouple();
+        Member member1 = couple.getMember1();
+        Member member2 = couple.getMember2();
+
+        firebaseService.sendMessageTo(member1.getId(), "입금 알림", String.valueOf(request.getTransactionBalance())+"원 입금되었습니다.");
+        firebaseService.sendMessageTo(member2.getId(), "입금 알림", String.valueOf(request.getTransactionBalance())+"원 입금되었습니다.");
+
 
         return ResponseEntity.ok(
                 new SuccessResponse<>(
@@ -215,8 +232,6 @@ public class BankController {
                     )
             );
         }
-
-
 
     }
 }
