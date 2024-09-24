@@ -4,7 +4,9 @@ import com.akdong.we.common.dto.SuccessResponse;
 import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.service.CoupleService;
+import com.akdong.we.ledger.entity.Gift;
 import com.akdong.we.ledger.entity.Ledger;
+import com.akdong.we.ledger.response.GiftInfo;
 import com.akdong.we.ledger.response.LedgerInfo;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
@@ -21,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -92,5 +95,27 @@ public class LedgerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 new SuccessResponse<>("성공적으로 장부를 조회했습니다.", response)
         );
+    }
+
+    @GetMapping("/myGift")
+    @Operation(summary = "MY 축의금 조회(신랑측 + 신부측)", description = "로그인 정보로 축의금 내역을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "MY 축의금 조회 조회 성공", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "405", description = "커플만 해당 기능을 사용할 수 있습니다.")
+    })
+    public ResponseEntity<SuccessResponse<List<GiftInfo>>> findLedgerGift(
+            @Parameter(hidden = true)  @Login Member member
+    ){
+        Couple couple = coupleService.getMyCoupleInfo(member)
+                .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+        Ledger ledger = couple.getLedger();
+        List<GiftInfo> giftList = ledgerService.findLedgerGift(ledger.getId());
+        return ResponseEntity.ok(
+                new SuccessResponse<>(
+                        "MY 축의금 조회에 성공했습니다.",
+                        giftList
+                )
+        );
+
     }
 }

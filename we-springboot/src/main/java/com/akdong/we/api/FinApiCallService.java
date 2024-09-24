@@ -400,4 +400,42 @@ public class FinApiCallService {
             throw new RuntimeException(e);
         }
     }
+
+    public JsonNode getCoupleAccount(String userKey, String accountNo){
+        String[] dateAndTime = createFormatDateTime();
+
+        CommonRequestHeader Header = CommonRequestHeader.customBuilder()
+                .apiName("inquireDemandDepositAccount")
+                .transmissionDate(dateAndTime[0])
+                .transmissionTime(dateAndTime[1])
+                .apiServiceCode("inquireDemandDepositAccount")
+                .apiKey(apiKey)
+                .userKey(userKey)
+                .build();
+
+        InquireDemandDepositRequest inquireDemandDepositRequest = InquireDemandDepositRequest.builder()
+                .Header(Header)
+                .accountNo(accountNo)
+                .build();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<InquireDemandDepositRequest> requestEntity = new HttpEntity<>(inquireDemandDepositRequest, httpHeaders);
+        String url = baseUrl + "/edu/demandDeposit/inquireDemandDepositAccount";
+
+        try{
+            log.debug("sent 계좌 단건 조회 request to FinOpenApi server, url={}", url);
+            log.debug("Request Body: {}", objectMapper.writeValueAsString(requestEntity));
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            log.debug("received Deposit response from FinOpenApi server, response={}", response);
+            String responseBody = response.getBody();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            return jsonNode.get("REC");
+
+        }catch(Exception e){
+            log.error("Exception occurred during FinAPI registration: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
 }

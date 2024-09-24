@@ -170,4 +170,53 @@ public class BankController {
                 )
         );
     }
+
+    @GetMapping("/my-couple-account")
+    @Operation(summary = "나의 커플 계좌 정보", description = "나의 커플 계좌 정보를 조회합니다")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "커플 계좌 조회 성공", useReturnTypeSchema = true),
+    })
+    public ResponseEntity<?> myCoupleAccount(@Parameter(hidden = true)  @Login Member member){
+
+        if(member.isCoupleJoined()) {
+            Couple couple = coupleService.getMyCoupleInfo(member)
+                    .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+            String accountNo = couple.getAccountNumber();
+
+            if(accountNo != null){
+                try {
+                    JsonNode jsonResponse = finApiCallService.getCoupleAccount(member.getUserKey(), accountNo);
+                    GetAccountResponse response = objectMapper.treeToValue(jsonResponse, GetAccountResponse.class);
+
+                    return ResponseEntity.ok(
+                            new SuccessResponse<>(
+                                    "나의 커플 계좌 조회에 성공했습니다.",
+                                    response
+                            )
+                    );
+                }catch (Exception e) {
+                    log.error("Exception occurred while processing the account list response: {}", e.getMessage(), e);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(new ErrorResponse<>("계좌 리스트 조회 중 오류가 발생했습니다.", e));
+                }
+            }else{
+                return ResponseEntity.ok(
+                        new SuccessResponse<>(
+                                "나의 커플 계좌 조회에 성공했습니다.",
+                                null
+                        )
+                );
+            }
+        }else{
+            return ResponseEntity.ok(
+                    new SuccessResponse<>(
+                            "나의 커플 계좌 조회에 성공했습니다.",
+                            null
+                    )
+            );
+        }
+
+
+
+    }
 }

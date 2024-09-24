@@ -62,9 +62,9 @@ public class CoupleService {
                 .build();
 
 //        member1.setCouple(couple);
-//        member1.setCoupleJoined(true);
+        member1.setCoupleJoined(true);
 //        member2.setCouple(couple);
-//        member2.setCoupleJoined(true);
+        member2.setCoupleJoined(true);
 
         return coupleRepository.save(couple);
     }
@@ -72,6 +72,4 @@ public class CoupleService {
     public Optional<Couple> getMyCoupleInfo(Member member) {
         return coupleRepository.findByMember(member);
     }
-
-
 }
