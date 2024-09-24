@@ -17,10 +17,10 @@ export type LoginResponse = {
       leavedDate: string | null;
       leaved: boolean;
     };
-    coupleInfo: {
-      id: number;
-      accountNumber: string;
-    };
+    // coupleInfo: {
+    //   id: number;
+    //   accountNumber: string;
+    // };
 
     tokens: {
       accessToken: string;
@@ -37,9 +37,9 @@ export const login = async (dto: LoginDto): Promise<LoginResponse> => {
       },
     });
 
-    return response.data;
+    return response.data; // API 응답을 반환
   } catch (error) {
-    console.error("Error during login:", error);
+    console.error("Login error:", error);
     throw error;
   }
 };

@@ -71,25 +71,25 @@ const InfoTypeInvitation: React.FC = () => {
     if (husbandInfoRef.current) {
       await husbandInfoRef.current.submit();
     } else {
-      alert("신랑 정보를 입력해 주세요.");
+      alert("신랑 정보를 먼저 입력해 주세요.");
     }
 
     if (brideInfoRef.current) {
       await brideInfoRef.current.submit();
     } else {
-      alert("신부 정보를 입력해 주세요.");
+      alert("신부 정보를 먼저 입력해 주세요.");
     }
 
     if (greetingsRef.current) {
       await greetingsRef.current.submit();
     } else {
-      alert("인사말을 작성해 주세요.");
+      alert("인사말을 먼저 작성해 주세요.");
     }
 
     if (locationAndDateRef.current) {
       await locationAndDateRef.current.submit();
     } else {
-      alert("예식 장소와 일자를 입력해 주세요.");
+      alert("예식 장소와 일자를 먼저 입력해 주세요.");
     }
 
     window.location.href = "/invitation/storage";

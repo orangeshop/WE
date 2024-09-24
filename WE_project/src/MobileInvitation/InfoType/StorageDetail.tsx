@@ -11,7 +11,6 @@ import pinkpaper from "../../assets/images/pinkpaper.jpeg";
 import kakaoicon from "../../assets/images/kakaoicon.png";
 import copyicon from "../../assets/images/copyicon.png";
 import InvitationMap from "./InvitationMap";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./StorageDetail.css";
@@ -27,29 +26,9 @@ const StorageDetail: React.FC = () => {
     useState<GetFormalInvitationDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { invitationId } = useParams<{ invitationId: string }>();
-  const [showGroomDropdown, setShowGroomDropdown] = useState(false);
-  const [showBrideDropdown, setShowBrideDropdown] = useState(false);
-
-  const [, setAccountNo] = useState<number>(0);
-  const [, setBankName] = useState<string>("");
+  const [accountNo, setAccountNo] = useState<number | null>(null);
+  const [bankName, setBankName] = useState<string>("");
   const accessToken = localStorage.getItem("accessToken");
-
-  const getAccount = useCallback(async () => {
-    try {
-      if (!accessToken) {
-        throw new Error("Access token not found");
-      }
-      const accountInfo: GetAccountInfoDto = await getAccountInfo(accessToken);
-      const accountNo = accountInfo.data.accountNo;
-      const bankName = accountInfo.data.bankName;
-      console.log(accountInfo);
-
-      setAccountNo(accountNo);
-      setBankName(bankName);
-    } catch (error) {
-      console.error("Error fetching account info:", error);
-    }
-  }, [accessToken]);
 
   const navigate = useNavigate();
 
@@ -64,13 +43,21 @@ const StorageDetail: React.FC = () => {
     return new Date();
   };
 
-  const toggleGroomDropdown = () => {
-    setShowGroomDropdown(!showGroomDropdown);
-  };
+  const getAccount = useCallback(async () => {
+    try {
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+      const accountInfo: GetAccountInfoDto = await getAccountInfo(accessToken);
+      const accountNo = accountInfo.data.accountNo;
+      const bankName = accountInfo.data.bankName;
 
-  const toggleBrideDropdown = () => {
-    setShowBrideDropdown(!showBrideDropdown);
-  };
+      setAccountNo(accountNo);
+      setBankName(bankName);
+    } catch (error) {
+      console.error("Error fetching account info:", error);
+    }
+  }, [accessToken]);
 
   useEffect(() => {
     const fetchInvitation = async () => {
@@ -311,56 +298,33 @@ const StorageDetail: React.FC = () => {
             <p className="text-center">축하의 마음을 전달해 주세요.</p>
           </div>
 
-          <div className="mb-36">
-            <div className="flex justify-center mt-10">
-              <div
-                className="w-[400px] h-[70px] bg-[#F4F0EB] flex items-center justify-between cursor-pointer p-2"
-                onClick={toggleGroomDropdown}
-              >
-                <p className="text-[18px] flex-1 text-center">신랑 계좌번호</p>
-                {showGroomDropdown ? <FiChevronUp /> : <FiChevronDown />}
-              </div>
+          <div className="flex justify-center mt-5">
+            <div className="w-[400px] h-[70px] bg-[#F4F0EB] flex items-center justify-between cursor-pointer p-2">
+              <p className="text-[18px] flex-1 text-center">축의금 계좌번호</p>
             </div>
-            {showGroomDropdown && (
-              <div className="flex justify-center">
-                <div className="w-[400px] bg-white border border-gray-200 p-2">
-                  <p className="text-[15px]">카카오뱅크 123-456-7890</p>
-                </div>
-              </div>
-            )}
-
-            <div className="flex justify-center mt-5">
-              <div
-                className="w-[400px] h-[70px] bg-[#F4F0EB] flex items-center justify-between cursor-pointer p-2"
-                onClick={toggleBrideDropdown}
-              >
-                <p className="text-[18px] flex-1 text-center">신부 계좌번호</p>
-                {showBrideDropdown ? <FiChevronUp /> : <FiChevronDown />}
-              </div>
-            </div>
-            {showBrideDropdown && (
-              <div className="flex justify-center">
-                <div className="w-[400px] bg-white border border-gray-200 p-2">
-                  <p className="text-[15px]">국민 098-765-4321</p>
-                </div>
-              </div>
-            )}
           </div>
+          <div className="flex justify-center">
+            <div className="w-[400px] bg-white border border-gray-200 p-2">
+              <p className="text-[15px]">
+                {bankName} {accountNo}
+              </p>
+            </div>
+          </div>
+        </div>
 
-          <div className="flex justify-center mt-10">
-            <div className="w-[560px] h-[100px] bg-[#F4F0EB] flex items-center cursor-pointer p-2 mb-40">
-              <div className="flex-1 border-r border-gray-300 h-full flex flex-col items-center justify-center">
-                <img src={kakaoicon} alt="카톡 아이콘" className="w-9 mb-2" />
-                <p className="text-sm">카카오톡 공유</p>
-              </div>
-              <div
-                className="border-l border-gray-300 h-full"
-                style={{ width: "1px" }}
-              ></div>
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <img src={copyicon} alt="복사 아이콘" className="w-9 mb-2" />
-                <p className="text-sm">링크(URL) 복사</p>
-              </div>
+        <div className="flex justify-center mt-20">
+          <div className="w-[560px] h-[100px] bg-[#F4F0EB] flex items-center cursor-pointer p-2 mb-40">
+            <div className="flex-1 border-r border-gray-300 h-full flex flex-col items-center justify-center">
+              <img src={kakaoicon} alt="카톡 아이콘" className="w-9 mb-2" />
+              <p className="text-sm">카카오톡 공유</p>
+            </div>
+            <div
+              className="border-l border-gray-300 h-full"
+              style={{ width: "1px" }}
+            ></div>
+            <div className="flex-1 flex flex-col items-center justify-center">
+              <img src={copyicon} alt="복사 아이콘" className="w-9 mb-2" />
+              <p className="text-sm">링크(URL) 복사</p>
             </div>
           </div>
         </div>
