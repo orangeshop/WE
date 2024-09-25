@@ -6,13 +6,11 @@ import com.akdong.we.couple.repository.CoupleRepository;
 import com.akdong.we.file.domain.FileDto;
 import com.akdong.we.invitation.domain.FormalInvitationDto;
 import com.akdong.we.invitation.domain.FormalInvitationEntity;
-import com.akdong.we.invitation.domain.formal.EmptyFormalInvitation;
-import com.akdong.we.invitation.domain.formal.GreetingsDto;
-import com.akdong.we.invitation.domain.formal.MetaInfo;
-import com.akdong.we.invitation.domain.formal.PersonDto;
+import com.akdong.we.invitation.domain.formal.*;
 import com.akdong.we.invitation.repository.FormalInvitationRepository;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.repository.MemberRepository;
+import com.akdong.we.util.Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -101,9 +99,9 @@ public class FormalInvitationService {
                 .asDto();
     }
 
-    public FormalInvitationDto updateFormalInvitation(FormalInvitationDto invitation){
+    public FormalInvitationDto updateFormalInvitation(long invitationId,ModifiedFormalInvitation invitation){
         return formalInvitationRepository
-                .save(invitation.asEntity())
+                .save(invitation.asEntity(invitationId, Util.getCoupleIdFromJwt(coupleRepository)))
                 .asDto();
     }
 
