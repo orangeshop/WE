@@ -22,10 +22,6 @@ class GuestBookViewModel @Inject constructor(
     private val _qrCodeUrl = MutableStateFlow<String>("")
     val qrCodeUrl: Flow<String> get() = _qrCodeUrl
 
-    init {
-        Timber.d("qr init")
-        getQrCode()
-    }
 
     private fun setQrCodeUrl(url: String) {
         _qrCodeUrl.update { url }
@@ -47,7 +43,7 @@ class GuestBookViewModel @Inject constructor(
         }
     }
 
-    fun getQrCode() {
+    fun getQrCode(onResult: () -> Unit) {
         viewModelScope.launch {
             ledgersRepository.getLedgers().collectLatest {
                 when(it){
@@ -57,6 +53,7 @@ class GuestBookViewModel @Inject constructor(
                     }
                     is ApiResult.Error -> {
                         Timber.d("qr load fail " + it.exception.message)
+                        onResult()
                     }
                 }
             }

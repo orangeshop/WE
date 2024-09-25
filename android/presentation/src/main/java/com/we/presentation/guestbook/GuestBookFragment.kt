@@ -27,7 +27,9 @@ class GuestBookFragment : BaseFragment<FragmentGuestBookBinding>(R.layout.fragme
 
     override fun initView() {
         initClickEventListener()
-        guestBookViewModel.getQrCode()
+        guestBookViewModel.getQrCode(){
+            binding.flQrCode.visibility = View.VISIBLE
+        }
         initQrCodeSetting()
     }
 
@@ -45,7 +47,6 @@ class GuestBookFragment : BaseFragment<FragmentGuestBookBinding>(R.layout.fragme
                         }
                     }
                     .launchIn(viewLifecycleOwner.lifecycleScope)
-
             }
         }
     }
