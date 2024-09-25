@@ -23,3 +23,8 @@
 .detailcalendar {
   pointer-events: none; /* 모든 클릭 이벤트 비활성화 */
 }
+.my-popup-class {
+  max-width: 500px; /* 팝업 최대 너비 */
+  padding: 20px; /* 팝업 내부 여백 */
+  font-size: 14px;
+}

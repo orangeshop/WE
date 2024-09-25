@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Navbar from "../Components/Navbar";
 import {
   getCoupleInvitation,
   GetCoupleInvitationDto,
@@ -29,13 +30,16 @@ const Mypage: React.FC = () => {
   }, [accessToken]);
 
   return (
-    <div>
-      {coupleId !== null ? (
-        <p>Couple ID: {coupleId}</p>
-      ) : (
-        <p>Couple ID를 찾을 수 없습니다.</p>
-      )}
-      {email ? <p>이메일: {email}</p> : <p>이메일 정보가 없습니다.</p>}
+    <div className="font-nanum">
+      <Navbar isScrollSensitive={false} />
+      <div>
+        {coupleId !== null ? (
+          <p>Couple ID: {coupleId}</p>
+        ) : (
+          <p>Couple ID를 찾을 수 없습니다.</p>
+        )}
+        {email ? <p>이메일: {email}</p> : <p>이메일 정보가 없습니다.</p>}
+      </div>
     </div>
   );
 };
