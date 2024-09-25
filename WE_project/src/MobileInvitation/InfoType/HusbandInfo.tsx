@@ -36,7 +36,6 @@ const HusbandInfo = forwardRef((_, ref) => {
 
   const handleSubmit = async () => {
     if (!birthOrder) {
-      alert("신랑 서열을 선택해 주세요.");
       return;
     }
 

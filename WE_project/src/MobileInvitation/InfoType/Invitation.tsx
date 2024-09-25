@@ -7,6 +7,8 @@ import GreetingsSection from "./Greetings";
 import LocationAndDate from "./LocationAndDate";
 import { inputImage } from "../../apis/api/imagedropzone";
 import { useParams } from "react-router-dom";
+import { getFormalInvitation } from "../../apis/api/getinfotypeinvitation";
+import Swal from "sweetalert2";
 
 interface HusbandInfoHandle {
   submit: () => void;
@@ -60,8 +62,6 @@ const InfoTypeInvitation: React.FC = () => {
       } catch (error) {
         console.error("이미지 업로드 중 오류 발생:", error);
       }
-    } else {
-      alert("이미지가 선택되지 않았습니다.");
     }
   };
 
@@ -70,29 +70,102 @@ const InfoTypeInvitation: React.FC = () => {
 
     if (husbandInfoRef.current) {
       await husbandInfoRef.current.submit();
-    } else {
-      alert("신랑 정보를 먼저 입력해 주세요.");
     }
 
     if (brideInfoRef.current) {
       await brideInfoRef.current.submit();
-    } else {
-      alert("신부 정보를 먼저 입력해 주세요.");
     }
 
     if (greetingsRef.current) {
       await greetingsRef.current.submit();
-    } else {
-      alert("인사말을 먼저 작성해 주세요.");
     }
 
     if (locationAndDateRef.current) {
       await locationAndDateRef.current.submit();
-    } else {
-      alert("예식 장소와 일자를 먼저 입력해 주세요.");
     }
 
-    window.location.href = "/invitation/storage";
+    if (invitationId) {
+      const invitationData = await getFormalInvitation(Number(invitationId));
+
+      const {
+        url,
+        title,
+        groomLastName,
+        groomFirstName,
+        groomBirthOrder,
+        groomFatherLastName,
+        groomFatherFirstName,
+        groomMotherLastName,
+        groomMotherFirstName,
+        brideLastName,
+        brideFirstName,
+        brideBirthOrder,
+        brideFatherLastName,
+        brideFatherFirstName,
+        brideMotherLastName,
+        brideMotherFirstName,
+        greetings,
+        date,
+        timezone,
+        hour,
+        minute,
+        address,
+        addressDetail,
+        weddingHall,
+        longitude,
+        latitude,
+      } = invitationData;
+
+      if (
+        url &&
+        title &&
+        groomLastName &&
+        groomFirstName &&
+        groomBirthOrder &&
+        groomFatherLastName &&
+        groomFatherFirstName &&
+        groomMotherLastName &&
+        groomMotherFirstName &&
+        brideLastName &&
+        brideFirstName &&
+        brideBirthOrder &&
+        brideFatherLastName &&
+        brideFatherFirstName &&
+        brideMotherLastName &&
+        brideMotherFirstName &&
+        greetings &&
+        date &&
+        timezone &&
+        hour &&
+        minute &&
+        address &&
+        addressDetail &&
+        weddingHall &&
+        longitude !== null &&
+        latitude !== null
+      ) {
+        await Swal.fire({
+          text: "청첩장 만들기에 성공했습니다!",
+          icon: "success",
+          confirmButtonText: "확인",
+          width: "400px",
+          customClass: {
+            popup: "my-popup-class",
+          },
+        });
+        window.location.href = "/invitation/storage";
+      } else {
+        Swal.fire({
+          text: "모든 필드가 입력되어야 합니다.",
+          icon: "error",
+          confirmButtonText: "확인",
+          width: "400px",
+          customClass: {
+            popup: "my-popup-class",
+          },
+        });
+      }
+    }
   };
 
   return (
