@@ -30,6 +30,7 @@ const StorageDetail: React.FC = () => {
   const [accountNo, setAccountNo] = useState<number | null>(null);
   const [bankName, setBankName] = useState<string>("");
   const accessToken = localStorage.getItem("accessToken");
+  const [isExist, setisExist] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const kakaokey = import.meta.env.VITE_KAKAOMAP_JAVASCRIPT_APP_KEY;
@@ -61,32 +62,6 @@ const StorageDetail: React.FC = () => {
     }
   }, [accessToken]);
 
-  const copyToClipboard = () => {
-    const url = window.location.href;
-    navigator.clipboard
-      .writeText(url)
-      .then(() => {
-        Swal.fire({
-          text: "현재 페이지의 링크가 복사되었습니다.",
-          icon: "success",
-          confirmButtonText: "확인",
-          width: "400px",
-          customClass: {
-            popup: "my-popup-class",
-          },
-        });
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: "복사 실패",
-          text: "링크 복사에 실패했습니다. 다시 시도해 주세요.",
-          icon: "error",
-          confirmButtonText: "확인",
-        });
-        console.error("복사 실패:", err);
-      });
-  };
-
   useEffect(() => {
     const fetchInvitation = async () => {
       try {
@@ -103,6 +78,12 @@ const StorageDetail: React.FC = () => {
 
     fetchInvitation();
   }, [invitationId, getAccount]);
+
+  useEffect(() => {
+    if (accessToken) {
+      setisExist(true);
+    }
+  }, [accessToken]);
 
   useEffect(() => {
     const kakao = (window as any).Kakao;
@@ -135,8 +116,20 @@ const StorageDetail: React.FC = () => {
 
   const markDate = parseDateString(invitationData.date);
 
-  const handleEdit = () => {
-    navigate(`/invite/info/edit/${invitationId}`);
+  const handleEdit = async () => {
+    try {
+      const response = await fetch(`/api/invitations/${invitationId}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error("청첩장 데이터를 불러오는 중 오류 발생");
+      }
+      navigate(`/invite/info/edit/${invitationId}`, {
+        state: { invitationData: data },
+      });
+    } catch (error) {
+      console.error("청첩장 수정 페이지 이동 중 오류:", error);
+    }
   };
 
   const handleDelete = async () => {
@@ -164,8 +157,6 @@ const StorageDetail: React.FC = () => {
       return;
     }
 
-    console.log("Kakao share button clicked");
-
     kakao.Link.sendDefault({
       objectType: "feed",
       content: {
@@ -190,6 +181,33 @@ const StorageDetail: React.FC = () => {
       ],
     });
   };
+
+  const copyToClipboard = () => {
+    const url = window.location.href;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        Swal.fire({
+          text: "현재 페이지의 링크가 복사되었습니다.",
+          icon: "success",
+          confirmButtonText: "확인",
+          width: "400px",
+          customClass: {
+            popup: "my-popup-class",
+          },
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "복사 실패",
+          text: "링크 복사에 실패했습니다. 다시 시도해 주세요.",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
+        console.error("복사 실패:", err);
+      });
+  };
+
   return (
     <div className="relative font-nanum min-w-[1500px] w-full">
       <div
@@ -200,26 +218,38 @@ const StorageDetail: React.FC = () => {
         }}
       />
       <div className="relative z-10 text-center w-full">
-        <button className="flex justify-start ml-20 absolute mt-10 bg-transparent">
-          <a href="/invitation/storage">
-            <p className="text-[#C1A56C]">{"<<"} 뒤로가기</p>
-          </a>
-        </button>
+        {isExist ? (
+          <button className="flex justify-start ml-20 absolute mt-10 bg-transparent">
+            <a href="/invitation/storage">
+              <p className="text-[#C1A56C]">{"<<"} 뒤로가기</p>
+            </a>
+          </button>
+        ) : (
+          " "
+        )}
 
         <div className="absolute mt-10 right-20 flex space-x-4">
-          <button
-            className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
-            onClick={handleEdit}
-          >
-            수정
-          </button>
-          <span className="text-[#C1A56C] py-2">|</span>
-          <button
-            className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
-            onClick={handleDelete}
-          >
-            삭제
-          </button>
+          {isExist ? (
+            <button
+              className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
+              onClick={handleEdit}
+            >
+              수정
+            </button>
+          ) : (
+            " "
+          )}
+          {isExist ? <span className="text-[#C1A56C] py-2">|</span> : " "}
+          {isExist ? (
+            <button
+              className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
+              onClick={handleDelete}
+            >
+              삭제
+            </button>
+          ) : (
+            " "
+          )}
         </div>
 
         <div className="text-2xl font-semibold letter-space pt-36 text-[#800000]">
@@ -378,7 +408,7 @@ const StorageDetail: React.FC = () => {
             </div>
           </div>
           <div className="flex justify-center">
-            <div className="w-[400px] bg-white border border-gray-200 p-2">
+            <div className="w-[400px] bg-white border border-gray-200 p-2 mb-20">
               <p className="text-[15px]">
                 {bankName} {accountNo}
               </p>
@@ -386,29 +416,33 @@ const StorageDetail: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex justify-center mt-20">
-          <div className="w-[560px] h-[100px] bg-[#F4F0EB] flex items-center cursor-pointer p-2 mb-40">
-            <div
-              className="flex-1 border-r border-gray-300 h-full flex flex-col items-center justify-center"
-              onClick={handleShare}
-            >
-              <img src={kakaoicon} alt="카톡 아이콘" className="w-9 mb-2" />
-              <p className="text-sm">카카오톡 공유</p>
-            </div>
-            <div
-              className="border-l border-gray-300 h-full"
-              style={{ width: "1px" }}
-            ></div>
-            <div
-              className="flex-1 flex flex-col items-center justify-center"
-              onClick={copyToClipboard}
-              style={{ cursor: "pointer" }}
-            >
-              <img src={copyicon} alt="복사 아이콘" className="w-9 mb-2" />
-              <p className="text-sm">링크(URL) 복사</p>
+        {isExist ? (
+          <div className="flex justify-center">
+            <div className="w-[560px] h-[100px] bg-[#F4F0EB] flex items-center cursor-pointer p-2 mb-40">
+              <div
+                className="flex-1 border-r border-gray-300 h-full flex flex-col items-center justify-center"
+                onClick={handleShare}
+              >
+                <img src={kakaoicon} alt="카톡 아이콘" className="w-9 mb-2" />
+                <p className="text-sm">카카오톡 공유</p>
+              </div>
+              <div
+                className="border-l border-gray-300 h-full"
+                style={{ width: "1px" }}
+              ></div>
+              <div
+                className="flex-1 flex flex-col items-center justify-center"
+                onClick={copyToClipboard}
+                style={{ cursor: "pointer" }}
+              >
+                <img src={copyicon} alt="복사 아이콘" className="w-9 mb-2" />
+                <p className="text-sm">링크(URL) 복사</p>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          " "
+        )}
       </div>
     </div>
   );
