@@ -11,6 +11,7 @@ import pinkpaper from "../../assets/images/pinkpaper.jpeg";
 import kakaoicon from "../../assets/images/kakaoicon.png";
 import copyicon from "../../assets/images/copyicon.png";
 import InvitationMap from "./InvitationMap";
+import Swal from "sweetalert2";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./StorageDetail.css";
@@ -31,6 +32,7 @@ const StorageDetail: React.FC = () => {
   const accessToken = localStorage.getItem("accessToken");
 
   const navigate = useNavigate();
+  const kakaokey = import.meta.env.VITE_KAKAOMAP_JAVASCRIPT_APP_KEY;
 
   const parseDateString = (dateString: string): Date => {
     const parts = dateString.match(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/);
@@ -76,6 +78,13 @@ const StorageDetail: React.FC = () => {
     fetchInvitation();
   }, [invitationId, getAccount]);
 
+  useEffect(() => {
+    const kakao = (window as any).Kakao;
+    if (kakao && !kakao.isInitialized()) {
+      kakao.init(kakaokey);
+    }
+  });
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -115,6 +124,71 @@ const StorageDetail: React.FC = () => {
         alert("삭제에 실패했습니다.");
       }
     }
+  };
+
+  const handleShare = () => {
+    const kakao = (window as any).Kakao;
+    if (!kakao) {
+      console.error("Kakao SDK not available");
+      return;
+    }
+
+    if (!kakao.isInitialized()) {
+      console.error("Kakao SDK is not initialized");
+      return;
+    }
+
+    console.log("Kakao share button clicked");
+
+    kakao.Link.sendDefault({
+      objectType: "feed",
+      content: {
+        title: `${invitationData.groomLastName}${invitationData.groomFirstName} ♥ ${invitationData.brideLastName}${invitationData.brideFirstName} 결혼합니다`,
+        description: `${invitationData.date}${" "}${
+          invitationData.timezone
+        }${" "}${invitationData.hour}시${" "}${invitationData.minute}분`,
+        imageUrl: invitationData.url || "",
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href,
+        },
+      },
+      buttons: [
+        {
+          title: "모바일 청첩장 보기",
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+      ],
+    });
+  };
+
+  const copyToClipboard = () => {
+    const url = window.location.href;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        Swal.fire({
+          text: "현재 페이지의 링크가 복사되었습니다.",
+          icon: "success",
+          confirmButtonText: "확인",
+          width: "400px",
+          customClass: {
+            popup: "my-popup-class",
+          },
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "복사 실패",
+          text: "링크 복사에 실패했습니다. 다시 시도해 주세요.",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
+        console.error("복사 실패:", err);
+      });
   };
 
   return (
@@ -315,7 +389,10 @@ const StorageDetail: React.FC = () => {
 
         <div className="flex justify-center mt-20">
           <div className="w-[560px] h-[100px] bg-[#F4F0EB] flex items-center cursor-pointer p-2 mb-40">
-            <div className="flex-1 border-r border-gray-300 h-full flex flex-col items-center justify-center">
+            <div
+              className="flex-1 border-r border-gray-300 h-full flex flex-col items-center justify-center"
+              onClick={handleShare}
+            >
               <img src={kakaoicon} alt="카톡 아이콘" className="w-9 mb-2" />
               <p className="text-sm">카카오톡 공유</p>
             </div>
@@ -323,7 +400,11 @@ const StorageDetail: React.FC = () => {
               className="border-l border-gray-300 h-full"
               style={{ width: "1px" }}
             ></div>
-            <div className="flex-1 flex flex-col items-center justify-center">
+            <div
+              className="flex-1 flex flex-col items-center justify-center"
+              onClick={copyToClipboard}
+              style={{ cursor: "pointer" }}
+            >
               <img src={copyicon} alt="복사 아이콘" className="w-9 mb-2" />
               <p className="text-sm">링크(URL) 복사</p>
             </div>
