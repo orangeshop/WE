@@ -15,6 +15,7 @@ import com.we.presentation.base.BaseActivity
 import com.we.presentation.databinding.ActivityMainBinding
 import com.we.presentation.main.viewmodel.MainViewModel
 import com.we.presentation.util.Page
+import com.we.presentation.util.requestPermission
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -28,6 +29,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         initBottomNavigation()
         setBottomNavHide()
         getFcmToken()
+        requestPermission()
     }
 
     private fun setNavGraph() {
