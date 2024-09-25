@@ -16,6 +16,7 @@ import com.we.presentation.R
 import com.we.presentation.account.viewmodel.AccountViewModel
 import com.we.presentation.component.adapter.AccountBankChooseAdapter
 import com.we.presentation.databinding.DialogChooseBankBinding
+import com.we.presentation.remittance.viewmodel.RemittanceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
@@ -26,6 +27,8 @@ import timber.log.Timber
 class AccountModalBottomSheet : BottomSheetDialogFragment() {
     lateinit var binding: DialogChooseBankBinding
     private val accountViewModel: AccountViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +45,7 @@ class AccountModalBottomSheet : BottomSheetDialogFragment() {
         val adapter = AccountBankChooseAdapter() { item ->
 
             accountViewModel.setChooseBank(item)
+            remittanceViewModel.setChooseBank(item)
 
             lifecycleScope.launch {
                 accountViewModel.chooseBank.collect {value ->
