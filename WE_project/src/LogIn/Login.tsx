@@ -27,16 +27,15 @@ const LoginForm: React.FC = () => {
         password: formData.password,
       };
 
-      const response = await login(memberData); // 로그인 응답을 받음
-      console.log("로그인 응답:", response);
+      const response = await login(memberData);
 
-      // 응답에서 토큰을 가져옴
       const { accessToken, refreshToken } = response.data.tokens;
+      const email = response.data.memberInfo.email;
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-      // console.log(response.data.coupleInfo.id);
-      // console.log(response.data.coupleInfo.accountNumber);
+      localStorage.setItem("email", email);
+
       navigate("/");
     } catch {
       setError("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");

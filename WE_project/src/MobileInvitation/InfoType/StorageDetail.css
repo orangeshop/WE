@@ -13,6 +13,13 @@
   text-decoration: none;
 }
 
-/* .react-calendar__navigation {
+.detailcalendar .react-calendar__navigation {
   display: none;
-} */
+}
+
+.detailcalendar .react-calendar__tile--now {
+  background-color: transparent;
+}
+.detailcalendar {
+  pointer-events: none;
+}
