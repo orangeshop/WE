@@ -21,9 +21,5 @@
   background-color: transparent;
 }
 .detailcalendar {
-<<<<<<< HEAD
-  pointer-events: none;
-=======
   pointer-events: none; /* 모든 클릭 이벤트 비활성화 */
->>>>>>> 66ab00ec685011161385c6d3f89e5c1f8d4a1e46
 }
