@@ -119,6 +119,7 @@
             android:gravity="center"
             android:paddingVertical="11dp"
             android:text="@string/won_transfer"
+            android:enabled="false"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

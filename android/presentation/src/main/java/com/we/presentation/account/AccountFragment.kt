@@ -34,6 +34,26 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
         initTransferClickListener()
         bankChooseComplete()
         accountInputComplete()
+        btnActivateCheck()
+    }
+
+    private fun btnActivateCheck() {
+        binding.apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                accountViewModel.accountNumber.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                    .onEach { accountNumber ->
+                        accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                            .onEach { chooseBank ->
+                                Timber.d("accountNumber : $accountNumber chooseBank : ${chooseBank.bankName}")
+                                if (accountNumber.isNotBlank() && chooseBank.bankName.isNotBlank()) {
+                                    tvRegisterAccount.isEnabled = true
+                                }
+                            }
+                            .launchIn(viewLifecycleOwner.lifecycleScope)
+                    }
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            }
+        }
     }
 
     private fun accountInputComplete() {
@@ -46,7 +66,6 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
 
     private fun bankChooseComplete() {
         viewLifecycleOwner.lifecycleScope.launch {
-
             accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .onEach {
 
