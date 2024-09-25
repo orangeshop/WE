@@ -1,7 +1,7 @@
 FROM openjdk:17
 
-# tzdata 패키지 설치
-RUN apk add --no-cache tzdata
+# 시간대 설정
+RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 CMD ["./gradlew","clean", "build"]
 
