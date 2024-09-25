@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../Components/Navbar";
 import {
   getCoupleInvitation,
   GetCoupleInvitationDto,
 } from "../apis/api/coupleinvitation";
+import Navbar from "../Components/Navbar";
 
 const Mypage: React.FC = () => {
   const [coupleId, setCoupleId] = useState<number | null>(null);
@@ -26,11 +26,12 @@ const Mypage: React.FC = () => {
         console.error("Error fetching couple invitations:", error);
       }
     };
+
     fetchCoupleInvitations();
   }, [accessToken]);
 
   return (
-    <div className="font-nanum">
+    <div className="font-nanum bg-image">
       <Navbar isScrollSensitive={false} />
       <div>
         {coupleId !== null ? (
