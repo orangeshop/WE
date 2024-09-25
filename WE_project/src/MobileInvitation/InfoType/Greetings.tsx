@@ -1,9 +1,9 @@
-import React, { useState, forwardRef, useImperativeHandle } from "react";
+import React, { useState, forwardRef, useImperativeHandle, useEffect } from "react";
 import { inputGreeting } from "../../apis/api/greeting";
 import { useParams } from "react-router-dom";
 
 interface GreetingsProps {
-  value: string;
+  value?: string;
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -14,7 +14,13 @@ interface GreetingsHandle {
 const GreetingsSection = forwardRef<GreetingsHandle, GreetingsProps>(
   ({ value, onChange }, ref) => {
     const { invitationId } = useParams();
-    const [greeting, setGreeting] = useState(value);
+    const [greeting, setGreeting] = useState("");
+
+    useEffect(() => {
+      if (value) {
+        setGreeting(value);
+      }
+    }, [value]);
 
     const handleSubmit = async () => {
       if (!greeting) {
@@ -37,7 +43,7 @@ const GreetingsSection = forwardRef<GreetingsHandle, GreetingsProps>(
     }));
 
     return (
-      <div className="w-full mt-20 text-center ">
+      <div className="w-full mt-20 text-center">
         <p className="font-semibold">인사말을 작성해 주세요.</p>
         <textarea
           id="greetings"
