@@ -90,7 +90,7 @@ public class LedgerController {
 
         // 데이터 객체 생성
         Map<String, LedgerInfo> response = new HashMap<>();
-        response.put("LedgerInfo", LedgerInfo.of(ledger));
+        response.put("ledgerInfo", LedgerInfo.of(ledger));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 new SuccessResponse<>("성공적으로 장부를 조회했습니다.", response)
