@@ -5,7 +5,7 @@ import dropzone from "../../assets/images/dropzone.jpg";
 
 interface ImageDropzoneProps {
   onImageChange: (file: File | null, imageSrc: string | null) => void;
-  initialImage?: string | null; // Keep this as optional
+  initialImage?: string | null;
 }
 
 const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageChange, initialImage = null }) => {

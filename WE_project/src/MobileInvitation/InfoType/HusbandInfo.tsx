@@ -1,10 +1,7 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
-import {
-  GroomInfoDto,
-  BirthOrder,
-  inputGroomInfo,
-} from "../../apis/api/groominfo";
+import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
+import { GroomInfoDto, BirthOrder, inputGroomInfo } from "../../apis/api/groominfo";
 import { useParams } from "react-router-dom";
+import { getFormalInvitation } from "../../apis/api/getinfotypeinvitation";
 
 const HusbandInfo = forwardRef((_, ref) => {
   const [lastName, setGroomLastName] = useState("");
@@ -15,6 +12,27 @@ const HusbandInfo = forwardRef((_, ref) => {
   const [motherLastName, setGroomMotherLastName] = useState("");
   const [motherFirstName, setGroomMotherFirstName] = useState("");
   const { invitationId } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (invitationId) {
+        try {
+          const response = await getFormalInvitation(Number(invitationId));
+          setGroomLastName(response.groomLastName || "");
+          setGroomFirstName(response.groomFirstName || "");
+          setGroomBirthOrder(response.groomBirthOrder || "");
+          setGroomFatherLastName(response.groomFatherLastName || "");
+          setGroomFatherFirstName(response.groomFatherFirstName || "");
+          setGroomMotherLastName(response.groomMotherLastName || "");
+          setGroomMotherFirstName(response.groomMotherFirstName || "");
+        } catch (error) {
+          console.error("기존 신랑 정보 불러오기 중 오류 발생:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [invitationId]);
 
   const handleSubmit = async () => {
     if (!birthOrder) {

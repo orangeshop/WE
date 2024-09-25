@@ -1,10 +1,13 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
 import {
   BrideInfoDto,
   BirthOrder,
   inputBrideInfo,
 } from "../../apis/api/brideinfo";
 import { useParams } from "react-router-dom";
+import {
+  getFormalInvitation,
+} from "../../apis/api/getinfotypeinvitation";
 
 const BrideInfo = forwardRef((_, ref) => {
   const [lastName, setBrideLastName] = useState("");
@@ -15,6 +18,27 @@ const BrideInfo = forwardRef((_, ref) => {
   const [motherLastName, setBrideMotherLastName] = useState("");
   const [motherFirstName, setBrideMotherFirstName] = useState("");
   const { invitationId } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (invitationId) {
+        try {
+          const response = await getFormalInvitation(Number(invitationId));
+          setBrideLastName(response.brideLastName || "");
+          setBrideFirstName(response.brideFirstName || "");
+          setBrideBirthOrder(response.brideBirthOrder || "");
+          setBrideFatherLastName(response.brideFatherLastName || "");
+          setBrideFatherFirstName(response.brideFatherFirstName || "");
+          setBrideMotherLastName(response.brideMotherLastName || "");
+          setBrideMotherFirstName(response.brideMotherFirstName || "");
+        } catch (error) {
+          console.error("기존 신부 정보 불러오기 중 오류 발생:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [invitationId]);
 
   const handleSubmit = async () => {
     if (!birthOrder) {
