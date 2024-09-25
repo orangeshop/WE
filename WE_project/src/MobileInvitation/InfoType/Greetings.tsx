@@ -23,10 +23,7 @@ const GreetingsSection = forwardRef<GreetingsHandle, GreetingsProps>(
     }, [value]);
 
     const handleSubmit = async () => {
-      if (!greeting) {
-        alert("인사말을 작성해 주세요.");
-        return;
-      }
+
 
       try {
         if (invitationId) {
