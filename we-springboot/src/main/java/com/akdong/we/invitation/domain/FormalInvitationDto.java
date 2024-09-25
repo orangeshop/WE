@@ -13,6 +13,7 @@ public class FormalInvitationDto {
 
     private long invitationId;
     private long coupleId;
+    private String coupleAccount;
 
     private String title;
 

@@ -5,16 +5,14 @@ import com.akdong.we.invitation.domain.formal.GreetingsDto;
 import com.akdong.we.invitation.domain.formal.MetaInfo;
 import com.akdong.we.invitation.domain.formal.PersonDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Setter
+@Getter
 @Table(name="formal_invitation")
 public class FormalInvitationEntity {
 
@@ -112,12 +110,12 @@ public class FormalInvitationEntity {
 
     @Column
     private double latitude;
-
-    public FormalInvitationDto asDto(){
+    public FormalInvitationDto asDto(String account) {
         return FormalInvitationDto.builder()
 
                 .invitationId(invitation_id)
                 .coupleId(couple_id)
+                .coupleAccount(account)
 
                 .title(title)
                 .url(url)
@@ -155,6 +153,10 @@ public class FormalInvitationEntity {
                 .latitude(latitude)
                 .longitude(longtitude)
                 .build();
+    }
+
+    public FormalInvitationDto asDto(){
+        return asDto(null);
     }
 
     public PersonDto asBrideDto()
