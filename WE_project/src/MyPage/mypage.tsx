@@ -30,12 +30,12 @@ const Mypage: React.FC = () => {
 
   return (
     <div>
-      {email}
       {coupleId !== null ? (
         <p>Couple ID: {coupleId}</p>
       ) : (
         <p>Couple ID를 찾을 수 없습니다.</p>
       )}
+      {email ? <p>이메일: {email}</p> : <p>이메일 정보가 없습니다.</p>}
     </div>
   );
 };

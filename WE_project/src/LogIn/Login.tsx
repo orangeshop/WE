@@ -35,7 +35,8 @@ const LoginForm: React.FC = () => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("email", email);
-
+      // console.log(response.data.coupleInfo.id);
+      // console.log(response.data.coupleInfo.accountNumber);
       navigate("/");
     } catch {
       setError("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
