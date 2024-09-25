@@ -131,7 +131,7 @@ const InvitationEdit: React.FC = () => {
             className="w-24 h-10 text-sm rounded-md text-md bg-[#FFD0DE]"
             onClick={handleCreate}
           >
-            만들기
+            수정하기
           </button>
         </div>
       </div>
