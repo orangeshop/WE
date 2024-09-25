@@ -3,9 +3,6 @@ FROM openjdk:17
 # tzdata 패키지 설치
 RUN apk add --no-cache tzdata
 
-# 시간대를 한국 시간대로 설정
-ENV TZ=Asia/Seoul
-
 CMD ["./gradlew","clean", "build"]
 
 VOLUME /tmp
