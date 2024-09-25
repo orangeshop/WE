@@ -4,10 +4,7 @@ import com.akdong.we.file.domain.FileDto;
 import com.akdong.we.file.service.FileService;
 import com.akdong.we.invitation.domain.FormalInvitationDto;
 import com.akdong.we.invitation.domain.CustomInvitationDto;
-import com.akdong.we.invitation.domain.formal.EmptyFormalInvitation;
-import com.akdong.we.invitation.domain.formal.GreetingsDto;
-import com.akdong.we.invitation.domain.formal.MetaInfo;
-import com.akdong.we.invitation.domain.formal.PersonDto;
+import com.akdong.we.invitation.domain.formal.*;
 import com.akdong.we.invitation.service.FormalInvitationService;
 import com.akdong.we.invitation.service.InvitationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -107,5 +104,13 @@ public class InvitationController {
     @Operation(summary = "커플 ID로 모든 정보형 청첩장 조회", description = "커플 ID로 모든 청첩장 조회")
     public List<FormalInvitationDto> findAllFormalInvitation() throws Exception {
         return formalInvitationService.findAllFormalInvitation();
+    }
+
+    @PatchMapping("/formal/{invitationId}")
+    @Operation(summary = "정보형 청첩장 전체 수정", description = "정보형 청첩장 전체 수정")
+    public FormalInvitationDto updateFormalInvitation(
+            @PathVariable("invitationId") long id,
+            @RequestBody ModifiedFormalInvitation formalInvitation){
+        return formalInvitationService.updateFormalInvitation(id, formalInvitation);
     }
 }

@@ -1,19 +1,19 @@
-package com.akdong.we.invitation.domain;
+package com.akdong.we.invitation.domain.formal;
 
-import com.akdong.we.invitation.service.FormalInvitationService;
+import com.akdong.we.invitation.domain.BirthOrder;
+import com.akdong.we.invitation.domain.FormalInvitationEntity;
+import com.akdong.we.invitation.domain.TIMEZONE;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FormalInvitationDto {
-
-    private long invitationId;
-    private long coupleId;
-
+public class ModifiedFormalInvitation {
     private String title;
 
     // 초대장 URL
@@ -55,15 +55,12 @@ public class FormalInvitationDto {
     private String addressDetail;
     private String weddingHall;
 
-    private double longitude;
-    private double latitude;
-
     @Schema(hidden = true)
-    public FormalInvitationEntity asEntity(){
+    public FormalInvitationEntity asEntity(long invitationId, long coupleId){
         return FormalInvitationEntity.builder()
-                .title(title)
                 .invitation_id(invitationId)
                 .couple_id(coupleId)
+                .title(title)
                 .url(url)
 
                 .groom_last_name(groomLastName)
