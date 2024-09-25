@@ -1,4 +1,10 @@
-import { useState, useCallback, useImperativeHandle, forwardRef } from "react";
+import {
+  useState,
+  useCallback,
+  useImperativeHandle,
+  forwardRef,
+  useEffect,
+} from "react";
 import cal_2 from "../../assets/images/cal_2.png";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -12,6 +18,7 @@ import {
   Timezone,
 } from "../../apis/api/datelocation";
 import { useParams } from "react-router-dom";
+import { getFormalInvitation } from "../../apis/api/getinfotypeinvitation";
 
 Modal.setAppElement("#root");
 
@@ -23,7 +30,7 @@ const LocationAndDate = forwardRef((_, ref) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [timeDay, setTimeDay] = useState<string>("");
   const [timeHour, setTimeHour] = useState<number>(0);
-  const [timeMinute, setTimeMinute] = useState<string>("");
+  const [timeMinute, setTimeMinute] = useState<number>(0);
   const [wedding_hall, setWeddingHall] = useState<string>("");
   const [address_detail, setAddressDetail] = useState<string>("");
   const [latitude, setLatitude] = useState<number>(0);
@@ -31,6 +38,23 @@ const LocationAndDate = forwardRef((_, ref) => {
   const [address, setAddress] = useState<string>("");
   const { invitationId } = useParams();
   moment.locale("ko");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (invitationId) {
+        try {
+          const response = await getFormalInvitation(Number(invitationId));
+          setTimeDay(response.timezone || "");
+          setTimeHour(response.hour || 0);
+          setTimeMinute(response.minute || 0);
+          console.log(response.minute);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    fetchData();
+  }, [invitationId]);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -90,7 +114,7 @@ const LocationAndDate = forwardRef((_, ref) => {
 
     const timezone = timeDay === "am" ? Timezone.AM : Timezone.PM;
     const hour = timeHour;
-    const minute = timeMinute === "zero" ? 0 : 30;
+    const minute = timeMinute;
 
     const dto: DateLocationDto = {
       date,
@@ -215,16 +239,16 @@ const LocationAndDate = forwardRef((_, ref) => {
           id="time_minute"
           name="time_minute"
           value={timeMinute}
-          onChange={(e) => setTimeMinute(e.target.value)}
+          onChange={(e) => setTimeMinute(Number(e.target.value))}
           className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${
-            timeMinute ? "text-black" : "text-gray-400"
+            timeMinute === 0 ? "text-gray-400" : "text-black"
           }`}
         >
-          <option value="" disabled>
+          <option value={0} disabled>
             분
           </option>
-          <option value="zero">00분</option>
-          <option value="thirty">30분</option>
+          <option value={1}>00분</option>
+          <option value={2}>30분</option>
         </select>
       </div>
 

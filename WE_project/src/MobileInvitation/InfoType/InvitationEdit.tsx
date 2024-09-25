@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Navbar from "../../Components/Navbar";
 import ImageDropzone from "./ImageDropzone";
 import HusbandInfo from "./HusbandInfo";
@@ -7,6 +7,10 @@ import GreetingsSection from "./Greetings";
 import LocationAndDate from "./LocationAndDate";
 import { inputImage } from "../../apis/api/imagedropzone";
 import { useParams } from "react-router-dom";
+import {
+  getFormalInvitation,
+  GetFormalInvitationDto,
+} from "../../apis/api/getinfotypeinvitation";
 
 interface HusbandInfoHandle {
   submit: () => void;
@@ -26,7 +30,7 @@ interface LocationAndDateHandle {
 
 const InvitationEdit: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [, setImageSrc] = useState<string | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [greetings, setGreetings] = useState<string>("");
   const [title, setTitle] = useState<string>("");
 
@@ -37,16 +41,32 @@ const InvitationEdit: React.FC = () => {
 
   const { invitationId } = useParams();
 
+  useEffect(() => {
+    const fetchInvitationData = async () => {
+      if (invitationId) {
+        try {
+          const data: GetFormalInvitationDto = await getFormalInvitation(
+            Number(invitationId)
+          );
+
+          setTitle(data.title || "");
+          setImageSrc(data.url || null);
+          setGreetings(data.greetings || "");
+        } catch (error) {
+          console.error("초대장 데이터를 가져오는 중 오류 발생:", error);
+        }
+      }
+    };
+
+    fetchInvitationData();
+  }, [invitationId]);
+
   const handleImageChange = (file: File | null, imageSrc: string | null) => {
     setSelectedImage(file);
     setImageSrc(imageSrc);
+    
   };
 
-  const handleGreetingsChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setGreetings(event.target.value);
-  };
 
   const ImageUpload = async () => {
     if (selectedImage && invitationId) {
@@ -109,11 +129,12 @@ const InvitationEdit: React.FC = () => {
           className="w-full mb-20 text-center px-4 py-3 border-b text-md focus:outline-none focus:border-gray-700 bg-[#fcfaf5]"
           required
         />
-        <ImageDropzone onImageChange={handleImageChange} />
+        <ImageDropzone
+          onImageChange={handleImageChange}
+          initialImage={imageSrc || undefined}
+        />
         <div className="w-full text-center">
-          <p className="mt-20 text-md font-semibold">
-            메인 사진을 선택해 주세요.
-          </p>
+          <p className="mt-20 text-md font-semibold">메인 사진을 선택해 주세요.</p>
           <div className="mt-20 border border-gray-200"></div>
         </div>
         <div>
@@ -122,7 +143,7 @@ const InvitationEdit: React.FC = () => {
           <GreetingsSection
             ref={greetingsRef}
             value={greetings}
-            onChange={handleGreetingsChange}
+            onChange={(e) => setGreetings(e.target.value)}
           />
         </div>
         <LocationAndDate ref={locationAndDateRef} />
