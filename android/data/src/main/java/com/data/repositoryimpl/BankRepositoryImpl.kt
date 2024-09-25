@@ -6,6 +6,7 @@ import com.data.mapper.toModel
 import com.data.model.request.RequestAccountAuth
 import com.data.model.request.RequestAuthCode
 import com.data.model.request.RequestCouple
+import com.data.model.request.RequestTransfer
 import com.data.model.response.ResponseBank
 import com.data.repository.BankRepository
 import com.data.util.ApiResult
@@ -13,6 +14,8 @@ import com.data.util.safeApiCall
 import com.we.model.AccountAuthData
 import com.we.model.AuthCodeData
 import com.we.model.BankData
+import com.we.model.CoupleAccountData
+import com.we.model.TransferData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
@@ -24,10 +27,9 @@ class BankRepositoryImpl @Inject constructor(
 ) : BankRepository {
     override suspend fun getMyAccount(): Flow<ApiResult<List<BankData>>> {
         return flow {
-
             val result = safeApiCall {
                 val bankList = bankDataSource.getMyAccount().data.map { it.toEntity() }
-                bankList  // 반환된 리스트를 직접 반환
+                bankList
             }
             emit(result)
         }
@@ -47,6 +49,26 @@ class BankRepositoryImpl @Inject constructor(
         return flow{
             val result = safeApiCall {
                 val authCode = bankDataSource.accountAuth(requestAccountAuth).data.toModel()
+                authCode
+            }
+            emit(result)
+        }
+    }
+
+    override suspend fun getMyCoupleAccount(): Flow<ApiResult<CoupleAccountData>> {
+        return flow{
+            val result = safeApiCall {
+                val authCode = bankDataSource.getMyCoupleAccount().data.toModel()
+                authCode
+            }
+            emit(result)
+        }
+    }
+
+    override suspend fun postTransfer(requestTransfer: RequestTransfer): Flow<ApiResult<TransferData>> {
+        return flow{
+            val result = safeApiCall {
+                val authCode = bankDataSource.postTransfer(requestTransfer).data.toModel()
                 authCode
             }
             emit(result)
