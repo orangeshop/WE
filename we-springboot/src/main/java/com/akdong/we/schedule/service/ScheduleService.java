@@ -66,4 +66,11 @@ public class ScheduleService {
                         new ResponseStatusException(HttpStatus.NOT_FOUND,
                                 "일정 " + scheduleId + "이 없습니다."));
     }
+
+    public void deleteSchedule(long scheduleId)
+    {
+        scheduleRepository
+                .findById(scheduleId)
+                .ifPresent(scheduleRepository::delete);
+    }
 }
