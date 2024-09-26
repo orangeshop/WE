@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
   getFormalInvitation,
   GetFormalInvitationDto,
@@ -17,18 +17,12 @@ import "react-calendar/dist/Calendar.css";
 import "./StorageDetail.css";
 import dayjs from "dayjs";
 import { deleteFormalInvitation } from "../../apis/api/deleteinfotypeinvitation";
-import {
-  getAccountInfo,
-  GetAccountInfoDto,
-} from "../../apis/api/getaccountinfo";
 
 const StorageDetail: React.FC = () => {
   const [invitationData, setInvitationData] =
     useState<GetFormalInvitationDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { invitationId } = useParams<{ invitationId: string }>();
-  const [accountNo, setAccountNo] = useState<number | null>(null);
-  const [bankName, setBankName] = useState<string>("");
   const accessToken = localStorage.getItem("accessToken");
   const [isExist, setisExist] = useState<boolean>(false);
 
@@ -46,22 +40,6 @@ const StorageDetail: React.FC = () => {
     return new Date();
   };
 
-  const getAccount = useCallback(async () => {
-    try {
-      if (!accessToken) {
-        throw new Error("Access token not found");
-      }
-      const accountInfo: GetAccountInfoDto = await getAccountInfo(accessToken);
-      const accountNo = accountInfo.data.accountNo;
-      const bankName = accountInfo.data.bankName;
-
-      setAccountNo(accountNo);
-      setBankName(bankName);
-    } catch (error) {
-      console.error("Error fetching account info:", error);
-    }
-  }, [accessToken]);
-
   useEffect(() => {
     const fetchInvitation = async () => {
       try {
@@ -74,10 +52,8 @@ const StorageDetail: React.FC = () => {
       }
     };
 
-    getAccount();
-
     fetchInvitation();
-  }, [invitationId, getAccount]);
+  }, [invitationId]);
 
   useEffect(() => {
     if (accessToken) {
@@ -270,7 +246,7 @@ const StorageDetail: React.FC = () => {
             {invitationData.timezone === "AM" ? "오전" : "오후"}{" "}
             {invitationData.hour}시 {invitationData.minute}분
           </p>
-          <p>
+          <p className="mt-5">
             {invitationData.weddingHall}, {invitationData.addressDetail}
           </p>
 
@@ -391,14 +367,17 @@ const StorageDetail: React.FC = () => {
           </div>
 
           <div className="flex justify-center mt-5">
-            <div className="w-[400px] h-[70px] bg-[#F4F0EB] flex items-center justify-between cursor-pointer p-2">
+            <div className="w-[400px] h-[70px] bg-[#F4F0EB] flex items-center justify-between p-2">
               <p className="text-[18px] flex-1 text-center">축의금 계좌번호</p>
             </div>
           </div>
           <div className="flex justify-center">
             <div className="w-[400px] bg-white border border-gray-200 p-2 mb-20">
               <p className="text-[15px]">
-                {bankName} {accountNo}
+                {invitationData.coupleAccount}{" "}
+                <button className="ml-20 bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow duration-200 px-2 py-1">
+                  이체하기
+                </button>
               </p>
             </div>
           </div>
