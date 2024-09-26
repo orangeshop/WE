@@ -35,6 +35,7 @@ public class ScheduleRequest {
                 .address(address)
                 .scheduled_time(scheduled_time)
                 .isDone(isDone)
+                .price(price)
                 .build();
     }
 }
