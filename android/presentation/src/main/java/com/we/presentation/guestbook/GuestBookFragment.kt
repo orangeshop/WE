@@ -27,27 +27,29 @@ class GuestBookFragment : BaseFragment<FragmentGuestBookBinding>(R.layout.fragme
 
     override fun initView() {
         initClickEventListener()
-        guestBookViewModel.getQrCode(){
+        getQrCodeFail()
+        initQrCodeSetting()
+    }
+
+    private fun getQrCodeFail() {
+        guestBookViewModel.getQrCode() {
             binding.flQrCode.visibility = View.VISIBLE
         }
-        initQrCodeSetting()
     }
 
     private fun initQrCodeSetting() {
         binding.apply {
-            lifecycleScope.launch {
-                guestBookViewModel.qrCodeUrl.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                    .onEach {
-                        Timber.d("qr url : $it")
-                        if(guestBookViewModel.qrCodeUrl.first() != ""){
-                            flQrCode.visibility = View.GONE
-                            ivQrCode.visibility = View.VISIBLE
-                            Glide.with(this@GuestBookFragment).load(it).into(ivQrCode)
-                            tvRegisterAccount.visibility = View.VISIBLE
-                        }
+            guestBookViewModel.qrCodeUrl.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .onEach {
+                    Timber.d("qr url : $it")
+                    if (guestBookViewModel.qrCodeUrl.first() != "") {
+                        flQrCode.visibility = View.GONE
+                        ivQrCode.visibility = View.VISIBLE
+                        Glide.with(this@GuestBookFragment).load(it).into(ivQrCode)
+                        tvRegisterAccount.visibility = View.VISIBLE
                     }
-                    .launchIn(viewLifecycleOwner.lifecycleScope)
-            }
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }
 
