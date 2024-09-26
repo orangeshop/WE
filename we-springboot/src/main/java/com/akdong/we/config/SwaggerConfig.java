@@ -12,11 +12,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
+
+    private final String url = "http://localhost:8080";
+
     @Value("${auth.use-dev-token}")
     private boolean useDevToken = false;
 
@@ -36,7 +40,10 @@ public class SwaggerConfig {
             return getOpenAPI(servletContext);
         }
     }
-
+    @Bean
+    public ForwardedHeaderFilter forwardedHeaderFilter() {
+        return new ForwardedHeaderFilter();
+    }
     private OpenAPI getOpenAPI(ServletContext servletContext) {
         Info info = new Info()
                 .version("v1.0")
@@ -51,7 +58,7 @@ public class SwaggerConfig {
         SecurityRequirement securityRequirement = new SecurityRequirement().addList("bearerAuth");
 
         Server server = new Server()
-                .url(servletContext.getContextPath());
+                .url(url);
 
         return new OpenAPI()
                 .info(info)
@@ -76,7 +83,7 @@ public class SwaggerConfig {
                 .addList(LoginToken.DEV_LOGIN_TOKEN);
 
         Server server = new Server()
-                .url(servletContext.getContextPath());
+                .url(url);
 
         return new OpenAPI()
                 .info(info)
