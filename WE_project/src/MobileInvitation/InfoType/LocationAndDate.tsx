@@ -30,7 +30,7 @@ const LocationAndDate = forwardRef((_, ref) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [timeDay, setTimeDay] = useState<string>("");
   const [timeHour, setTimeHour] = useState<number>(0);
-  const [timeMinute, setTimeMinute] = useState<number>(0);
+  const [timeMinute, setTimeMinute] = useState<number>(1);
   const [wedding_hall, setWeddingHall] = useState<string>("");
   const [address_detail, setAddressDetail] = useState<string>("");
   const [latitude, setLatitude] = useState<number>(0);
@@ -67,7 +67,12 @@ const LocationAndDate = forwardRef((_, ref) => {
           }
           setTimeDay(response.timezone || "");
           setTimeHour(response.hour || 0);
-          setTimeMinute(response.minute || 0);
+          if (response.url === null) {
+            setTimeMinute(1);
+          } else {
+            setTimeMinute(response.minute === 0 ? 0 : response.minute === 30 ? 30 : 1);
+          }
+          console.log(response.minute)
           setWeddingHall(response.weddingHall || "")
           setAddressDetail(response.addressDetail || "")
           setAddress(response.address || "")
@@ -134,9 +139,9 @@ const LocationAndDate = forwardRef((_, ref) => {
 
     const date = moment(selectedDate).format("YYYY년 M월 D일 dddd");
 
-    const timezone = timeDay === "am" ? Timezone.AM : Timezone.PM;
+    const timezone = timeDay === "AM" ? Timezone.AM : Timezone.PM;
     const hour = timeHour;
-    const minute = timeMinute === 1 ? 0 : 30;
+    const minute = timeMinute;
 
     const dto: DateLocationDto = {
       date,
@@ -227,8 +232,8 @@ const LocationAndDate = forwardRef((_, ref) => {
           <option value="" disabled>
             오전/오후
           </option>
-          <option value="am">오전</option>
-          <option value="pm">오후</option>
+          <option value="AM">오전</option>
+          <option value="PM">오후</option>
         </select>
 
         <select
@@ -263,14 +268,14 @@ const LocationAndDate = forwardRef((_, ref) => {
           value={timeMinute}
           onChange={(e) => setTimeMinute(Number(e.target.value))}
           className={`w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white ${
-            timeMinute === 0 ? "text-gray-400" : "text-black"
+            timeMinute === 1 ? "text-gray-400" : "text-black"
           }`}
         >
-          <option value={0} disabled>
+          <option value={1} disabled>
             분
           </option>
-          <option value={1}>00분</option>
-          <option value={2}>30분</option>
+          <option value={0}>00분</option>
+          <option value={30}>30분</option>
         </select>
       </div>
 

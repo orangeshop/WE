@@ -108,7 +108,6 @@ const InfoTypeInvitation: React.FC = () => {
         date,
         timezone,
         hour,
-        minute,
         address,
         addressDetail,
         weddingHall,
@@ -137,7 +136,6 @@ const InfoTypeInvitation: React.FC = () => {
         date &&
         timezone &&
         hour &&
-        minute &&
         address &&
         addressDetail &&
         weddingHall &&
