@@ -2,6 +2,7 @@ package com.we.di
 
 import com.data.api.BankApi
 import com.data.api.CoupleApi
+import com.data.api.LedgersApi
 import com.data.api.SignApi
 import com.we.core.util.Qualifier
 import dagger.Module
@@ -37,6 +38,13 @@ object ApiModule {
         @Qualifier.InterceptorRetrofit
         retrofit: Retrofit
     ): BankApi = retrofit.create()
+
+    @Singleton
+    @Provides
+    fun provideLedgersApi(
+        @Qualifier.InterceptorRetrofit
+        retrofit: Retrofit
+    ): LedgersApi = retrofit.create()
 
 
 }
