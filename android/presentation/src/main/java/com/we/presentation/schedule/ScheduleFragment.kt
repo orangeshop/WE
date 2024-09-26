@@ -1,8 +1,10 @@
 package com.we.presentation.schedule
 
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.presentation.component.custom.showCustomDropDownMenu
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.adapter.ScheduleCalendarAdapter
@@ -11,6 +13,7 @@ import com.we.presentation.databinding.FragmentScheduleBinding
 import com.we.presentation.schedule.model.ScheduleUiState.CalendarSet
 import com.we.presentation.schedule.model.ScheduleUiState.Loading
 import com.we.presentation.schedule.viewmodel.ScheduleViewModel
+import com.we.presentation.util.DropDownMenu
 import com.we.presentation.util.toYearMonth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -77,7 +80,29 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             scheduleTodoAdapter.setOnItemClickListener { scheduleData ->
                 scheduleViewModel.updateScheduleToggle(scheduleData.scheduleId)
             }
+            scheduleTodoAdapter.setOnMenuClickListener { data, view ->
+                initDropDownMenu(data.scheduleId, view)
+            }
         }
+    }
+
+    private fun initDropDownMenu(id: Int, view: View) {
+        showCustomDropDownMenu(
+            requireActivity(),
+            view,
+            DropDownMenu.getDropDown(listOf(0, 1), requireActivity()),
+            action = { value ->
+                when (value.type) {
+                    DropDownMenu.DELETE -> {
+
+                    }
+
+                    DropDownMenu.UPDATE -> {
+
+                    }
+                }
+            }
+        )
     }
 
     private fun observeScheduleUiState() {
