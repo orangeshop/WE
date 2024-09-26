@@ -68,12 +68,15 @@ const InvitationEdit: React.FC = () => {
   };
 
   const ImageUpload = async () => {
-    if (selectedImage && invitationId) {
-      const dto = {
-        url: selectedImage,
+    if (invitationId) {
+      const dto: any = {
         title: title,
       };
-
+  
+      if (selectedImage) {
+        dto.url = selectedImage;
+      }
+  
       try {
         await inputImage(invitationId, dto);
       } catch (error) {
@@ -81,6 +84,7 @@ const InvitationEdit: React.FC = () => {
       }
     }
   };
+  
 
   const handleCreate = async () => {
     await ImageUpload();

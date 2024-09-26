@@ -247,16 +247,14 @@ const StorageDetail: React.FC = () => {
         </div>
 
         <div className="text-xl">
-          <div className="flex flex-col" data-aos="fade-up">
-            <p className="mt-10">
-              {invitationData.date}{" "}
-              {invitationData.timezone === "AM" ? "오전" : "오후"}{" "}
-              {invitationData.hour}시 {invitationData.minute}분
-            </p>
-            <p className="mt-5">
-              {invitationData.weddingHall}, {invitationData.addressDetail}
-            </p>
-          </div>
+          <p className="mt-10">
+            {invitationData.date}{" "}
+            {invitationData.timezone === "AM" ? "오전" : "오후"}{" "}
+            {invitationData.hour}시 {invitationData.minute}분
+          </p>
+          <p className="mt-5">
+            {invitationData.weddingHall}, {invitationData.addressDetail}
+          </p>
 
           <div className="flex justify-center mt-20">
             <div className="w-[480px] min-h-[400px] bg-[#FDF5E6] mb-20">
