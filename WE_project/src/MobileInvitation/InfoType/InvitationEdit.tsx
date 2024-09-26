@@ -11,6 +11,7 @@ import {
   getFormalInvitation,
   GetFormalInvitationDto,
 } from "../../apis/api/getinfotypeinvitation";
+import Swal from "sweetalert2";
 
 interface HusbandInfoHandle {
   submit: () => void;
@@ -64,9 +65,7 @@ const InvitationEdit: React.FC = () => {
   const handleImageChange = (file: File | null, imageSrc: string | null) => {
     setSelectedImage(file);
     setImageSrc(imageSrc);
-    
   };
-
 
   const ImageUpload = async () => {
     if (selectedImage && invitationId) {
@@ -80,8 +79,6 @@ const InvitationEdit: React.FC = () => {
       } catch (error) {
         console.error("이미지 업로드 중 오류 발생:", error);
       }
-    } else {
-      alert("이미지가 선택되지 않았습니다.");
     }
   };
 
@@ -111,6 +108,15 @@ const InvitationEdit: React.FC = () => {
     } else {
       alert("예식 장소와 일자를 입력해 주세요.");
     }
+    await Swal.fire({
+      text: "성공적으로 저장했습니다!",
+      icon: "success",
+      confirmButtonText: "확인",
+      width: "400px",
+      customClass: {
+        popup: "my-popup-class",
+      },
+    });
 
     window.location.href = "/invitation/storage";
   };
@@ -134,7 +140,9 @@ const InvitationEdit: React.FC = () => {
           initialImage={imageSrc || undefined}
         />
         <div className="w-full text-center">
-          <p className="mt-20 text-md font-semibold">메인 사진을 선택해 주세요.</p>
+          <p className="mt-20 text-md font-semibold">
+            메인 사진을 선택해 주세요.
+          </p>
           <div className="mt-20 border border-gray-200"></div>
         </div>
         <div>
@@ -152,7 +160,7 @@ const InvitationEdit: React.FC = () => {
             className="w-24 h-10 text-sm rounded-md text-md bg-[#FFD0DE]"
             onClick={handleCreate}
           >
-            수정하기
+            저장하기
           </button>
         </div>
       </div>

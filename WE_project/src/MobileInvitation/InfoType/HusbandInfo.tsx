@@ -1,5 +1,9 @@
 import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
-import { GroomInfoDto, BirthOrder, inputGroomInfo } from "../../apis/api/groominfo";
+import {
+  GroomInfoDto,
+  BirthOrder,
+  inputGroomInfo,
+} from "../../apis/api/groominfo";
 import { useParams } from "react-router-dom";
 import { getFormalInvitation } from "../../apis/api/getinfotypeinvitation";
 
@@ -34,10 +38,9 @@ const HusbandInfo = forwardRef((_, ref) => {
     fetchData();
   }, [invitationId]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<boolean> => {
     if (!birthOrder) {
-      alert("신랑 서열을 선택해 주세요.");
-      return;
+      return false;
     }
 
     const dto: GroomInfoDto = {
@@ -57,7 +60,9 @@ const HusbandInfo = forwardRef((_, ref) => {
     } catch (error) {
       console.error("신랑 정보 업로드 중 오류 발생:", error);
       alert("신랑 정보 업로드 중 오류가 발생했습니다.");
+      return false;
     }
+    return true;
   };
 
   useImperativeHandle(ref, () => ({

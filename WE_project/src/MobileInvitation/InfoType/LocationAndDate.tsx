@@ -44,10 +44,19 @@ const LocationAndDate = forwardRef((_, ref) => {
       if (invitationId) {
         try {
           const response = await getFormalInvitation(Number(invitationId));
+          if (response.date) {
+            const formattedDate = moment(
+              response.date,
+              "YYYY년 M월 D일 dddd"
+            ).toDate();
+            setCalendarValue(formattedDate);
+          }
           setTimeDay(response.timezone || "");
           setTimeHour(response.hour || 0);
           setTimeMinute(response.minute || 0);
-          console.log(response.minute);
+          setWeddingHall(response.weddingHall || "");
+          setAddressDetail(response.addressDetail || "");
+          setAddress(response.address || "");
         } catch (error) {
           console.error(error);
         }
@@ -102,7 +111,6 @@ const LocationAndDate = forwardRef((_, ref) => {
 
   const handleSubmit = async () => {
     if (!calendarValue || !wedding_hall || !address_detail) {
-      alert("모든 필드를 채워주세요.");
       return;
     }
 

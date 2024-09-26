@@ -116,20 +116,8 @@ const StorageDetail: React.FC = () => {
 
   const markDate = parseDateString(invitationData.date);
 
-  const handleEdit = async () => {
-    try {
-      const response = await fetch(`/api/invitations/${invitationId}`);
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error("청첩장 데이터를 불러오는 중 오류 발생");
-      }
-      navigate(`/invite/info/edit/${invitationId}`, {
-        state: { invitationData: data },
-      });
-    } catch (error) {
-      console.error("청첩장 수정 페이지 이동 중 오류:", error);
-    }
+  const handleEdit = () => {
+    navigate(`/invite/info/edit/${invitationId}`);
   };
 
   const handleDelete = async () => {

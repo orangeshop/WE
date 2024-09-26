@@ -5,9 +5,7 @@ import {
   inputBrideInfo,
 } from "../../apis/api/brideinfo";
 import { useParams } from "react-router-dom";
-import {
-  getFormalInvitation,
-} from "../../apis/api/getinfotypeinvitation";
+import { getFormalInvitation } from "../../apis/api/getinfotypeinvitation";
 
 const BrideInfo = forwardRef((_, ref) => {
   const [lastName, setBrideLastName] = useState("");
@@ -42,7 +40,6 @@ const BrideInfo = forwardRef((_, ref) => {
 
   const handleSubmit = async () => {
     if (!birthOrder) {
-      alert("신부 서열을 선택해 주세요.");
       return;
     }
 

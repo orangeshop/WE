@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
+import { getFormalInvitation } from "../../apis/api/getinfotypeinvitation";
+import { useParams } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -21,11 +22,43 @@ interface KakaoMapProps {
   initialAddress?: string;
 }
 
-const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange, initialAddress }) => {
+const KakaoMap: React.FC<KakaoMapProps> = ({
+  onLocationChange,
+  initialAddress,
+}) => {
   const [map, setMap] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
   const [showMap, setShowMap] = useState<boolean>(true);
-  const [address, setAddress] = useState<string>(initialAddress || ""); // 주소 상태 추가
+  const [address, setAddress] = useState<string>(initialAddress || "");
+  const { invitationId } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (invitationId) {
+        try {
+          const response = await getFormalInvitation(Number(invitationId));
+          setAddress(response.address || "");
+
+          // latitude와 longitude 값이 존재할 경우 지도와 마커 초기화
+          if (response.latitude && response.longitude) {
+            const currentPos = new window.kakao.maps.LatLng(
+              response.latitude,
+              response.longitude
+            );
+            if (map) {
+              map.panTo(currentPos);
+              marker.setMap(null);
+              marker.setPosition(currentPos);
+              marker.setMap(map);
+            }
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    fetchData();
+  }, [invitationId, map, marker]);
 
   useEffect(() => {
     if (window.kakao && window.daum && showMap) {
@@ -82,7 +115,7 @@ const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange, initialAddress })
                   result[0].x
                 );
 
-                setAddress(addrData.address); // 주소 상태 업데이트
+                setAddress(addrData.address);
 
                 map.panTo(currentPos);
 
@@ -107,7 +140,6 @@ const KakaoMap: React.FC<KakaoMapProps> = ({ onLocationChange, initialAddress })
     setShowMap(event.target.checked);
   };
 
-  // 초기 주소가 변경될 때 주소 입력 필드 업데이트
   useEffect(() => {
     setAddress(initialAddress || "");
   }, [initialAddress]);

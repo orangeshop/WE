@@ -1,4 +1,9 @@
-import React, { useState, forwardRef, useImperativeHandle, useEffect } from "react";
+import React, {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useEffect,
+} from "react";
 import { inputGreeting } from "../../apis/api/greeting";
 import { useParams } from "react-router-dom";
 
@@ -24,7 +29,6 @@ const GreetingsSection = forwardRef<GreetingsHandle, GreetingsProps>(
 
     const handleSubmit = async () => {
       if (!greeting) {
-        alert("인사말을 작성해 주세요.");
         return;
       }
 
