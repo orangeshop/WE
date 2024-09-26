@@ -1,6 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import { getFormalInvitation } from "../../apis/api/getinfotypeinvitation";
-import { useParams } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -19,63 +18,44 @@ interface KakaoMapProps {
     latitude: number,
     longitude: number
   ) => void;
-  initialAddress?: string;
+  address: string; // New prop for the initial address
+  latitude: number | null; // New prop for the initial latitude
+  longitude: number | null; // New prop for the initial longitude
 }
 
 const KakaoMap: React.FC<KakaoMapProps> = ({
   onLocationChange,
-  initialAddress,
+  address,
+  latitude,
+  longitude,
 }) => {
   const [map, setMap] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
   const [showMap, setShowMap] = useState<boolean>(true);
-  const [address, setAddress] = useState<string>(initialAddress || "");
-  const { invitationId } = useParams();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (invitationId) {
-        try {
-          const response = await getFormalInvitation(Number(invitationId));
-          setAddress(response.address || "");
-
-          // latitude와 longitude 값이 존재할 경우 지도와 마커 초기화
-          if (response.latitude && response.longitude) {
-            const currentPos = new window.kakao.maps.LatLng(
-              response.latitude,
-              response.longitude
-            );
-            if (map) {
-              map.panTo(currentPos);
-              marker.setMap(null);
-              marker.setPosition(currentPos);
-              marker.setMap(map);
-            }
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-    fetchData();
-  }, [invitationId, map, marker]);
 
   useEffect(() => {
     if (window.kakao && window.daum && showMap) {
       window.kakao.maps.load(() => {
         const container = document.getElementById("map");
         const options = {
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+          center:
+            latitude && longitude
+              ? new window.kakao.maps.LatLng(latitude, longitude)
+              : new window.kakao.maps.LatLng(33.450701, 126.570667), // Default coordinates
           level: 4,
         };
 
         const mapInstance = new window.kakao.maps.Map(container, options);
         const markerInstance = new window.kakao.maps.Marker();
-
         setMap(mapInstance);
         setMarker(markerInstance);
 
-        if (navigator.geolocation) {
+        if (latitude && longitude) {
+          const currentPos = new window.kakao.maps.LatLng(latitude, longitude);
+          mapInstance.setCenter(currentPos);
+          markerInstance.setPosition(currentPos);
+          markerInstance.setMap(mapInstance);
+        } else if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
               const currentPos = new window.kakao.maps.LatLng(
@@ -98,7 +78,16 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
     } else if (!showMap) {
       setMap(null);
     }
-  }, [showMap]);
+  }, [showMap, latitude, longitude]);
+
+  useEffect(() => {
+    if (map && marker && latitude && longitude) {
+      const currentPos = new window.kakao.maps.LatLng(latitude, longitude);
+      map.panTo(currentPos);
+      marker.setPosition(currentPos);
+      marker.setMap(map);
+    }
+  }, [map, marker, latitude, longitude]);
 
   const onClickAddr = () => {
     if (window.daum && window.kakao) {
@@ -115,14 +104,15 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
                   result[0].x
                 );
 
-                setAddress(addrData.address);
+                (document.getElementById("addr") as HTMLInputElement).value =
+                  addrData.address;
 
                 map.panTo(currentPos);
-
                 marker.setMap(null);
                 marker.setPosition(currentPos);
                 marker.setMap(map);
 
+                // Call the callback with the address and coordinates
                 onLocationChange(addrData.address, result[0].y, result[0].x);
               } else {
                 alert("주소를 찾을 수 없습니다.");
@@ -140,19 +130,15 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
     setShowMap(event.target.checked);
   };
 
-  useEffect(() => {
-    setAddress(initialAddress || "");
-  }, [initialAddress]);
-
   return (
     <div className="w-full">
       <div className="flex justify-between">
         <input
           id="addr"
-          value={address} // 상태 값으로 제어
           readOnly
           className="border border-gray-400 w-72 h-10 text-center"
           placeholder="주소를 입력하세요"
+          defaultValue={address} // Set default value to the provided address
         />
         <button
           onClick={onClickAddr}

@@ -66,105 +66,129 @@ const InfoTypeInvitation: React.FC = () => {
   };
 
   const handleCreate = async () => {
-    await ImageUpload();
+    Swal.fire({
+      title: "로딩 중...",
+      text: "청첩장을 생성하고 있습니다. 잠시만 기다려주세요.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
-    if (husbandInfoRef.current) {
-      await husbandInfoRef.current.submit();
-    }
+    try {
+      await ImageUpload();
 
-    if (brideInfoRef.current) {
-      await brideInfoRef.current.submit();
-    }
-
-    if (greetingsRef.current) {
-      await greetingsRef.current.submit();
-    }
-
-    if (locationAndDateRef.current) {
-      await locationAndDateRef.current.submit();
-    }
-
-    if (invitationId) {
-      const invitationData = await getFormalInvitation(Number(invitationId));
-
-      const {
-        url,
-        title,
-        groomLastName,
-        groomFirstName,
-        groomBirthOrder,
-        groomFatherLastName,
-        groomFatherFirstName,
-        groomMotherLastName,
-        groomMotherFirstName,
-        brideLastName,
-        brideFirstName,
-        brideBirthOrder,
-        brideFatherLastName,
-        brideFatherFirstName,
-        brideMotherLastName,
-        brideMotherFirstName,
-        greetings,
-        date,
-        timezone,
-        hour,
-        minute,
-        address,
-        addressDetail,
-        weddingHall,
-        longitude,
-        latitude,
-      } = invitationData;
-
-      if (
-        url &&
-        title &&
-        groomLastName &&
-        groomFirstName &&
-        groomBirthOrder &&
-        groomFatherLastName &&
-        groomFatherFirstName &&
-        groomMotherLastName &&
-        groomMotherFirstName &&
-        brideLastName &&
-        brideFirstName &&
-        brideBirthOrder &&
-        brideFatherLastName &&
-        brideFatherFirstName &&
-        brideMotherLastName &&
-        brideMotherFirstName &&
-        greetings &&
-        date &&
-        timezone &&
-        hour &&
-        minute &&
-        address &&
-        addressDetail &&
-        weddingHall &&
-        longitude !== null &&
-        latitude !== null
-      ) {
-        await Swal.fire({
-          text: "청첩장 만들기에 성공했습니다!",
-          icon: "success",
-          confirmButtonText: "확인",
-          width: "400px",
-          customClass: {
-            popup: "my-popup-class",
-          },
-        });
-        window.location.href = "/invitation/storage";
-      } else {
-        Swal.fire({
-          text: "모든 필드가 입력되어야 합니다.",
-          icon: "error",
-          confirmButtonText: "확인",
-          width: "400px",
-          customClass: {
-            popup: "my-popup-class",
-          },
-        });
+      if (husbandInfoRef.current) {
+        await husbandInfoRef.current.submit();
       }
+
+      if (brideInfoRef.current) {
+        await brideInfoRef.current.submit();
+      }
+
+      if (greetingsRef.current) {
+        await greetingsRef.current.submit();
+      }
+
+      if (locationAndDateRef.current) {
+        await locationAndDateRef.current.submit();
+      }
+
+      if (invitationId) {
+        const invitationData = await getFormalInvitation(Number(invitationId));
+
+        const {
+          url,
+          title,
+          groomLastName,
+          groomFirstName,
+          groomBirthOrder,
+          groomFatherLastName,
+          groomFatherFirstName,
+          groomMotherLastName,
+          groomMotherFirstName,
+          brideLastName,
+          brideFirstName,
+          brideBirthOrder,
+          brideFatherLastName,
+          brideFatherFirstName,
+          brideMotherLastName,
+          brideMotherFirstName,
+          greetings,
+          date,
+          timezone,
+          hour,
+          minute,
+          address,
+          addressDetail,
+          weddingHall,
+          longitude,
+          latitude,
+        } = invitationData;
+
+        if (
+          url &&
+          title &&
+          groomLastName &&
+          groomFirstName &&
+          groomBirthOrder &&
+          groomFatherLastName &&
+          groomFatherFirstName &&
+          groomMotherLastName &&
+          groomMotherFirstName &&
+          brideLastName &&
+          brideFirstName &&
+          brideBirthOrder &&
+          brideFatherLastName &&
+          brideFatherFirstName &&
+          brideMotherLastName &&
+          brideMotherFirstName &&
+          greetings &&
+          date &&
+          timezone &&
+          hour &&
+          minute &&
+          address &&
+          addressDetail &&
+          weddingHall &&
+          longitude !== null &&
+          latitude !== null
+        ) {
+          Swal.close();
+          await Swal.fire({
+            text: "청첩장 만들기에 성공했습니다!",
+            icon: "success",
+            confirmButtonText: "확인",
+            width: "400px",
+            customClass: {
+              popup: "my-popup-class",
+            },
+          });
+          window.location.href = "/invitation/storage";
+        } else {
+          Swal.close();
+          Swal.fire({
+            text: "모든 필드가 입력되어야 합니다.",
+            icon: "error",
+            confirmButtonText: "확인",
+            width: "400px",
+            customClass: {
+              popup: "my-popup-class",
+            },
+          });
+        }
+      }
+    } catch {
+      Swal.close();
+      Swal.fire({
+        text: "오류가 발생했습니다. 다시 시도해주세요.",
+        icon: "error",
+        confirmButtonText: "확인",
+        width: "400px",
+        customClass: {
+          popup: "my-popup-class",
+        },
+      });
     }
   };
 

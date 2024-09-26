@@ -44,6 +44,23 @@ const LocationAndDate = forwardRef((_, ref) => {
       if (invitationId) {
         try {
           const response = await getFormalInvitation(Number(invitationId));
+          setAddress(response.address || "");
+          setLatitude(response.latitude || 0);
+          setLongitude(response.longitude || 0);
+        } catch (error) {
+          console.error("기존 위치 정보 불러오기 중 오류 발생:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [invitationId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (invitationId) {
+        try {
+          const response = await getFormalInvitation(Number(invitationId));
           if (response.date) {
             const formattedDate = moment(
               response.date,
@@ -103,10 +120,14 @@ const LocationAndDate = forwardRef((_, ref) => {
     }
   };
 
-  const handleLocationChange = (addr: string, lat: number, lon: number) => {
-    setAddress(addr);
-    setLatitude(lat);
-    setLongitude(lon);
+  const handleLocationChange = (
+    newAddress: string,
+    newLatitude: number,
+    newLongitude: number
+  ) => {
+    setAddress(newAddress);
+    setLatitude(newLatitude);
+    setLongitude(newLongitude);
   };
 
   const handleSubmit = async () => {
@@ -282,7 +303,12 @@ const LocationAndDate = forwardRef((_, ref) => {
           className="mb-3 w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
           required
         />
-        <KakaoMap onLocationChange={handleLocationChange} />
+        <KakaoMap
+          address={address}
+          latitude={latitude}
+          longitude={longitude}
+          onLocationChange={handleLocationChange}
+        />
       </div>
     </div>
   );

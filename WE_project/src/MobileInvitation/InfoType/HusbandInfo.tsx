@@ -38,13 +38,9 @@ const HusbandInfo = forwardRef((_, ref) => {
     fetchData();
   }, [invitationId]);
 
-  const handleSubmit = async (): Promise<boolean> => {
+  const handleSubmit = async () => {
     if (!birthOrder) {
-<<<<<<< HEAD
-      return false;
-=======
       return;
->>>>>>> a694047388798b08a185d2fa22a39d0225169a53
     }
 
     const dto: GroomInfoDto = {
@@ -64,9 +60,7 @@ const HusbandInfo = forwardRef((_, ref) => {
     } catch (error) {
       console.error("신랑 정보 업로드 중 오류 발생:", error);
       alert("신랑 정보 업로드 중 오류가 발생했습니다.");
-      return false;
     }
-    return true;
   };
 
   useImperativeHandle(ref, () => ({
