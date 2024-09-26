@@ -17,6 +17,7 @@ import com.we.presentation.databinding.FragmentAccountBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
     override fun initView() {
 
         accountViewModel.setChooseBank(BankList(0, ""))
+        accountViewModel.setAccountNumber("")
 
         accountBottomSheetClickListener()
         initTransferClickListener()
@@ -39,20 +41,16 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
 
     private fun btnActivateCheck() {
         binding.apply {
-            viewLifecycleOwner.lifecycleScope.launch {
-                accountViewModel.accountNumber.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                    .onEach { accountNumber ->
-                        accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                            .onEach { chooseBank ->
-                                Timber.d("accountNumber : $accountNumber chooseBank : ${chooseBank.bankName}")
-                                if (accountNumber.isNotBlank() && chooseBank.bankName.isNotBlank()) {
-                                    tvRegisterAccount.isEnabled = true
-                                }
-                            }
-                            .launchIn(viewLifecycleOwner.lifecycleScope)
-                    }
-                    .launchIn(viewLifecycleOwner.lifecycleScope)
-            }
+            combine(
+                accountViewModel.accountNumber.flowWithLifecycle(viewLifecycleOwner.lifecycle),
+                accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            ){
+                accountNumber, chooseBank ->
+                Timber.d("accountNumber : $accountNumber chooseBank : ${chooseBank.bankName}")
+                if (accountNumber.isNotBlank() && chooseBank.bankName.isNotBlank()) {
+                    tvRegisterAccount.isEnabled = true
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }
 
