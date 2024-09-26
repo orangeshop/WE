@@ -31,7 +31,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
         initScheduleTodoAdapter()
         initClickEventListener()
         observeScheduleUiState()
-        observeScheduleCalendarItem()
+
     }
 
     override fun onResume() {
@@ -52,8 +52,9 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
 
     private fun initScheduleTodoAdapter() {
         scheduleTodoAdapter = ScheduleTodoAdapter()
-        binding.apply {
-            rvScheduleTodo.adapter = scheduleTodoAdapter
+        binding.rvScheduleTodo.apply {
+            adapter = scheduleTodoAdapter
+            itemAnimator = null
         }
 
     }
@@ -71,6 +72,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             }
             scheduleCalendarAdapter.setScheduleClickListener { calendarItem ->
                 scheduleViewModel.setSelectedItem(calendarItem)
+                scheduleViewModel.clickDays(calendarItem)
             }
         }
     }
@@ -90,6 +92,10 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                             month = getString(R.string.schedule_month, date.second)
                         }
                         scheduleCalendarAdapter.submitList(it.calendarItem)
+
+                        if(it.calendarItem.isNotEmpty()){ // 할일 넣기
+                            scheduleTodoAdapter.submitList(scheduleViewModel.findScheduleDate(it.calendarItem))
+                        }
                     }
 
                     else -> {
@@ -100,15 +106,4 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun observeScheduleCalendarItem() {
-        scheduleViewModel.selectedItem.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach {
-                if(it != null){
-                    scheduleViewModel.clickDays(it)
-                    scheduleTodoAdapter.submitList(it.schedule)
-                }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-
-    }
 }
