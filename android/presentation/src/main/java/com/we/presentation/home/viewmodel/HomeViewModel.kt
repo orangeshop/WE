@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-
 ) : ViewModel(){
     private val _accountList = MutableStateFlow<List<BankData>>(mutableListOf<BankData>())
     val accountList: Flow<List<BankData>> get() =  _accountList
@@ -18,7 +17,6 @@ class HomeViewModel @Inject constructor(
     init {
         setAccountList(arrayListOf(BankData("", "", "", "", "", "", "", "", "", "", "", "","","")))
     }
-
     private fun setAccountList(list: List<BankData>) {
         _accountList.update { list }
     }

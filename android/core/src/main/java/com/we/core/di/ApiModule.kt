@@ -2,6 +2,7 @@ package com.we.di
 
 import com.data.api.BankApi
 import com.data.api.CoupleApi
+import com.data.api.FcmApi
 import com.data.api.ScheduleApi
 import com.data.api.LedgersApi
 import com.data.api.SignApi
@@ -55,4 +56,10 @@ object ApiModule {
     ): LedgersApi = retrofit.create()
 
 
+    @Singleton
+    @Provides
+    fun provideFcmApi(
+        @Qualifier.InterceptorRetrofit
+        retrofit: Retrofit
+    ): FcmApi = retrofit.create()
 }

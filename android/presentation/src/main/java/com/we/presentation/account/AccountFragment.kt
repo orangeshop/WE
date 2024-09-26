@@ -84,6 +84,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
         binding.apply {
             tvRegisterAccount.setOnClickListener {
                 navigateDestination(R.id.action_accountFragment_to_accountTransferFragment)
+                accountViewModel.accountAuth()
             }
 
             ivAccountBack.setOnClickListener {
