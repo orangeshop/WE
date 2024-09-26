@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.we.model.ScheduleData
 import com.we.presentation.R
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemScheduleBinding
@@ -16,7 +17,7 @@ class ScheduleCalendarAdapter :
         BaseDiffUtil<CalendarItem>()
     ) {
 
-    private var onScheduleClickListener: (() -> Unit)? = null
+    private var onScheduleClickListener: ((List<ScheduleData>) -> Unit)? = null
 
     override fun getItemViewType(position: Int): Int {
         return position
@@ -41,7 +42,7 @@ class ScheduleCalendarAdapter :
         if (getItem(holder.adapterPosition).isScheduled) {
             holder.binding.clScheduleDate.setOnClickListener {
                 onScheduleClickListener?.let {
-                    it()
+                    it(getItem(holder.adapterPosition).schedule)
                 }
             }
         }
@@ -85,7 +86,7 @@ class ScheduleCalendarAdapter :
         }
     }
 
-    fun setScheduleClickListener(listener: () -> Unit) {
+    fun setScheduleClickListener(listener: (List<ScheduleData>) -> Unit) {
         this.onScheduleClickListener = listener
     }
 }

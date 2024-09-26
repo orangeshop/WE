@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.repository.ScheduleRepository
 import com.data.util.ApiResult
+import com.we.model.ScheduleData
 import com.we.presentation.schedule.model.CalendarItem
 import com.we.presentation.schedule.model.ScheduleEventState
 import com.we.presentation.schedule.model.ScheduleUiState
@@ -70,9 +71,12 @@ class ScheduleViewModel @Inject constructor(
                         is ApiResult.Success -> {
                             Timber.d("스케줄 불러오기 성공 ${it.data}")
                             _scheduleUiState.update { data ->
-                                ScheduleUiState.CalendarSet(date, addDateList(date,
-                                    it.data.mapNotNull { it.scheduledTime.convertIsoToLocalDate() }
-                                ))
+                                ScheduleUiState.CalendarSet(
+                                    date, addDateList(
+                                        date,
+                                        it.data
+                                    )
+                                )
                             }
                         }
 
@@ -85,7 +89,7 @@ class ScheduleViewModel @Inject constructor(
     }
 
 
-    fun addDateList(date: LocalDate, scheduleList: List<LocalDate>): List<CalendarItem> {
+    fun addDateList(date: LocalDate, scheduleList: List<ScheduleData>): List<CalendarItem> {
         val yearMonth = YearMonth.from(date)
         val firstOfMonth = yearMonth.atDay(1)
         val daysInMonth = yearMonth.lengthOfMonth()
@@ -115,6 +119,7 @@ class ScheduleViewModel @Inject constructor(
                 CalendarItem(
                     date = currentDate,
                     calendarType = CalendarType.BEFORE,
+                    listOf(),
                     false
                 )
             }
@@ -123,11 +128,14 @@ class ScheduleViewModel @Inject constructor(
         // 현재 달의 날짜 추가
         days += (0 until daysInMonth).map { i ->
             val currentDate = firstOfMonth.plusDays(i.toLong())
+            val currentSchedule =
+                scheduleList.filter { currentDate.isEqual(it.scheduledTime.convertIsoToLocalDate()) }
             val type = if (currentDate.isEqual(now)) CalendarType.TODAY else CalendarType.CURRENT
             CalendarItem(
                 date = currentDate,
                 calendarType = type,
-                currentDate in scheduleList
+                currentSchedule,
+                currentSchedule.isNotEmpty()
             )
         }
 
@@ -139,6 +147,7 @@ class ScheduleViewModel @Inject constructor(
                 CalendarItem(
                     date = currentDate,
                     calendarType = CalendarType.AFTER,
+                    listOf(),
                     false
                 )
             }

@@ -23,8 +23,9 @@ class TokenInterceptor @Inject constructor(
     }
 
     private fun Request.putTokenHeader(accessToken: String?): Request {
+        val token = "eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6ImJveUB0ZXN0LmNvbSIsImlhdCI6MTcyNzMwOTIzMCwiZXhwIjoxNzI4NTE4ODMwfQ.4c1x65w64A28hZdtAAKKYsFq8q8fOOGFJXedEpBrQmsN_EOph5ErHvyMS8i0dg_f1auTMq9GO6eFok-oCVJK1Q"
         return this.newBuilder()
-            .addHeader(AUTHORIZATION, "Bearer $accessToken")
+            .addHeader(AUTHORIZATION, "Bearer $token")
             .build()
     }
 

@@ -46,7 +46,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
         binding.apply {
             rvScheduleTodo.adapter = scheduleTodoAdapter
         }
-        scheduleTodoAdapter.submitList(listOf(" ", " ", " ", " "))
+
     }
 
     private fun initClickEventListener() {
@@ -60,8 +60,8 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             ivScheduleLeft.setOnClickListener {
                 scheduleViewModel.plusMinusMonth(false)
             }
-            scheduleCalendarAdapter.setScheduleClickListener {
-                
+            scheduleCalendarAdapter.setScheduleClickListener { scheduleData ->
+                scheduleTodoAdapter.submitList(scheduleData)
             }
         }
     }
@@ -82,6 +82,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                         }
                         scheduleCalendarAdapter.submitList(it.calendarItem)
                     }
+
                     else -> {
 
                     }
