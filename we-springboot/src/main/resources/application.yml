@@ -86,7 +86,7 @@ fin-api:
   expirationDate: 20250906
 
 server:
-  forward-headers-strategy : framework
+  forward-headers-strategy : FRAMEWORK
 
 
 
