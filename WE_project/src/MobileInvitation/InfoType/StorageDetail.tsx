@@ -18,6 +18,7 @@ import "react-calendar/dist/Calendar.css";
 import "./StorageDetail.css";
 import dayjs from "dayjs";
 import { deleteFormalInvitation } from "../../apis/api/deleteinfotypeinvitation";
+import FallingSnow from "../../Components/Snowflake";
 
 const StorageDetail: React.FC = () => {
   const [invitationData, setInvitationData] =
@@ -236,8 +237,9 @@ const StorageDetail: React.FC = () => {
             {invitationData.brideFirstName}
           </p>
         </div>
+        <FallingSnow />
         <div className="flex flex-col" data-aos="fade-up">
-          <div className="w-full flex justify-center mt-10">
+          <div className="w-full flex justify-center mt-10 relative">
             <img
               src={invitationData.url}
               alt="대표 사진"
