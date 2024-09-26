@@ -2,7 +2,6 @@ package com.akdong.we.member.service;
 
 
 import com.akdong.we.api.FinApiCallService;
-import com.akdong.we.api.request.ApiMemberRegisterRequest;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.entity.MemberAccount;
 import com.akdong.we.member.exception.member.MemberErrorCode;
@@ -14,14 +13,10 @@ import com.akdong.we.member.request.UpdateMemberInfoRequest;
 import com.akdong.we.member.request.UpdatedMemberInfoRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -52,17 +47,6 @@ public class MemberService {
 			throw new MemberException(MemberErrorCode.API_REGISTER_ERROR);
 		}
 
-		String accountNo = finApiCallService.makeAccount(userKey);
-		if(accountNo == null){
-			throw new MemberException(MemberErrorCode.API_MAKE_ACCOUNT_ERROR);
-		}
-
-		String transactionUniqueNo = finApiCallService.deposit(accountNo, 50000000L, "초기 자본 금액 입금", userKey);
-		if(transactionUniqueNo == null){
-			throw new MemberException(MemberErrorCode.API_DEPOSIT_ERROR);
-		}
-		log.info("입금 거래 고유번호 : {}",transactionUniqueNo);
-
 		Member member = Member.builder()
 				.email(userRegisterInfo.getEmail())
 				.password(passwordEncoder.encode(userRegisterInfo.getPassword()))
@@ -73,12 +57,26 @@ public class MemberService {
 				.userKey(userKey)
 				.build();
 
-		MemberAccount memberAccount = MemberAccount.builder()
-				.member(member)
-				.account(accountNo)
-				.build();
+		for(int i=0; i<4; i++){
+			String accountNo = finApiCallService.makeAccount(userKey);
+			if(accountNo == null){
+				throw new MemberException(MemberErrorCode.API_MAKE_ACCOUNT_ERROR);
+			}
 
-		memberAccountRepository.save(memberAccount);
+			String transactionUniqueNo = finApiCallService.deposit(accountNo, 50000000L, "초기 자본 금액 입금", userKey);
+			if(transactionUniqueNo == null){
+				throw new MemberException(MemberErrorCode.API_DEPOSIT_ERROR);
+			}
+			log.info("입금 거래 고유번호 : {}",transactionUniqueNo);
+
+//			MemberAccount memberAccount = MemberAccount.builder()
+//					.member(member)
+//					.accountNo(accountNo)
+//					.build();
+//
+//			memberAccountRepository.save(memberAccount);
+		}
+
 		return memberRepository.save(member);
 	}
 
