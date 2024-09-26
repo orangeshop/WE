@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="scheduleData"
+            type="com.we.model.ScheduleData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +43,7 @@
                 style="@style/suite_semibold_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="메이크업 예약"
+                android:text="@{scheduleData.content}"
                 android:textColor="@color/dark_brown"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="경북 구미시"
+                android:text="@{scheduleData.address}"
                 android:textColor="@color/dark_brown"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title" />
@@ -67,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:text="400,000원"
+            android:text="@{String.valueOf(scheduleData.price)}"
             android:textColor="@color/dark_brown"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

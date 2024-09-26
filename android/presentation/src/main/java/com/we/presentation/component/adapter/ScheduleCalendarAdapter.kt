@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.we.model.ScheduleData
 import com.we.presentation.R
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemScheduleBinding
@@ -15,6 +16,9 @@ class ScheduleCalendarAdapter :
     ListAdapter<CalendarItem, ScheduleCalendarAdapter.ScheduleViewHolder>(
         BaseDiffUtil<CalendarItem>()
     ) {
+
+    private var onScheduleClickListener: ((List<ScheduleData>) -> Unit)? = null
+
     override fun getItemViewType(position: Int): Int {
         return position
     }
@@ -34,6 +38,14 @@ class ScheduleCalendarAdapter :
         position: Int
     ) {
         holder.bind(getItem(holder.adapterPosition))
+
+        if (getItem(holder.adapterPosition).isScheduled) {
+            holder.binding.clScheduleDate.setOnClickListener {
+                onScheduleClickListener?.let {
+                    it(getItem(holder.adapterPosition).schedule)
+                }
+            }
+        }
     }
 
     class ScheduleViewHolder(
@@ -41,6 +53,7 @@ class ScheduleCalendarAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(calendarItem: CalendarItem) {
             binding.apply {
+                petalVisible = calendarItem.isScheduled
                 date = calendarItem.date.dayOfMonth.toString()
                 val context = binding.root.context
                 var drawable: Int? = null
@@ -71,5 +84,9 @@ class ScheduleCalendarAdapter :
                 }
             }
         }
+    }
+
+    fun setScheduleClickListener(listener: (List<ScheduleData>) -> Unit) {
+        this.onScheduleClickListener = listener
     }
 }

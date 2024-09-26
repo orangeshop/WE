@@ -3,10 +3,12 @@ package com.we.di
 import com.data.datasource.BankDataSource
 import com.data.datasource.CoupleDataSource
 import com.data.datasource.LedgersDataSource
+import com.data.datasource.ScheduleDataSource
 import com.data.datasource.SignDataSource
 import com.data.datasourceimpl.BankDataSourceImpl
 import com.data.datasourceimpl.CoupleDataSourceImpl
 import com.data.datasourceimpl.LedgersDataSourceImpl
+import com.data.datasourceimpl.ScheduleDataSourceImpl
 import com.data.datasourceimpl.SignDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -23,24 +25,31 @@ interface DataSourceModule {
     @Binds
     fun bindsSignDataSource(
         signDataSourceImpl: SignDataSourceImpl
-    ) : SignDataSource
+    ): SignDataSource
 
 
     @Singleton
     @Binds
     fun bindsCoupleDataSource(
         coupleDataSourceImpl: CoupleDataSourceImpl
-    ) : CoupleDataSource
+    ): CoupleDataSource
 
     @Singleton
     @Binds
     fun bindsBankDataSource(
         bankDataSourceImpl: BankDataSourceImpl
-    ) : BankDataSource
+    ): BankDataSource
+
+    @Singleton
+    @Binds
+    fun bindsScheduleDataSource(
+        scheduleDataSourceImpl: ScheduleDataSourceImpl
+    ): ScheduleDataSource
 
     @Singleton
     @Binds
     fun bindsLedgersDataSource(
         ledgersDataSourceImpl: LedgersDataSourceImpl
-    ) : LedgersDataSource
+    ): LedgersDataSource
+
 }
