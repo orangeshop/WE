@@ -74,6 +74,10 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                 scheduleViewModel.setSelectedItem(calendarItem)
                 scheduleViewModel.clickDays(calendarItem)
             }
+            scheduleTodoAdapter.setOnItemClickListener { scheduleData ->
+
+
+            }
         }
     }
 

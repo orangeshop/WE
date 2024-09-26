@@ -13,6 +13,9 @@ import timber.log.Timber
 class ScheduleTodoAdapter : ListAdapter<ScheduleData, ScheduleTodoAdapter.ScheduleTodoViewHolder>(
     BaseDiffUtil<ScheduleData>()
 ) {
+
+    private var onItemClickListener: ((ScheduleData) -> Unit)? = null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -27,6 +30,13 @@ class ScheduleTodoAdapter : ListAdapter<ScheduleData, ScheduleTodoAdapter.Schedu
         position: Int
     ) {
         holder.bind(getItem(holder.adapterPosition))
+        holder.binding.root.setOnClickListener {
+            onItemClickListener?.let {
+                val isSelected = holder.binding.ivCheck.isSelected
+                it(getItem(holder.adapterPosition))
+                holder.binding.ivCheck.isSelected = !isSelected
+            }
+        }
     }
 
     class ScheduleTodoViewHolder(
@@ -37,7 +47,12 @@ class ScheduleTodoAdapter : ListAdapter<ScheduleData, ScheduleTodoAdapter.Schedu
                 Timber.tag("할일").d("$scheduleData")
                 this.ivCheck.isSelected = scheduleData.done
                 this.scheduleData = scheduleData
+
             }
         }
+    }
+
+    fun setOnItemClickListener(listener: (ScheduleData) -> Unit) {
+        this.onItemClickListener = listener
     }
 }
