@@ -15,6 +15,7 @@ import com.we.presentation.util.toYearMonth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -32,6 +33,11 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
         observeScheduleUiState()
     }
 
+    override fun onResume() {
+        super.onResume()
+        scheduleViewModel.checkDate()
+        Timber.tag("스케쥴 onResume").d("체크")
+    }
 
     private fun initScheduleCalendarAdapter() {
         scheduleCalendarAdapter = ScheduleCalendarAdapter()

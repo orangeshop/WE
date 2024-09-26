@@ -7,5 +7,5 @@ data class ScheduleData(
     val done: Boolean,
     val price: Int,
     val scheduleId: Int,
-    val scheduledTime: String
+    val scheduledTime: String?
 )

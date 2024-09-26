@@ -6,7 +6,6 @@ import com.data.repository.ScheduleRepository
 import com.data.util.ApiResult
 import com.we.model.ScheduleData
 import com.we.presentation.schedule.model.CalendarItem
-import com.we.presentation.schedule.model.ScheduleEventState
 import com.we.presentation.schedule.model.ScheduleUiState
 import com.we.presentation.util.CalendarType
 import com.we.presentation.util.convertIsoToLocalDate
@@ -37,18 +36,6 @@ class ScheduleViewModel @Inject constructor(
     val scheduleUiState: StateFlow<ScheduleUiState> get() = _scheduleUiState
 
 
-    private val _scheduleEventState = MutableSharedFlow<ScheduleEventState>()
-    val scheduleEventState: SharedFlow<ScheduleEventState> get() = _scheduleEventState
-
-    fun setScheduleEvent(event: ScheduleEventState) {
-        viewModelScope.launch {
-            _scheduleEventState.emit(event)
-        }
-    }
-
-    init {
-        checkDate()
-    }
 
     fun plusMinusMonth(type: Boolean) { // true -> plus, false -> minus
         if (type) {
@@ -129,7 +116,7 @@ class ScheduleViewModel @Inject constructor(
         days += (0 until daysInMonth).map { i ->
             val currentDate = firstOfMonth.plusDays(i.toLong())
             val currentSchedule =
-                scheduleList.filter { currentDate.isEqual(it.scheduledTime.convertIsoToLocalDate()) }
+                scheduleList.filter { currentDate.isEqual(it.scheduledTime?.convertIsoToLocalDate()) }
             val type = if (currentDate.isEqual(now)) CalendarType.TODAY else CalendarType.CURRENT
             CalendarItem(
                 date = currentDate,
@@ -157,7 +144,7 @@ class ScheduleViewModel @Inject constructor(
     }
 
 
-    private fun checkDate() {
+     fun checkDate() {
         viewModelScope.launch {
             date.collectLatest { date ->
                 getSchedule(date)
