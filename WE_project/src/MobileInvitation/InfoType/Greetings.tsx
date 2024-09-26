@@ -1,4 +1,9 @@
-import React, { useState, forwardRef, useImperativeHandle, useEffect } from "react";
+import React, {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useEffect,
+} from "react";
 import { inputGreeting } from "../../apis/api/greeting";
 import { useParams } from "react-router-dom";
 
@@ -23,8 +28,6 @@ const GreetingsSection = forwardRef<GreetingsHandle, GreetingsProps>(
     }, [value]);
 
     const handleSubmit = async () => {
-
-
       try {
         if (invitationId) {
           await inputGreeting(invitationId, { greetings: greeting });

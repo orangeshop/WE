@@ -40,7 +40,8 @@ const Sample: React.FC = () => {
       content: {
         title: `김현빈 ♥ 손예진 결혼합니다`,
         description: `2024년 10월 26일 AM 11시 30분`,
-        imageUrl: "https://pimg.mk.co.kr/meet/neds/2022/04/image_readtop_2022_293311_16487640614994397.jpg",
+        imageUrl:
+          "https://pimg.mk.co.kr/meet/neds/2022/04/image_readtop_2022_293311_16487640614994397.jpg",
 
         link: {
           mobileWebUrl: window.location.href,

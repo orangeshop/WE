@@ -1,5 +1,9 @@
 import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
-import { GroomInfoDto, BirthOrder, inputGroomInfo } from "../../apis/api/groominfo";
+import {
+  GroomInfoDto,
+  BirthOrder,
+  inputGroomInfo,
+} from "../../apis/api/groominfo";
 import { useParams } from "react-router-dom";
 import { getFormalInvitation } from "../../apis/api/getinfotypeinvitation";
 

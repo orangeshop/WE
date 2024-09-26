@@ -5,9 +5,7 @@ import {
   inputBrideInfo,
 } from "../../apis/api/brideinfo";
 import { useParams } from "react-router-dom";
-import {
-  getFormalInvitation,
-} from "../../apis/api/getinfotypeinvitation";
+import { getFormalInvitation } from "../../apis/api/getinfotypeinvitation";
 
 const BrideInfo = forwardRef((_, ref) => {
   const [lastName, setBrideLastName] = useState("");

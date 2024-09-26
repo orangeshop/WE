@@ -12,6 +12,7 @@ import kakaoicon from "../../assets/images/kakaoicon.png";
 import copyicon from "../../assets/images/copyicon.png";
 import InvitationMap from "./InvitationMap";
 import Swal from "sweetalert2";
+import AOS from "aos";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./StorageDetail.css";
@@ -25,6 +26,10 @@ const StorageDetail: React.FC = () => {
   const { invitationId } = useParams<{ invitationId: string }>();
   const accessToken = localStorage.getItem("accessToken");
   const [isExist, setisExist] = useState<boolean>(false);
+
+  React.useEffect(() => {
+    AOS.init({ duration: 2000 });
+  }, []);
 
   const navigate = useNavigate();
   const kakaokey = import.meta.env.VITE_KAKAOMAP_JAVASCRIPT_APP_KEY;
@@ -231,13 +236,14 @@ const StorageDetail: React.FC = () => {
             {invitationData.brideFirstName}
           </p>
         </div>
-
-        <div className="w-full flex justify-center mt-10">
-          <img
-            src={invitationData.url}
-            alt="대표 사진"
-            className="w-1/3 h-auto"
-          />
+        <div className="flex flex-col" data-aos="fade-up">
+          <div className="w-full flex justify-center mt-10">
+            <img
+              src={invitationData.url}
+              alt="대표 사진"
+              className="w-1/3 h-auto"
+            />
+          </div>
         </div>
 
         <div className="text-xl">

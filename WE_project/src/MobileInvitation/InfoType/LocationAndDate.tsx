@@ -39,7 +39,7 @@ const LocationAndDate = forwardRef((_, ref) => {
   const { invitationId } = useParams();
   moment.locale("ko");
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       if (invitationId) {
         try {
@@ -62,7 +62,10 @@ const LocationAndDate = forwardRef((_, ref) => {
         try {
           const response = await getFormalInvitation(Number(invitationId));
           if (response.date) {
-            const formattedDate = moment(response.date, "YYYY년 M월 D일 dddd").toDate();
+            const formattedDate = moment(
+              response.date,
+              "YYYY년 M월 D일 dddd"
+            ).toDate();
             setCalendarValue(formattedDate);
           }
           setTimeDay(response.timezone || "");
@@ -70,12 +73,14 @@ const LocationAndDate = forwardRef((_, ref) => {
           if (response.url === null) {
             setTimeMinute(1);
           } else {
-            setTimeMinute(response.minute === 0 ? 0 : response.minute === 30 ? 30 : 1);
+            setTimeMinute(
+              response.minute === 0 ? 0 : response.minute === 30 ? 30 : 1
+            );
           }
-          console.log(response.minute)
-          setWeddingHall(response.weddingHall || "")
-          setAddressDetail(response.addressDetail || "")
-          setAddress(response.address || "")
+          console.log(response.minute);
+          setWeddingHall(response.weddingHall || "");
+          setAddressDetail(response.addressDetail || "");
+          setAddress(response.address || "");
         } catch (error) {
           console.error(error);
         }
@@ -122,7 +127,11 @@ const LocationAndDate = forwardRef((_, ref) => {
     }
   };
 
-  const handleLocationChange = (newAddress: string, newLatitude: number, newLongitude: number) => {
+  const handleLocationChange = (
+    newAddress: string,
+    newLatitude: number,
+    newLongitude: number
+  ) => {
     setAddress(newAddress);
     setLatitude(newLatitude);
     setLongitude(newLongitude);
@@ -301,12 +310,12 @@ const LocationAndDate = forwardRef((_, ref) => {
           className="mb-3 w-full px-2 py-2 border text-md border-gray-400 focus:border-gray-400 text-center bg-white"
           required
         />
-         <KakaoMap 
-        address={address} 
-        latitude={latitude} 
-        longitude={longitude} 
-        onLocationChange={handleLocationChange}
-      />
+        <KakaoMap
+          address={address}
+          latitude={latitude}
+          longitude={longitude}
+          onLocationChange={handleLocationChange}
+        />
       </div>
     </div>
   );
