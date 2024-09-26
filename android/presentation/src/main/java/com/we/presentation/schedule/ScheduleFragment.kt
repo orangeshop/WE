@@ -75,8 +75,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                 scheduleViewModel.clickDays(calendarItem)
             }
             scheduleTodoAdapter.setOnItemClickListener { scheduleData ->
-
-
+                scheduleViewModel.updateScheduleToggle(scheduleData.scheduleId)
             }
         }
     }
@@ -97,7 +96,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                         }
                         scheduleCalendarAdapter.submitList(it.calendarItem)
 
-                        if(it.calendarItem.isNotEmpty()){ // 할일 넣기
+                        if (it.calendarItem.isNotEmpty()) { // 할일 넣기
                             scheduleTodoAdapter.submitList(scheduleViewModel.findScheduleDate(it.calendarItem))
                         }
                     }

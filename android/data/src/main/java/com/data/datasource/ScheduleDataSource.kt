@@ -13,4 +13,8 @@ interface ScheduleDataSource {
     suspend fun postSchedule(
         requestSchedule: RequestSchedule
     ): ResponseSchedule.Schedule
+
+    suspend fun patchScheduleToggle(
+        scheduleId: Int
+    ): ResponseSchedule.Schedule
 }

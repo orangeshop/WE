@@ -35,4 +35,12 @@ class ScheduleRepositoryImpl @Inject constructor(
             })
         }
     }
+
+    override fun patchScheduleToggle(scheduleId: Int): Flow<ApiResult<ScheduleData>> {
+        return flow {
+            emit(safeApiCall {
+                scheduleDataSource.patchScheduleToggle(scheduleId).toScheduleEntity()
+            })
+        }
+    }
 }

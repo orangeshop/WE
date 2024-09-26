@@ -10,4 +10,6 @@ interface ScheduleRepository {
     fun getSchedule(year: Int, month: Int): Flow<ApiResult<List<ScheduleData>>>
 
     fun postSchedule(scheduleParam: ScheduleParam): Flow<ApiResult<ScheduleData>>
+
+    fun patchScheduleToggle(scheduleId : Int) : Flow<ApiResult<ScheduleData>>
 }
