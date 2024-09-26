@@ -8,5 +8,6 @@ data class CalendarItem(
     val date: LocalDate,
     val calendarType: CalendarType,
     val schedule : List<ScheduleData>,
-    val isScheduled: Boolean
+    val isScheduled: Boolean,
+    val isSelected : Boolean = false
 )

@@ -31,18 +31,21 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
         initScheduleTodoAdapter()
         initClickEventListener()
         observeScheduleUiState()
+        observeScheduleCalendarItem()
     }
 
     override fun onResume() {
         super.onResume()
+
         scheduleViewModel.checkDate()
         Timber.tag("스케쥴 onResume").d("체크")
     }
 
     private fun initScheduleCalendarAdapter() {
         scheduleCalendarAdapter = ScheduleCalendarAdapter()
-        binding.apply {
-            rvScheduleCalendar.adapter = scheduleCalendarAdapter
+        binding.rvScheduleCalendar.apply {
+            adapter = scheduleCalendarAdapter
+            itemAnimator = null
         }
 
     }
@@ -66,8 +69,8 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             ivScheduleLeft.setOnClickListener {
                 scheduleViewModel.plusMinusMonth(false)
             }
-            scheduleCalendarAdapter.setScheduleClickListener { scheduleData ->
-                scheduleTodoAdapter.submitList(scheduleData)
+            scheduleCalendarAdapter.setScheduleClickListener { calendarItem ->
+                scheduleViewModel.setSelectedItem(calendarItem)
             }
         }
     }
@@ -95,5 +98,17 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun observeScheduleCalendarItem() {
+        scheduleViewModel.selectedItem.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                if(it != null){
+                    scheduleViewModel.clickDays(it)
+                    scheduleTodoAdapter.submitList(it.schedule)
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
     }
 }

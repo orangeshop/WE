@@ -11,9 +11,7 @@ import com.we.presentation.util.CalendarType
 import com.we.presentation.util.convertIsoToLocalDate
 import com.we.presentation.util.toYearMonth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -30,11 +28,15 @@ class ScheduleViewModel @Inject constructor(
 
     val date = MutableStateFlow<LocalDate>(LocalDate.now())
 
+    val selectedItem = MutableStateFlow<CalendarItem?>(null)
+
+    fun setSelectedItem(item: CalendarItem) {
+        selectedItem.update { item }
+    }
 
     private val _scheduleUiState =
         MutableStateFlow<ScheduleUiState>(ScheduleUiState.CalendarSet(date.value, listOf()))
     val scheduleUiState: StateFlow<ScheduleUiState> get() = _scheduleUiState
-
 
 
     fun plusMinusMonth(type: Boolean) { // true -> plus, false -> minus
@@ -118,11 +120,13 @@ class ScheduleViewModel @Inject constructor(
             val currentSchedule =
                 scheduleList.filter { currentDate.isEqual(it.scheduledTime?.convertIsoToLocalDate()) }
             val type = if (currentDate.isEqual(now)) CalendarType.TODAY else CalendarType.CURRENT
+            val isSelected = selectedItem.value?.date == currentDate
             CalendarItem(
                 date = currentDate,
                 calendarType = type,
                 currentSchedule,
-                currentSchedule.isNotEmpty()
+                currentSchedule.isNotEmpty(),
+                isSelected
             )
         }
 
@@ -143,8 +147,24 @@ class ScheduleViewModel @Inject constructor(
         return days
     }
 
+    fun clickDays(clickItem: CalendarItem) {
+        val uiState = scheduleUiState.value
+        if (uiState is ScheduleUiState.CalendarSet) {
+            _scheduleUiState.update {
+                ScheduleUiState.CalendarSet(
+                    uiState.date,
+                    uiState.calendarItem.map {
+                        it.copy(
+                            isSelected = it.date == clickItem.date
+                        )
+                    }
+                )
+            }
+        }
+    }
 
-     fun checkDate() {
+
+    fun checkDate() {
         viewModelScope.launch {
             date.collectLatest { date ->
                 getSchedule(date)

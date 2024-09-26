@@ -34,6 +34,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="9dp"
+                android:background="@drawable/selector_rectangle_white_10_to_transparent_10"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
