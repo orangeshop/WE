@@ -1,6 +1,7 @@
 package com.we.di
 
 import com.google.gson.GsonBuilder
+import com.we.core.util.Qualifier
 import com.we.core.util.TokenInterceptor
 import dagger.Module
 import dagger.Provides
@@ -12,7 +13,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
-import com.we.core.util.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -21,6 +21,7 @@ object NetworkModule {
 
     //local property로 빼기
     val baseUrl = "https://j11d104.p.ssafy.io/v1/"
+
 
     @Qualifier.InterceptorRetrofit
     @Singleton
