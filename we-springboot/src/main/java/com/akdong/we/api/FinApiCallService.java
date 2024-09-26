@@ -2,6 +2,14 @@ package com.akdong.we.api;
 
 import com.akdong.we.api.request.*;
 import com.akdong.we.bank.TransferRequest;
+import com.akdong.we.common.exception.BusinessException;
+import com.akdong.we.couple.entity.Couple;
+import com.akdong.we.couple.service.CoupleService;
+import com.akdong.we.ledger.LedgerErrorCode;
+import com.akdong.we.ledger.entity.Ledger;
+import com.akdong.we.ledger.repository.LedgerRepository;
+import com.akdong.we.member.entity.Member;
+import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
@@ -37,6 +45,9 @@ public class FinApiCallService {
     public void printLogBaseUrl() {
         log.info("----------FinAPI URL={}----------", baseUrl);
     }
+
+    private final CoupleService coupleService;
+    private final LedgerRepository ledgerRepository;
 
     public String[] createFormatDateTime(){
         String[] dateAndTime = new String[2];
@@ -357,20 +368,31 @@ public class FinApiCallService {
         }
     }
 
-    public String transfer(String userKey, TransferRequest request){
-
+    public String transfer(Member member, TransferRequest request){
         String[] dateAndTime = createFormatDateTime();
-
         CommonRequestHeader Header = CommonRequestHeader.customBuilder()
                 .apiName("updateDemandDepositAccountTransfer")
                 .transmissionDate(dateAndTime[0])
                 .transmissionTime(dateAndTime[1])
                 .apiServiceCode("updateDemandDepositAccountTransfer")
                 .apiKey(apiKey)
-                .userKey(userKey)
+                .userKey(member.getUserKey())
                 .build();
 
         request.setHeader(Header);
+
+
+        // 장부 ID로 커플에 접근
+        Ledger ledger = ledgerRepository.findById(request.getLedgerId())
+                .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
+        Couple couple = ledger.getCouple();
+
+        String depositAccountNo = couple.getAccountNumber();
+        String withdrawalAccountNo = member.getPriorAccount();
+
+        // 각각 계좌가 없으면 에러 메시지 출력할것
+        request.setDepositAccountNo(depositAccountNo);
+        request.setWithdrawalAccountNo(withdrawalAccountNo);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -412,7 +434,6 @@ public class FinApiCallService {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
         HttpEntity<InquireDemandDepositRequest> requestEntity = new HttpEntity<>(inquireDemandDepositRequest, httpHeaders);
         String url = baseUrl + "/edu/demandDeposit/inquireDemandDepositAccount";
 
@@ -424,7 +445,6 @@ public class FinApiCallService {
             String responseBody = response.getBody();
             JsonNode jsonNode = objectMapper.readTree(responseBody);
             return jsonNode.get("REC");
-
         }catch(Exception e){
             log.error("Exception occurred during FinAPI registration: {}", e.getMessage(), e);
             throw new RuntimeException(e);

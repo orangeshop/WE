@@ -31,6 +31,12 @@ public class Couple {
     @Column(name="accountNumber")
     private String accountNumber;
 
+    @Column(name="accountOwnerName")
+    private String accountOwnerName;
+
+    @Column(name="accountBankName")
+    private String accountBankName;
+
     @Column(name="ledgerCreated", nullable = false)
     private boolean ledgerCreated;
 
