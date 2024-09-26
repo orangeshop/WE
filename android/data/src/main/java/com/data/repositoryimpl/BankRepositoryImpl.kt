@@ -35,6 +35,16 @@ class BankRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getMyAccountTest(): Flow<ApiResult<List<BankData>>> {
+        return flow {
+            val result = safeApiCall {
+                val bankList = bankDataSource.getMyAccountTest().data.map { it.toEntity() }
+                bankList
+            }
+            emit(result)
+        }
+    }
+
     override suspend fun checkAuthCode(requestAuthCode: RequestAuthCode): Flow<ApiResult<AuthCodeData>> {
         return flow {
             val result = safeApiCall {

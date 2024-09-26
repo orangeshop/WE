@@ -22,9 +22,14 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                 navigateDestination(R.id.action_fragment_sign_in_to_fragment_sign_up)
             }
             tvSignInLogin.setOnClickListener{
-                signInViewModel.singIn()
-                startActivity(Intent(requireActivity(), MainActivity::class.java))
-                requireActivity().finish()
+                signInViewModel.singIn(){
+                    if(it){
+                        startActivity(Intent(requireActivity(), MainActivity::class.java))
+                        requireActivity().finish()
+                    }else{
+
+                    }
+                }
             }
         }
     }

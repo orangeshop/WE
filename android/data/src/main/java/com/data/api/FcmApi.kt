@@ -8,5 +8,5 @@ import retrofit2.http.Query
 
 interface FcmApi {
     @POST("notification/token")
-    suspend fun postToken(@Query("token") requestToken: RequestToken): ResponseToken
+    suspend fun postToken(@Query("token") requestToken: String): ResponseToken
 }

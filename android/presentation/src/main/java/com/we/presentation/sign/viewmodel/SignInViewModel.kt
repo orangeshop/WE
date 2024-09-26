@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.repository.SignRepository
 import com.data.util.ApiResult
+import com.data.util.TokenProvider
 import com.data.util.safeApiCall
 import com.we.model.LoginParam
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,23 +19,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val signRepository: SignRepository
+    private val signRepository: SignRepository,
+    private val tokenProvider: TokenProvider
 ) : ViewModel() {
 
     private val _signInParam = MutableStateFlow<LoginParam>(LoginParam())
     val signInParam: StateFlow<LoginParam> get() = _signInParam
 
-    fun singIn() {
+    fun singIn(onResult: (Boolean) -> Unit) {
 
         viewModelScope.launch {
             signRepository.postLogin(signInParam.value).collectLatest {
                 when (it) {
                     is ApiResult.Success -> {
                         Timber.d("Success " + it.data)
+                        tokenProvider.saveAccessToken(it.data.accessToken)
+                        onResult(true)
                     }
 
                     is ApiResult.Error -> {
                         Timber.d("Error")
+                        onResult(false)
                     }
                 }
             }

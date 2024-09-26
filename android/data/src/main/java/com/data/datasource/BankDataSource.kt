@@ -10,6 +10,8 @@ import com.data.model.response.ResponseCoupleAccount
 import com.data.model.response.ResponseTransfer
 
 interface BankDataSource {
+    suspend fun getMyAccountTest(): ResponseBank
+
     suspend fun getMyAccount(): ResponseBank
 
     suspend fun checkAuthCode(requestAuthCode: RequestAuthCode): ResponseAuthCode

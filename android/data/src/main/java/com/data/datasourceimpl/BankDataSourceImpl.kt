@@ -17,6 +17,10 @@ class BankDataSourceImpl @Inject constructor(
     private val bankApi: BankApi
 
 ) : BankDataSource {
+    override suspend fun getMyAccountTest(): ResponseBank {
+        return bankApi.getMyAccountTest()
+    }
+
     override suspend fun getMyAccount(): ResponseBank {
         return bankApi.getMyAccount()
     }

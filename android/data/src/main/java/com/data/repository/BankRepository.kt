@@ -14,6 +14,8 @@ import com.we.model.TransferData
 import kotlinx.coroutines.flow.Flow
 
 interface BankRepository {
+    suspend fun getMyAccountTest() : Flow<ApiResult<List<BankData>>>
+
     suspend fun getMyAccount() : Flow<ApiResult<List<BankData>>>
 
     suspend fun checkAuthCode(requestAuthCode: RequestAuthCode) : Flow<ApiResult<AuthCodeData>>

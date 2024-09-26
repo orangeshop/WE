@@ -13,8 +13,12 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface BankApi {
+    @GET("bank/my-account-test")
+    suspend fun getMyAccountTest(): ResponseBank
+
     @GET("bank/my-account")
     suspend fun getMyAccount(): ResponseBank
+
 
     @POST("bank/checkAuthCode")
     suspend fun checkAuthCode(@Body request: RequestAuthCode): ResponseAuthCode

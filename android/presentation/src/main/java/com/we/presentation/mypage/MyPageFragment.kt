@@ -38,7 +38,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                         accountRemittance = {
                             Toast.makeText(requireContext(), "허용하지 않음", Toast.LENGTH_SHORT).show()
                         },
-                        true
+                        true,
+                        moreVertClickListener = {}
                     )
 
                     binding.apply {

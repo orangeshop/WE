@@ -1,8 +1,12 @@
 package com.we.presentation.component.adapter
 
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MenuProvider
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.we.model.BankData
@@ -13,7 +17,8 @@ class HomeViewPagerAccountAdapter(
     val itemLS: List<BankData>,
     private val accountClickListener: (idx : Int) -> Unit,
     private val accountRemittance: () -> Unit,
-    private val typeCheck : Boolean
+    private val typeCheck : Boolean,
+    private val moreVertClickListener : () -> Unit
 ) : ListAdapter<BankData, HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>(BaseDiffUtil<BankData>()) {
     inner class HomeViewPagerAccountViewHolder(val binding: ItemAccountBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: BankData){
@@ -23,11 +28,23 @@ class HomeViewPagerAccountAdapter(
                 tvHomeNo.text = item.accountNo
                 tvHomeMoney.text = item.accountBalance
 
+//                ivMoreVert.addMenuProvider(object : MenuProvider{
+//                    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+//                        TODO("Not yet implemented")
+//                    }
+//
+//                    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+//                        TODO("Not yet implemented")
+//                    }
+//
+//                })
+
                 when(typeCheck){
                     true -> {
                         tvAccountAdapterRemittance.visibility = View.GONE
                         tvHomeMoney.visibility = View.GONE
                         ivReload.visibility = View.GONE
+                        ivMoreVert.visibility = View.GONE
                     }
                     false -> {
 
@@ -37,7 +54,7 @@ class HomeViewPagerAccountAdapter(
                             tvHomeMoney.visibility = View.GONE
                             ivReload.visibility = View.GONE
                             tvAccountAdapterRemittance.visibility = View.GONE
-
+                            ivMoreVert.visibility = View.GONE
                             ivRotateArrow.visibility = View.VISIBLE
 
                             clItemAccount.setOnClickListener {
@@ -45,14 +62,30 @@ class HomeViewPagerAccountAdapter(
                             }
                         }
                         else{
+
+                            clItemAccount.setOnClickListener {
+                                accountClickListener(adapterPosition)
+                            }
+
                             tvAccountAdapterRemittance.setOnClickListener {
                                 accountRemittance()
+                            }
+
+                            ivMoreVert.setOnClickListener {
+
+
+
+//                                moreVertClickListener()
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun menuSetting(){
+
     }
 
     override fun onCreateViewHolder(
@@ -71,5 +104,7 @@ class HomeViewPagerAccountAdapter(
     override fun onBindViewHolder(holder: HomeViewPagerAccountViewHolder, position: Int) {
         holder.bind(itemLS[position])
     }
+
+
 
 }
