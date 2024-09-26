@@ -53,7 +53,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
     private fun initClickEventListener() {
         binding.apply {
             ivPlus.setOnClickListener {
-                navigateDestination(R.id.action_scheduleFragment_to_scheduleRegisterFragment)
+                navigateDestination(R.id.action_scheduleFragment_to_schedule_register_nav_graph)
             }
             ivScheduleRight.setOnClickListener {
                 scheduleViewModel.plusMinusMonth(true)

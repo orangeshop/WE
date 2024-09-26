@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/guestFragment"
         android:name="com.we.presentation.guest.GuestFragment"
-        tools:layout="@layout/fragment_guest" >
+        tools:layout="@layout/fragment_guest">
         <action
             android:id="@+id/action_guestFragment_to_coupleFragment"
             app:destination="@id/coupleFragment" />
@@ -46,19 +46,18 @@
         android:name="com.we.presentation.mypage.MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
 
+    <!-- 스케줄 -->
     <fragment
         android:id="@+id/scheduleFragment"
         android:name="com.we.presentation.schedule.ScheduleFragment"
         tools:layout="@layout/fragment_schedule">
         <action
-            android:id="@+id/action_scheduleFragment_to_scheduleRegisterFragment"
-            app:destination="@id/scheduleRegisterFragment" />
+            android:id="@+id/action_scheduleFragment_to_schedule_register_nav_graph"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
+            app:destination="@id/schedule_register_nav_graph" />
     </fragment>
 
-    <fragment
-        android:id="@+id/scheduleRegisterFragment"
-        android:name="com.we.presentation.schedule.ScheduleRegisterFragment"
-        tools:layout="@layout/fragment_schedule_register" />
 
     <fragment
         android:id="@+id/accountFragment"
@@ -119,5 +118,8 @@
         android:name="com.we.presentation.couple.CoupleFragment"
         android:label="CoupleFragment"
         tools:layout="@layout/fragment_couple" />
+
+    <!-- 스케줄 등록 -->
+    <include app:graph="@navigation/schedule_register_nav_graph" />
 
 </navigation>
