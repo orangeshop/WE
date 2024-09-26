@@ -18,7 +18,7 @@ import "react-calendar/dist/Calendar.css";
 import "./StorageDetail.css";
 import dayjs from "dayjs";
 import { deleteFormalInvitation } from "../../apis/api/deleteinfotypeinvitation";
-import beige from "../../assets/images/beige.png";
+import FallingSnow from "../../Components/Snowflake";
 
 const StorageDetail: React.FC = () => {
   const [invitationData, setInvitationData] =
@@ -27,20 +27,6 @@ const StorageDetail: React.FC = () => {
   const { invitationId } = useParams<{ invitationId: string }>();
   const accessToken = localStorage.getItem("accessToken");
   const [isExist, setisExist] = useState<boolean>(false);
-  const [showThumbnail, setShowThumbnail] = useState(true);
-  const [fadeClass, setFadeClass] = useState("fade-in");
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setFadeClass("fade-out");
-      setTimeout(() => {
-        setShowThumbnail(false);
-        setFadeClass("fade-in");
-      }, 1000);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   React.useEffect(() => {
     AOS.init({ duration: 2000 });
@@ -235,210 +221,175 @@ const StorageDetail: React.FC = () => {
             " "
           )}
         </div>
-        <div className="flex justify-center items-center relative">
-          {showThumbnail ? (
-            <img
-              src={beige}
-              alt="썸네일"
-              className={`w-1/3 h-auto ${fadeClass}`}
-            />
-          ) : (
-            <div className="text-2xl font-semibold letter-space pt-36 text-[#800000]">
-              WEDDING INVITATION
-            </div>
-          )}
 
-          {showThumbnail && (
-            <div className="absolute inset-0 flex justify-center items-center">
-              <div className="text-[24px] text-white">❤︎ 우리 결혼해요 ❤︎</div>
-            </div>
-          )}
+        <div className="text-2xl font-semibold letter-space pt-36 text-[#800000]">
+          WEDDING INVITATION
         </div>
 
-        {!showThumbnail ? (
-          <>
-            <div className="letter-space w-full">
-              <p className="text-3xl mt-10 flex justify-center text-[#222B45]">
-                {invitationData.groomLastName}
-                {invitationData.groomFirstName}{" "}
-                <span className="w-8 mx-10">
-                  <img src={leaf} alt="" />
-                </span>{" "}
-                {invitationData.brideLastName}
-                {invitationData.brideFirstName}
-              </p>
-              <div className="flex flex-col" data-aos="fade-up">
-                <div className="w-full flex justify-center mt-10">
-                  <img
-                    src={invitationData.url}
-                    alt="대표 사진"
-                    className="w-1/3 h-auto"
-                  />
-                </div>
-              </div>
-            </div>
-          </>
-        ) : null}
-
-        {!showThumbnail ? (
-          <>
-            <div className="text-xl">
-              <p className="mt-10">
-                {invitationData.date}{" "}
-                {invitationData.timezone === "AM" ? "오전" : "오후"}{" "}
-                {invitationData.hour}시 {invitationData.minute}분
-              </p>
-              <p className="mt-5">
-                {invitationData.weddingHall}, {invitationData.addressDetail}
-              </p>
-
-              <div className="flex justify-center mt-20">
-                <div className="w-[480px] min-h-[400px] bg-[#FDF5E6] mb-20">
-                  <div className="flex justify-center">
-                    <img src={flower_sm} alt="꽃" className="w-10 mt-5 mb-5" />
-                  </div>
-                  <p className="text-[#B3B3B3] letter-space-sm mb-5">
-                    INVITATION
-                  </p>
-                  <div className="border border-gray-200 mx-10 mb-10"></div>
-                  <p className="text-[16px] mx-24 mb-10">
-                    {invitationData.greetings.split("\n").map((line, index) => (
-                      <React.Fragment key={index}>
-                        {line}
-                        <br />
-                      </React.Fragment>
-                    ))}
-                  </p>
-
-                  <div className="border border-gray-200 mx-10 mb-10"></div>
-                  <div className="text-[16px]">
-                    <p>
-                      <span className="font-semibold">
-                        {invitationData.groomFatherLastName}
-                        {invitationData.groomFatherFirstName}
-                        {"ㆍ"}
-                        {invitationData.groomMotherLastName}
-                        {invitationData.groomMotherFirstName}
-                      </span>
-                      <span className="text-[#A88E97]">
-                        의 {groomBirthOrderLabel}{" "}
-                      </span>
-                      <span className="font-semibold">
-                        {invitationData.groomFirstName}
-                      </span>
-                    </p>
-                    <p className="mb-10">
-                      <span className="font-semibold">
-                        {invitationData.brideFatherLastName}
-                        {invitationData.brideFatherFirstName}
-                        {"ㆍ"}
-                        {invitationData.brideMotherLastName}
-                        {invitationData.brideMotherFirstName}
-                      </span>
-                      <span className="text-[#A88E97]">
-                        의 {brideBirthOrderLabel}{" "}
-                      </span>{" "}
-                      <span className="font-semibold">
-                        {invitationData.brideFirstName}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-center items-center">
-                <div className="w-[480px]">
-                  <div className="text-center">
-                    <p className="text-[#B3B3B3] letter-space-sm mb-5">
-                      CALENDAR
-                    </p>
-                    <div className="border border-gray-200 mx-10 mb-10"></div>
-                    <p className="text-[18px] mb-5">{invitationData.date}</p>
-                    <div className="flex justify-center mb-20">
-                      <Calendar
-                        className="detailcalendar"
-                        value={markDate}
-                        locale="en-US"
-                        formatDay={(_, date) => dayjs(date).format("DD")}
-                        tileClassName={({ date }) => {
-                          if (
-                            date.getFullYear() === markDate.getFullYear() &&
-                            date.getMonth() === markDate.getMonth() &&
-                            date.getDate() === markDate.getDate()
-                          ) {
-                            return "highlight";
-                          }
-                          return null;
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <div className="w-[480px]">
-                  <div className="text-center">
-                    <p className="text-[#B3B3B3] letter-space-sm mb-2">
-                      LOCATION
-                    </p>
-                    <p className="text-[#86626E] text-sm letter-space-sm mb-5">
-                      오시는 길
-                    </p>
-                    <div className="border border-gray-200 mx-10 mb-10"></div>
-                    <p className="text-[18px]">{invitationData.address}</p>
-                    <p className="mb-10 text-[18px]">
-                      {invitationData.weddingHall}{" "}
-                      {invitationData.addressDetail}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <div className="mb-20 w-[400px]">
-                  <InvitationMap
-                    latitude={invitationData.latitude}
-                    longitude={invitationData.longitude}
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-center mb-10">
-                <div className="w-[480px] flex justify-center">
-                  <img src={rose} alt="장미 한 송이" className="w-10" />
-                </div>
-              </div>
-
-              <div className="text-[18px]">
-                <p className="text-center">참석이 어려우신 분들은</p>
-                <p className="text-center">축하의 마음을 전달해 주세요.</p>
-              </div>
-
-              <div className="flex justify-center mt-5">
-                <div className="w-[400px] h-[70px] bg-[#F4F0EB] flex items-center justify-between p-2">
-                  <p className="text-[18px] flex-1 text-center">
-                    축의금 계좌번호
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="w-[400px] bg-white border border-gray-200 p-2 mb-20">
-                  <p className="text-[15px]">
-                    {invitationData.coupleAccount}{" "}
-                    <button className="ml-20 bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow duration-200 px-2 py-1">
-                      이체하기
-                    </button>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="flex justify-center mt-10">
-            <p className="text-lg">아직 초대장이 없습니다.</p>
+        <div className="letter-space w-full">
+          <p className="text-3xl mt-10 flex justify-center text-[#222B45]">
+            {invitationData.groomLastName}
+            {invitationData.groomFirstName}{" "}
+            <span className="w-8 mx-10">
+              <img src={leaf} alt="" />
+            </span>{" "}
+            {invitationData.brideLastName}
+            {invitationData.brideFirstName}
+          </p>
+        </div>
+        <FallingSnow />
+        <div className="flex flex-col" data-aos="fade-up">
+          <div className="w-full flex justify-center mt-10 relative">
+            <img
+              src={invitationData.url}
+              alt="대표 사진"
+              className="w-1/3 h-auto"
+            />
           </div>
-        )}
+        </div>
+
+        <div className="text-xl">
+          <p className="mt-10">
+            {invitationData.date}{" "}
+            {invitationData.timezone === "AM" ? "오전" : "오후"}{" "}
+            {invitationData.hour}시 {invitationData.minute}분
+          </p>
+          <p className="mt-5">
+            {invitationData.weddingHall}, {invitationData.addressDetail}
+          </p>
+
+          <div className="flex justify-center mt-20">
+            <div className="w-[480px] min-h-[400px] bg-[#FDF5E6] mb-20">
+              <div className="flex justify-center">
+                <img src={flower_sm} alt="꽃" className="w-10 mt-5 mb-5" />
+              </div>
+              <p className="text-[#B3B3B3] letter-space-sm mb-5">INVITATION</p>
+              <div className="border border-gray-200 mx-10 mb-10"></div>
+              <p className="text-[16px] mx-24 mb-10">
+                {invitationData.greetings.split("\n").map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
+              </p>
+
+              <div className="border border-gray-200 mx-10 mb-10"></div>
+              <div className="text-[16px]">
+                <p>
+                  <span className="font-semibold">
+                    {invitationData.groomFatherLastName}
+                    {invitationData.groomFatherFirstName}
+                    {"ㆍ"}
+                    {invitationData.groomMotherLastName}
+                    {invitationData.groomMotherFirstName}
+                  </span>
+                  <span className="text-[#A88E97]">
+                    의 {groomBirthOrderLabel}{" "}
+                  </span>
+                  <span className="font-semibold">
+                    {invitationData.groomFirstName}
+                  </span>
+                </p>
+                <p className="mb-10">
+                  <span className="font-semibold">
+                    {invitationData.brideFatherLastName}
+                    {invitationData.brideFatherFirstName}
+                    {"ㆍ"}
+                    {invitationData.brideMotherLastName}
+                    {invitationData.brideMotherFirstName}
+                  </span>
+                  <span className="text-[#A88E97]">
+                    의 {brideBirthOrderLabel}{" "}
+                  </span>{" "}
+                  <span className="font-semibold">
+                    {invitationData.brideFirstName}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-center items-center">
+            <div className="w-[480px]">
+              <div className="text-center">
+                <p className="text-[#B3B3B3] letter-space-sm mb-5">CALENDAR</p>
+                <div className="border border-gray-200 mx-10 mb-10"></div>
+                <p className="text-[18px] mb-5">{invitationData.date}</p>
+                <div className="flex justify-center mb-20">
+                  <Calendar
+                    className="detailcalendar"
+                    value={markDate}
+                    locale="en-US"
+                    formatDay={(_, date) => dayjs(date).format("DD")}
+                    tileClassName={({ date }) => {
+                      if (
+                        date.getFullYear() === markDate.getFullYear() &&
+                        date.getMonth() === markDate.getMonth() &&
+                        date.getDate() === markDate.getDate()
+                      ) {
+                        return "highlight";
+                      }
+                      return null;
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="w-[480px]">
+              <div className="text-center">
+                <p className="text-[#B3B3B3] letter-space-sm mb-2">LOCATION</p>
+                <p className="text-[#86626E] text-sm letter-space-sm mb-5">
+                  오시는 길
+                </p>
+                <div className="border border-gray-200 mx-10 mb-10"></div>
+                <p className="text-[18px]">{invitationData.address}</p>
+                <p className="mb-10 text-[18px]">
+                  {invitationData.weddingHall} {invitationData.addressDetail}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="mb-20 w-[400px]">
+              <InvitationMap
+                latitude={invitationData.latitude}
+                longitude={invitationData.longitude}
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-center mb-10">
+            <div className="w-[480px] flex justify-center">
+              <img src={rose} alt="장미 한 송이" className="w-10" />
+            </div>
+          </div>
+
+          <div className="text-[18px]">
+            <p className="text-center">참석이 어려우신 분들은</p>
+            <p className="text-center">축하의 마음을 전달해 주세요.</p>
+          </div>
+
+          <div className="flex justify-center mt-5">
+            <div className="w-[400px] h-[70px] bg-[#F4F0EB] flex items-center justify-between p-2">
+              <p className="text-[18px] flex-1 text-center">축의금 계좌번호</p>
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <div className="w-[400px] bg-white border border-gray-200 p-2 mb-20">
+              <p className="text-[15px]">
+                {invitationData.coupleAccount}{" "}
+                <button className="ml-20 bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow duration-200 px-2 py-1">
+                  이체하기
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
 
         {isExist ? (
           <div className="flex justify-center">
