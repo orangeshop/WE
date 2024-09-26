@@ -5,8 +5,9 @@ import com.we.presentation.util.CalendarType
 import java.time.LocalDate
 
 data class CalendarItem(
-    val date: LocalDate,
+    val date: LocalDate = LocalDate.now(),
     val calendarType: CalendarType,
     val schedule : List<ScheduleData>,
-    val isScheduled: Boolean
+    val isScheduled: Boolean,
+    val isSelected : Boolean = false
 )

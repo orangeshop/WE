@@ -2,6 +2,7 @@ package com.data.datasourceimpl
 
 import com.data.api.ScheduleApi
 import com.data.datasource.ScheduleDataSource
+import com.data.model.request.RequestSchedule
 import com.data.model.response.ResponseSchedule
 import javax.inject.Inject
 
@@ -14,5 +15,9 @@ class ScheduleDataSourceImpl @Inject constructor(
         month: Int
     ): ResponseSchedule {
         return scheduleApi.getSchedule(year, month)
+    }
+
+    override suspend fun postSchedule(requestSchedule: RequestSchedule): ResponseSchedule.Schedule {
+        return scheduleApi.postSchedule(requestSchedule)
     }
 }
