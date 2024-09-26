@@ -10,7 +10,6 @@ import com.we.presentation.component.adapter.ScheduleTodoAdapter
 import com.we.presentation.databinding.FragmentScheduleBinding
 import com.we.presentation.schedule.model.ScheduleUiState.CalendarSet
 import com.we.presentation.schedule.model.ScheduleUiState.Loading
-import com.we.presentation.schedule.model.ScheduleUiState.ScheduleSet
 import com.we.presentation.schedule.viewmodel.ScheduleViewModel
 import com.we.presentation.util.toYearMonth
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +46,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
         binding.apply {
             rvScheduleTodo.adapter = scheduleTodoAdapter
         }
-        scheduleTodoAdapter.submitList(listOf(" ", " ", " ", " "))
+
     }
 
     private fun initClickEventListener() {
@@ -61,7 +60,9 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             ivScheduleLeft.setOnClickListener {
                 scheduleViewModel.plusMinusMonth(false)
             }
-
+            scheduleCalendarAdapter.setScheduleClickListener { scheduleData ->
+                scheduleTodoAdapter.submitList(scheduleData)
+            }
         }
     }
 
@@ -73,10 +74,6 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
 
                     }
 
-                    is ScheduleSet -> {
-
-                    }
-
                     is CalendarSet -> {
                         val date = it.date.toYearMonth()
                         binding.apply {
@@ -84,6 +81,10 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                             month = getString(R.string.schedule_month, date.second)
                         }
                         scheduleCalendarAdapter.submitList(it.calendarItem)
+                    }
+
+                    else -> {
+
                     }
                 }
             }

@@ -24,7 +24,6 @@ class HomeViewModel @Inject constructor(
 
         setAccountList(arrayListOf(BankData("", "", "", "", "", "", "", "", "", "", "", "","","")))
     }
-
     private fun setAccountList(list: List<BankData>) {
         _accountList.update { oldlist ->
             oldlist + list
