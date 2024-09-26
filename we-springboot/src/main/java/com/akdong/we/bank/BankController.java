@@ -15,7 +15,9 @@ import com.akdong.we.ledger.repository.LedgerGiftRepository;
 import com.akdong.we.ledger.repository.LedgerRepository;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
+import com.akdong.we.member.entity.MemberAccount;
 import com.akdong.we.member.exception.member.MemberErrorCode;
+import com.akdong.we.member.repository.MemberAccountRepository;
 import com.akdong.we.notification.service.FirebaseService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,19 +45,21 @@ public class BankController {
     private final FinApiCallService finApiCallService;
     private final CoupleService coupleService;
     private final FirebaseService firebaseService;
+    private final BankService bankService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final GiftRepository giftRepository;
     private final LedgerRepository ledgerRepository;
     private final LedgerGiftRepository ledgerGiftRepository;
+    private final MemberAccountRepository memberAccountRepository;
 
-    @GetMapping("/my-account")
+    @GetMapping("/my-account-test")
     @Operation(summary = "나의 계좌 목록(1원 송금 등록용)", description = "나의 계좌 목록을 조회합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "계좌 목록 조회 성공", useReturnTypeSchema = true),
     })
-    public ResponseEntity<?> myAccount(@Parameter(hidden = true)  @Login Member member){
+    public ResponseEntity<?> myAccountTest(@Parameter(hidden = true)  @Login Member member){
         try {
             JsonNode jsonResponse = finApiCallService.accountList(member.getUserKey());
             List<GetAccountResponse> response = new ArrayList<>();
@@ -75,6 +79,28 @@ public class BankController {
                     .body(new ErrorResponse<>("계좌 리스트 조회 중 오류가 발생했습니다.", e));
         }
     }
+
+    @GetMapping("/my-account")
+    @Operation(summary = "나의 계좌 목록(등록 완료된 계좌)", description = "나의 계좌 목록(등록 완료된 계좌)을 조회합니다")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "계좌 목록 조회 성공", useReturnTypeSchema = true),
+    })
+    public ResponseEntity<?> myAccount(@Parameter(hidden = true)  @Login Member member){
+        try {
+            List<GetAccountResponse> myAccounts = bankService.accountList(member);
+            return ResponseEntity.ok(
+                    new SuccessResponse<>(
+                            "나의 계좌(등록 완료된 계좌) 리스트 조회에 성공했습니다.",
+                            myAccounts
+                    )
+            );
+        }catch (Exception e) {
+            log.error("Exception occurred while processing the account list response: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse<>("나의 계좌(등록 완료된 계좌) 리스트 조회 중 오류가 발생했습니다.", e));
+        }
+    }
+
     @PostMapping("/accountAuth")
     @Operation(summary = "1원 송금 요청", description = "1원 송금을 요청합니다.")
     @ApiResponses(value = {
@@ -105,7 +131,7 @@ public class BankController {
     }
 
     @PostMapping("/checkAuthCode")
-    @Operation(summary = "1원 송금 검증 요청", description = "1원 송금 검증을 요청합니다.")
+    @Operation(summary = "1원 송금 검증", description = "1원 송금 검증을 요청합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "1원 송금 검증 요청 성공", useReturnTypeSchema = true),
     })
@@ -113,7 +139,6 @@ public class BankController {
     public ResponseEntity<?> checkAuthCode(
             @Parameter(hidden = true) @Login Member member,
             @RequestBody CheckAuthUserRequest request){
-
         String status = finApiCallService.checkAuthCode(member.getUserKey(), request.getAccountNo(), request.getAuthText(), request.getAuthCode());
 
         // "authCode": authCode 형식으로 Map을 생성
@@ -121,12 +146,12 @@ public class BankController {
         responseMap.put("Status", status);
 
         if(status.equals("SUCCESS")){
-            Couple couple = coupleService.getMyCoupleInfo(member)
-                    .orElseThrow(() ->new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
-            couple.setBankbookCreated(true);
-            couple.setAccountNumber(request.getAccountNo());
+            MemberAccount memberAccount = MemberAccount.builder()
+                    .member(member)
+                    .accountNo(request.getAccountNo())
+                    .build();
+            memberAccountRepository.save(memberAccount);
         }
-
 
         return ResponseEntity.ok(
                 new SuccessResponse<>(
@@ -232,6 +257,5 @@ public class BankController {
                     )
             );
         }
-
     }
 }

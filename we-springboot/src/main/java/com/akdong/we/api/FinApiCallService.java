@@ -2,29 +2,21 @@ package com.akdong.we.api;
 
 import com.akdong.we.api.request.*;
 import com.akdong.we.bank.TransferRequest;
-import com.akdong.we.ledger.entity.Gift;
-import com.akdong.we.ledger.repository.GiftRepository;
-import com.akdong.we.ledger.repository.LedgerGiftRepository;
-import com.akdong.we.ledger.repository.LedgerRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.services.storage.Storage;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import org.springframework.http.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
