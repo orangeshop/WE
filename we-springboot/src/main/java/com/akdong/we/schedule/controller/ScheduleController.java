@@ -46,4 +46,11 @@ public class ScheduleController {
             @PathVariable long scheduleId){
         return scheduleService.toggleSchedule(scheduleId);
     }
+
+    @DeleteMapping("/delete/{scheduleId}")
+    @Operation(summary = "일정 삭제", description = "일정 삭제")
+    public void deleteSchedule(
+            @PathVariable long scheduleId){
+        scheduleService.deleteSchedule(scheduleId);
+    }
 }
