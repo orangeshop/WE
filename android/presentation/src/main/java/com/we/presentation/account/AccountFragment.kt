@@ -17,6 +17,7 @@ import com.we.presentation.databinding.FragmentAccountBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -29,11 +30,28 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
     override fun initView() {
 
         accountViewModel.setChooseBank(BankList(0, ""))
+        accountViewModel.setAccountNumber("")
 
         accountBottomSheetClickListener()
         initTransferClickListener()
         bankChooseComplete()
         accountInputComplete()
+        btnActivateCheck()
+    }
+
+    private fun btnActivateCheck() {
+        binding.apply {
+            combine(
+                accountViewModel.accountNumber.flowWithLifecycle(viewLifecycleOwner.lifecycle),
+                accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            ){
+                accountNumber, chooseBank ->
+                Timber.d("accountNumber : $accountNumber chooseBank : ${chooseBank.bankName}")
+                if (accountNumber.isNotBlank() && chooseBank.bankName.isNotBlank()) {
+                    tvRegisterAccount.isEnabled = true
+                }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }
     }
 
     private fun accountInputComplete() {
@@ -46,7 +64,6 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
 
     private fun bankChooseComplete() {
         viewLifecycleOwner.lifecycleScope.launch {
-
             accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .onEach {
 
