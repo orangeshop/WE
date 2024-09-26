@@ -14,6 +14,7 @@ export enum Timezone {
 export type GetFormalInvitationDto = {
   invitationId: number;
   coupleId: number;
+  coupleAccount: string;
   url: string;
   title: string;
 
