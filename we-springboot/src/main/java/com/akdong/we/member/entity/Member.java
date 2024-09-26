@@ -58,6 +58,9 @@ public class Member {
     @Column(name="deviceToken")
     private String deviceToken;
 
+    @Column(name="priorAccount")
+    private String priorAccount;
+
 //    @ManyToOne
 //    @JoinColumn(name = "coupleId", nullable = true)
 //    private Couple couple;

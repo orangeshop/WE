@@ -1,9 +1,16 @@
 package com.akdong.we.bank;
 
 import com.akdong.we.api.FinApiCallService;
+import com.akdong.we.common.exception.BusinessException;
+import com.akdong.we.couple.entity.Couple;
+import com.akdong.we.couple.response.CoupleInfo;
+import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.entity.MemberAccount;
+import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.akdong.we.member.repository.MemberAccountRepository;
+import com.akdong.we.member.repository.MemberRepository;
+import com.akdong.we.member.response.MemberInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +28,9 @@ import java.util.Objects;
 public class BankService {
     private final MemberAccountRepository memberAccountRepository;
     private final FinApiCallService finApiCallService;
+    private final CoupleService coupleService;
+    private final MemberRepository memberRepository;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public List<GetAccountResponse> accountList(Member member) throws JsonProcessingException {
@@ -41,5 +51,22 @@ public class BankService {
             }
         }
         return response;
+    }
+
+    public MemberInfo registerPriorAccount(Member member, String accountNo){
+        member.setPriorAccount(accountNo);
+        memberRepository.save(member);
+        return MemberInfo.of(member);
+    }
+
+    public CoupleInfo registerCoupleAccount(Member member, String accountNo, String bankName){
+        Couple couple = coupleService.getMyCoupleInfo(member)
+                .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+
+        couple.setAccountNumber(accountNo);
+        couple.setAccountOwnerName(member.getNickname());
+        couple.setAccountBankName(bankName);
+
+        return CoupleInfo.of(couple);
     }
 }

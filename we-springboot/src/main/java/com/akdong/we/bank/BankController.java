@@ -5,6 +5,7 @@ import com.akdong.we.common.dto.ErrorResponse;
 import com.akdong.we.common.dto.SuccessResponse;
 import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.couple.entity.Couple;
+import com.akdong.we.couple.response.CoupleInfo;
 import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.ledger.LedgerErrorCode;
 import com.akdong.we.ledger.entity.Gift;
@@ -18,6 +19,7 @@ import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.entity.MemberAccount;
 import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.akdong.we.member.repository.MemberAccountRepository;
+import com.akdong.we.member.response.MemberInfo;
 import com.akdong.we.notification.service.FirebaseService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -171,7 +173,7 @@ public class BankController {
             @Parameter(hidden = true)  @Login Member member,
             @RequestBody TransferRequest request) throws IOException {
 
-        String responseCode = finApiCallService.transfer(member.getUserKey(), request);
+        String responseCode = finApiCallService.transfer(member, request);
 
         if(Objects.equals(responseCode, "H0000")){
             Gift gift = Gift.builder()
@@ -257,5 +259,41 @@ public class BankController {
                     )
             );
         }
+    }
+
+    @PostMapping("/register-prior-account")
+    @Operation(summary = "대표 계좌 등록", description = "나의 대표 계좌를 등록합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "대표 계좌 등록 성공", useReturnTypeSchema = true),
+    })
+    @Transactional
+    public ResponseEntity<?> registerPriorAccount(@Parameter(hidden = true)  @Login Member member,
+                                                  PostAccountAuthRequest request){
+        MemberInfo memberInfo = bankService.registerPriorAccount(member, request.getAccountNo());
+
+        return ResponseEntity.ok(
+                new SuccessResponse<>(
+                        "대표 계좌 등록에 성공했습니다.",
+                        memberInfo
+                )
+        );
+    }
+
+    @PostMapping("/register-couple-account")
+    @Operation(summary = "커플 계좌 등록", description = "나의 커플 계좌를 등록합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "커플 계좌 등록 성공", useReturnTypeSchema = true),
+    })
+    @Transactional
+    public ResponseEntity<?> registerCoupleAccount(@Parameter(hidden = true)  @Login Member member,
+                                                   RegisterCoupleAccountRequest request){
+        CoupleInfo coupleInfo = bankService.registerCoupleAccount(member, request.getAccountNo(), request.getBankName());
+
+        return ResponseEntity.ok(
+                new SuccessResponse<>(
+                        "커플 계좌 등록에 성공했습니다.",
+                        coupleInfo
+                )
+        );
     }
 }
