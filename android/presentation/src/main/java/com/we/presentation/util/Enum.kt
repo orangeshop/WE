@@ -9,6 +9,13 @@ enum class CalendarType {
     AFTER
 }
 
+enum class ScheduleRegisterType{
+    CONTENT,
+    LOCATION,
+    DATE,
+    PRICE
+}
+
 /**
  * true -> visible
  * false -> gone

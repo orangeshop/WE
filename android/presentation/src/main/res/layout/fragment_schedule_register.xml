@@ -132,6 +132,7 @@
                 android:background="@drawable/rectangle_white_10_stroke_1_we_brown"
                 android:paddingVertical="19dp"
                 android:paddingStart="20dp"
+                android:text="@string/schedule_date_hint"
                 app:layout_constraintTop_toBottomOf="@+id/tv_schedule_date" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -140,8 +141,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_schedule_date">
 
             <TextView
@@ -163,7 +164,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rectangle_white_10_stroke_1_we_brown"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:paddingVertical="19dp"
                 android:paddingStart="20dp"
@@ -173,16 +174,17 @@
 
 
         <Button
+            android:id="@+id/btn_register"
+            style="@style/suite_extra_bold_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_rectangle_we_gray_10_to_rectangle_we_pink_10"
-            android:text="@string/schedule_register_complete"
             android:layout_marginHorizontal="20dp"
-            android:textColor="@color/white"
-            android:paddingVertical="11dp"
             android:layout_marginBottom="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/suite_extra_bold_24"/>
+            android:background="@drawable/selector_rectangle_we_gray_10_to_rectangle_we_pink_10"
+            android:paddingVertical="11dp"
+            android:text="@string/schedule_register_complete"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
