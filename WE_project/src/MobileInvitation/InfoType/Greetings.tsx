@@ -28,10 +28,6 @@ const GreetingsSection = forwardRef<GreetingsHandle, GreetingsProps>(
     }, [value]);
 
     const handleSubmit = async () => {
-      if (!greeting) {
-        return;
-      }
-
       try {
         if (invitationId) {
           await inputGreeting(invitationId, { greetings: greeting });

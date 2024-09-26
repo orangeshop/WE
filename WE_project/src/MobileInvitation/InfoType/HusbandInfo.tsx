@@ -40,7 +40,11 @@ const HusbandInfo = forwardRef((_, ref) => {
 
   const handleSubmit = async (): Promise<boolean> => {
     if (!birthOrder) {
+<<<<<<< HEAD
       return false;
+=======
+      return;
+>>>>>>> a694047388798b08a185d2fa22a39d0225169a53
     }
 
     const dto: GroomInfoDto = {
