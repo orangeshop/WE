@@ -35,6 +35,8 @@ const StorageDetail: React.FC = () => {
     const timer = setTimeout(() => {
       setFadeClass("fade-out");
       setTimeout(() => {
+      }, 300);
+      setTimeout(() => {
         setShowThumbnail(false);
         setFadeClass("fade-in");
       }, 1000);
@@ -194,7 +196,7 @@ const StorageDetail: React.FC = () => {
   };
 
   return (
-    <div className="relative font-nanum min-w-[1500px] w-full">
+    <div className="relative font-nanum w-screen">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -202,10 +204,10 @@ const StorageDetail: React.FC = () => {
           opacity: 0.2,
         }}
       />
-      <div className="relative z-10 text-center w-full">
+      <div className="relative z-30 text-center w-full pointer-auto">
         {isExist ? (
-          <button className="flex justify-start ml-20 absolute mt-10 bg-transparent">
-            <a href="/invitation/storage">
+          <button className="flex justify-start ml-20 absolute mt-10 z-40 pointer-auto bg-transparent">
+            <a href="/invitation/storage" className="pointer-auto">
               <p className="text-[#C1A56C]">{"<<"} 뒤로가기</p>
             </a>
           </button>
@@ -213,31 +215,25 @@ const StorageDetail: React.FC = () => {
           " "
         )}
 
-        <div className="absolute mt-10 right-20 flex space-x-4">
-          {isExist ? (
+        {isExist && (
+          <div className="absolute mt-10 right-20 flex space-x-4 z-30">
             <button
               className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
               onClick={handleEdit}
             >
               수정
             </button>
-          ) : (
-            " "
-          )}
-          {isExist ? <span className="text-[#C1A56C] py-2">|</span> : " "}
-          {isExist ? (
+            <span className="text-[#C1A56C] py-2">|</span>
             <button
               className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
               onClick={handleDelete}
             >
               삭제
             </button>
-          ) : (
-            " "
-          )}
-        </div>
+          </div>
+        )}
 
-        <div className="flex justify-center items-center relative">
+        <div className="flex justify-center items-center relative z-10 pointer-none">
           {showThumbnail ? (
             <img
               src={beige}
@@ -245,31 +241,39 @@ const StorageDetail: React.FC = () => {
               className={`w-1/3 h-auto ${fadeClass}`}
             />
           ) : (
-            <div className="text-2xl font-semibold letter-space pt-36 text-[#800000]">
+            <div
+              className="text-2xl font-semibold letter-space pt-36 text-[#800000]"
+              data-aos="fade-up"
+            >
               WEDDING INVITATION
             </div>
           )}
 
           {showThumbnail && (
             <div className="absolute inset-0 flex justify-center items-center">
-              <div className="text-[24px] text-white">❤︎ 우리 결혼해요 ❤︎</div>
+              <div className="text-[24px] text-[#C5A88E]">
+
+              </div>
             </div>
           )}
         </div>
+
         {!showThumbnail ? (
           <>
-            <div className="letter-space w-full">
+            <div className="letter-space w-full" data-aos="fade-up">
               <p className="text-3xl mt-10 flex justify-center text-[#222B45]">
                 {invitationData.groomLastName}
-                {invitationData.groomFirstName}{" "}
+                {invitationData.groomFirstName}
                 <span className="w-8 mx-10">
-                  <img src={leaf} alt="" />
-                </span>{" "}
+                  <img src={leaf} alt="장식 이미지" />
+                </span>
                 {invitationData.brideLastName}
                 {invitationData.brideFirstName}
               </p>
             </div>
+
             <FallingSnow />
+
             <div className="flex flex-col" data-aos="fade-up">
               <div className="w-full flex justify-center mt-10 relative">
                 <img
@@ -279,10 +283,7 @@ const StorageDetail: React.FC = () => {
                 />
               </div>
             </div>
-          </>
-        ) : null}
-        {!showThumbnail ? (
-          <>
+
             <div className="text-xl">
               <p className="mt-10">
                 {invitationData.date}{" "}
@@ -293,10 +294,14 @@ const StorageDetail: React.FC = () => {
                 {invitationData.weddingHall}, {invitationData.addressDetail}
               </p>
 
-              <div className="flex justify-center mt-20">
+              <div className="flex justify-center mt-20" data-aos="fade-up">
                 <div className="w-[480px] min-h-[400px] bg-[#FDF5E6] mb-20">
                   <div className="flex justify-center">
-                    <img src={flower_sm} alt="꽃" className="w-10 mt-5 mb-5" />
+                    <img
+                      src={flower_sm}
+                      alt="꽃 이미지"
+                      className="w-10 mt-5 mb-5"
+                    />
                   </div>
                   <p className="text-[#B3B3B3] letter-space-sm mb-5">
                     INVITATION
@@ -316,8 +321,7 @@ const StorageDetail: React.FC = () => {
                     <p>
                       <span className="font-semibold">
                         {invitationData.groomFatherLastName}
-                        {invitationData.groomFatherFirstName}
-                        {"ㆍ"}
+                        {invitationData.groomFatherFirstName}ㆍ
                         {invitationData.groomMotherLastName}
                         {invitationData.groomMotherFirstName}
                       </span>
@@ -331,14 +335,13 @@ const StorageDetail: React.FC = () => {
                     <p className="mb-10">
                       <span className="font-semibold">
                         {invitationData.brideFatherLastName}
-                        {invitationData.brideFatherFirstName}
-                        {"ㆍ"}
+                        {invitationData.brideFatherFirstName}ㆍ
                         {invitationData.brideMotherLastName}
                         {invitationData.brideMotherFirstName}
                       </span>
                       <span className="text-[#A88E97]">
                         의 {brideBirthOrderLabel}{" "}
-                      </span>{" "}
+                      </span>
                       <span className="font-semibold">
                         {invitationData.brideFirstName}
                       </span>
@@ -347,7 +350,10 @@ const StorageDetail: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex justify-center items-center">
+              <div
+                className="flex justify-center items-center"
+                data-aos="fade-up"
+              >
                 <div className="w-[480px]">
                   <div className="text-center">
                     <p className="text-[#B3B3B3] letter-space-sm mb-5">
@@ -361,23 +367,20 @@ const StorageDetail: React.FC = () => {
                         value={markDate}
                         locale="en-US"
                         formatDay={(_, date) => dayjs(date).format("DD")}
-                        tileClassName={({ date }) => {
-                          if (
-                            date.getFullYear() === markDate.getFullYear() &&
-                            date.getMonth() === markDate.getMonth() &&
-                            date.getDate() === markDate.getDate()
-                          ) {
-                            return "highlight";
-                          }
-                          return null;
-                        }}
+                        tileClassName={({ date }) =>
+                          date.getFullYear() === markDate.getFullYear() &&
+                          date.getMonth() === markDate.getMonth() &&
+                          date.getDate() === markDate.getDate()
+                            ? "highlight"
+                            : null
+                        }
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex justify-center">
+              <div className="flex justify-center" data-aos="fade-up">
                 <div className="w-[480px]">
                   <div className="text-center">
                     <p className="text-[#B3B3B3] letter-space-sm mb-2">
@@ -396,7 +399,7 @@ const StorageDetail: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex justify-center">
+              <div className="flex justify-center" data-aos="fade-up">
                 <div className="mb-20 w-[400px]">
                   <InvitationMap
                     latitude={invitationData.latitude}
@@ -405,28 +408,31 @@ const StorageDetail: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex justify-center mb-10">
+              <div className="flex justify-center mb-10" data-aos="fade-up">
                 <div className="w-[480px] flex justify-center">
                   <img src={rose} alt="장미 한 송이" className="w-10" />
                 </div>
               </div>
 
-              <div className="text-[18px]">
+              <div className="text-[18px]" data-aos="fade-up">
                 <p className="text-center">참석이 어려우신 분들은</p>
                 <p className="text-center">축하의 마음을 전달해 주세요.</p>
               </div>
 
-              <div className="flex justify-center mt-5">
-                <div className="w-[400px] h-[70px] bg-[#F4F0EB] flex items-center justify-between p-2">
-                  <p className="text-[18px] flex-1 text-center">
+              <div
+                className="flex flex-col items-center mt-5"
+                data-aos="fade-up"
+              >
+                <div className="w-[400px] bg-[#F4F0EB] flex items-center justify-between p-2">
+                  <p className="text-[18px] flex-1 text-center p-2">
                     축의금 계좌번호
                   </p>
                 </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="w-[400px] bg-white border border-gray-200 p-2 mb-20">
+
+                <div className="w-[400px] bg-white p-2 mb-20">
                   <p className="text-[15px]">
-                    {invitationData.coupleAccount}{" "}
+                    {/* 은행 정보 백엔드 오면 넣어주기 */}
+                    {invitationData.coupleAccount}
                     <button className="ml-20 bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow duration-200 px-2 py-1">
                       이체하기
                     </button>
@@ -436,35 +442,37 @@ const StorageDetail: React.FC = () => {
             </div>
           </>
         ) : (
-          <div className="flex justify-center mt-10">
-            <p className="text-lg">아직 초대장이 없습니다.</p>
-          </div>
+          ""
         )}
 
-        {isExist ? (
-          <div className="flex justify-center">
-            <div className="w-[560px] h-[100px] bg-[#F4F0EB] flex items-center cursor-pointer p-2 mb-40">
-              <div
-                className="flex-1 border-r border-gray-300 h-full flex flex-col items-center justify-center"
-                onClick={handleShare}
-              >
-                <img src={kakaoicon} alt="카톡 아이콘" className="w-9 mb-2" />
-                <p className="text-sm">카카오톡 공유</p>
-              </div>
-              <div
-                className="border-l border-gray-300 h-full"
-                style={{ width: "1px" }}
-              ></div>
-              <div
-                className="flex-1 flex flex-col items-center justify-center"
-                onClick={copyToClipboard}
-                style={{ cursor: "pointer" }}
-              >
-                <img src={copyicon} alt="복사 아이콘" className="w-9 mb-2" />
-                <p className="text-sm">링크(URL) 복사</p>
+        {!showThumbnail ? (
+          isExist ? (
+            <div className="flex justify-center">
+              <div className="w-[560px] h-[100px] bg-[#F4F0EB] flex items-center cursor-pointer p-2 mb-40">
+                <div
+                  className="flex-1 border-r border-gray-300 h-full flex flex-col items-center justify-center"
+                  onClick={handleShare}
+                >
+                  <img src={kakaoicon} alt="카톡 아이콘" className="w-9 mb-2" />
+                  <p className="text-sm">카카오톡 공유</p>
+                </div>
+                <div
+                  className="border-l border-gray-300 h-full"
+                  style={{ width: "1px" }}
+                ></div>
+                <div
+                  className="flex-1 flex flex-col items-center justify-center"
+                  onClick={copyToClipboard}
+                  style={{ cursor: "pointer" }}
+                >
+                  <img src={copyicon} alt="복사 아이콘" className="w-9 mb-2" />
+                  <p className="text-sm">링크(URL) 복사</p>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            " "
+          )
         ) : (
           " "
         )}
