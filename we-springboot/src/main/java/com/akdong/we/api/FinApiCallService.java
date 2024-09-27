@@ -386,18 +386,19 @@ public class FinApiCallService {
 
         request.setHeader(Header);
 
+        if(request.getLedgerId() != null){
+            // 장부 ID로 커플에 접근
+            Ledger ledger = ledgerRepository.findById(request.getLedgerId())
+                    .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
+            Couple couple = ledger.getCouple();
 
-        // 장부 ID로 커플에 접근
-        Ledger ledger = ledgerRepository.findById(request.getLedgerId())
-                .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
-        Couple couple = ledger.getCouple();
+            String depositAccountNo = couple.getAccountNumber();
+            String withdrawalAccountNo = member.getPriorAccount();
 
-        String depositAccountNo = couple.getAccountNumber();
-        String withdrawalAccountNo = member.getPriorAccount();
-
-        // 각각 계좌가 없으면 에러 메시지 출력할것
-        request.setDepositAccountNo(depositAccountNo);
-        request.setWithdrawalAccountNo(withdrawalAccountNo);
+            // 각각 계좌가 없으면 에러 메시지 출력할것
+            request.setDepositAccountNo(depositAccountNo);
+            request.setWithdrawalAccountNo(withdrawalAccountNo);
+        }
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);

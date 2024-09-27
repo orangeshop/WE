@@ -176,7 +176,7 @@ public class BankController {
 
         String responseCode = finApiCallService.transfer(member, request);
 
-        if(Objects.equals(responseCode, "H0000")){
+        if(Objects.equals(responseCode, "H0000") && request.getLedgerId() != null){
             Gift gift = Gift.builder()
                     .member(member)
                     .isBride(request.getIsBride())
@@ -194,19 +194,20 @@ public class BankController {
                     .build();
 
             ledgerGiftRepository.save(ledgerGift);
+
+//            Ledger ledger = ledgerRepository.findById(request.getLedgerId())
+//                    .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
+//            Couple couple = ledger.getCouple();
+//            Member member1 = couple.getMember1();
+//            Member member2 = couple.getMember2();
+
+            // 아직 알림 연동(디바이스 토큰 설정) 재대로 안되서 오류남
+            //firebaseService.sendMessageTo(member1.getId(), "입금 알림", String.valueOf(request.getTransactionBalance())+"원 입금되었습니다.");
+            //firebaseService.sendMessageTo(member2.getId(), "입금 알림", String.valueOf(request.getTransactionBalance())+"원 입금되었습니다.");
         }
 
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("STATUS", "Success");
-        Ledger ledger = ledgerRepository.findById(request.getLedgerId())
-                        .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
-        Couple couple = ledger.getCouple();
-        Member member1 = couple.getMember1();
-        Member member2 = couple.getMember2();
-
-        // 아직 알림 연동(디바이스 토큰 설정) 재대로 안되서 오류남
-        //firebaseService.sendMessageTo(member1.getId(), "입금 알림", String.valueOf(request.getTransactionBalance())+"원 입금되었습니다.");
-        //firebaseService.sendMessageTo(member2.getId(), "입금 알림", String.valueOf(request.getTransactionBalance())+"원 입금되었습니다.");
 
         return ResponseEntity.ok(
                 new SuccessResponse<>(

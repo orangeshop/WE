@@ -17,12 +17,11 @@ public class TransferRequest {
     private CommonRequestHeader Header; // Header
 
     private Long ledgerId;
-    @Schema(hidden = true)
+
     private String depositAccountNo; // 입금 계좌 번호
 
     private Long transactionBalance; // 거래 금액
 
-    @Schema(hidden = true)
     private String withdrawalAccountNo; // 출금 계좌번호
 
     private Boolean isBride; // 신랑 신부 여부
