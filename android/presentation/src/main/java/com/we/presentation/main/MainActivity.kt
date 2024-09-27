@@ -65,7 +65,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun getFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Timber.d("Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
             // Get new FCM registration token

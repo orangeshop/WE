@@ -1,6 +1,7 @@
 package com.we.presentation.sign
 
 import android.content.Intent
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +20,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
     private val signInViewModel: SignInViewModel by viewModels()
     override fun initView() {
         initClickEvent()
+        observeSignInParam()
         observeSignInUiStatus()
     }
 
@@ -29,8 +31,17 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
             }
             tvSignInLogin.setOnClickListener {
                 signInViewModel.singIn()
-                startActivity(Intent(requireActivity(), MainActivity::class.java))
-                requireActivity().finish()
+            }
+        }
+    }
+
+    private fun observeSignInParam() {
+        binding.apply {
+            etSignInEmail.addTextChangedListener {
+                signInViewModel.setSignInParam(EMAIL, it.toString())
+            }
+            etSignInPassword.addTextChangedListener {
+                signInViewModel.setSignInParam(PASSWORD, it.toString())
             }
         }
     }
@@ -38,23 +49,29 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
     private fun observeSignInUiStatus() {
         signInViewModel.signInUiState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
-                when(it){
+                when (it) {
                     is SignInUiState.SignInSuccess -> {
-                        if(it.coupleJoined){
-
-                        }else{
-
-                        }
+                        startActivity(Intent(requireActivity(), MainActivity::class.java).apply {
+                            putExtra("type", it.coupleJoined)
+                        })
+                        requireActivity().finish()
                     }
+
                     is SignInUiState.SignInError -> {
 
                     }
+
                     else -> {
 
                     }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    companion object {
+        const val EMAIL = true
+        const val PASSWORD = false
     }
 
 }

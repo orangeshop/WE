@@ -23,6 +23,14 @@ class SignInViewModel @Inject constructor(
     private val _signInParam = MutableStateFlow<SignParam>(SignParam())
     val signInParam: StateFlow<SignParam> get() = _signInParam
 
+    fun setSignInParam(type: Boolean, value: String) {
+        if (type) {
+            _signInParam.update { it.copy(email = value) }
+        } else {
+            _signInParam.update { it.copy(password = value) }
+        }
+    }
+
     private val _signInUiState = MutableStateFlow<SignInUiState>(SignInUiState.SignInLoading)
     val signInUiState: StateFlow<SignInUiState> get() = _signInUiState
 
@@ -37,7 +45,7 @@ class SignInViewModel @Inject constructor(
                 when (it) {
                     is ApiResult.Success -> {
                         setSignInUiState(SignInUiState.SignInSuccess(it.data.coupleJoined))
-                        Timber.tag("로그인").d("성공")
+                        Timber.tag("로그인").d("성공 ${it.data}")
                     }
 
                     is ApiResult.Error -> {
