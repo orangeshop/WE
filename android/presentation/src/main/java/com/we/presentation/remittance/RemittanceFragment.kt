@@ -9,6 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
 import com.we.presentation.account.AccountModalBottomSheet
 import com.we.presentation.base.BaseFragment
@@ -23,7 +24,11 @@ import timber.log.Timber
 @AndroidEntryPoint
 class RemittanceFragment : BaseFragment<FragmentRemittanceBinding>(R.layout.fragment_remittance) {
     private val remittanceViewModel : RemittanceViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+
+    private val accountNo : RemittanceFragmentArgs by navArgs()
+
     override fun initView() {
+        remittanceViewModel.setMyAccountNumber(accountNo.account)
         initClickListener()
         accountBottomSheetClickListener()
         chooseBank()

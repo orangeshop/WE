@@ -7,9 +7,11 @@ import com.data.repository.BankRepository
 import com.data.util.ApiResult
 import com.we.presentation.account.util.BankList
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -26,6 +28,9 @@ class RemittanceViewModel @Inject constructor(
     private val _accountNumber = MutableStateFlow("")
     val accountNumber: Flow<String> get() = _accountNumber
 
+    private val _myAccountNumber = MutableStateFlow("")
+    val myAccountNumber: Flow<String> get() = _myAccountNumber
+
     private val _money = MutableStateFlow("")
     val money: Flow<String> get() = _money
 
@@ -37,29 +42,88 @@ class RemittanceViewModel @Inject constructor(
         _accountNumber.update { number }
     }
 
+    fun setMyAccountNumber(number: String) {
+        _myAccountNumber.update { number }
+    }
+
     fun setChooseBank(bank: BankList) {
         _chooseBank.update { bank }
     }
 
-//    private fun postTransfer() {
-//        viewModelScope.launch {
-//            bankRepository.postTransfer(
-//                RequestTransfer(
-//
-//                )
-//            )
-//                .collectLatest {
-//                    when (it) {
-//                        is ApiResult.Success -> {
-//                            Timber.d("Authcode : success ${it}")
-//
-//                        }
-//
-//                        is ApiResult.Error -> {
-//                            Timber.d("Authcode : fail")
-//                        }
-//                    }
-//                }
-//        }
-//    }
+    fun postTransfer(type: Boolean, pin: String) {
+
+        lateinit var request: RequestTransfer
+
+        // withdrawalAccountNo 출금계좌
+        // isBride = 신랑 신부
+        // ledgerId = 장부
+        // depositAccountNo 입금계좌
+        // transactionBalance 거래금액
+        // pin 간편 비밀 번호
+
+
+        // type 이 true인 경우 일반 송금
+        // type 이 false인 경우 축의금 송금
+
+        Timber.d("postTransfer type : ${type}")
+
+        if (type == true) {
+            combine(
+                accountNumber,
+                money,
+                myAccountNumber
+            ) { accountNumber, money, myAccountNumber ->
+                request = RequestTransfer(
+                    depositAccountNo = accountNumber,
+                    isBride = null,
+                    ledgerId = null,
+                    pin = pin,
+                    transactionBalance = money.toInt(),
+                    withdrawalAccountNo = myAccountNumber
+                )
+
+                Timber.d("postTransfer request : ${request}")
+                postTransferCallApi(request)
+            }
+        } else {
+            combine(
+                accountNumber,
+                money,
+                myAccountNumber
+            ) { accountNumber, money, myAccountNumber ->
+                request = RequestTransfer(
+                    depositAccountNo = null,
+                    isBride = null,
+                    ledgerId = null,
+                    pin = pin,
+                    transactionBalance = money.toInt(),
+                    withdrawalAccountNo = null
+                )
+
+                postTransferCallApi(request)
+            }
+        }
+
+
+    }
+
+    private fun postTransferCallApi(request: RequestTransfer){
+        viewModelScope.launch {
+            bankRepository.postTransfer(
+                request
+            )
+                .collectLatest {
+                    when (it) {
+                        is ApiResult.Success -> {
+                            Timber.d("Authcode : success ${it}")
+
+                        }
+
+                        is ApiResult.Error -> {
+                            Timber.d("Authcode : fail")
+                        }
+                    }
+                }
+        }
+    }
 }

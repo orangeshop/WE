@@ -29,6 +29,7 @@ interface BankApi {
     @GET("bank/my-couple-account")
     suspend fun getMyCoupleAccount(): ResponseCoupleAccount
 
+
     @POST("bank/transfer")
     suspend fun postTransfer(@Body request: RequestTransfer): ResponseTransfer
 }

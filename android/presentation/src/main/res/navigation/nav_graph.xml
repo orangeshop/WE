@@ -27,7 +27,12 @@
             app:destination="@id/accountCheckFragment" />
         <action
             android:id="@+id/action_fragment_home_to_remittanceFragment"
-            app:destination="@id/remittanceFragment" />
+            app:destination="@id/remittanceFragment" >
+            <argument
+                android:name="account"
+                app:argType="string"
+            />
+        </action>
 
         <action
             android:id="@+id/action_homeFragment_to_invitationFragment"
@@ -87,6 +92,11 @@
         <action
             android:id="@+id/action_remittanceFragment_to_remittanceCheckFragment"
             app:destination="@id/remittanceCheckFragment" />
+
+        <argument
+            android:name="account"
+            app:argType="string"
+            />
     </fragment>
     <fragment
         android:id="@+id/remittanceCheckFragment"
@@ -95,13 +105,24 @@
         tools:layout="@layout/fragment_remittance_check">
         <action
             android:id="@+id/action_remittanceCheckFragment_to_easyPasswordRegisterFragment"
-            app:destination="@id/easyPasswordRegisterFragment" />
+            app:destination="@id/easyPasswordRegisterFragment"
+        >
+            <argument
+                android:name="easyPasswordType"
+                app:argType="boolean"
+            />
+        </action>
     </fragment>
+
     <fragment
         android:id="@+id/easyPasswordRegisterFragment"
         android:name="com.we.presentation.sign.EasyPasswordRegisterFragment"
         android:label="EasyPasswordRegisterFragment"
-        tools:layout="@layout/fragment_easy_password_register" />
+        tools:layout="@layout/fragment_easy_password_register" >
+        <argument
+            android:name="easyPasswordType"
+            app:argType="boolean" />
+    </fragment>
 
     <!-- 청첩장 -->
     <fragment

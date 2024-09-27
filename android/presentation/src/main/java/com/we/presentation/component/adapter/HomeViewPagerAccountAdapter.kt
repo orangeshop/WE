@@ -16,7 +16,7 @@ import com.we.presentation.databinding.ItemAccountBinding
 class HomeViewPagerAccountAdapter(
 
     private val accountClickListener: (idx : Int) -> Unit,
-    private val accountRemittance: () -> Unit,
+    private val accountRemittance: (accountNo : String) -> Unit,
     private val typeCheck : Boolean,
     private val moreVertClickListener : () -> Unit
 ) : ListAdapter<BankData, HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>(BaseDiffUtil<BankData>()) {
@@ -68,7 +68,7 @@ class HomeViewPagerAccountAdapter(
                             }
 
                             tvAccountAdapterRemittance.setOnClickListener {
-                                accountRemittance()
+                                accountRemittance(item.accountNo)
                             }
 
                             ivMoreVert.setOnClickListener {

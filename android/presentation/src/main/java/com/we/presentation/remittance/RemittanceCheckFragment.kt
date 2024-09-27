@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentRemittanceCheckBinding
@@ -48,7 +50,7 @@ class RemittanceCheckFragment :
     private fun initClickListener() {
         binding.apply {
             tvRemittanceCheck.setOnClickListener {
-                navigateDestination(R.id.action_remittanceCheckFragment_to_easyPasswordRegisterFragment)
+                navigateDestination(R.id.action_remittanceCheckFragment_to_easyPasswordRegisterFragment, bundleOf("easyPasswordType" to false))
             }
 
             ivRemittanceBack.setOnClickListener {
