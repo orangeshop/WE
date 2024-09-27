@@ -6,5 +6,7 @@ sealed interface ScheduleRegisterUiState {
 
     data object RegisterSuccess : ScheduleRegisterUiState
 
-    data class RegisterError(val error: String) : ScheduleRegisterUiState
+    data class Error(val error: String) : ScheduleRegisterUiState
+
+    data object UpdateSuccess : ScheduleRegisterUiState
 }

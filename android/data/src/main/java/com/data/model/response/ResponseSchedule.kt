@@ -10,7 +10,7 @@ data class ResponseSchedule(
         val content: String,
         val couple_id: Int,
         val done: Boolean,
-        val price: Int,
+        val price: Long,
         val schedule_id: Int,
         val scheduled_time: String
     )

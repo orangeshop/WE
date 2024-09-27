@@ -17,4 +17,8 @@ interface ScheduleDataSource {
     suspend fun patchScheduleToggle(
         scheduleId: Int
     ): ResponseSchedule.Schedule
+
+    suspend fun deleteSchedule(scheduleId : Int) : Unit
+
+    suspend fun patchSchedule(scheduleId : Int, requestSchedule: RequestSchedule) : ResponseSchedule.Schedule
 }

@@ -24,4 +24,15 @@ class ScheduleDataSourceImpl @Inject constructor(
     override suspend fun patchScheduleToggle(scheduleId: Int): ResponseSchedule.Schedule {
         return scheduleApi.patchScheduleToggle(scheduleId)
     }
+
+    override suspend fun deleteSchedule(scheduleId: Int): Unit {
+        return scheduleApi.deleteSchedule(scheduleId)
+    }
+
+    override suspend fun patchSchedule(
+        scheduleId: Int,
+        requestSchedule: RequestSchedule
+    ): ResponseSchedule.Schedule {
+        return scheduleApi.patchSchedule(scheduleId, requestSchedule)
+    }
 }

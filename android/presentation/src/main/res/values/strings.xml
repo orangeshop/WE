@@ -2,7 +2,11 @@
     <string name="bottom_menu_home">홈</string>
     <string name="bottom_menu_schedule">스케줄</string>
     <string name="bottom_menu_my_page">내정보</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
     <string name="msg_token_fmt"></string>
+
+
+    <string name="drop_down_menu_update">수정하기</string>
+    <string name="drop_down_menu_delete">삭제하기</string>
 </resources>
