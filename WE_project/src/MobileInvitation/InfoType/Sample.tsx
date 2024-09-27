@@ -168,7 +168,7 @@ const Sample: React.FC = () => {
                   </div>
                 )}
                 {showSecondFade && (
-                  <div className="mt-5 text-[20px] w-full flex justify-center">
+                  <div className="text-[20px] w-full flex justify-center">
                     <Fade direction={"up"} className="slide-up text-center">
                       {"2024.10.26"}
                     </Fade>

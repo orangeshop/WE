@@ -276,7 +276,7 @@ const StorageDetail: React.FC = () => {
                   </div>
                 )}
                 {showSecondFade && (
-                  <div className="mt-5 text-[20px] w-full flex justify-center">
+                  <div className="text-[20px] w-full flex justify-center">
                     <Fade direction={"up"} className="slide-up text-center">
                       {invitationData.date
                         .replace("년", ".")
