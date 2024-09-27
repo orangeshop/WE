@@ -1,8 +1,8 @@
 package com.data.api
 
-import com.data.model.request.RequestLogin
+import com.data.model.request.RequestSignIn
 import com.data.model.request.RequestSignUp
-import com.data.model.response.ResponseLogin
+import com.data.model.response.ResponseSignIn
 import com.data.model.response.ResponseSignUp
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -17,7 +17,7 @@ interface SignApi {
 
     @POST("auth/login")
     suspend fun  postLogin(
-        @Body requestLogin: RequestLogin
-    ): ResponseLogin
+        @Body requestSignIn: RequestSignIn
+    ): ResponseSignIn
 
 }

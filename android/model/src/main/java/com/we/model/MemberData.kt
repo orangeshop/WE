@@ -9,5 +9,6 @@ data class MemberData (
     val nickname: String = "",
     val regDate: String = "",
     val accessToken: String = "",
-    val refreshToken: String = ""
+    val refreshToken: String = "",
+    val coupleJoined : Boolean = false
 )
