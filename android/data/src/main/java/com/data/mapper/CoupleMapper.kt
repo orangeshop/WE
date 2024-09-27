@@ -2,8 +2,10 @@ package com.data.mapper
 
 import com.data.model.response.ResponseCouples
 import com.data.model.response.ResponseCouplesCode
+import com.data.model.response.ResponseInvitation
 import com.we.model.CoupleData
 import com.we.model.CoupleSuccessData
+import com.we.model.InvitationData
 
 fun ResponseCouplesCode.toEntity(): CoupleData {
     return CoupleData(
@@ -15,4 +17,13 @@ fun ResponseCouples.toModel(): CoupleSuccessData {
     return CoupleSuccessData(
         coupleId = this.data.coupleId
     )
+}
+
+fun List<ResponseInvitation>.toEntity(): List<InvitationData> {
+    return this.map {
+        InvitationData(
+            imageUrl = it.url,
+            title = it.title
+        )
+    }
 }
