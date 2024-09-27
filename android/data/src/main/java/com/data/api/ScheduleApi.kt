@@ -3,6 +3,7 @@ package com.data.api
 import com.data.model.request.RequestSchedule
 import com.data.model.response.ResponseSchedule
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -26,4 +27,9 @@ interface ScheduleApi {
     suspend fun patchScheduleToggle(
         @Path("scheduleId") scheduleId: Int
     ): ResponseSchedule.Schedule
+
+    @DELETE("schedule/delete/{scheduleId}")
+    suspend fun deleteSchedule(
+        @Path("scheduleId") scheduleId : Int
+    ) : Unit
 }

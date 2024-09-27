@@ -94,7 +94,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             action = { value ->
                 when (value.type) {
                     DropDownMenu.DELETE -> {
-
+                        scheduleViewModel.deleteSchedule(id)
                     }
 
                     DropDownMenu.UPDATE -> {
