@@ -13,7 +13,7 @@ const makeSnowFlakes = () => {
   const numSnowflakes = 100;
   return Array.from({ length: numSnowflakes }, (_, i) => {
     const animationDelay = `${(Math.random() * 16).toFixed(2)}s`;
-    const fontSize = `${Math.floor(Math.random() * 10) + 10}px`;
+    const fontSize = `${Math.floor(Math.random() * 10) + 15}px`;
     const left = `${Math.random() * 100}vw`;
     const style = {
       animationDelay,
