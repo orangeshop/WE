@@ -178,7 +178,6 @@ const Sample: React.FC = () => {
             </div>
           )}
         </div>
-
         {!showThumbnail ? (
           <>
             <div className="letter-space w-full" data-aos="fade-up">
