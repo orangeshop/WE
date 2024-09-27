@@ -21,6 +21,7 @@ import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.akdong.we.member.repository.MemberAccountRepository;
 import com.akdong.we.member.response.MemberInfo;
 import com.akdong.we.notification.service.FirebaseService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -268,7 +269,7 @@ public class BankController {
     })
     @Transactional
     public ResponseEntity<?> registerPriorAccount(@Parameter(hidden = true)  @Login Member member,
-                                                  PostAccountAuthRequest request){
+                                                  @RequestBody PostAccountAuthRequest request){
         MemberInfo memberInfo = bankService.registerPriorAccount(member, request.getAccountNo());
 
         return ResponseEntity.ok(
@@ -286,7 +287,7 @@ public class BankController {
     })
     @Transactional
     public ResponseEntity<?> registerCoupleAccount(@Parameter(hidden = true)  @Login Member member,
-                                                   RegisterCoupleAccountRequest request){
+                                                   @RequestBody RegisterCoupleAccountRequest request){
         CoupleInfo coupleInfo = bankService.registerCoupleAccount(member, request.getAccountNo(), request.getBankName());
 
         return ResponseEntity.ok(
@@ -296,4 +297,24 @@ public class BankController {
                 )
         );
     }
+
+    @PostMapping("/transaction-history-list")
+    @Operation(summary = "계좌 거래 내역 조회(축의금 포함)", description = "축의금을 포함한 모든 계좌 거랜 내역을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "계좌 거래 내역 조회 성공", useReturnTypeSchema = true),
+    })
+    @Transactional
+    public ResponseEntity<?> transactionHistory(@Parameter(hidden = true)  @Login Member member,
+                                                @RequestBody PostAccountAuthRequest request) throws JsonProcessingException {
+        List<TransactionInfo> transactionInfoList = bankService.transactionHistory(member, request.getAccountNo());
+
+        return ResponseEntity.ok(
+                new SuccessResponse<>(
+                        "계좌 거래 내역 조회에 성공했습니다.",
+                        transactionInfoList
+                )
+        );
+    }
+
+
 }
