@@ -29,11 +29,11 @@ const AccountBook: React.FC = () => {
   );
 
   const brideTotal = accountData?.data
-    .filter(item => item.isBride === true)
+    .filter((item) => item.isBride === true)
     .reduce((acc, item) => acc + item.charge, 0);
 
   const groomTotal = accountData?.data
-    .filter(item => item.isBride === false)
+    .filter((item) => item.isBride === false)
     .reduce((acc, item) => acc + item.charge, 0);
 
   return (
@@ -56,7 +56,9 @@ const AccountBook: React.FC = () => {
                 {accountData.data.map((item, index) => (
                   <tr key={item.id} className="hover:bg-gray-100">
                     <td className="border px-4 py-2">{index + 1}</td>
-                    <td className="border px-4 py-2">{item.memberInfo.nickname}</td>
+                    <td className="border px-4 py-2">
+                      {item.memberInfo.nickname}
+                    </td>
                     <td className="border px-4 py-2">
                       {item.charge.toLocaleString()}
                     </td>
@@ -86,15 +88,21 @@ const AccountBook: React.FC = () => {
                 <tbody>
                   <tr>
                     <td className="border px-4 py-2">총 합계</td>
-                    <td className="border px-4 py-2">{totalCharge?.toLocaleString()}</td>
+                    <td className="border px-4 py-2">
+                      {totalCharge?.toLocaleString()}
+                    </td>
                   </tr>
                   <tr>
                     <td className="border px-4 py-2">신부측 합계</td>
-                    <td className="border px-4 py-2">{brideTotal?.toLocaleString() || 0}</td>
+                    <td className="border px-4 py-2">
+                      {brideTotal?.toLocaleString() || 0}
+                    </td>
                   </tr>
                   <tr>
                     <td className="border px-4 py-2">신랑측 합계</td>
-                    <td className="border px-4 py-2">{groomTotal?.toLocaleString() || 0}</td>
+                    <td className="border px-4 py-2">
+                      {groomTotal?.toLocaleString() || 0}
+                    </td>
                   </tr>
                 </tbody>
               </table>
