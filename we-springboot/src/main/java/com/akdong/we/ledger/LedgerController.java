@@ -104,12 +104,13 @@ public class LedgerController {
             @ApiResponse(responseCode = "405", description = "커플만 해당 기능을 사용할 수 있습니다.")
     })
     public ResponseEntity<SuccessResponse<List<GiftInfo>>> findLedgerGift(
-            @Parameter(hidden = true)  @Login Member member
+            @Parameter(hidden = true)  @Login Member member,
+            @RequestParam(required = false) Boolean isBride
     ){
         Couple couple = coupleService.getMyCoupleInfo(member)
                 .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
         Ledger ledger = couple.getLedger();
-        List<GiftInfo> giftList = ledgerService.findLedgerGift(ledger.getId());
+        List<GiftInfo> giftList = ledgerService.findLedgerGift(ledger.getId(), isBride);
         return ResponseEntity.ok(
                 new SuccessResponse<>(
                         "MY 축의금 조회에 성공했습니다.",

@@ -88,13 +88,14 @@ public class LedgerService {
     }
 
     @Transactional
-    public List<GiftInfo> findLedgerGift(Long ledgerId){
+    public List<GiftInfo> findLedgerGift(Long ledgerId, Boolean isBride){
         // Find all LedgerGift entries for the given ledgerId
         List<LedgerGift> ledgerGifts = ledgerGiftRepository.findByLedgerId(ledgerId);
 
         // Extract the Gift objects from the LedgerGift entries
         List<GiftInfo> giftInfoList = ledgerGifts.stream()
                 .map(ledgerGift -> GiftInfo.of(ledgerGift.getGift()))
+                .filter(giftInfo -> isBride == null || giftInfo.getIsBride() == isBride)
                 .collect(Collectors.toList());
 
         return giftInfoList;
