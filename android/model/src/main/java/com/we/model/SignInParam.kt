@@ -1,6 +1,6 @@
 package com.we.model
 
-data class SignParam (
+data class SignInParam (
     val email: String = "",
     val password: String = "",
 )

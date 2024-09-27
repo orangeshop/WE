@@ -8,7 +8,7 @@ import com.data.repository.DataStoreRepository
 import com.data.repository.SignRepository
 import com.data.util.ApiResult
 import com.data.util.safeApiCall
-import com.we.model.SignParam
+import com.we.model.SignInParam
 import com.we.model.MemberData
 import com.we.model.SignUpParam
 import kotlinx.coroutines.flow.Flow
@@ -29,11 +29,11 @@ class SignRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun postLogin(signParam: SignParam): Flow<ApiResult<MemberData>> {
+    override fun postLogin(signInParam: SignInParam): Flow<ApiResult<MemberData>> {
         return flow {
 
             val apiResult = safeApiCall {
-                signDataSource.postLogin(signParam.toModel()).toEntity()
+                signDataSource.postLogin(signInParam.toModel()).toEntity()
             }
 
             if (apiResult is ApiResult.Success) {

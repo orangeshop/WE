@@ -14,6 +14,7 @@ import com.we.presentation.sign.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
@@ -51,6 +52,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
             .onEach {
                 when (it) {
                     is SignInUiState.SignInSuccess -> {
+                        Timber.tag("로그인 메인").d("${it.coupleJoined}")
                         startActivity(Intent(requireActivity(), MainActivity::class.java).apply {
                             putExtra("type", it.coupleJoined)
                         })

@@ -33,7 +33,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun setNavGraph() {
-        val type = Intent().getBooleanExtra("type", true)
+        val type = intent.getBooleanExtra("type", true)
+        Timber.tag("로그인 MainActivity").d("타입 $type")
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController

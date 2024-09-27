@@ -2,6 +2,7 @@ package com.data.mapper
 
 import com.data.model.response.ResponseSignIn
 import com.we.model.MemberData
+import timber.log.Timber
 
 fun ResponseSignIn.toEntity(): MemberData {
     return MemberData(

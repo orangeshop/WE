@@ -1,6 +1,6 @@
 package com.data.api
 
-import com.data.model.request.RequestLogin
+import com.data.model.request.RequestSignIn
 import com.data.model.request.RequestSignUp
 import com.data.model.response.ResponseSignIn
 import com.data.model.response.ResponseSignUp
@@ -17,7 +17,7 @@ interface SignApi {
 
     @POST("auth/login")
     suspend fun  postLogin(
-        @Body requestLogin: RequestLogin
+        @Body requestSignIn: RequestSignIn
     ): ResponseSignIn
 
 }
