@@ -207,7 +207,7 @@ const StorageDetail: React.FC = () => {
         console.error("복사 실패:", err);
       });
   };
-  
+
   return (
     <div className="relative font-nanum w-screen">
       <div
@@ -279,9 +279,10 @@ const StorageDetail: React.FC = () => {
                   <div className="mt-5 text-[20px] w-full flex justify-center">
                     <Fade direction={"up"} className="slide-up text-center">
                       {invitationData.date
-                        .replace(/년|월/g, ".")
+                        .replace("년", ".")
+                        .replace("월", ".")
                         .replace("일", "")
-                        .trim()}
+                        .slice(0, -3) + " "}
                     </Fade>
                   </div>
                 )}
