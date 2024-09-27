@@ -19,7 +19,7 @@ import java.util.List;
 @Configuration
 public class SwaggerConfig {
 
-    private final String url = "http://localhost:8080";
+    private final String url = "https://j11d104.p.ssafy.io/be/";
 
     @Value("${auth.use-dev-token}")
     private boolean useDevToken = false;
