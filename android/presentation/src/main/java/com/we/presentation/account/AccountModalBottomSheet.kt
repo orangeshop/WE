@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.we.presentation.R
 import com.we.presentation.account.viewmodel.AccountViewModel
+import com.we.presentation.base.BaseBottomSheet
 import com.we.presentation.component.adapter.AccountBankChooseAdapter
 import com.we.presentation.databinding.DialogChooseBankBinding
 import com.we.presentation.remittance.viewmodel.RemittanceViewModel
@@ -24,38 +25,29 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class AccountModalBottomSheet : BottomSheetDialogFragment() {
-    lateinit var binding: DialogChooseBankBinding
+class AccountModalBottomSheet : BaseBottomSheet<DialogChooseBankBinding>() {
+
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> DialogChooseBankBinding
+        get() = DialogChooseBankBinding::inflate
+
     private val accountViewModel: AccountViewModel by hiltNavGraphViewModels(R.id.nav_graph)
     private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        binding = DialogChooseBankBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val adapter = AccountBankChooseAdapter() { item ->
-
+    override fun setupViews() {
+        val adapter = AccountBankChooseAdapter { item ->
             accountViewModel.setChooseBank(item)
             remittanceViewModel.setChooseBank(item)
 
-            lifecycleScope.launch {
-                accountViewModel.chooseBank.collect {value ->
-                    if(value.bankName != ""){
+            viewLifecycleOwner.lifecycleScope.launch {
+                accountViewModel.chooseBank.collect { value ->
+                    if (value.bankName.isNotEmpty()) {
                         Timber.d("item ${value.bankName} ${value.bankIcList}")
                         dismiss()
                     }
                 }
             }
         }
+
         binding.apply {
             rvChooseBank.adapter = adapter
             lifecycleScope.launch {

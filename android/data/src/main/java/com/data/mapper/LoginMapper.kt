@@ -5,7 +5,7 @@ import com.we.model.LoginParam
 
 fun LoginParam.toModel(): RequestLogin {
     return RequestLogin(
-        email = "km1@test.com",
+        email = "yh1@gmail.com",
         password = "1234"
     )
 }

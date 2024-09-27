@@ -15,9 +15,13 @@ import com.we.presentation.component.adapter.HomeViewPagerBannerAdapter
 import com.we.presentation.databinding.FragmentHomeBinding
 import com.we.presentation.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 private const val TAG = "HomeFragment_싸피"
@@ -27,13 +31,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
 
+    private lateinit var homeAdapter: HomeViewPagerAccountAdapter
+
     override fun initView() {
-        homeViewModel.getAccountList()
         setUpAccountViewPager()
         setUpBannerViewPager()
         initClickEventListener()
-    }
 
+    }
 
     private fun menuSetting() {
         object : MenuProvider {
@@ -49,33 +54,69 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
     private fun setUpAccountViewPager() {
-        lateinit var adapter: HomeViewPagerAccountAdapter
+
+
+        homeAdapter = HomeViewPagerAccountAdapter(
+            accountClickListener = { idx ->
+                if (idx == homeAdapter.currentList.lastIndex) {
+                    navigateDestination(R.id.action_homeFragment_to_accountFragment)
+                } else {
+                    navigateDestination(R.id.action_homeFragment_accountCheckFragment)
+                }
+            },
+            accountRemittance = {
+                navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
+            },
+            typeCheck = false,
+            moreVertClickListener = {
+
+            }
+        )
+
+        binding.apply {
+            vpHomeAccount.adapter = homeAdapter
+            vpHomeTotalAccountDotsIndicator.attachTo(vpHomeAccount)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(400)
+                vpHomeAccount.setCurrentItem(0, false)
+            }
+        }
+
 
         homeViewModel.accountList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { list ->
-                adapter = HomeViewPagerAccountAdapter(
-                    list,
-                    accountClickListener = { idx ->
-                        if (idx == list.lastIndex) {
-                            navigateDestination(R.id.action_homeFragment_to_accountFragment)
-                        } else {
-                            navigateDestination(R.id.action_homeFragment_accountCheckFragment)
-                        }
-                    },
-                    accountRemittance = {
-                        navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
-                    },
-                    typeCheck = false,
-                    moreVertClickListener = {
-
-                    }
-                )
-                binding.apply {
-                    vpHomeAccount.adapter = adapter
-                    vpHomeTotalAccountDotsIndicator.attachTo(vpHomeAccount)
-                }
+                Timber.d("list flowWithLifecycle: $list")
+                homeAdapter.submitList(list)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+
+//        homeViewModel.accountList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+//            .onEach { list ->
+//                homeAdapter = HomeViewPagerAccountAdapter(
+//                    list,
+//                    accountClickListener = { idx ->
+//                        if (idx == list.lastIndex) {
+//                            navigateDestination(R.id.action_homeFragment_to_accountFragment)
+//                        } else {
+//                            navigateDestination(R.id.action_homeFragment_accountCheckFragment)
+//                        }
+//                    },
+//                    accountRemittance = {
+//                        navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
+//                    },
+//                    typeCheck = false,
+//                    moreVertClickListener = {
+//
+//                    }
+//                )
+//                binding.apply {
+//                    vpHomeAccount.adapter = homeAdapter
+//                    vpHomeTotalAccountDotsIndicator.attachTo(vpHomeAccount)
+//                }
+//            }
+//            .launchIn(viewLifecycleOwner.lifecycleScope)
 
     }
 
@@ -87,6 +128,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             vpHomeBanner.adapter = adapter
             vpHomeTotalBannerDotsIndicator.attachTo(vpHomeBanner)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        homeViewModel.getAccountList()
     }
 
 
@@ -101,6 +147,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
         }
     }
-
-
 }
