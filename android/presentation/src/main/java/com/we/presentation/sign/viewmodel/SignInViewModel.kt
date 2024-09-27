@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.repository.SignRepository
 import com.data.util.ApiResult
+import com.data.util.TokenProvider
 import com.we.model.SignInParam
 import com.we.presentation.sign.model.SignInUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val signRepository: SignRepository
+    private val signRepository: SignRepository,
 ) : ViewModel() {
 
     private val _signInParam = MutableStateFlow<SignInParam>(SignInParam())

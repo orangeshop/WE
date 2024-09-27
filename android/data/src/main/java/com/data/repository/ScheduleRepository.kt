@@ -12,4 +12,8 @@ interface ScheduleRepository {
     fun postSchedule(scheduleParam: ScheduleParam): Flow<ApiResult<ScheduleData>>
 
     fun patchScheduleToggle(scheduleId : Int) : Flow<ApiResult<ScheduleData>>
+
+    fun deleteSchedule(scheduleId : Int) : Flow<ApiResult<Unit>>
+
+    fun updateSchedule(scheduleId : Int, scheduleParam: ScheduleParam) : Flow<ApiResult<ScheduleData>>
 }

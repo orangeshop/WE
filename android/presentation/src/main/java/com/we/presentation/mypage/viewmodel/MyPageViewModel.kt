@@ -32,16 +32,15 @@ class MyPageViewModel @Inject constructor(
 
     private fun loadAccountList() {
         viewModelScope.launch {
-            bankRepository.getMyAccount().collectLatest {
+            bankRepository.getMyAccountTest().collectLatest {
                 when(it){
                     is ApiResult.Success -> {
                         setAccountList(it.data)
                         Timber.d("bank load 성공 " + it.data)
                     }
                     is ApiResult.Error -> {
-                        Timber.d("bank load fail")
+                        Timber.d("bank load fail " + it.exception.message)
                     }
-
                 }
             }
         }

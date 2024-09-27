@@ -14,7 +14,7 @@ import javax.inject.Inject
 class FcmRepositoryImpl @Inject constructor(
     private val fcmDataSource: FcmDataSource
 ) : FcmRepository {
-    override suspend fun postToken(requestToken: RequestToken): Flow<ApiResult<FcmData>> {
+    override suspend fun postToken(requestToken: String): Flow<ApiResult<FcmData>> {
         return flow {
 
             val result = safeApiCall {

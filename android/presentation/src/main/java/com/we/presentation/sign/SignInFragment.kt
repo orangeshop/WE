@@ -30,6 +30,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
             tvSignUp.setOnClickListener {
                 navigateDestination(R.id.action_fragment_sign_in_to_fragment_sign_up)
             }
+
             tvSignInLogin.setOnClickListener {
                 signInViewModel.singIn()
             }

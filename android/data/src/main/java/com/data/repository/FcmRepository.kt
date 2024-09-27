@@ -6,5 +6,5 @@ import com.we.model.FcmData
 import kotlinx.coroutines.flow.Flow
 
 interface FcmRepository {
-    suspend fun postToken(requestToken: RequestToken) : Flow<ApiResult<FcmData>>
+    suspend fun postToken(requestToken: String) : Flow<ApiResult<FcmData>>
 }

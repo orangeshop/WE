@@ -6,6 +6,6 @@ import com.we.model.FcmData
 fun ResponseToken.toModel(): FcmData {
     return FcmData(
         token = token,
-        userId = user_id
+        userId = userId
     )
 }

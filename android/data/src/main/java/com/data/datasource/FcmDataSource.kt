@@ -4,5 +4,5 @@ import com.data.model.request.RequestToken
 import com.data.model.response.ResponseToken
 
 interface FcmDataSource {
-    suspend fun postToken(requestToken: RequestToken): ResponseToken
+    suspend fun postToken(requestToken: String): ResponseToken
 }
