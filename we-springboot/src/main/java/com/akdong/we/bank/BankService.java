@@ -3,8 +3,10 @@ package com.akdong.we.bank;
 import com.akdong.we.api.FinApiCallService;
 import com.akdong.we.common.exception.BusinessException;
 import com.akdong.we.couple.entity.Couple;
+import com.akdong.we.couple.repository.CoupleRepository;
 import com.akdong.we.couple.response.CoupleInfo;
 import com.akdong.we.couple.service.CoupleService;
+import com.akdong.we.ledger.LedgerService;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.entity.MemberAccount;
 import com.akdong.we.member.exception.member.MemberErrorCode;
@@ -29,7 +31,9 @@ public class BankService {
     private final MemberAccountRepository memberAccountRepository;
     private final FinApiCallService finApiCallService;
     private final CoupleService coupleService;
+    private final LedgerService ledgerService;
     private final MemberRepository memberRepository;
+    private final CoupleRepository coupleRepository;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -66,6 +70,10 @@ public class BankService {
         couple.setAccountNumber(accountNo);
         couple.setAccountOwnerName(member.getNickname());
         couple.setAccountBankName(bankName);
+        coupleRepository.save(couple);
+
+
+//        ledgerService.createLedger(couple);
 
         return CoupleInfo.of(couple);
     }
