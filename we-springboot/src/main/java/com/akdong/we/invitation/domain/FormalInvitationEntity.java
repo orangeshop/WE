@@ -1,5 +1,6 @@
 package com.akdong.we.invitation.domain;
 
+import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.file.domain.FileDto;
 import com.akdong.we.invitation.domain.formal.GreetingsDto;
 import com.akdong.we.invitation.domain.formal.MetaInfo;
@@ -110,12 +111,14 @@ public class FormalInvitationEntity {
 
     @Column
     private double latitude;
-    public FormalInvitationDto asDto(String account) {
+    public FormalInvitationDto asDto(String account,String ownerName, String bankName) {
         return FormalInvitationDto.builder()
 
                 .invitationId(invitation_id)
                 .coupleId(couple_id)
                 .coupleAccount(account)
+                .coupleAccountOwner(ownerName)
+                .coupleBankName(bankName)
 
                 .title(title)
                 .url(url)
@@ -156,7 +159,7 @@ public class FormalInvitationEntity {
     }
 
     public FormalInvitationDto asDto(){
-        return asDto(null);
+        return asDto(null,null,null);
     }
 
     public PersonDto asBrideDto()
