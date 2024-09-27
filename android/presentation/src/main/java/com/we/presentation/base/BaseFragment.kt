@@ -40,7 +40,7 @@ abstract class BaseFragment<T : ViewDataBinding>(private val layoutResId: Int) :
         findNavController().navigate(action)
     }
 
-    fun navigateDestinationBundle(@IdRes action: Int, bundle: Bundle) {
+    fun navigateDestination(@IdRes action: Int, bundle: Bundle) {
         findNavController().navigate(action, bundle)
     }
 

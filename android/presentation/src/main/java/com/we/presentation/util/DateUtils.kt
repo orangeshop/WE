@@ -7,6 +7,7 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Locale
@@ -25,6 +26,10 @@ fun String.convertIsoToLocalDate(): LocalDate? {
     }.onFailure {
         Timber.d("에러 처리 ${it.printStackTrace()}")
     }.getOrNull()
+}
+
+fun setYearMonthDay(year : Int, month : Int, day : Int) : String{
+    return "${year}년 ${month}월 ${day}일"
 }
 
 
@@ -53,4 +58,13 @@ fun String.toIso8601(
         println("날짜 형식이 올바르지 않습니다: ${e.message}")
         null
     }
+}
+
+fun String.toYearMonthDay(): String {
+
+    val parsedDate = ZonedDateTime.parse(this)
+
+    val formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN)
+
+    return parsedDate.format(formatter)
 }

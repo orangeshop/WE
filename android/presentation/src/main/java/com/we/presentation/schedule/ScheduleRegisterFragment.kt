@@ -5,12 +5,15 @@ import androidx.core.widget.addTextChangedListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentScheduleRegisterBinding
 import com.we.presentation.schedule.model.ScheduleRegisterUiState
+import com.we.presentation.schedule.model.toScheduleParam
 import com.we.presentation.schedule.viewmodel.ScheduleRegisterViewModel
 import com.we.presentation.util.ScheduleRegisterType
+import com.we.presentation.util.toYearMonthDay
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,13 +27,30 @@ class ScheduleRegisterFragment :
     BaseFragment<FragmentScheduleRegisterBinding>(R.layout.fragment_schedule_register) {
 
     private val scheduleRegisterViewModel: ScheduleRegisterViewModel by hiltNavGraphViewModels(R.id.schedule_register_nav_graph)
+    var type = CREATE
 
     override fun initView() {
+        initData()
         initClickEventListener()
         observeRegisterActive()
         observeContentPrice()
         observeScheduleRegisterParam()
         observeScheduleRegisterUiState()
+    }
+
+    private fun initData() {
+        val safeArgs: ScheduleRegisterFragmentArgs by navArgs()
+        val data = safeArgs.scheduleUpdateParam
+        if (data != null) {
+            type = UPDATE
+            scheduleRegisterViewModel.setAllRegisterParam(data.toScheduleParam(), data.scheduleId)
+            binding.apply {
+                etScheduleContent.setText(data.content.toString())
+                etSchedulePrice.setText(data.price.toString())
+            }
+        }
+
+
     }
 
     private fun initClickEventListener() {
@@ -44,8 +64,14 @@ class ScheduleRegisterFragment :
             tvScheduleDateValue.setOnClickListener {
                 showDatePicker()
             }
-            btnRegister.setOnClickListener{
-                scheduleRegisterViewModel.registerSchedule()
+            btnRegister.setOnClickListener {
+                if (type == CREATE) {
+                    scheduleRegisterViewModel.registerSchedule()
+                } else {
+                    scheduleRegisterViewModel.updateSchedule(
+                        scheduleRegisterViewModel.updateId.value
+                    )
+                }
             }
         }
     }
@@ -97,7 +123,9 @@ class ScheduleRegisterFragment :
         scheduleRegisterViewModel.scheduleRegisterParam.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
                 binding.apply {
-                    tvScheduleDateValue.text = it.date
+                    if (it.date.isNotEmpty()) {
+                        tvScheduleDateValue.text = it.date.toYearMonthDay()
+                    }
                     tvScheduleLocationValue.text = it.address
                 }
             }
@@ -116,20 +144,31 @@ class ScheduleRegisterFragment :
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun observeScheduleRegisterUiState(){
+    private fun observeScheduleRegisterUiState() {
         scheduleRegisterViewModel.scheduleRegisterUiState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
-                when(it){
+                when (it) {
                     is ScheduleRegisterUiState.RegisterSuccess -> {
                         navigatePopBackStack()
                     }
-                    is ScheduleRegisterUiState.RegisterError -> {
+
+                    is ScheduleRegisterUiState.UpdateSuccess -> {
+                        navigatePopBackStack()
+                    }
+
+                    is ScheduleRegisterUiState.Error -> {
 
                     }
+
                     else -> {}
 
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    companion object {
+        const val UPDATE = false
+        const val CREATE = true
     }
 }

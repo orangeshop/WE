@@ -1,10 +1,12 @@
 package com.we.presentation.schedule
 
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.presentation.component.custom.showCustomDropDownMenu
+import com.we.model.ScheduleData
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.adapter.ScheduleCalendarAdapter
@@ -12,6 +14,7 @@ import com.we.presentation.component.adapter.ScheduleTodoAdapter
 import com.we.presentation.databinding.FragmentScheduleBinding
 import com.we.presentation.schedule.model.ScheduleUiState.CalendarSet
 import com.we.presentation.schedule.model.ScheduleUiState.Loading
+import com.we.presentation.schedule.model.toScheduleUpdateParam
 import com.we.presentation.schedule.viewmodel.ScheduleViewModel
 import com.we.presentation.util.DropDownMenu
 import com.we.presentation.util.toYearMonth
@@ -81,12 +84,12 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                 scheduleViewModel.updateScheduleToggle(scheduleData.scheduleId)
             }
             scheduleTodoAdapter.setOnMenuClickListener { data, view ->
-                initDropDownMenu(data.scheduleId, view)
+                initDropDownMenu(data, view)
             }
         }
     }
 
-    private fun initDropDownMenu(id: Int, view: View) {
+    private fun initDropDownMenu(data : ScheduleData, view: View) {
         showCustomDropDownMenu(
             requireActivity(),
             view,
@@ -94,11 +97,13 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             action = { value ->
                 when (value.type) {
                     DropDownMenu.DELETE -> {
-                        scheduleViewModel.deleteSchedule(id)
+                        scheduleViewModel.deleteSchedule(data.scheduleId)
                     }
 
                     DropDownMenu.UPDATE -> {
-
+                        navigateDestination(R.id.action_scheduleFragment_to_schedule_register_nav_graph,
+                            bundleOf("scheduleUpdateParam" to data.toScheduleUpdateParam())
+                        )
                     }
                 }
             }

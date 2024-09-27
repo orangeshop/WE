@@ -30,6 +30,12 @@ interface ScheduleApi {
 
     @DELETE("schedule/delete/{scheduleId}")
     suspend fun deleteSchedule(
-        @Path("scheduleId") scheduleId : Int
-    ) : Unit
+        @Path("scheduleId") scheduleId: Int
+    ): Unit
+
+    @PATCH("schedule/update/{scheduleId}")
+    suspend fun patchSchedule(
+        @Path("scheduleId") scheduleId: Int,
+        @Body requestSchedule: RequestSchedule
+    ): ResponseSchedule.Schedule
 }

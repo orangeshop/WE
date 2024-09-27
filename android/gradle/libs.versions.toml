@@ -56,6 +56,9 @@ firebaseMessagingKtx = "24.0.1"
 lottie = "5.0.2"
 workRuntimeKtx = "2.9.1"
 
+#Parcelize
+parcelize = "2.1.0-Beta1"
+
 [libraries]
 
 #AndroidX
@@ -137,3 +140,4 @@ navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version.ref
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "parcelize" }
