@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.util.Utility
 import com.we.presentation.R
 import com.we.presentation.base.BaseActivity
@@ -26,12 +27,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun init() {
+        initKakao()
         setNavGraph()
         initBottomNavigation()
         setBottomNavHide()
         getFcmToken()
         requestPermission()
-        Timber.d("카카오키 ${Utility.getKeyHash(this)}")
+    }
+
+    private fun initKakao(){
+        KakaoSdk.init(this, getString(R.string.kakao_app_key))
     }
 
     private fun setNavGraph() {
