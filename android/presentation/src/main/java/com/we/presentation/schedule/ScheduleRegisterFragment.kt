@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentScheduleRegisterBinding
+import com.we.presentation.schedule.model.ScheduleRegisterUiState
 import com.we.presentation.schedule.viewmodel.ScheduleRegisterViewModel
 import com.we.presentation.util.ScheduleRegisterType
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +30,7 @@ class ScheduleRegisterFragment :
         observeRegisterActive()
         observeContentPrice()
         observeScheduleRegisterParam()
+        observeScheduleRegisterUiState()
     }
 
     private fun initClickEventListener() {
@@ -41,6 +43,9 @@ class ScheduleRegisterFragment :
             }
             tvScheduleDateValue.setOnClickListener {
                 showDatePicker()
+            }
+            btnRegister.setOnClickListener{
+                scheduleRegisterViewModel.registerSchedule()
             }
         }
     }
@@ -93,7 +98,7 @@ class ScheduleRegisterFragment :
             .onEach {
                 binding.apply {
                     tvScheduleDateValue.text = it.date
-                    tvScheduleLocationValue.text = it.location
+                    tvScheduleLocationValue.text = it.address
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -109,6 +114,22 @@ class ScheduleRegisterFragment :
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
 
+    private fun observeScheduleRegisterUiState(){
+        scheduleRegisterViewModel.scheduleRegisterUiState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                when(it){
+                    is ScheduleRegisterUiState.RegisterSuccess -> {
+                        navigatePopBackStack()
+                    }
+                    is ScheduleRegisterUiState.RegisterError -> {
+
+                    }
+                    else -> {}
+
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

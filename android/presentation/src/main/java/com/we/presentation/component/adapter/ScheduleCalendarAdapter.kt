@@ -17,7 +17,7 @@ class ScheduleCalendarAdapter :
         BaseDiffUtil<CalendarItem>()
     ) {
 
-    private var onScheduleClickListener: ((List<ScheduleData>) -> Unit)? = null
+    private var onScheduleClickListener: ((CalendarItem) -> Unit)? = null
 
     override fun getItemViewType(position: Int): Int {
         return position
@@ -42,7 +42,7 @@ class ScheduleCalendarAdapter :
         if (getItem(holder.adapterPosition).isScheduled) {
             holder.binding.clScheduleDate.setOnClickListener {
                 onScheduleClickListener?.let {
-                    it(getItem(holder.adapterPosition).schedule)
+                    it(getItem(holder.adapterPosition))
                 }
             }
         }
@@ -82,11 +82,12 @@ class ScheduleCalendarAdapter :
                     }
                     setTextColor(color)
                 }
+                this.clScheduleDate.isSelected = calendarItem.isSelected
             }
         }
     }
 
-    fun setScheduleClickListener(listener: (List<ScheduleData>) -> Unit) {
+    fun setScheduleClickListener(listener: (CalendarItem) -> Unit) {
         this.onScheduleClickListener = listener
     }
 }

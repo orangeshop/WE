@@ -15,6 +15,7 @@ import com.we.presentation.util.toYearMonth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -30,21 +31,30 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
         initScheduleTodoAdapter()
         initClickEventListener()
         observeScheduleUiState()
+
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        scheduleViewModel.checkDate()
+        Timber.tag("스케쥴 onResume").d("체크")
+    }
 
     private fun initScheduleCalendarAdapter() {
         scheduleCalendarAdapter = ScheduleCalendarAdapter()
-        binding.apply {
-            rvScheduleCalendar.adapter = scheduleCalendarAdapter
+        binding.rvScheduleCalendar.apply {
+            adapter = scheduleCalendarAdapter
+            itemAnimator = null
         }
 
     }
 
     private fun initScheduleTodoAdapter() {
         scheduleTodoAdapter = ScheduleTodoAdapter()
-        binding.apply {
-            rvScheduleTodo.adapter = scheduleTodoAdapter
+        binding.rvScheduleTodo.apply {
+            adapter = scheduleTodoAdapter
+            itemAnimator = null
         }
 
     }
@@ -60,8 +70,12 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             ivScheduleLeft.setOnClickListener {
                 scheduleViewModel.plusMinusMonth(false)
             }
-            scheduleCalendarAdapter.setScheduleClickListener { scheduleData ->
-                scheduleTodoAdapter.submitList(scheduleData)
+            scheduleCalendarAdapter.setScheduleClickListener { calendarItem ->
+                scheduleViewModel.setSelectedItem(calendarItem)
+                scheduleViewModel.clickDays(calendarItem)
+            }
+            scheduleTodoAdapter.setOnItemClickListener { scheduleData ->
+                scheduleViewModel.updateScheduleToggle(scheduleData.scheduleId)
             }
         }
     }
@@ -81,6 +95,10 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                             month = getString(R.string.schedule_month, date.second)
                         }
                         scheduleCalendarAdapter.submitList(it.calendarItem)
+
+                        if (it.calendarItem.isNotEmpty()) { // 할일 넣기
+                            scheduleTodoAdapter.submitList(scheduleViewModel.findScheduleDate(it.calendarItem))
+                        }
                     }
 
                     else -> {
@@ -90,4 +108,5 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
+
 }

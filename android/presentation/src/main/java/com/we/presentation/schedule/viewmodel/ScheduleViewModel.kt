@@ -6,15 +6,12 @@ import com.data.repository.ScheduleRepository
 import com.data.util.ApiResult
 import com.we.model.ScheduleData
 import com.we.presentation.schedule.model.CalendarItem
-import com.we.presentation.schedule.model.ScheduleEventState
 import com.we.presentation.schedule.model.ScheduleUiState
 import com.we.presentation.util.CalendarType
 import com.we.presentation.util.convertIsoToLocalDate
 import com.we.presentation.util.toYearMonth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -31,24 +28,16 @@ class ScheduleViewModel @Inject constructor(
 
     val date = MutableStateFlow<LocalDate>(LocalDate.now())
 
+    val selectedItem = MutableStateFlow<CalendarItem?>(null)
+
+    fun setSelectedItem(item: CalendarItem) {
+        selectedItem.update { item }
+    }
 
     private val _scheduleUiState =
         MutableStateFlow<ScheduleUiState>(ScheduleUiState.CalendarSet(date.value, listOf()))
     val scheduleUiState: StateFlow<ScheduleUiState> get() = _scheduleUiState
 
-
-    private val _scheduleEventState = MutableSharedFlow<ScheduleEventState>()
-    val scheduleEventState: SharedFlow<ScheduleEventState> get() = _scheduleEventState
-
-    fun setScheduleEvent(event: ScheduleEventState) {
-        viewModelScope.launch {
-            _scheduleEventState.emit(event)
-        }
-    }
-
-    init {
-        checkDate()
-    }
 
     fun plusMinusMonth(type: Boolean) { // true -> plus, false -> minus
         if (type) {
@@ -129,13 +118,15 @@ class ScheduleViewModel @Inject constructor(
         days += (0 until daysInMonth).map { i ->
             val currentDate = firstOfMonth.plusDays(i.toLong())
             val currentSchedule =
-                scheduleList.filter { currentDate.isEqual(it.scheduledTime.convertIsoToLocalDate()) }
+                scheduleList.filter { currentDate.isEqual(it.scheduledTime?.convertIsoToLocalDate()) }
             val type = if (currentDate.isEqual(now)) CalendarType.TODAY else CalendarType.CURRENT
+            val isSelected = selectedItem.value?.date == currentDate
             CalendarItem(
                 date = currentDate,
                 calendarType = type,
                 currentSchedule,
-                currentSchedule.isNotEmpty()
+                currentSchedule.isNotEmpty(),
+                isSelected
             )
         }
 
@@ -156,13 +147,56 @@ class ScheduleViewModel @Inject constructor(
         return days
     }
 
+    fun clickDays(clickItem: CalendarItem) {
+        val uiState = scheduleUiState.value
+        if (uiState is ScheduleUiState.CalendarSet) {
+            _scheduleUiState.update {
+                ScheduleUiState.CalendarSet(
+                    uiState.date,
+                    uiState.calendarItem.map {
+                        it.copy(
+                            isSelected = it.date == clickItem.date
+                        )
+                    }
+                )
+            }
+        }
+    }
 
-    private fun checkDate() {
+    fun findScheduleDate(calendarItem: List<CalendarItem>): List<ScheduleData> {
+        val date = selectedItem.value?.date ?: LocalDate.now()
+        return calendarItem.filter { it.date.isEqual(date) }.first().schedule.ifEmpty { listOf() }
+
+    }
+
+
+    fun checkDate() {
         viewModelScope.launch {
             date.collectLatest { date ->
                 getSchedule(date)
             }
         }
+    }
+
+    fun updateScheduleToggle(scheduleId: Int) {
+        viewModelScope.launch {
+            scheduleRepository.patchScheduleToggle(scheduleId).collectLatest {
+                when (it) {
+                    is ApiResult.Success -> {
+                        checkDate()
+                        Timber.tag("스케줄 확인 버튼").d("성공")
+                    }
+
+                    is ApiResult.Error -> {
+                        Timber.tag("스케줄 확인 버튼").d("실패 ${it.exception}")
+                    }
+                }
+            }
+
+
+        }
+
+
     }
 
 }
