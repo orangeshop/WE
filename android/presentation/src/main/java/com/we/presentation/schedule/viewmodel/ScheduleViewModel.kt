@@ -178,4 +178,25 @@ class ScheduleViewModel @Inject constructor(
         }
     }
 
+    fun updateScheduleToggle(scheduleId: Int) {
+        viewModelScope.launch {
+            scheduleRepository.patchScheduleToggle(scheduleId).collectLatest {
+                when (it) {
+                    is ApiResult.Success -> {
+                        checkDate()
+                        Timber.tag("스케줄 확인 버튼").d("성공")
+                    }
+
+                    is ApiResult.Error -> {
+                        Timber.tag("스케줄 확인 버튼").d("실패 ${it.exception}")
+                    }
+                }
+            }
+
+
+        }
+
+
+    }
+
 }

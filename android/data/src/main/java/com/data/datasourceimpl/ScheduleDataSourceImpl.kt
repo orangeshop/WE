@@ -20,4 +20,8 @@ class ScheduleDataSourceImpl @Inject constructor(
     override suspend fun postSchedule(requestSchedule: RequestSchedule): ResponseSchedule.Schedule {
         return scheduleApi.postSchedule(requestSchedule)
     }
+
+    override suspend fun patchScheduleToggle(scheduleId: Int): ResponseSchedule.Schedule {
+        return scheduleApi.patchScheduleToggle(scheduleId)
+    }
 }
