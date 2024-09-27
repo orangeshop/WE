@@ -256,22 +256,27 @@ const StorageDetail: React.FC = () => {
               WEDDING INVITATION
             </div>
           )}
-          
           {showThumbnail && (
             <div className="absolute inset-0 flex justify-center items-center">
               <div
-                className="text-[24px] text-[#C5A88E] text-center"
-                style={{ minHeight: "80px" }}
+                className="text-[30px] text-[#C5A88E] text-center "
+                style={{ minHeight: "100px" }}
               >
-                <Fade cascade damping={0.3}>
-                  {`${invitationData.groomFirstName}${"♥"}${
-                    invitationData.brideFirstName
-                  }`}
-                </Fade>
+                <div className="letter-space-md">
+                  <Fade cascade damping={0.3}>
+                    {`${invitationData.groomFirstName}${" ఇ "}${
+                      invitationData.brideFirstName
+                    }`}
+                  </Fade>
+                </div>
                 {showSecondFade && (
-                  <div className="w-full flex justify-center mt-2">
+                  <div className="mt-5 text-[20px] w-full flex justify-center">
                     <Fade direction={"up"} className="slide-up text-center">
-                      {invitationData.date}
+                      {invitationData.date
+                        .replace("년", ".")
+                        .replace("월", ".")
+                        .replace("일", "")
+                        .slice(0, -3) + " "}
                     </Fade>
                   </div>
                 )}

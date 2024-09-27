@@ -14,7 +14,7 @@ export enum Timezone {
 export type GetFormalInvitationDto = {
   invitationId: number;
   coupleId: number;
-  coupleAccountOwner : string;
+  coupleAccountOwner: string;
   coupleBankName: string;
   coupleAccount: string;
   url: string;
