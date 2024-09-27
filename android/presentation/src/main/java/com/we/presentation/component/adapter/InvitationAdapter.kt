@@ -12,6 +12,9 @@ import com.we.presentation.databinding.ItemInvitationBinding
 class InvitationAdapter : ListAdapter<InvitationData, InvitationViewHolder>(
     BaseDiffUtil<InvitationData>()
 ) {
+
+    private var onItemClickListener: ((Int) -> Unit)? = null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -27,6 +30,11 @@ class InvitationAdapter : ListAdapter<InvitationData, InvitationViewHolder>(
     ) {
         holder.bind(getItem(holder.adapterPosition))
         holder.binding.emptyVisible = position == itemCount - 1
+        holder.binding.root.setOnClickListener {
+            onItemClickListener?.let {
+                it(getItem(holder.adapterPosition).invitationId)
+            }
+        }
     }
 
     class InvitationViewHolder(
@@ -37,5 +45,9 @@ class InvitationAdapter : ListAdapter<InvitationData, InvitationViewHolder>(
                 this.invitationData = invitationData
             }
         }
+    }
+
+    fun setItemClickListener(listener: (Int) -> Unit) {
+        this.onItemClickListener = listener
     }
 }

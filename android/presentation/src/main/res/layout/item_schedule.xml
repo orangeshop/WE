@@ -41,7 +41,8 @@
                 <TextView
                     android:id="@+id/tv_schedule_date"
                     style="@style/suite_bold_15"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="9dp"

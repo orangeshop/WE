@@ -23,7 +23,8 @@ fun List<ResponseInvitation>.toEntity(): List<InvitationData> {
     return this.map {
         InvitationData(
             imageUrl = it.url,
-            title = it.title
+            title = it.title,
+            invitationId = it.invitationId
         )
     }
 }

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.kakao.sdk.common.util.Utility
 import com.we.presentation.R
 import com.we.presentation.base.BaseActivity
 import com.we.presentation.databinding.ActivityMainBinding
@@ -30,6 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setBottomNavHide()
         getFcmToken()
         requestPermission()
+        Timber.d("카카오키 ${Utility.getKeyHash(this)}")
     }
 
     private fun setNavGraph() {

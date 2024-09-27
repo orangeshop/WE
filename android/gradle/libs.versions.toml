@@ -56,6 +56,9 @@ firebaseMessagingKtx = "24.0.1"
 lottie = "5.0.2"
 workRuntimeKtx = "2.9.1"
 
+#Kakao
+kakao = "2.20.6"
+
 [libraries]
 
 #AndroidX
@@ -114,6 +117,9 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-converter-sclars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
 retrofit-converter-kotlinxSerialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
+
+#KAKAO
+kakao-share={module="com.kakao.sdk:v2-share", version.ref="kakao"}
 
 # Dotindicator
 dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }

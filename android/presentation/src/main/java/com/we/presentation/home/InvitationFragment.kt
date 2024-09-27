@@ -1,5 +1,7 @@
 package com.we.presentation.home
 
+import android.content.Intent
+import android.net.Uri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,13 +21,14 @@ import kotlinx.coroutines.flow.onEach
 class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.fragment_invitation) {
     private lateinit var invitationAdapter: InvitationAdapter
 
-    private val invitationViewModel : InvitationViewModel by viewModels()
+    private val invitationViewModel: InvitationViewModel by viewModels()
 
     override fun initView() {
         initInvitationAdapter()
         initClickEventListener()
         observeInvitationUiState()
     }
+
 
     private fun initInvitationAdapter() {
         invitationAdapter = InvitationAdapter()
@@ -35,7 +38,7 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
             this.addCustomItemDecoration()
             this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
-                    binding.shareVisible = position != invitationAdapter.itemCount-1
+                    binding.shareVisible = position != invitationAdapter.itemCount - 1
                 }
             })
         }
@@ -43,16 +46,18 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
 
     }
 
-    private fun observeInvitationUiState(){
+    private fun observeInvitationUiState() {
         invitationViewModel.invitationUiState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
-                when(it){
+                when (it) {
                     is InvitationUiState.InvitationSuccess -> {
                         invitationAdapter.submitList(it.data)
                     }
+
                     is InvitationUiState.InvitationError -> {
 
                     }
+
                     else -> {
 
                     }
@@ -66,6 +71,12 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
         binding.apply {
             icTitle.ivBack.setOnClickListener {
                 navigatePopBackStack()
+            }
+            invitationAdapter.setItemClickListener {
+                val url = "https://j11d104.p.ssafy.io/be/v1/invitation/formal/$it"
+                startActivity(Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse(url)
+                })
             }
         }
     }
