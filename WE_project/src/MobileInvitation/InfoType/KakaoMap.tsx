@@ -18,9 +18,9 @@ interface KakaoMapProps {
     latitude: number,
     longitude: number
   ) => void;
-  address: string; // New prop for the initial address
-  latitude: number | null; // New prop for the initial latitude
-  longitude: number | null; // New prop for the initial longitude
+  address: string;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 const KakaoMap: React.FC<KakaoMapProps> = ({
@@ -41,7 +41,7 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
           center:
             latitude && longitude
               ? new window.kakao.maps.LatLng(latitude, longitude)
-              : new window.kakao.maps.LatLng(33.450701, 126.570667), // Default coordinates
+              : new window.kakao.maps.LatLng(33.450701, 126.570667),
           level: 4,
         };
 
@@ -112,7 +112,6 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
                 marker.setPosition(currentPos);
                 marker.setMap(map);
 
-                // Call the callback with the address and coordinates
                 onLocationChange(addrData.address, result[0].y, result[0].x);
               } else {
                 alert("주소를 찾을 수 없습니다.");
@@ -138,7 +137,7 @@ const KakaoMap: React.FC<KakaoMapProps> = ({
           readOnly
           className="border border-gray-400 w-72 h-10 text-center"
           placeholder="주소를 입력하세요"
-          defaultValue={address} // Set default value to the provided address
+          defaultValue={address}
         />
         <button
           onClick={onClickAddr}

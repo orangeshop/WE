@@ -34,15 +34,20 @@ const StorageDetail: React.FC = () => {
   const [showSecondFade, setShowSecondFade] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const mainTimer = setTimeout(() => {
       setFadeClass("fade-out");
+
+      setTimeout(() => {
+        setShowSecondFade(false);
+      }, 300);
+
       setTimeout(() => {
         setShowThumbnail(false);
         setFadeClass("fade-in");
       }, 1000);
-    }, 3000);
+    }, 3300);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(mainTimer);
   }, []);
 
   React.useEffect(() => {
@@ -64,11 +69,11 @@ const StorageDetail: React.FC = () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const secondTimer = setTimeout(() => {
       setShowSecondFade(true);
-    }, 1500);
+    }, 700);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(secondTimer);
   }, []);
 
   useEffect(() => {
@@ -202,6 +207,7 @@ const StorageDetail: React.FC = () => {
         console.error("복사 실패:", err);
       });
   };
+  
   return (
     <div className="relative font-nanum w-screen">
       <div
@@ -255,27 +261,27 @@ const StorageDetail: React.FC = () => {
               WEDDING INVITATION
             </div>
           )}
+
           {showThumbnail && (
             <div className="absolute inset-0 flex justify-center items-center">
               <div
                 className="text-[30px] text-[#C5A88E] text-center "
                 style={{ minHeight: "100px" }}
               >
-                <div className="letter-space-md">
-                  <Fade cascade damping={0.3}>
-                    {`${invitationData.groomFirstName}${" ఇ "}${
-                      invitationData.brideFirstName
-                    }`}
-                  </Fade>
-                </div>
+                {showSecondFade && (
+                  <div className="letter-space-md">
+                    <Fade cascade damping={0.3}>
+                      {`${invitationData.groomFirstName} ఇ ${invitationData.brideFirstName}`}
+                    </Fade>
+                  </div>
+                )}
                 {showSecondFade && (
                   <div className="mt-5 text-[20px] w-full flex justify-center">
                     <Fade direction={"up"} className="slide-up text-center">
                       {invitationData.date
-                        .replace("년", ".")
-                        .replace("월", ".")
+                        .replace(/년|월/g, ".")
                         .replace("일", "")
-                        .slice(0, -3) + " "}
+                        .trim()}
                     </Fade>
                   </div>
                 )}
