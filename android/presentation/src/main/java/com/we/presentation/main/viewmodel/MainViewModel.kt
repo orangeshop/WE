@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(
 
     fun postToken(token : String){
         viewModelScope.launch {
-            fcmRepository.postToken(requestToken = RequestToken(token)).collectLatest {
+            fcmRepository.postToken(requestToken = token).collectLatest {
                 when(it){
                     is ApiResult.Success -> {
                         Timber.d("Token Success")
