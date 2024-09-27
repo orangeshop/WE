@@ -47,18 +47,13 @@
 .pointer-auto {
   pointer-events: auto;
 }
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0; 
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1; 
-    transform: translateY(0);
-  }
+.slide-up {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-.fade-in-up {
-  animation: fadeInUp 1s ease forwards; 
+.slide-up-enter {
+  transform: translateY(0);
+  opacity: 1;
 }

@@ -22,16 +22,16 @@ const TypeChoice: React.FC = () => {
       <Navbar isScrollSensitive={false} />
       <div className="justify-between mt-20">
         <div className="flex gap-40">
-          <div>
+          <div className="flex gap-40">
             <img
               src={samplethumbnail}
               alt="invitation_card"
-              className="w-80 h-auto mb-5"
+              className="w-[440px] h-auto mb-5"
             />
-            <div className="text-center font-default">
-              <p className="text-2xl mb-3 font-bold">정보형 청첩장</p>
+            <div className="text-center font-default mt-48">
+              <p className="text-2xl font-bold mb-5">정보형 청첩장 제작</p>
               <p>필요한 정보들을 간단히 입력하기만 하면</p>
-              <p>예쁜 모바일 청첩장이 완성돼요.</p>
+              <p>예쁜 모바일 청첩장이 완성돼요!</p>
               <div className="flex gap-3 justify-center">
                 <button
                   type="submit"

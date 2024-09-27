@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import { deleteFormalInvitation } from "../../apis/api/deleteinfotypeinvitation";
 import FallingSnow from "../../Components/Snowflake";
 import beige from "../../assets/images/beige.png";
+import { Fade } from "react-awesome-reveal";
 
 const StorageDetail: React.FC = () => {
   const [invitationData, setInvitationData] =
@@ -30,17 +31,17 @@ const StorageDetail: React.FC = () => {
   const [isExist, setisExist] = useState<boolean>(false);
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [fadeClass, setFadeClass] = useState("fade-in");
+  const [showSecondFade, setShowSecondFade] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeClass("fade-out");
-      setTimeout(() => {
-      }, 300);
+      setTimeout(() => {}, 300);
       setTimeout(() => {
         setShowThumbnail(false);
         setFadeClass("fade-in");
       }, 1000);
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -62,6 +63,14 @@ const StorageDetail: React.FC = () => {
     }
     return new Date();
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSecondFade(true);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchInvitation = async () => {
@@ -194,7 +203,6 @@ const StorageDetail: React.FC = () => {
         console.error("복사 실패:", err);
       });
   };
-
   return (
     <div className="relative font-nanum w-screen">
       <div
@@ -216,7 +224,7 @@ const StorageDetail: React.FC = () => {
         )}
 
         {isExist && (
-          <div className="absolute mt-10 right-20 flex space-x-4 z-30">
+          <div className="absolute mt-8 right-20 flex space-x-4 z-30">
             <button
               className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
               onClick={handleEdit}
@@ -248,11 +256,25 @@ const StorageDetail: React.FC = () => {
               WEDDING INVITATION
             </div>
           )}
-
+          
           {showThumbnail && (
             <div className="absolute inset-0 flex justify-center items-center">
-              <div className="text-[24px] text-[#C5A88E]">
-
+              <div
+                className="text-[24px] text-[#C5A88E] text-center"
+                style={{ minHeight: "80px" }}
+              >
+                <Fade cascade damping={0.3}>
+                  {`${invitationData.groomFirstName}${"♥"}${
+                    invitationData.brideFirstName
+                  }`}
+                </Fade>
+                {showSecondFade && (
+                  <div className="w-full flex justify-center mt-2">
+                    <Fade direction={"up"} className="slide-up text-center">
+                      {invitationData.date}
+                    </Fade>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -429,14 +451,20 @@ const StorageDetail: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="w-[400px] bg-white p-2 mb-20">
-                  <p className="text-[15px]">
-                    {/* 은행 정보 백엔드 오면 넣어주기 */}
-                    {invitationData.coupleAccount}
-                    <button className="ml-20 bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow duration-200 px-2 py-1">
-                      이체하기
-                    </button>
-                  </p>
+                <div className="w-[400px] flex bg-white p-2 mb-20 justify-between">
+                  <div>
+                    <p className="text-[15px] ml-5">
+                      {invitationData.coupleBankName}{" "}
+                      {invitationData.coupleAccount}
+                    </p>
+                    <p className="text-[13px]">
+                      {"("}예금주: {invitationData.coupleAccountOwner}
+                      {")"}
+                    </p>
+                  </div>
+                  <button className="h-10 mr-5 text-sm mt-2 text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow px-2 py-1">
+                    이체하기
+                  </button>
                 </div>
               </div>
             </div>

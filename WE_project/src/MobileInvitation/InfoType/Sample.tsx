@@ -177,7 +177,7 @@ const Sample: React.FC = () => {
                         date.getMonth() === markDate.getMonth() &&
                         date.getDate() === markDate.getDate()
                       ) {
-                        return "highlight"; // 날짜 강조
+                        return "highlight";
                       }
                       return null;
                     }}
