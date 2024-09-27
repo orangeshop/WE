@@ -2,6 +2,7 @@ package com.we.presentation.component.adapter
 
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,8 @@ class ScheduleTodoAdapter : ListAdapter<ScheduleData, ScheduleTodoAdapter.Schedu
 ) {
 
     private var onItemClickListener: ((ScheduleData) -> Unit)? = null
+    private var onMenuClickListener: ((ScheduleData, View) -> Unit)? = null
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -37,6 +40,11 @@ class ScheduleTodoAdapter : ListAdapter<ScheduleData, ScheduleTodoAdapter.Schedu
                 holder.binding.ivCheck.isSelected = !isSelected
             }
         }
+        holder.binding.ivMore.setOnClickListener { view ->
+            onMenuClickListener?.let {
+                it(getItem(holder.adapterPosition), view)
+            }
+        }
     }
 
     class ScheduleTodoViewHolder(
@@ -54,5 +62,9 @@ class ScheduleTodoAdapter : ListAdapter<ScheduleData, ScheduleTodoAdapter.Schedu
 
     fun setOnItemClickListener(listener: (ScheduleData) -> Unit) {
         this.onItemClickListener = listener
+    }
+
+    fun setOnMenuClickListener(listener: (ScheduleData, View) -> Unit) {
+        this.onMenuClickListener = listener
     }
 }

@@ -20,7 +20,7 @@ import javax.inject.Singleton
 object NetworkModule {
 
     //local property로 빼기
-    val baseUrl = "http://3.36.87.173:8080/v1/"
+    val baseUrl = "https://j11d104.p.ssafy.io/be/v1/"
 
 
     @Qualifier.InterceptorRetrofit

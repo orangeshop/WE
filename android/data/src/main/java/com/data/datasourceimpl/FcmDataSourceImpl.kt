@@ -9,7 +9,7 @@ import javax.inject.Inject
 class FcmDataSourceImpl @Inject constructor(
     private val fcmApi: FcmApi
 ) : FcmDataSource {
-    override suspend fun postToken(requestToken: RequestToken): ResponseToken {
+    override suspend fun postToken(requestToken: String): ResponseToken {
         return fcmApi.postToken(requestToken)
     }
 }

@@ -47,6 +47,16 @@
     />
 
     <ImageView
+        android:id="@+id/iv_more_vert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_more_vert_24"
+    />
+
+    <ImageView
         android:id="@+id/iv_reload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
