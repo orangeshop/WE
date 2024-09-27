@@ -39,7 +39,7 @@ const AccountBook: React.FC = () => {
   return (
     <div className="font-nanum">
       <Navbar isScrollSensitive={false} />
-      <div>
+      <div className="mt-24 mb-20">
         {accountData && accountData.data.length > 0 ? (
           <div>
             <table className="table-auto border-collapse w-full text-left mt-4">
