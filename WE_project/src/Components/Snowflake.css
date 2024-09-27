@@ -11,10 +11,9 @@
 
 .snow-flake {
   position: absolute;
-  top: -10px;
-  color: rgba(255, 105, 180, 0.3);
+  top: -40px;
+  color: rgba(255, 105, 180, 0.4);
   font-size: 40px;
-  opacity: 0;
   animation-name: fall;
   animation-duration: 15s;
   animation-timing-function: linear;

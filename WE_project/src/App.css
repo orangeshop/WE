@@ -37,6 +37,9 @@
 .letter-space-sm {
   letter-spacing: 2px;
 }
+.letter-space-md {
+  letter-spacing: 4px;
+}
 
 .word-space {
   word-spacing: 20px;

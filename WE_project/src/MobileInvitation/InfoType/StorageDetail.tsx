@@ -66,9 +66,9 @@ const StorageDetail: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSecondFade(true);
-    }, 1500); // 첫 번째 Fade의 지속 시간에 맞게 조정
+    }, 1500);
 
-    return () => clearTimeout(timer); // 클린업 함수로 타이머 정리
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -223,7 +223,7 @@ const StorageDetail: React.FC = () => {
         )}
 
         {isExist && (
-          <div className="absolute mt-10 right-20 flex space-x-4 z-30">
+          <div className="absolute mt-8 right-20 flex space-x-4 z-30">
             <button
               className="bg-transparent text-[#C1A56C] px-2 py-2 rounded"
               onClick={handleEdit}
@@ -255,19 +255,27 @@ const StorageDetail: React.FC = () => {
               WEDDING INVITATION
             </div>
           )}
-
           {showThumbnail && (
             <div className="absolute inset-0 flex justify-center items-center">
-              <div className="text-[24px] text-[#C5A88E]">
-                <Fade cascade damping={0.3}>
-                  {`${invitationData.groomFirstName}${"♥"}${
-                    invitationData.brideFirstName
-                  }`}
-                </Fade>
+              <div
+                className="text-[30px] text-[#C5A88E] text-center "
+                style={{ minHeight: "100px" }}
+              >
+                <div className="letter-space-md">
+                  <Fade cascade damping={0.3}>
+                    {`${invitationData.groomFirstName}${" ఇ "}${
+                      invitationData.brideFirstName
+                    }`}
+                  </Fade>
+                </div>
                 {showSecondFade && (
-                  <div className="absolute text-[24px] text-[#C5A88E] justify-center mt-10">
-                    <Fade direction={"up"} className="slide-up justify-center">
-                      {invitationData.date}
+                  <div className="mt-5 text-[20px] w-full flex justify-center">
+                    <Fade direction={"up"} className="slide-up text-center">
+                      {invitationData.date
+                        .replace("년", ".")
+                        .replace("월", ".")
+                        .replace("일", "")
+                        .slice(0, -3) + " "}
                     </Fade>
                   </div>
                 )}
