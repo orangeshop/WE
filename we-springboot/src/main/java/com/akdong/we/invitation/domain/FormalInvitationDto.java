@@ -1,9 +1,12 @@
 package com.akdong.we.invitation.domain;
 
+import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.invitation.service.FormalInvitationService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 @Builder
 @Data
@@ -12,7 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class FormalInvitationDto {
 
     private long invitationId;
+
     private long coupleId;
+    private String coupleAccountOwner;
+    private String coupleBankName;
     private String coupleAccount;
 
     private String title;

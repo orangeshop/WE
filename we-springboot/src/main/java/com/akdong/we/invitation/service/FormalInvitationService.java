@@ -96,11 +96,11 @@ public class FormalInvitationService {
         var invitation = formalInvitationRepository
                 .findById(id)
                 .orElseThrow();
+        var couple = coupleRepository.findById(invitation.getCouple_id())
+                .orElseThrow();
 
-        return invitation.asDto(coupleRepository
-                .findById(invitation.getCouple_id())
-                .orElseThrow()
-                .getAccountNumber());
+        return invitation.asDto(couple.getAccountNumber(),couple.getAccountOwnerName(),
+                couple.getAccountBankName());
     }
 
     public FormalInvitationDto updateFormalInvitation(long invitationId,ModifiedFormalInvitation invitation){
