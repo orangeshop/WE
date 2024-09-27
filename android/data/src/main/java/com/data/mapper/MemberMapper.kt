@@ -1,9 +1,9 @@
 package com.data.mapper
 
-import com.data.model.response.ResponseLogin
+import com.data.model.response.ResponseSignIn
 import com.we.model.MemberData
 
-fun ResponseLogin.toEntity(): MemberData{
+fun ResponseSignIn.toEntity(): MemberData {
     return MemberData(
         email = this.data.memberInfo.email,
         id = this.data.memberInfo.id,
@@ -12,7 +12,8 @@ fun ResponseLogin.toEntity(): MemberData{
         leavedDate = this.data.memberInfo.leavedDate,
         nickname = this.data.memberInfo.nickname,
         regDate = this.data.memberInfo.regDate,
+        coupleJoined = this.data.memberInfo.coupleJoined,
         accessToken = this.data.tokens.accessToken,
-        refreshToken = this.data.tokens.refreshToken
+        refreshToken = this.data.tokens.refreshToken,
     )
 }

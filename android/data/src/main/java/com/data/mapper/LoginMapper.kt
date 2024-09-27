@@ -1,9 +1,9 @@
 package com.data.mapper
 
 import com.data.model.request.RequestLogin
-import com.we.model.LoginParam
+import com.we.model.SignParam
 
-fun LoginParam.toModel(): RequestLogin {
+fun SignParam.toModel(): RequestLogin {
     return RequestLogin(
         email = "boy@test.com",
         password = "1234"
