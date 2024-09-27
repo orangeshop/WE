@@ -69,4 +69,14 @@ public class BankService {
 
         return CoupleInfo.of(couple);
     }
+
+    public List<TransactionInfo> transactionHistory(Member member, String accountNo) throws JsonProcessingException {
+        JsonNode jsonResponse = finApiCallService.getTransactionHistoryList(member.getUserKey(), accountNo);
+        List<TransactionInfo> transactionInfoList = new ArrayList<>();
+
+        for(JsonNode node : jsonResponse){
+            transactionInfoList.add(objectMapper.treeToValue(node, TransactionInfo.class));
+        }
+        return transactionInfoList;
+    }
 }

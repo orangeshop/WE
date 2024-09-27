@@ -9,7 +9,6 @@ import com.akdong.we.ledger.LedgerErrorCode;
 import com.akdong.we.ledger.entity.Ledger;
 import com.akdong.we.ledger.repository.LedgerRepository;
 import com.akdong.we.member.entity.Member;
-import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
@@ -50,7 +49,7 @@ public class FinApiCallService {
     private final LedgerRepository ledgerRepository;
 
     public String[] createFormatDateTime(){
-        String[] dateAndTime = new String[2];
+        String[] dateAndTime = new String[3];
 
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
@@ -61,8 +60,14 @@ public class FinApiCallService {
         String formattedDate = currentDate.format(dateFormatter);
         String formattedTime = currentTime.format(timeFormatter);
 
+        // 1년 전 날짜 포맷
+        LocalDate oneYearAgoDate = currentDate.minusYears(1);
+        String formattedOneYearAgoDate = oneYearAgoDate.format(dateFormatter);
+
+
         dateAndTime[0] = formattedDate;
         dateAndTime[1] = formattedTime;
+        dateAndTime[2] = formattedOneYearAgoDate; // 1년 전 날짜 추가
 
         return dateAndTime;
     }
@@ -447,6 +452,49 @@ public class FinApiCallService {
             return jsonNode.get("REC");
         }catch(Exception e){
             log.error("Exception occurred during FinAPI registration: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public JsonNode getTransactionHistoryList(String userKey, String accountNo){
+        String[] dateAndTime = createFormatDateTime();
+
+        CommonRequestHeader Header = CommonRequestHeader.customBuilder()
+                .apiName("inquireTransactionHistoryList")
+                .transmissionDate(dateAndTime[0])
+                .transmissionTime(dateAndTime[1])
+                .apiServiceCode("inquireTransactionHistoryList")
+                .apiKey(apiKey)
+                .userKey(userKey)
+                .build();
+
+        GetTransactionHistoryListRequest getTransactionHistoryRequest = GetTransactionHistoryListRequest.builder()
+                .Header(Header)
+                .accountNo(accountNo)
+                .startDate(dateAndTime[2])
+                .endDate(dateAndTime[0])
+                .transactionType("A")
+                .orderByType("DESC")
+                .build();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<GetTransactionHistoryListRequest> requestEntity = new HttpEntity<>(getTransactionHistoryRequest, httpHeaders);
+        String url = baseUrl + "/edu/demandDeposit/inquireTransactionHistoryList";
+
+        try{
+            log.debug("sent getTransactionHistoryListRequest request to FinOpenApi server, url={}", url);
+            log.debug("Request Body: {}", objectMapper.writeValueAsString(requestEntity));
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            log.debug("received getTransactionHistoryRequest response from FinOpenApi server, response={}", response);
+            String responseBody = response.getBody();
+            JsonNode jsonNode = objectMapper.readTree(responseBody);
+            JsonNode recNode = jsonNode.get("REC");
+            return recNode.get("list");
+
+        }catch(Exception e){
+            log.error("Exception occurred during FinAPI openAccountAuth: {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
