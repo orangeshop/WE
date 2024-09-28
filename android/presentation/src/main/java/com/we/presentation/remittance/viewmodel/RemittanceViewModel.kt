@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
@@ -50,10 +51,17 @@ class RemittanceViewModel @Inject constructor(
         _chooseBank.update { bank }
     }
 
-    fun postTransfer(type: Boolean, pin: String) {
+    fun postTransfer(type: Boolean, pin: String, onResult: (Boolean) -> Unit) {
 
         lateinit var request: RequestTransfer
-
+        request = RequestTransfer(
+            depositAccountNo = "",
+            isBride = null,
+            ledgerId = null,
+            pin = pin,
+            transactionBalance = 0,
+            withdrawalAccountNo = ""
+        )
         // withdrawalAccountNo 출금계좌
         // isBride = 신랑 신부
         // ledgerId = 장부
@@ -68,46 +76,60 @@ class RemittanceViewModel @Inject constructor(
         Timber.d("postTransfer type : ${type}")
 
         if (type == true) {
-            combine(
-                accountNumber,
-                money,
-                myAccountNumber
-            ) { accountNumber, money, myAccountNumber ->
-                request = RequestTransfer(
-                    depositAccountNo = accountNumber,
-                    isBride = null,
-                    ledgerId = null,
-                    pin = pin,
-                    transactionBalance = money.toInt(),
-                    withdrawalAccountNo = myAccountNumber
-                )
 
-                Timber.d("postTransfer request : ${request}")
-                postTransferCallApi(request)
+            viewModelScope.launch {
+                combine(
+                    accountNumber,
+                    money,
+                    myAccountNumber
+                ) { accountNumber, money, myAccountNumber ->
+                    request = RequestTransfer(
+                        depositAccountNo = accountNumber,
+                        isBride = null,
+                        ledgerId = null,
+                        pin = pin,
+                        transactionBalance = money.toInt(),
+                        withdrawalAccountNo = myAccountNumber
+                    )
+
+                    Timber.d("postTransfer request : ${request}")
+                    postTransferCallApi(request){
+                        when (it) {
+                            true -> {onResult(true)}
+                            false -> {onResult(false)}
+                        }
+                    }
+                }.collect()
             }
-        } else {
-            combine(
-                accountNumber,
-                money,
-                myAccountNumber
-            ) { accountNumber, money, myAccountNumber ->
-                request = RequestTransfer(
-                    depositAccountNo = null,
-                    isBride = null,
-                    ledgerId = null,
-                    pin = pin,
-                    transactionBalance = money.toInt(),
-                    withdrawalAccountNo = null
-                )
 
-                postTransferCallApi(request)
+        } else {
+            viewModelScope.launch {
+                combine(
+                    accountNumber,
+                    money,
+                    myAccountNumber
+                ) { accountNumber, money, myAccountNumber ->
+                    request = RequestTransfer(
+                        depositAccountNo = null,
+                        isBride = null,
+                        ledgerId = null,
+                        pin = pin,
+                        transactionBalance = money.toInt(),
+                        withdrawalAccountNo = null
+                    )
+
+                    postTransferCallApi(request){
+                        when (it) {
+                            true -> {onResult(true)}
+                            false -> {onResult(false)}
+                        }
+                    }
+                }.collect()
             }
         }
-
-
     }
 
-    private fun postTransferCallApi(request: RequestTransfer){
+    private fun postTransferCallApi(request: RequestTransfer, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
             bankRepository.postTransfer(
                 request
@@ -116,11 +138,12 @@ class RemittanceViewModel @Inject constructor(
                     when (it) {
                         is ApiResult.Success -> {
                             Timber.d("Authcode : success ${it}")
-
+                            onResult(true)
                         }
 
                         is ApiResult.Error -> {
                             Timber.d("Authcode : fail")
+                            onResult(false)
                         }
                     }
                 }

@@ -9,6 +9,7 @@ import android.widget.TableRow
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -160,14 +161,24 @@ class EasyPasswordRegisterFragment :
 
                 // 일반 송금과 축의금 송금 분기 처리를 해야함
                 // true인 경우 일반 송금
-                Timber.d("transfer finish ${passwordList.toString()}")
-                remittanceViewModel.postTransfer(true, "123456")
+
+                var passwordListToString = ""
+
+                list.forEach { password ->
+                    passwordListToString += password
+                }
+
+                remittanceViewModel.postTransfer(true, passwordListToString){
+                    navigateDestination(R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment, bundle = bundleOf("remittanceCheck" to it))
+                }
 
                 // false인 경우 축의금 송금
 //                remittanceViewModel.postTransfer(false)
             }
         }
     }
+
+
 
     private fun setUpEasyPassWordCheck(list: List<String>) {
         val count = list.size - 1
