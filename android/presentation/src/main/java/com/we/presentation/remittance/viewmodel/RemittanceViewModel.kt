@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.model.request.RequestTransfer
 import com.data.repository.BankRepository
+import com.data.repository.CoupleRepository
 import com.data.util.ApiResult
 import com.we.presentation.account.util.BankList
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RemittanceViewModel @Inject constructor(
-    private val bankRepository: BankRepository
+    private val bankRepository: BankRepository,
+    private val coupleRepository: CoupleRepository
 ) : ViewModel() {
 
     private val _chooseBank = MutableStateFlow(BankList(0, ""))
@@ -51,7 +53,7 @@ class RemittanceViewModel @Inject constructor(
         _chooseBank.update { bank }
     }
 
-    fun postTransfer(type: Boolean, pin: String, onResult: (Boolean) -> Unit) {
+    fun postTransfer(type: Boolean, pin: String, ledgers: Int, onResult: (Boolean) -> Unit) {
 
         lateinit var request: RequestTransfer
         request = RequestTransfer(
@@ -84,19 +86,24 @@ class RemittanceViewModel @Inject constructor(
                     myAccountNumber
                 ) { accountNumber, money, myAccountNumber ->
                     request = RequestTransfer(
-                        depositAccountNo = accountNumber,
+                        depositAccountNo = null,
                         isBride = null,
-                        ledgerId = null,
+                        ledgerId = ledgers,
                         pin = pin,
                         transactionBalance = money.toInt(),
-                        withdrawalAccountNo = myAccountNumber
+                        withdrawalAccountNo = null
                     )
 
                     Timber.d("postTransfer request : ${request}")
-                    postTransferCallApi(request){
+                    postTransferCallApi(request) {
                         when (it) {
-                            true -> {onResult(true)}
-                            false -> {onResult(false)}
+                            true -> {
+                                onResult(true)
+                            }
+
+                            false -> {
+                                onResult(false)
+                            }
                         }
                     }
                 }.collect()
@@ -118,10 +125,15 @@ class RemittanceViewModel @Inject constructor(
                         withdrawalAccountNo = null
                     )
 
-                    postTransferCallApi(request){
+                    postTransferCallApi(request) {
                         when (it) {
-                            true -> {onResult(true)}
-                            false -> {onResult(false)}
+                            true -> {
+                                onResult(true)
+                            }
+
+                            false -> {
+                                onResult(false)
+                            }
                         }
                     }
                 }.collect()
@@ -147,6 +159,21 @@ class RemittanceViewModel @Inject constructor(
                         }
                     }
                 }
+        }
+    }
+
+    private fun coupleCheck(){
+        viewModelScope.launch {
+            coupleRepository.getCouples().collectLatest {
+                when (it){
+                    is ApiResult.Success ->{
+
+                    }
+                    is ApiResult.Error -> {
+
+                    }
+                }
+            }
         }
     }
 }

@@ -28,7 +28,14 @@ class RemittanceFragment : BaseFragment<FragmentRemittanceBinding>(R.layout.frag
     private val accountNo : RemittanceFragmentArgs by navArgs()
 
     override fun initView() {
-        remittanceViewModel.setMyAccountNumber(accountNo.account)
+
+        if(accountNo.account != null){
+            remittanceViewModel.setMyAccountNumber(accountNo.account)
+        }else{
+
+        }
+
+
         initClickListener()
         accountBottomSheetClickListener()
         chooseBank()

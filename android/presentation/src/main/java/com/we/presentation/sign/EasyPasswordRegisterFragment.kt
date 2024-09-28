@@ -36,16 +36,16 @@ class EasyPasswordRegisterFragment :
 
     private val signUpViewModel: SignUpViewModel by activityViewModels()
 
-    private val remittanceViewModel : RemittanceViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     private lateinit var buttonList: MutableList<Button>
     private lateinit var passwordList: MutableList<View>
 
-    private val args : EasyPasswordRegisterFragmentArgs by navArgs()
+    private val args: EasyPasswordRegisterFragmentArgs by navArgs()
 
     override fun initView() {
         Timber.d("EasyPasswordRegisterFragment initView ${args.easyPasswordType}")
-        if(args.easyPasswordType == true) {
+        if (args.easyPasswordType == true) {
 
             initButtonList()
             initPasswordList()
@@ -53,8 +53,7 @@ class EasyPasswordRegisterFragment :
             observeEasyPassWord()
             observeEasyPasswordCheck()
             observeSignUpUiState()
-        }
-        else{
+        } else {
             initButtonList()
             initPasswordList()
             initClickEvent()
@@ -63,7 +62,7 @@ class EasyPasswordRegisterFragment :
         }
     }
 
-    private fun initTransferSetting(){
+    private fun initTransferSetting() {
         binding.apply {
             tvRegisterEasyPassword.visibility = View.GONE
         }
@@ -155,8 +154,7 @@ class EasyPasswordRegisterFragment :
         if (list.size == 6) {
             if (args.easyPasswordType == true) {
                 signUpViewModel.setEasyPasswordType(false)
-            }
-            else{
+            } else {
                 // 비번 작성 후 송금 로직 작성
 
                 // 일반 송금과 축의금 송금 분기 처리를 해야함
@@ -168,16 +166,29 @@ class EasyPasswordRegisterFragment :
                     passwordListToString += password
                 }
 
-                remittanceViewModel.postTransfer(true, passwordListToString){
-                    navigateDestination(R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment, bundle = bundleOf("remittanceCheck" to it))
-                }
+                val qrCode_checker = true
+                val ledgers = 100
+                // 알번 송금 및 qr 송금 분기 처리
+                // qrCode_checker로 분기 처리
+                if (qrCode_checker == true) {
 
-                // false인 경우 축의금 송금
-//                remittanceViewModel.postTransfer(false)
+                    remittanceViewModel.postTransfer(true, passwordListToString, ledgers) {
+                        navigateDestination(
+                            R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,
+                            bundle = bundleOf("remittanceCheck" to it)
+                        )
+                    }
+                }else{
+                    remittanceViewModel.postTransfer(false, passwordListToString, ledgers){
+                        navigateDestination(
+                            R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,
+                            bundle = bundleOf("remittanceCheck" to it)
+                        )
+                    }
+                }
             }
         }
     }
-
 
 
     private fun setUpEasyPassWordCheck(list: List<String>) {

@@ -9,6 +9,7 @@ import com.data.util.ApiResult
 import com.data.util.safeApiCall
 import com.we.model.CoupleData
 import com.we.model.CoupleSuccessData
+import com.we.model.GetCoupleData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -33,6 +34,14 @@ class CoupleRepositoryImpl @Inject constructor(
                     coupleDataSource.postCouple(requestCouple).toModel()
                 }
             )
+        }
+    }
+
+    override fun getCouples(): Flow<ApiResult<GetCoupleData>> {
+        return flow{
+            emit(safeApiCall {
+                coupleDataSource.getCouples().data.coupleInfo.toModel()
+            })
         }
     }
 }

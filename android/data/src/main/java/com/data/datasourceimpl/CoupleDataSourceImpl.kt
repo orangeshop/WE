@@ -5,6 +5,7 @@ import com.data.datasource.CoupleDataSource
 import com.data.model.request.RequestCouple
 import com.data.model.response.ResponseCouples
 import com.data.model.response.ResponseCouplesCode
+import com.data.model.response.ResponseGetCouples
 import javax.inject.Inject
 
 class CoupleDataSourceImpl @Inject constructor(
@@ -16,5 +17,9 @@ class CoupleDataSourceImpl @Inject constructor(
 
     override suspend fun postCouple(requestCouple: RequestCouple) : ResponseCouples {
         return coupleApi.postCouple(requestCouple)
+    }
+
+    override suspend fun getCouples(): ResponseGetCouples {
+        return coupleApi.getCouples()
     }
 }

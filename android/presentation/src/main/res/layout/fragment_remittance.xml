@@ -131,6 +131,30 @@
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/tv_input_money" />
 
+        <RadioGroup
+            android:visibility="gone"
+            android:id="@+id/radio_group_side"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/et_input_money"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_bride_side"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신부측" />
+
+            <RadioButton
+                android:id="@+id/radio_groom_side"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신랑측" />
+
+        </RadioGroup>
+
         <TextView
             android:enabled="true"
             android:id="@+id/tv_input_complete"
