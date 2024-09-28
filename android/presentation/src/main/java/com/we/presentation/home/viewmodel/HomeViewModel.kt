@@ -2,6 +2,8 @@ package com.we.presentation.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.data.model.request.RequestRegisterCoupleAccount
+import com.data.model.request.RequestRegisterPriorAccount
 import com.data.repository.BankRepository
 import com.data.util.ApiResult
 import com.we.model.BankData
@@ -49,4 +51,40 @@ class HomeViewModel @Inject constructor(
             (list + oldList).distinct()
         }
     }
+
+    fun postPriorAccount(){
+        val test = RequestRegisterPriorAccount(accountNo = "")
+        viewModelScope.launch {
+            bankRepository.postPriorAccount(test).collectLatest {
+                when(it){
+                    is ApiResult.Success -> {
+                        Timber.d("bank load 성공 " + it.data)
+                    }
+                    is ApiResult.Error -> {
+                        Timber.d("bank load fail " + it.exception.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun postCoupleAccount(){
+
+        val test = RequestRegisterCoupleAccount(accountNo = "", bankName = "")
+
+//        viewModelScope.launch {
+//            bankRepository.postCoupleAccount(test).collectLatest {
+//                when(it){
+//                    is ApiResult.Success -> {
+//                        Timber.d("bank load 성공 " + it.data)
+//                    }
+//                    is ApiResult.Error -> {
+//                        Timber.d("bank load fail " + it.exception.message)
+//                    }
+//                }
+//            }
+//        }
+    }
+
+
 }

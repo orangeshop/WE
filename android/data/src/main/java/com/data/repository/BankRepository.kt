@@ -3,13 +3,17 @@ package com.data.repository
 import com.data.model.request.RequestAccountAuth
 import com.data.model.request.RequestAuthCode
 import com.data.model.request.RequestCouple
+import com.data.model.request.RequestRegisterCoupleAccount
+import com.data.model.request.RequestRegisterPriorAccount
 import com.data.model.request.RequestTransfer
 import com.data.model.response.ResponseBank
+import com.data.model.response.ResponseResigterPriorAccount
 import com.data.util.ApiResult
 import com.we.model.AccountAuthData
 import com.we.model.AuthCodeData
 import com.we.model.BankData
 import com.we.model.CoupleAccountData
+import com.we.model.ResigterPriorAccountData
 import com.we.model.TransferData
 import kotlinx.coroutines.flow.Flow
 
@@ -25,4 +29,8 @@ interface BankRepository {
     suspend fun getMyCoupleAccount() : Flow<ApiResult<CoupleAccountData>>
 
     suspend fun postTransfer(requestTransfer: RequestTransfer) : Flow<ApiResult<TransferData>>
+
+    suspend fun postPriorAccount(request: RequestRegisterPriorAccount): Flow<ApiResult<ResigterPriorAccountData>>
+
+    suspend fun postCoupleAccount(request: RequestRegisterCoupleAccount)
 }

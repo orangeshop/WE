@@ -6,8 +6,11 @@ import com.data.mapper.toModel
 import com.data.model.request.RequestAccountAuth
 import com.data.model.request.RequestAuthCode
 import com.data.model.request.RequestCouple
+import com.data.model.request.RequestRegisterCoupleAccount
+import com.data.model.request.RequestRegisterPriorAccount
 import com.data.model.request.RequestTransfer
 import com.data.model.response.ResponseBank
+import com.data.model.response.ResponseResigterPriorAccount
 import com.data.repository.BankRepository
 import com.data.util.ApiResult
 import com.data.util.safeApiCall
@@ -15,6 +18,7 @@ import com.we.model.AccountAuthData
 import com.we.model.AuthCodeData
 import com.we.model.BankData
 import com.we.model.CoupleAccountData
+import com.we.model.ResigterPriorAccountData
 import com.we.model.TransferData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -83,5 +87,25 @@ class BankRepositoryImpl @Inject constructor(
             }
             emit(result)
         }
+    }
+
+    override suspend fun postPriorAccount(request: RequestRegisterPriorAccount): Flow<ApiResult<ResigterPriorAccountData>> {
+        return flow {
+            val result = safeApiCall {
+                val value = bankDataSource.postPriorAccount(request).data.toModel()
+                value
+            }
+            emit(result)
+        }
+    }
+
+    override suspend fun postCoupleAccount(request: RequestRegisterCoupleAccount) {
+//        return flow {
+//            val result = safeApiCall {
+//                val value = bankDataSource.postCoupleAccount(request)
+//                value
+//            }
+//            emit(result)
+//        }
     }
 }

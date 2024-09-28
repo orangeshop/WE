@@ -11,4 +11,5 @@ interface CoupleDataSource {
     suspend fun postCouple(requestCouple: RequestCouple) : ResponseCouples
 
     suspend fun getCouples(): ResponseGetCouples
+
 }
