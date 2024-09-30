@@ -4,13 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.we.model.InvitationData
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.component.adapter.InvitationAdapter.InvitationViewHolder
 import com.we.presentation.databinding.ItemInvitationBinding
 
-class InvitationAdapter : ListAdapter<String, InvitationViewHolder>(
-    BaseDiffUtil<String>()
+class InvitationAdapter : ListAdapter<InvitationData, InvitationViewHolder>(
+    BaseDiffUtil<InvitationData>()
 ) {
+
+    private var onItemClickListener: ((Int) -> Unit)? = null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -24,22 +28,26 @@ class InvitationAdapter : ListAdapter<String, InvitationViewHolder>(
         holder: InvitationViewHolder,
         position: Int
     ) {
-        holder.bind()
-        holder.binding.emptyVisible = position == itemCount-1
+        holder.bind(getItem(holder.adapterPosition))
+        holder.binding.emptyVisible = position == itemCount - 1
+        holder.binding.root.setOnClickListener {
+            onItemClickListener?.let {
+                it(getItem(holder.adapterPosition).invitationId)
+            }
+        }
     }
 
     class InvitationViewHolder(
         val binding: ItemInvitationBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-
+        fun bind(invitationData: InvitationData) {
             binding.apply {
-
+                this.invitationData = invitationData
             }
         }
+    }
 
-        fun visibleCheck(position : Int){
-
-        }
+    fun setItemClickListener(listener: (Int) -> Unit) {
+        this.onItemClickListener = listener
     }
 }

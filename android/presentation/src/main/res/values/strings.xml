@@ -9,4 +9,8 @@
 
     <string name="drop_down_menu_update">수정하기</string>
     <string name="drop_down_menu_delete">삭제하기</string>
+
+    <string name="kakao_app_key">7b72b5d6477e74e43a5e1691bf66445a</string>
+    <string name="kakao_scheme">kakao7b72b5d6477e74e43a5e1691bf66445a</string>
+    <string name="kakao_link_host">kakaolink</string>
 </resources>

@@ -4,6 +4,7 @@ import com.data.model.request.RequestCouple
 import com.data.model.response.ResponseCouples
 import com.data.model.response.ResponseCouplesCode
 import com.data.model.response.ResponseGetCouples
+import com.data.model.response.ResponseInvitation
 
 interface CoupleDataSource {
     suspend fun getCoupleCode(): ResponseCouplesCode
@@ -12,4 +13,6 @@ interface CoupleDataSource {
 
     suspend fun getCouples(): ResponseGetCouples
 
+
+    suspend fun getInvitation() : List<ResponseInvitation>
 }

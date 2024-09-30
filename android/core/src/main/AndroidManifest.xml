@@ -15,16 +15,26 @@
         <activity
             android:name="com.we.presentation.main.MainActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/kakao_scheme"
+                    android:host="@string/kakao_link_host" />
+            </intent-filter>
 
         </activity>
         <activity
             android:name="com.we.presentation.sign.SignActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <service
@@ -36,5 +46,11 @@
 
         </service>
     </application>
+
+
+
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
 
 </manifest>

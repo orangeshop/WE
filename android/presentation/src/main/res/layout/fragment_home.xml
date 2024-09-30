@@ -121,7 +121,7 @@
                 android:id="@+id/cl_home_btn"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginVertical="40dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"

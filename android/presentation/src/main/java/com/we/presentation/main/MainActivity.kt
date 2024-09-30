@@ -10,6 +10,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.common.util.Utility
 import com.we.presentation.R
 import com.we.presentation.base.BaseActivity
 import com.we.presentation.databinding.ActivityMainBinding
@@ -25,11 +27,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun init() {
+        initKakao()
+        initDeepLink()
         setNavGraph()
         initBottomNavigation()
         setBottomNavHide()
         getFcmToken()
         requestPermission()
+    }
+
+    private fun initKakao(){
+        KakaoSdk.init(this, resources.getString(R.string.kakao_app_key))
+    }
+    private fun initDeepLink() {
+        if (Intent.ACTION_VIEW == intent.action) {
+            val uri = intent.data
+            if (uri != null) {
+                Timber.tag("딥링크").d("$uri")
+            }
+        }
     }
 
     private fun setNavGraph() {
