@@ -13,6 +13,7 @@ import com.we.model.AccountAuthData
 import com.we.model.AuthCodeData
 import com.we.model.BankData
 import com.we.model.CoupleAccountData
+import com.we.model.RegisterCoupleAccountData
 import com.we.model.ResigterPriorAccountData
 import com.we.model.TransferData
 import kotlinx.coroutines.flow.Flow
@@ -32,5 +33,5 @@ interface BankRepository {
 
     suspend fun postPriorAccount(request: RequestRegisterPriorAccount): Flow<ApiResult<ResigterPriorAccountData>>
 
-    suspend fun postCoupleAccount(request: RequestRegisterCoupleAccount)
+    suspend fun postCoupleAccount(request: RequestRegisterCoupleAccount) : Flow<ApiResult<RegisterCoupleAccountData>>
 }

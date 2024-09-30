@@ -52,10 +52,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun postPriorAccount(){
-        val test = RequestRegisterPriorAccount(accountNo = "")
+    fun postPriorAccount(accountNo : String){
+        val request = RequestRegisterPriorAccount(accountNo = accountNo)
         viewModelScope.launch {
-            bankRepository.postPriorAccount(test).collectLatest {
+            bankRepository.postPriorAccount(request).collectLatest {
                 when(it){
                     is ApiResult.Success -> {
                         Timber.d("bank load 성공 " + it.data)
@@ -68,22 +68,23 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun postCoupleAccount(){
+    fun postCoupleAccount(accountNo : String, bankName : String){
 
-        val test = RequestRegisterCoupleAccount(accountNo = "", bankName = "")
+        val request = RequestRegisterCoupleAccount(accountNo = accountNo, bankName = bankName)
 
-//        viewModelScope.launch {
-//            bankRepository.postCoupleAccount(test).collectLatest {
-//                when(it){
-//                    is ApiResult.Success -> {
-//                        Timber.d("bank load 성공 " + it.data)
-//                    }
-//                    is ApiResult.Error -> {
-//                        Timber.d("bank load fail " + it.exception.message)
-//                    }
-//                }
-//            }
-//        }
+        viewModelScope.launch {
+            bankRepository.postCoupleAccount(request).collectLatest {
+                when (it) {
+                    is ApiResult.Success -> {
+                        Timber.d("bank load 성공 " + it.data)
+                    }
+
+                    is ApiResult.Error -> {
+                        Timber.d("bank load fail " + it.exception.message)
+                    }
+                }
+            }
+        }
     }
 
 

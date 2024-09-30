@@ -42,19 +42,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     }
 
-//    private fun menuSetting() {
-//        object : MenuProvider {
-//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-//                menuInflater.inflate(R.menu.menu_account_register, menu)
-//            }
-//
-//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-//                return true
-//            }
-//        }
-//    }
-
-
     private fun setUpAccountViewPager() {
 
 
@@ -73,7 +60,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 )
             },
             typeCheck = false,
-            moreVertClickListener = { resultView ->
+            moreVertClickListener = { resultView, account, bankName ->
                 Timber.d("asdasd")
                 val popupMenu = PopupMenu(requireContext(), resultView)
                 popupMenu.menuInflater.inflate(R.menu.menu_account_register, popupMenu.menu)
@@ -82,14 +69,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 popupMenu.setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
                         R.id.representative -> {
-                            // 편집 메뉴 클릭 시 동작
-                            homeViewModel.postPriorAccount()
+                            // 대표 계좌 등록 동작
+                            homeViewModel.postPriorAccount(account)
                             true
                         }
 
                         R.id.couple -> {
-                            // 삭제 메뉴 클릭 시 동작
-                            homeViewModel.postCoupleAccount()
+                            // 커플 계좌 등록 동작
+                            homeViewModel.postCoupleAccount(account, bankName)
                             true
                         }
 

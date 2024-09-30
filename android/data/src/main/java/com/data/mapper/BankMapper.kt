@@ -4,12 +4,14 @@ import com.data.model.response.ResponseAccountAuth
 import com.data.model.response.ResponseAuthCode
 import com.data.model.response.ResponseBank
 import com.data.model.response.ResponseCoupleAccount
+import com.data.model.response.ResponseRegisterCoupleAccount
 import com.data.model.response.ResponseResigterPriorAccount
 import com.data.model.response.ResponseTransfer
 import com.we.model.AccountAuthData
 import com.we.model.AuthCodeData
 import com.we.model.BankData
 import com.we.model.CoupleAccountData
+import com.we.model.RegisterCoupleAccountData
 import com.we.model.ResigterPriorAccountData
 import com.we.model.TransferData
 
@@ -79,5 +81,11 @@ fun ResponseResigterPriorAccount.Data.toModel() : ResigterPriorAccountData {
         leavedDate,
         coupleJoined,
         leaved
+    )
+}
+
+fun ResponseRegisterCoupleAccount.Data.toModel() : RegisterCoupleAccountData {
+    return RegisterCoupleAccountData(
+        id
     )
 }

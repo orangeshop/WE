@@ -20,7 +20,7 @@ class HomeViewPagerAccountAdapter(
     private val accountClickListener: (idx : Int) -> Unit,
     private val accountRemittance: (accountNo : String) -> Unit,
     private val typeCheck : Boolean,
-    private val moreVertClickListener : (View) -> Unit
+    private val moreVertClickListener : (View, String, String) -> Unit
 ) : ListAdapter<BankData, HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>(BaseDiffUtil<BankData>()) {
     inner class HomeViewPagerAccountViewHolder(val binding: ItemAccountBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: BankData){
@@ -63,7 +63,7 @@ class HomeViewPagerAccountAdapter(
                             }
 
                             ivMoreVert.setOnClickListener { view ->
-                                moreVertClickListener(view)
+                                moreVertClickListener(view, item.accountNo, item.bankName)
                             }
                         }
                     }
