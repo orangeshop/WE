@@ -1,6 +1,6 @@
 package com.data.model.response
 
-data class ResponseLogin(
+data class ResponseSignIn(
     val `data`: Data,
     val message: String
 ) {
@@ -9,18 +9,19 @@ data class ResponseLogin(
         val tokens: Tokens
     ) {
         data class MemberInfo(
-            val email: String,
             val id: Int,
-            val imageUrl: Any,
-            val leaved: Boolean,
-            val leavedDate: Any,
+            val email: String,
             val nickname: String,
-            val regDate: String
-        )
-
-        data class Tokens(
-            val accessToken: String,
-            val refreshToken: String
+            val imageUrl: Any,
+            val regDate: String,
+            val leavedDate: Any,
+            val coupleJoined: Boolean,
+            val leaved: Boolean
         )
     }
+
+    data class Tokens(
+        val accessToken: String,
+        val refreshToken: String
+    )
 }

@@ -1,5 +1,6 @@
 package com.we.model
 
+
 data class ScheduleParam(
     val content: String = "",
     val address: String = "",

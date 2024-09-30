@@ -29,6 +29,8 @@ class ScheduleRegisterViewModel @Inject constructor(
     )
     val scheduleRegisterUiState: StateFlow<ScheduleRegisterUiState> get() = _scheduleRegisterUiState
 
+    val updateId = MutableStateFlow<Int>(0)
+
     fun setScheduleRegisterUiState(state: ScheduleRegisterUiState) {
         _scheduleRegisterUiState.update { state }
     }
@@ -36,6 +38,11 @@ class ScheduleRegisterViewModel @Inject constructor(
     private val _scheduleRegisterParam = MutableStateFlow<ScheduleParam>(ScheduleParam())
     val scheduleRegisterParam: StateFlow<ScheduleParam> get() = _scheduleRegisterParam
 
+
+    fun setAllRegisterParam(data: ScheduleParam, scheduleId: Int? = 0) {
+        updateId.value = scheduleId ?: 0
+        _scheduleRegisterParam.update { data }
+    }
 
     fun setRegisterParam(type: ScheduleRegisterType, content: Any?) {
         when (type) {
@@ -100,12 +107,34 @@ class ScheduleRegisterViewModel @Inject constructor(
 
                     is ApiResult.Error -> {
                         Timber.tag("일정 작성").d("${it.exception}")
-                        setScheduleRegisterUiState(ScheduleRegisterUiState.RegisterError(it.exception.toString()))
+                        setScheduleRegisterUiState(ScheduleRegisterUiState.Error(it.exception.toString()))
                     }
                 }
 
             }
         }
+    }
+
+    fun updateSchedule(scheduleId: Int) {
+        viewModelScope.launch {
+            scheduleRepository.updateSchedule(scheduleId, scheduleRegisterParam.value)
+                .collectLatest {
+                    when (it) {
+                        is ApiResult.Success -> {
+                            Timber.tag("일정 수정 성공").d("${it}")
+                            setScheduleRegisterUiState(ScheduleRegisterUiState.UpdateSuccess)
+                        }
+
+                        is ApiResult.Error -> {
+                            Timber.tag("일정 작성").d("${it.exception}")
+                            setScheduleRegisterUiState(ScheduleRegisterUiState.Error(it.exception.toString()))
+                        }
+                    }
+
+                }
+        }
+
+
     }
 
     init {

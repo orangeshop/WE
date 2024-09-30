@@ -5,7 +5,7 @@ data class ScheduleData(
     val content: String,
     val coupleId: Int,
     val done: Boolean,
-    val price: Int,
+    val price: Long,
     val scheduleId: Int,
     val scheduledTime: String?
 )

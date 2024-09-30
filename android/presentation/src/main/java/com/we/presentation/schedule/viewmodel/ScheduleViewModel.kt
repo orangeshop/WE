@@ -195,8 +195,22 @@ class ScheduleViewModel @Inject constructor(
 
 
         }
-
-
     }
+
+    fun deleteSchedule(scheduleId : Int){
+        viewModelScope.launch{
+            scheduleRepository.deleteSchedule(scheduleId).collectLatest {
+                when(it){
+                    is ApiResult.Success -> {
+                        checkDate()
+                    }
+                    is ApiResult.Error -> {
+                        Timber.tag("스케줄 삭제").d("실패 ${it.exception}")
+                    }
+                }
+            }
+        }
+    }
+
 
 }

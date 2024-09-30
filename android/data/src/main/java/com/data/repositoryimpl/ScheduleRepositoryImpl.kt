@@ -43,4 +43,22 @@ class ScheduleRepositoryImpl @Inject constructor(
             })
         }
     }
+
+    override fun deleteSchedule(scheduleId: Int): Flow<ApiResult<Unit>> {
+        return flow { emit(safeApiCall { scheduleDataSource.deleteSchedule(scheduleId) }) }
+    }
+
+    override fun updateSchedule(
+        scheduleId: Int,
+        scheduleParam: ScheduleParam
+    ): Flow<ApiResult<ScheduleData>> {
+        return flow {
+            emit(safeApiCall {
+                scheduleDataSource.patchSchedule(
+                    scheduleId,
+                    scheduleParam.toModel()
+                ).toScheduleEntity()
+            })
+        }
+    }
 }

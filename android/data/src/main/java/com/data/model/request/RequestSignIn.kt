@@ -1,6 +1,6 @@
 package com.data.model.request
 
-data class RequestLogin (
+data class RequestSignIn (
     val email : String,
     val password : String
 )
