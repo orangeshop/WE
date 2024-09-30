@@ -208,6 +208,11 @@ const StorageDetail: React.FC = () => {
       });
   };
 
+  function shareDeepLink() {
+    const deepLinkUrl = `we://transfer`;
+    window.location.href = deepLinkUrl;
+  }
+
   return (
     <div className="relative font-nanum w-screen">
       <div
@@ -473,7 +478,10 @@ const StorageDetail: React.FC = () => {
                       {")"}
                     </p>
                   </div>
-                  <button className="h-10 mr-5 text-sm mt-2 text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow px-2 py-1">
+                  <button
+                    className="h-10 mr-5 text-sm mt-2 text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow px-2 py-1"
+                    onClick={shareDeepLink}
+                  >
                     이체하기
                   </button>
                 </div>

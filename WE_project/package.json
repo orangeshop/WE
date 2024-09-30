@@ -15,7 +15,8 @@
     "@emotion/react": "^11.13.3",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@types/chart.js": "^2.9.41",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
     "@types/cropperjs": "^1.1.5",
     "@types/react-modal": "^3.16.3",
     "aos": "^2.3.4",
@@ -48,7 +49,9 @@
     "react-slick": "^0.30.2",
     "react-type-animation": "^3.2.0",
     "react-typed": "^2.0.12",
+    "rollup": "^4.22.5",
     "slick-carousel": "^1.8.1",
+    "styled-reset": "^4.5.2",
     "sweetalert2": "^11.14.1"
   },
   "devDependencies": {

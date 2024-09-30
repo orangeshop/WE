@@ -150,7 +150,7 @@ const AccountBook: React.FC = () => {
       <div className="mt-24 mb-20">
         {sortedData && sortedData.data.length > 0 ? (
           <div>
-            <h2 className="text-xl mb-4">청첩장 장부</h2>
+            <h2 className="text-xl mb-4">청첩장 장부 내역</h2>
             <table className="table-auto border-collapse w-full text-left mt-4">
               <thead>
                 <tr>
