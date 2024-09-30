@@ -9,6 +9,7 @@ import com.data.model.response.ResponseAccountAuth
 import com.data.model.response.ResponseAuthCode
 import com.data.model.response.ResponseBank
 import com.data.model.response.ResponseCoupleAccount
+import com.data.model.response.ResponseRegisterCoupleAccount
 import com.data.model.response.ResponseResigterPriorAccount
 import com.data.model.response.ResponseTransfer
 import retrofit2.http.Body
@@ -40,6 +41,6 @@ interface BankApi {
     suspend fun postPriorAccount(@Body request: RequestRegisterPriorAccount):ResponseResigterPriorAccount
 
     @POST("bank/register-couple-account")
-    suspend fun postCoupleAccount(@Body request: RequestRegisterCoupleAccount)
+    suspend fun postCoupleAccount(@Body request: RequestRegisterCoupleAccount): ResponseRegisterCoupleAccount
 
 }

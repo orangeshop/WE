@@ -37,6 +37,7 @@ class RemittanceViewModel @Inject constructor(
     private val _money = MutableStateFlow("")
     val money: Flow<String> get() = _money
 
+
     fun setMoney(money: String) {
         _money.update { money }
     }

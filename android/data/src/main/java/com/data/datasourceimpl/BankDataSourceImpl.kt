@@ -11,6 +11,7 @@ import com.data.model.response.ResponseAccountAuth
 import com.data.model.response.ResponseAuthCode
 import com.data.model.response.ResponseBank
 import com.data.model.response.ResponseCoupleAccount
+import com.data.model.response.ResponseRegisterCoupleAccount
 import com.data.model.response.ResponseResigterPriorAccount
 import com.data.model.response.ResponseTransfer
 import kotlinx.coroutines.flow.Flow
@@ -48,7 +49,7 @@ class BankDataSourceImpl @Inject constructor(
         return bankApi.postPriorAccount(request)
     }
 
-    override suspend fun postCoupleAccount(request: RequestRegisterCoupleAccount) {
+    override suspend fun postCoupleAccount(request: RequestRegisterCoupleAccount): ResponseRegisterCoupleAccount {
         return bankApi.postCoupleAccount(request)
     }
 }

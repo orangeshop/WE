@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
 import com.we.presentation.account.AccountModalBottomSheet
+import com.we.presentation.account.util.BankList
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentRemittanceBinding
 import com.we.presentation.remittance.viewmodel.RemittanceViewModel
@@ -29,12 +30,17 @@ class RemittanceFragment : BaseFragment<FragmentRemittanceBinding>(R.layout.frag
 
     override fun initView() {
 
+        remittanceViewModel.setMyAccountNumber("")
+        remittanceViewModel.setAccountNumber("")
+        remittanceViewModel.setMoney("")
+        remittanceViewModel.setChooseBank(BankList(0, ""))
+
+        // qr로 들어올 시 account 계정에 따라 처리하는 로직
         if(accountNo.account != null){
             remittanceViewModel.setMyAccountNumber(accountNo.account)
         }else{
 
         }
-
 
         initClickListener()
         accountBottomSheetClickListener()
