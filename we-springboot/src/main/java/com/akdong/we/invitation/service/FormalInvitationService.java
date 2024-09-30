@@ -98,8 +98,11 @@ public class FormalInvitationService {
                 .orElseThrow();
         var couple = coupleRepository.findById(invitation.getCouple_id())
                 .orElseThrow();
+        var member = memberRepository
+                .findById(couple.getId())
+                .orElseThrow();
 
-        return invitation.asDto(couple.getAccountNumber(),couple.getAccountOwnerName(),
+        return invitation.asDto(couple.getAccountNumber(),member.getNickname(),
                 couple.getAccountBankName());
     }
 
