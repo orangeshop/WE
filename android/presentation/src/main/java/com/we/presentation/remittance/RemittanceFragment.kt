@@ -31,8 +31,6 @@ class RemittanceFragment : BaseFragment<FragmentRemittanceBinding>(R.layout.frag
 
     override fun initView() {
 
-        remittanceViewModel.setChooseBank(BankList(0, ""))
-
         // qr로 들어올 시 account 계정에 따라 처리하는 로직
         if(accountNo.account != null){
             remittanceViewModel.setMyAccountNumber(accountNo.account)
@@ -40,12 +38,19 @@ class RemittanceFragment : BaseFragment<FragmentRemittanceBinding>(R.layout.frag
 
         }
 
+        initData()
+
 
         initClickListener()
         accountBottomSheetClickListener()
         chooseBank()
         accountNumberInput()
         moneyInput()
+    }
+
+    private fun initData(){
+        remittanceViewModel.setChooseBank(BankList(0, ""))
+
     }
 
     private fun accountNumberInput(){

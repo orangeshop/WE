@@ -54,6 +54,7 @@ class EasyPasswordRegisterFragment :
             observeEasyPasswordCheck()
             observeSignUpUiState()
         } else {
+
             initButtonList()
             initPasswordList()
             initClickEvent()
@@ -66,6 +67,8 @@ class EasyPasswordRegisterFragment :
         binding.apply {
             tvRegisterEasyPassword.visibility = View.GONE
         }
+
+        signUpViewModel.clearSignUpParam()
     }
 
     private fun initButtonList() {
