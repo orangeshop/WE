@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface CoupleRepository extends JpaRepository<Couple, Long> {
     @Query("SELECT c FROM Couple c WHERE c.member1 = :member OR c.member2 = :member")
     Optional<Couple> findByMember(@Param("member") Member member);
+
+
 }

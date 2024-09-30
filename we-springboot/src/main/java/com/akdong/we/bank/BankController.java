@@ -4,7 +4,6 @@ import com.akdong.we.api.FinApiCallService;
 import com.akdong.we.common.dto.ErrorResponse;
 import com.akdong.we.common.dto.SuccessResponse;
 import com.akdong.we.common.exception.BusinessException;
-import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.response.CoupleInfo;
 import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.ledger.LedgerErrorCode;
@@ -19,6 +18,7 @@ import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.entity.MemberAccount;
 import com.akdong.we.member.exception.member.MemberErrorCode;
 import com.akdong.we.member.repository.MemberAccountRepository;
+import com.akdong.we.member.repository.MemberRepository;
 import com.akdong.we.member.response.MemberInfo;
 import com.akdong.we.notification.service.FirebaseService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -49,13 +49,12 @@ public class BankController {
     private final CoupleService coupleService;
     private final FirebaseService firebaseService;
     private final BankService bankService;
-
     private final ObjectMapper objectMapper = new ObjectMapper();
-
     private final GiftRepository giftRepository;
     private final LedgerRepository ledgerRepository;
     private final LedgerGiftRepository ledgerGiftRepository;
     private final MemberAccountRepository memberAccountRepository;
+
 
     @GetMapping("/my-account-test")
     @Operation(summary = "나의 계좌 목록(1원 송금 등록용)", description = "나의 계좌 목록을 조회합니다")
@@ -65,11 +64,10 @@ public class BankController {
     public ResponseEntity<?> myAccountTest(@Parameter(hidden = true)  @Login Member member){
         try {
             JsonNode jsonResponse = finApiCallService.accountList(member.getUserKey());
-            List<GetAccountResponse> response = new ArrayList<>();
+            List<AccountInfo> response = new ArrayList<>();
             for (JsonNode node : jsonResponse) {
-                response.add(objectMapper.treeToValue(node, GetAccountResponse.class));
+                response.add(objectMapper.treeToValue(node, AccountInfo.class));
             }
-
             return ResponseEntity.ok(
                     new SuccessResponse<>(
                             "나의 계좌 리스트 조회에 성공했습니다.",
@@ -90,7 +88,7 @@ public class BankController {
     })
     public ResponseEntity<?> myAccount(@Parameter(hidden = true)  @Login Member member){
         try {
-            List<GetAccountResponse> myAccounts = bankService.accountList(member);
+            List<AccountInfo> myAccounts = bankService.accountList(member);
             return ResponseEntity.ok(
                     new SuccessResponse<>(
                             "나의 계좌(등록 완료된 계좌) 리스트 조회에 성공했습니다.",
@@ -223,44 +221,26 @@ public class BankController {
             @ApiResponse(responseCode = "200", description = "커플 계좌 조회 성공", useReturnTypeSchema = true),
     })
     public ResponseEntity<?> myCoupleAccount(@Parameter(hidden = true)  @Login Member member){
+        if(!member.isCoupleJoined()){
+            throw new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR);
+        }
 
-        if(member.isCoupleJoined()) {
-            Couple couple = coupleService.getMyCoupleInfo(member)
-                    .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
-            String accountNo = couple.getAccountNumber();
+        try {
+            JsonNode jsonResponse = finApiCallService.getCoupleAccount(member);
+            AccountInfo response = objectMapper.treeToValue(jsonResponse, AccountInfo.class);
 
-            if(accountNo != null){
-                try {
-                    JsonNode jsonResponse = finApiCallService.getCoupleAccount(member.getUserKey(), accountNo);
-                    GetAccountResponse response = objectMapper.treeToValue(jsonResponse, GetAccountResponse.class);
-
-                    return ResponseEntity.ok(
-                            new SuccessResponse<>(
-                                    "나의 커플 계좌 조회에 성공했습니다.",
-                                    response
-                            )
-                    );
-                }catch (Exception e) {
-                    log.error("Exception occurred while processing the account list response: {}", e.getMessage(), e);
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .body(new ErrorResponse<>("계좌 리스트 조회 중 오류가 발생했습니다.", e));
-                }
-            }else{
-                return ResponseEntity.ok(
-                        new SuccessResponse<>(
-                                "나의 커플 계좌 조회에 성공했습니다.",
-                                null
-                        )
-                );
-            }
-        }else{
             return ResponseEntity.ok(
                     new SuccessResponse<>(
                             "나의 커플 계좌 조회에 성공했습니다.",
-                            null
+                            response
                     )
             );
+        }catch (Exception e) {
+            log.error("Exception occurred while processing the account list response: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse<>("계좌 리스트 조회 중 오류가 발생했습니다.", e));
         }
+
     }
 
     @PostMapping("/register-prior-account")
@@ -300,7 +280,7 @@ public class BankController {
     }
 
     @PostMapping("/transaction-history-list")
-    @Operation(summary = "계좌 거래 내역 조회(축의금 포함)", description = "축의금을 포함한 모든 계좌 거랜 내역을 조회합니다.")
+    @Operation(summary = "계좌 거래 내역 조회(축의금 포함)", description = "축의금을 포함한 모든 계좌 거래 내역을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "계좌 거래 내역 조회 성공", useReturnTypeSchema = true),
     })
@@ -316,6 +296,4 @@ public class BankController {
                 )
         );
     }
-
-
 }

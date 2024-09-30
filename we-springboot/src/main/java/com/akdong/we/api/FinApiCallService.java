@@ -3,12 +3,15 @@ package com.akdong.we.api;
 import com.akdong.we.api.request.*;
 import com.akdong.we.bank.TransferRequest;
 import com.akdong.we.common.exception.BusinessException;
+import com.akdong.we.couple.CoupleErrorCode;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.ledger.LedgerErrorCode;
 import com.akdong.we.ledger.entity.Ledger;
 import com.akdong.we.ledger.repository.LedgerRepository;
 import com.akdong.we.member.entity.Member;
+import com.akdong.we.member.exception.member.MemberErrorCode;
+import com.akdong.we.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
@@ -24,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -47,6 +51,7 @@ public class FinApiCallService {
 
     private final CoupleService coupleService;
     private final LedgerRepository ledgerRepository;
+    private final MemberRepository memberRepository;
 
     public String[] createFormatDateTime(){
         String[] dateAndTime = new String[3];
@@ -421,7 +426,25 @@ public class FinApiCallService {
         }
     }
 
-    public JsonNode getCoupleAccount(String userKey, String accountNo){
+    public JsonNode getCoupleAccount(Member member){
+        if(!member.isCoupleJoined()){
+            throw new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR);
+        }
+        Couple couple = coupleService.getMyCoupleInfo(member)
+                .orElseThrow(() -> new BusinessException(CoupleErrorCode.COUPLE_NOT_FOUND_ERROR));
+        String accountNo = couple.getAccountNumber();
+        if(accountNo == null){
+            throw new BusinessException(CoupleErrorCode.ACCOUNT_NOT_FOUND_ERROR);
+        }
+        String userKey;
+        if(Objects.equals(couple.getAccountOwnerId(), member.getId())){
+            userKey = member.getUserKey();
+        }else{
+            Member memberOwner = memberRepository.findById(couple.getAccountOwnerId())
+                    .orElseThrow(() -> new BusinessException(CoupleErrorCode.ACCOUNT_NOT_FOUND_ERROR));
+            userKey = memberOwner.getUserKey();
+        }
+
         String[] dateAndTime = createFormatDateTime();
 
         CommonRequestHeader Header = CommonRequestHeader.customBuilder()
