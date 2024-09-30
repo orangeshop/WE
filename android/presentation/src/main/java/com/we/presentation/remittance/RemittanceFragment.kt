@@ -42,6 +42,7 @@ class RemittanceFragment : BaseFragment<FragmentRemittanceBinding>(R.layout.frag
 
         }
 
+
         initClickListener()
         accountBottomSheetClickListener()
         chooseBank()
