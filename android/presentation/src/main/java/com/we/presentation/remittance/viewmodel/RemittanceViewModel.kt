@@ -87,12 +87,12 @@ class RemittanceViewModel @Inject constructor(
                     myAccountNumber
                 ) { accountNumber, money, myAccountNumber ->
                     request = RequestTransfer(
-                        depositAccountNo = null,
+                        depositAccountNo = accountNumber,
                         isBride = null,
-                        ledgerId = ledgers,
+                        ledgerId = null,
                         pin = pin,
                         transactionBalance = money.toInt(),
-                        withdrawalAccountNo = null
+                        withdrawalAccountNo = myAccountNumber
                     )
 
                     Timber.d("postTransfer request : ${request}")

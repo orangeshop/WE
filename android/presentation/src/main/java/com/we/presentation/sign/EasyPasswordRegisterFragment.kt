@@ -36,7 +36,7 @@ class EasyPasswordRegisterFragment :
 
     private val signUpViewModel: SignUpViewModel by activityViewModels()
 
-    private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.remittance_gragh)
 
     private lateinit var buttonList: MutableList<Button>
     private lateinit var passwordList: MutableList<View>
@@ -171,7 +171,7 @@ class EasyPasswordRegisterFragment :
                 // 알번 송금 및 qr 송금 분기 처리
                 // qrCode_checker로 분기 처리
                 if (qrCode_checker == true) {
-
+                    Timber.d("qrCode_checker : $qrCode_checker")
                     remittanceViewModel.postTransfer(true, passwordListToString, ledgers) {
                         navigateDestination(
                             R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,

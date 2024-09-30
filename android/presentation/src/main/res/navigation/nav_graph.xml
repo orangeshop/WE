@@ -22,6 +22,7 @@
             android:id="@+id/action_homeFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
 
+
         <action
             android:id="@+id/action_homeFragment_accountCheckFragment"
             app:destination="@id/accountCheckFragment" />
@@ -42,6 +43,9 @@
         <action
             android:id="@+id/action_homeFragment_to_coupleFragment"
             app:destination="@id/coupleFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_remittance_gragh"
+            app:destination="@id/remittance_gragh" />
 
     </fragment>
 
@@ -83,45 +87,6 @@
         android:name="com.we.presentation.accountcheck.AccountCheckFragment"
         android:label="AccountCheckFragment"
         tools:layout="@layout/fragment_account_check" />
-    <fragment
-        android:id="@+id/remittanceFragment"
-        android:name="com.we.presentation.remittance.RemittanceFragment"
-        android:label="RemittanceFragment"
-        tools:layout="@layout/fragment_remittance">
-        <action
-            android:id="@+id/action_remittanceFragment_to_remittanceCheckFragment"
-            app:destination="@id/remittanceCheckFragment" />
-
-        <argument
-            android:name="account"
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/remittanceCheckFragment"
-        android:name="com.we.presentation.remittance.RemittanceCheckFragment"
-        android:label="RemittanceCheckFragment"
-        tools:layout="@layout/fragment_remittance_check">
-        <action
-            android:id="@+id/action_remittanceCheckFragment_to_easyPasswordRegisterFragment"
-            app:destination="@id/easyPasswordRegisterFragment">
-            <argument
-                android:name="easyPasswordType"
-                app:argType="boolean" />
-        </action>
-    </fragment>
-
-    <fragment
-        android:id="@+id/easyPasswordRegisterFragment"
-        android:name="com.we.presentation.sign.EasyPasswordRegisterFragment"
-        android:label="EasyPasswordRegisterFragment"
-        tools:layout="@layout/fragment_easy_password_register">
-        <argument
-            android:name="easyPasswordType"
-            app:argType="boolean" />
-        <action
-            android:id="@+id/action_easyPasswordRegisterFragment_to_remittanceFinishFragment"
-            app:destination="@id/remittanceFinishFragment" />
-    </fragment>
 
     <!-- 청첩장 -->
     <fragment
@@ -141,16 +106,8 @@
 
     <!-- 스케줄 등록 -->
     <include app:graph="@navigation/schedule_register_nav_graph" />
-    <fragment
-        android:id="@+id/remittanceFinishFragment"
-        android:name="com.we.presentation.remittance.RemittanceFinishFragment"
-        android:label="RemittanceFinishFragment"
-        tools:layout="@layout/fragment_remittance_finish">
 
-        <argument
-            android:name="remittanceCheck"
-            app:argType="boolean"
-            />
+    <!-- 송금 하기  -->
+    <include app:graph="@navigation/remittance_gragh" />
 
-    </fragment>
 </navigation>

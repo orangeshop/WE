@@ -55,7 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             },
             accountRemittance = { account ->
                 navigateDestination(
-                    R.id.action_fragment_home_to_remittanceFragment,
+                    R.id.action_homeFragment_to_remittance_gragh,
                     bundle = bundleOf("account" to account)
                 )
             },

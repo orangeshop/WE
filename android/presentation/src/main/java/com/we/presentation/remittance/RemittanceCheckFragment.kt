@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class RemittanceCheckFragment :
     BaseFragment<FragmentRemittanceCheckBinding>(R.layout.fragment_remittance_check) {
-    private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.remittance_gragh)
     override fun initView() {
         initClickListener()
         initStringSetting()

@@ -9,7 +9,6 @@ import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentRemittanceFinishBinding
-import com.we.presentation.sign.EasyPasswordRegisterFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

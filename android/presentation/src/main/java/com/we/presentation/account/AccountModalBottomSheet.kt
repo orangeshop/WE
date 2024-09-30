@@ -31,7 +31,7 @@ class AccountModalBottomSheet : BaseBottomSheet<DialogChooseBankBinding>() {
         get() = DialogChooseBankBinding::inflate
 
     private val accountViewModel: AccountViewModel by hiltNavGraphViewModels(R.id.nav_graph)
-    private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.remittance_gragh)
 
     override fun setupViews() {
         val adapter = AccountBankChooseAdapter { item ->
