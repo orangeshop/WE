@@ -14,6 +14,7 @@ import com.kakao.sdk.template.model.Button
 import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
+import com.we.model.InvitationData
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.adapter.InvitationAdapter
@@ -61,7 +62,10 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
             .onEach {
                 when (it) {
                     is InvitationUiState.InvitationSuccess -> {
-                        invitationAdapter.submitList(it.data)
+                        val updatedList = it.data.toMutableList().apply {
+                            add(InvitationData())
+                        }
+                        invitationAdapter.submitList(updatedList)
                     }
 
                     is InvitationUiState.InvitationError -> {
@@ -82,11 +86,11 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
             icTitle.ivBack.setOnClickListener {
                 navigatePopBackStack()
             }
-            invitationAdapter.setItemClickListener {
-                val url = "https://j11d104.p.ssafy.io/be/v1/invitation/formal/$it"
-                startActivity(Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse(url)
+            invitationAdapter.setItemClickListener { num ->
+                startActivity(Intent(requireActivity(), InvitationDetailActivity::class.java).apply {
+                    putExtra("param", num)
                 })
+
             }
             btnShare.setOnClickListener {
                 setShareEvent()
