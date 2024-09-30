@@ -1,7 +1,9 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
-import samplethumbnail from "../assets/images/samplethumbnail.png";
+import mockup from "../assets/images/mockup.png";
 import { createFormalInvitation } from "../apis/api/infotypeinvitation";
+import { IoIosLink } from "react-icons/io";
+import { FaWandMagicSparkles } from "react-icons/fa6";
 
 const TypeChoice: React.FC = () => {
   const handleCreateInvitation = async () => {
@@ -22,32 +24,36 @@ const TypeChoice: React.FC = () => {
       <Navbar isScrollSensitive={false} />
       <div className="justify-between mt-20">
         <div className="flex gap-40">
-          <div className="flex gap-40">
+          <div className="flex gap-20">
             <img
-              src={samplethumbnail}
+              src={mockup}
               alt="invitation_card"
-              className="w-[440px] h-auto mb-5"
+              className="w-[500px] h-auto mb-5"
             />
-            <div className="text-center font-default mt-48">
-              <p className="text-2xl font-bold mb-5">정보형 청첩장 제작</p>
-              <p>필요한 정보들을 간단히 입력하기만 하면</p>
-              <p>예쁜 모바일 청첩장이 완성돼요!</p>
-              <div className="flex gap-3 justify-center">
+            <div className="font-default mt-48">
+              <p className="text-[40px] font-semibold mb-5">정보형 청첩장</p>
+              <p className="text-[16px]">일생에 가장 아름다운 날,</p>
+              <p className="text-[16px]">[ WE : ]에서 모바일 청첩장을 만들어보세요!</p>
+              <div className="flex gap-3 mb-5">
                 <button
                   type="submit"
-                  className="py-2 px-5 rounded-3xl text-md bg-[#FFECCA] mt-5 font-default"
+                  className="py-3 px-8 rounded-md text-md bg-[#FFECCA] mt-5 font-default"
                   onClick={() => (window.location.href = "/invite/info/sample")}
                 >
+                  <IoIosLink size={20} className="mr-2" />
                   샘플보기
                 </button>
                 <button
                   type="submit"
-                  className="py-2 px-5 rounded-3xl text-md bg-[#FFD0DE] mt-5 font-default"
+                  className="py-3 px-8 rounded-md text-md bg-[#FFD0DE] mt-5 font-default"
                   onClick={handleCreateInvitation}
                 >
+                  <FaWandMagicSparkles size={20} className="mr-2" />
                   제작하기
                 </button>
+
               </div>
+              <p className="text-[12px]">* 필요한 정보만 입력하면 예쁜 모바일 청첩장이 만들어져요.</p>
             </div>
           </div>
         </div>
