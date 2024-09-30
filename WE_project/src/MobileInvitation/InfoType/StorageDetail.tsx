@@ -209,10 +209,7 @@ const StorageDetail: React.FC = () => {
   };
 
   function shareDeepLink() {
-    // 동적으로 number 값을 생성하거나 가져옴
-    const deepLinkUrl = `we://transfer`; // 필요에 따라 number를 쿼리 파라미터로 추가
-
-    // 딥 링크 열기
+    const deepLinkUrl = `we://transfer`;
     window.location.href = deepLinkUrl;
   }
 
