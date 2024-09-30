@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SketchPicker, ColorResult } from "react-color";
 import Draggable from "react-draggable";
+import { FaBold, FaItalic, FaImage } from "react-icons/fa"; // react-icons import
 
 interface ImageProps {
   src: string;
@@ -122,6 +123,15 @@ const FreeTypeInvitation: React.FC = () => {
                   onChange={handleFontSizeChange}
                   style={{ marginLeft: "10px", width: "60px" }}
                 />
+              </div>
+            </div>
+            {/* Adding icons */}
+            <div style={{ marginTop: "20px" }}>
+              <h4>Icons</h4>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <FaBold size={24} style={{ cursor: "pointer" }} />
+                <FaItalic size={24} style={{ cursor: "pointer" }} />
+                <FaImage size={24} style={{ cursor: "pointer" }} />
               </div>
             </div>
           </div>
