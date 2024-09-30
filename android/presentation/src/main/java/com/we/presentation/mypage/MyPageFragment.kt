@@ -39,7 +39,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
             },
             typeCheck = true,
-            moreVertClickListener = {
+            moreVertClickListener = {view, account, bankName ->
 
             }
         )

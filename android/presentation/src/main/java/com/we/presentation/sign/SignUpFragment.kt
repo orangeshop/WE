@@ -1,5 +1,6 @@
 package com.we.presentation.sign
 
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -71,7 +72,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                 navigatePopBackStack()
             }
             tvSignUpComplete.setOnClickListener {
-                navigateDestination(R.id.action_fragment_sign_up_to_fragment_easy_password_register)
+
+                navigateDestination(R.id.action_fragment_sign_up_to_fragment_easy_password_register, bundleOf("easyPasswordType" to true))
+
             }
         }
     }

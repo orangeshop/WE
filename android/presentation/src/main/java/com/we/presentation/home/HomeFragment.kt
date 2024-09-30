@@ -3,6 +3,8 @@ package com.we.presentation.home
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.PopupMenu
+import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -40,19 +42,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     }
 
-    private fun menuSetting() {
-        object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_account_register, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return true
-            }
-        }
-    }
-
-
     private fun setUpAccountViewPager() {
 
 
@@ -64,12 +53,38 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                     navigateDestination(R.id.action_homeFragment_accountCheckFragment)
                 }
             },
-            accountRemittance = {
-                navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
+            accountRemittance = { account ->
+                navigateDestination(
+                    R.id.action_homeFragment_to_remittance_gragh,
+                    bundle = bundleOf("account" to account)
+                )
             },
             typeCheck = false,
-            moreVertClickListener = {
+            moreVertClickListener = { resultView, account, bankName ->
+                Timber.d("asdasd")
+                val popupMenu = PopupMenu(requireContext(), resultView)
+                popupMenu.menuInflater.inflate(R.menu.menu_account_register, popupMenu.menu)
 
+                // 메뉴 아이템 클릭 리스너 설정
+                popupMenu.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.representative -> {
+                            // 대표 계좌 등록 동작
+                            homeViewModel.postPriorAccount(account)
+                            true
+                        }
+
+                        R.id.couple -> {
+                            // 커플 계좌 등록 동작
+                            homeViewModel.postCoupleAccount(account, bankName)
+                            true
+                        }
+
+                        else -> false
+                    }
+                }
+                // 팝업 메뉴 표시
+                popupMenu.show()
             }
         )
 
@@ -78,7 +93,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             vpHomeTotalAccountDotsIndicator.attachTo(vpHomeAccount)
 
             viewLifecycleOwner.lifecycleScope.launch {
-                delay(400)
+                delay(700)
                 vpHomeAccount.setCurrentItem(0, false)
             }
         }
@@ -90,34 +105,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 homeAdapter.submitList(list)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
-
-
-//        homeViewModel.accountList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-//            .onEach { list ->
-//                homeAdapter = HomeViewPagerAccountAdapter(
-//                    list,
-//                    accountClickListener = { idx ->
-//                        if (idx == list.lastIndex) {
-//                            navigateDestination(R.id.action_homeFragment_to_accountFragment)
-//                        } else {
-//                            navigateDestination(R.id.action_homeFragment_accountCheckFragment)
-//                        }
-//                    },
-//                    accountRemittance = {
-//                        navigateDestination(R.id.action_fragment_home_to_remittanceFragment)
-//                    },
-//                    typeCheck = false,
-//                    moreVertClickListener = {
-//
-//                    }
-//                )
-//                binding.apply {
-//                    vpHomeAccount.adapter = homeAdapter
-//                    vpHomeTotalAccountDotsIndicator.attachTo(vpHomeAccount)
-//                }
-//            }
-//            .launchIn(viewLifecycleOwner.lifecycleScope)
-
     }
 
     private fun setUpBannerViewPager() {

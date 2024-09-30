@@ -36,7 +36,12 @@
             app:popUpTo="@+id/signInFragment"
             app:enterAnim="@animator/anim_fade_in_x_right_to_left"
             app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
-            app:destination="@id/signUpSuccessFragment" />
+            app:destination="@id/signUpSuccessFragment" >
+            <argument
+                android:name="easyPasswordType"
+                app:argType="boolean"
+                />
+        </action>
     </fragment>
 
     <fragment

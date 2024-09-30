@@ -9,8 +9,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
+import com.we.presentation.RemittanceGraghArgs
 import com.we.presentation.account.AccountModalBottomSheet
+import com.we.presentation.account.util.BankList
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentRemittanceBinding
 import com.we.presentation.remittance.viewmodel.RemittanceViewModel
@@ -22,13 +25,32 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class RemittanceFragment : BaseFragment<FragmentRemittanceBinding>(R.layout.fragment_remittance) {
-    private val remittanceViewModel : RemittanceViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val remittanceViewModel : RemittanceViewModel by hiltNavGraphViewModels(R.id.remittance_gragh)
+
+    private val accountNo : RemittanceGraghArgs by navArgs()
+
     override fun initView() {
+
+        // qr로 들어올 시 account 계정에 따라 처리하는 로직
+        if(accountNo.account != null){
+            remittanceViewModel.setMyAccountNumber(accountNo.account)
+        }else{
+
+        }
+
+        initData()
+
+
         initClickListener()
         accountBottomSheetClickListener()
         chooseBank()
         accountNumberInput()
         moneyInput()
+    }
+
+    private fun initData(){
+        remittanceViewModel.setChooseBank(BankList(0, ""))
+
     }
 
     private fun accountNumberInput(){
@@ -69,8 +91,6 @@ class RemittanceFragment : BaseFragment<FragmentRemittanceBinding>(R.layout.frag
             ivRemittanceBack.setOnClickListener {
                 navigatePopBackStack()
             }
-
-
 
             tvInputComplete.setOnClickListener {
                 navigateDestination(R.id.action_remittanceFragment_to_remittanceCheckFragment)

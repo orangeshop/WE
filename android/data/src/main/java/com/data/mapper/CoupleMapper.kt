@@ -2,9 +2,11 @@ package com.data.mapper
 
 import com.data.model.response.ResponseCouples
 import com.data.model.response.ResponseCouplesCode
+import com.data.model.response.ResponseGetCouples
 import com.data.model.response.ResponseInvitation
 import com.we.model.CoupleData
 import com.we.model.CoupleSuccessData
+import com.we.model.GetCoupleData
 import com.we.model.InvitationData
 
 fun ResponseCouplesCode.toEntity(): CoupleData {
@@ -16,6 +18,12 @@ fun ResponseCouplesCode.toEntity(): CoupleData {
 fun ResponseCouples.toModel(): CoupleSuccessData {
     return CoupleSuccessData(
         coupleId = this.data.coupleId
+    )
+}
+
+fun ResponseGetCouples.Data.CoupleInfo.toModel(): GetCoupleData{
+    return GetCoupleData(
+        CoupeInfo = id
     )
 }
 

@@ -6,19 +6,21 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.core.view.MenuProvider
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.we.model.BankData
+import com.we.presentation.R
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemAccountBinding
 
 class HomeViewPagerAccountAdapter(
 
     private val accountClickListener: (idx : Int) -> Unit,
-    private val accountRemittance: () -> Unit,
+    private val accountRemittance: (accountNo : String) -> Unit,
     private val typeCheck : Boolean,
-    private val moreVertClickListener : () -> Unit
+    private val moreVertClickListener : (View, String, String) -> Unit
 ) : ListAdapter<BankData, HomeViewPagerAccountAdapter.HomeViewPagerAccountViewHolder>(BaseDiffUtil<BankData>()) {
     inner class HomeViewPagerAccountViewHolder(val binding: ItemAccountBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: BankData){
@@ -27,17 +29,6 @@ class HomeViewPagerAccountAdapter(
                 tvHomeAccount.text = item.bankName
                 tvHomeNo.text = item.accountNo
                 tvHomeMoney.text = item.accountBalance
-
-//                ivMoreVert.addMenuProvider(object : MenuProvider{
-//                    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-//                        TODO("Not yet implemented")
-//                    }
-//
-//                    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-//                        TODO("Not yet implemented")
-//                    }
-//
-//                })
 
                 when(typeCheck){
                     true -> {
@@ -68,14 +59,11 @@ class HomeViewPagerAccountAdapter(
                             }
 
                             tvAccountAdapterRemittance.setOnClickListener {
-                                accountRemittance()
+                                accountRemittance(item.accountNo)
                             }
 
-                            ivMoreVert.setOnClickListener {
-
-
-
-//                                moreVertClickListener()
+                            ivMoreVert.setOnClickListener { view ->
+                                moreVertClickListener(view, item.accountNo, item.bankName)
                             }
                         }
                     }

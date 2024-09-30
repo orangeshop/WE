@@ -1,15 +1,25 @@
 package com.we.presentation.sign
 
+import android.hardware.biometrics.BiometricPrompt
+import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TableRow
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentEasyPasswordRegisterBinding
+import com.we.presentation.remittance.viewmodel.RemittanceViewModel
 import com.we.presentation.sign.model.SignUpUiState
 import com.we.presentation.sign.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +28,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.concurrent.Executor
 
 @AndroidEntryPoint
 class EasyPasswordRegisterFragment :
@@ -25,17 +36,40 @@ class EasyPasswordRegisterFragment :
 
     private val signUpViewModel: SignUpViewModel by activityViewModels()
 
+    private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.remittance_gragh)
+
     private lateinit var buttonList: MutableList<Button>
     private lateinit var passwordList: MutableList<View>
+
+    private val args: EasyPasswordRegisterFragmentArgs by navArgs()
+
     override fun initView() {
-        initButtonList()
-        initPasswordList()
-        initClickEvent()
-        observeEasyPassWord()
-        observeEasyPasswordCheck()
-        observeSignUpUiState()
+        Timber.d("EasyPasswordRegisterFragment initView ${args.easyPasswordType}")
+        if (args.easyPasswordType == true) {
+
+            initButtonList()
+            initPasswordList()
+            initClickEvent()
+            observeEasyPassWord()
+            observeEasyPasswordCheck()
+            observeSignUpUiState()
+        } else {
+
+            initButtonList()
+            initPasswordList()
+            initClickEvent()
+            observeEasyPassWord()
+            initTransferSetting()
+        }
     }
 
+    private fun initTransferSetting() {
+        binding.apply {
+            tvRegisterEasyPassword.visibility = View.GONE
+        }
+
+        signUpViewModel.clearSignUpParam()
+    }
 
     private fun initButtonList() {
         buttonList = mutableListOf()
@@ -121,9 +155,44 @@ class EasyPasswordRegisterFragment :
             passwordList[i].isSelected = i <= count
         }
         if (list.size == 6) {
-            signUpViewModel.setEasyPasswordType(false)
+            if (args.easyPasswordType == true) {
+                signUpViewModel.setEasyPasswordType(false)
+            } else {
+                // 비번 작성 후 송금 로직 작성
+
+                // 일반 송금과 축의금 송금 분기 처리를 해야함
+                // true인 경우 일반 송금
+
+                var passwordListToString = ""
+
+                list.forEach { password ->
+                    passwordListToString += password
+                }
+
+                val qrCode_checker = true
+                val ledgers = 100
+                // 알번 송금 및 qr 송금 분기 처리
+                // qrCode_checker로 분기 처리
+                if (qrCode_checker == true) {
+                    Timber.d("qrCode_checker : $qrCode_checker")
+                    remittanceViewModel.postTransfer(true, passwordListToString, ledgers) {
+                        navigateDestination(
+                            R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,
+                            bundle = bundleOf("remittanceCheck" to it)
+                        )
+                    }
+                }else{
+                    remittanceViewModel.postTransfer(false, passwordListToString, ledgers){
+                        navigateDestination(
+                            R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,
+                            bundle = bundleOf("remittanceCheck" to it)
+                        )
+                    }
+                }
+            }
         }
     }
+
 
     private fun setUpEasyPassWordCheck(list: List<String>) {
         val count = list.size - 1
@@ -176,4 +245,5 @@ class EasyPasswordRegisterFragment :
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
+
 }
