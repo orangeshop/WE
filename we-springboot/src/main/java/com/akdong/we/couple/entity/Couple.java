@@ -31,8 +31,8 @@ public class Couple {
     @Column(name="accountNumber")
     private String accountNumber;
 
-    @Column(name="accountOwnerName")
-    private String accountOwnerName;
+    @Column(name="accountOwnerId")
+    private Long accountOwnerId;
 
     @Column(name="accountBankName")
     private String accountBankName;
