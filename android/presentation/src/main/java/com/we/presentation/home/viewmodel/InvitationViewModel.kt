@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.repository.CoupleRepository
 import com.data.util.ApiResult
+import com.we.model.InvitationData
 import com.we.presentation.home.model.InvitationUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,14 @@ import javax.inject.Inject
 class InvitationViewModel @Inject constructor(
     private val coupleRepository: CoupleRepository
 ) : ViewModel() {
+
+    private val _selectedInvitation = MutableStateFlow<InvitationData>(InvitationData())
+    val selectedInvitation : StateFlow<InvitationData> get() = _selectedInvitation
+
+
+    fun setSelectedInvitation(value : InvitationData){
+        _selectedInvitation.value = value
+    }
 
     private val _invitationUiState =
         MutableStateFlow<InvitationUiState>(InvitationUiState.InvitationEmpty)

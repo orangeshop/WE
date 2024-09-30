@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.share.ShareClient
 import com.kakao.sdk.share.WebSharerClient
+import com.kakao.sdk.template.model.Button
 import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
@@ -23,6 +24,7 @@ import com.we.presentation.util.addCustomItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 @AndroidEntryPoint
 class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.fragment_invitation) {
@@ -45,6 +47,7 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
             this.addCustomItemDecoration()
             this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
+                    invitationViewModel.setSelectedInvitation(invitationAdapter.currentList[position])
                     binding.shareVisible = position != invitationAdapter.itemCount - 1
                 }
             })
@@ -85,45 +88,46 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
                     data = Uri.parse(url)
                 })
             }
-            btnShare.setOnClickListener{
+            btnShare.setOnClickListener {
                 setShareEvent()
             }
         }
     }
 
-    private fun setShareEvent(){
+    private fun setShareEvent() {
+        val data = invitationViewModel.selectedInvitation.value
         val defaultFeed = FeedTemplate(
             content = Content(
-                title = "야호",
-                imageUrl = "이미지",
+                title = data.title,
+                imageUrl = data.imageUrl,
                 link = Link(
-                    webUrl = "https://developers.kakao.com",
-                    mobileWebUrl = "https://developers.kakao.com"
+                    webUrl = "https://google.com",
+                    mobileWebUrl = "https://google.com"
                 )
-            )
+            ),
         )
 
         // 카카오톡 설치여부 확인
         if (ShareClient.instance.isKakaoTalkSharingAvailable(requireActivity())) {
-            // 카카오톡으로 카카오톡 공유 가능
-            ShareClient.instance.shareDefault(requireActivity(),defaultFeed) { sharingResult, error ->
+            ShareClient.instance.shareDefault(
+                requireActivity(),
+                defaultFeed
+            ) { sharingResult, error ->
                 if (error != null) {
-
-                }
-                else if (sharingResult != null) {
-
+                    Timber.tag("카카오톡 공유").d("공유 실패 $error")
+                } else if (sharingResult != null) {
+                    Timber.tag("카카오톡 공유").d("공유 성공 ${sharingResult.intent}")
                     startActivity(sharingResult.intent)
-
                 }
             }
         } else {
-
+            // 카카오톡 미설치
+            Timber.tag("카카오톡 공유").d("카카오 미설치")
             val sharerUrl = WebSharerClient.instance.makeDefaultUrl(defaultFeed)
-
 
             try {
                 KakaoCustomTabsClient.openWithDefault(requireActivity(), sharerUrl)
-            } catch(e: UnsupportedOperationException) {
+            } catch (e: UnsupportedOperationException) {
                 // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
             }
 

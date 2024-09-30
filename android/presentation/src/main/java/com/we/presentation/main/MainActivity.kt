@@ -28,6 +28,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun init() {
         initKakao()
+        initDeepLink()
         setNavGraph()
         initBottomNavigation()
         setBottomNavHide()
@@ -36,7 +37,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun initKakao(){
-        KakaoSdk.init(this, getString(R.string.kakao_app_key))
+        KakaoSdk.init(this, resources.getString(R.string.kakao_app_key))
+    }
+    private fun initDeepLink() {
+        if (Intent.ACTION_VIEW == intent.action) {
+            val uri = intent.data
+            if (uri != null) {
+                Timber.tag("딥링크").d("$uri")
+            }
+        }
     }
 
     private fun setNavGraph() {
