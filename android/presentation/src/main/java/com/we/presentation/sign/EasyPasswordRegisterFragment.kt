@@ -1,13 +1,12 @@
 package com.we.presentation.sign
 
-import android.hardware.biometrics.BiometricPrompt
-import android.os.Build
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TableRow
 import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.children
@@ -43,6 +42,14 @@ class EasyPasswordRegisterFragment :
 
     private val args: EasyPasswordRegisterFragmentArgs by navArgs()
 
+
+    // ----------- bio
+
+    private lateinit var executor: Executor
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
+
+
     override fun initView() {
         Timber.d("EasyPasswordRegisterFragment initView ${args.easyPasswordType}")
         if (args.easyPasswordType == true) {
@@ -61,6 +68,12 @@ class EasyPasswordRegisterFragment :
             observeEasyPassWord()
             initTransferSetting()
         }
+
+        biometricPrompt = setBiometricPrompt()
+        promptInfo = setPromptInfo()
+
+        authenticateToEncrypt()  // 생체 인증 가능 여부 확인
+
     }
 
     private fun initTransferSetting() {
@@ -181,8 +194,8 @@ class EasyPasswordRegisterFragment :
                             bundle = bundleOf("remittanceCheck" to it)
                         )
                     }
-                }else{
-                    remittanceViewModel.postTransfer(false, passwordListToString, ledgers){
+                } else {
+                    remittanceViewModel.postTransfer(false, passwordListToString, ledgers) {
                         navigateDestination(
                             R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,
                             bundle = bundleOf("remittanceCheck" to it)
@@ -246,4 +259,97 @@ class EasyPasswordRegisterFragment :
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
+
+    private fun setPromptInfo(): BiometricPrompt.PromptInfo {
+        val promptBuilder: BiometricPrompt.PromptInfo.Builder = BiometricPrompt.PromptInfo.Builder()
+
+        promptBuilder.setTitle("생체인증을 진행합니다")
+        promptBuilder.setNegativeButtonText("취소")
+
+        return promptBuilder.build()
+    }
+
+    private fun setBiometricPrompt(): BiometricPrompt {
+        executor = ContextCompat.getMainExecutor(requireContext())
+
+        return BiometricPrompt(
+            this@EasyPasswordRegisterFragment,
+            executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Toast.makeText(
+                        requireContext(),
+                        "지문 인식 ERROR [ errorCode: $errorCode, errString: $errString ]",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    Toast.makeText(requireContext(), "지문 인식 성공", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Toast.makeText(requireContext(), "지문 인식 실패", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
+
+    fun authenticateToEncrypt() = with(binding) {
+
+        var textStatus = ""
+        val biometricManager = BiometricManager.from(requireContext())
+        when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
+
+            // 생체 인증 가능
+            BiometricManager.BIOMETRIC_SUCCESS -> textStatus = "App can authenticate using biometrics."
+
+            // 기기에서 생체 인증을 지원하지 않는 경우
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> textStatus = "No biometric features available on this device."
+
+            // 현재 생체 인증을 사용할 수 없는 경우
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> textStatus = "Biometric features are currently unavailable."
+
+            // 생체 인식 정보가 등록되어 있지 않은 경우
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                textStatus = "Prompts the user to create credentials that your app accepts."
+
+                val dialogBuilder = AlertDialog.Builder(requireContext())
+                dialogBuilder
+                    .setTitle("나의앱")
+                    .setMessage("지문 등록이 필요합니다. 지문등록 설정화면으로 이동하시겠습니까?")
+                    .setPositiveButton("확인") { dialog, which ->  }
+                    .setNegativeButton("취소") { dialog, which -> dialog.cancel() }
+                dialogBuilder.show()
+            }
+
+            // 기타 실패
+            else -> textStatus = "Fail Biometric facility"
+        }
+
+
+        // 인증 실행하기
+        goAuthenticate()
+    }
+
+    // 생체 인식 인증 실행
+    private fun goAuthenticate() {
+
+        promptInfo?.let {
+            biometricPrompt.authenticate(it)  // 인증 실행
+        }
+    }
+
+//    fun goBiometricSettings() {
+//        val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+//            putExtra(
+//                Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+//                BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+//            )
+//        }
+//        loginLauncher.launch(enrollIntent)
+//    }
 }

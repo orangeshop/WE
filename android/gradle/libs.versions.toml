@@ -63,6 +63,9 @@ kakao = "2.20.6"
 #Parcelize
 parcelize = "2.1.0-Beta1"
 
+#Bio
+biometric = "1.1.0"
+
 
 [libraries]
 
@@ -137,6 +140,10 @@ datastore-preferences = { group = "androidx.datastore", name = "datastore-prefer
 datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
 firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
+
+#Bio
+biometric = {module = "androidx.biometric:biometric", name = "biometric", version.ref = "biometric"}
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
