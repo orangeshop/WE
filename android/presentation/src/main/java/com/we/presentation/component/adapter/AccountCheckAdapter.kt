@@ -4,15 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.we.model.TransactionHistoryData
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemAccountCheckBinding
 
-class AccountCheckAdapter  : ListAdapter<String, AccountCheckAdapter.AccountCheckItemViewHolder>(BaseDiffUtil<String>()) {
+class AccountCheckAdapter  : ListAdapter<TransactionHistoryData, AccountCheckAdapter.AccountCheckItemViewHolder>(BaseDiffUtil<TransactionHistoryData>()) {
 
     inner class AccountCheckItemViewHolder(val binding: ItemAccountCheckBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item: String){
+        fun bind(item: TransactionHistoryData){
             binding.apply {
-
+                tvAccountCheckPrice.text = item.transactionBalance
             }
         }
     }
