@@ -13,4 +13,6 @@
     <string name="kakao_app_key">7b72b5d6477e74e43a5e1691bf66445a</string>
     <string name="kakao_scheme">kakao7b72b5d6477e74e43a5e1691bf66445a</string>
     <string name="kakao_link_host">kakaolink</string>
+
+    <string name="easy_password_check">간편 비밀번호</string>
 </resources>

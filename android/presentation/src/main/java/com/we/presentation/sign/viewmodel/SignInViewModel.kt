@@ -22,6 +22,7 @@ class SignInViewModel @Inject constructor(
     private val tokenProvider: TokenProvider
 ) : ViewModel() {
 
+
     private val _signInParam = MutableStateFlow<SignInParam>(SignInParam())
     val signInParam: StateFlow<SignInParam> get() = _signInParam
 

@@ -2,6 +2,7 @@ package com.we.presentation.sign
 
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
+import com.we.presentation.component.ShareData
 import com.we.presentation.databinding.FragmentSignUpSuccessBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +18,11 @@ class SignUpSuccessFragment :
     private fun initClickEvent() {
         binding.apply {
             tvSignSuccessComplete.setOnClickListener {
-                navigatePopBackStack()
+                if (ShareData.transferType) {
+                    navigateDestination(R.id.action_signUpSuccessFragment_to_transfer_nav_graph)
+                } else {
+                    navigatePopBackStack()
+                }
             }
         }
     }

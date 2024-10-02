@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 @AndroidEntryPoint
+class AccountCheckFragment :
+    BaseFragment<FragmentAccountCheckBinding>(R.layout.fragment_account_check) {
 class AccountCheckFragment : BaseFragment<FragmentAccountCheckBinding>(R.layout.fragment_account_check) {
 
     private val accountCheckViewModel : AccountCheckViewModel by viewModels()
@@ -41,6 +43,7 @@ class AccountCheckFragment : BaseFragment<FragmentAccountCheckBinding>(R.layout.
         accountCheckViewModel.transactionListLoading(account)
 
         val adapter = AccountCheckAdapter()
+        val test = arrayListOf("1", "2", "3")
 
         binding.apply {
             rvAccountCheckList.adapter = adapter

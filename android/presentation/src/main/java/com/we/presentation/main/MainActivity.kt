@@ -49,16 +49,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun setNavGraph() {
-        val type = intent.getBooleanExtra("type", true)
+        val type = intent.getIntExtra("type", 0)
         Timber.tag("로그인 MainActivity").d("타입 $type")
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         navController.navInflater.inflate(R.navigation.nav_graph).apply {
-            val id = if (type) {
-                R.id.homeFragment
-            } else {
-                R.id.guestFragment
+            val id = when (type) {
+                1 -> {
+                    R.id.homeFragment
+                }
+                2 -> {
+                    R.id.guestFragment
+                }
+                else -> {
+                    R.id.accountFragment
+                }
             }
             setStartDestination(id)
             navController.setGraph(this, null)

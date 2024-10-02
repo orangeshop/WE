@@ -97,7 +97,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
     private fun accountBottomSheetClickListener() {
         binding.apply {
             flChooseBank.setOnClickListener {
-                val modal = AccountModalBottomSheet()
+                val modal = AccountModalBottomSheet(true)
                 modal.show(parentFragmentManager, modal.tag)
             }
         }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transfer_nav_graph"
+    app:startDestination="@+id/transferInfoRegisterFragment">
+
+    <fragment
+        android:id="@+id/transferInfoRegisterFragment"
+        android:name="com.we.presentation.transfer.TransferInfoRegisterFragment"
+        tools:layout="@layout/fragment_transfer_info_register" >
+
+        <action
+            android:id="@+id/action_transferInfoRegisterFragment_to_transferEasyPasswordFragment"
+            app:destination="@id/transferEasyPasswordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/transferEasyPasswordFragment"
+        android:name="com.we.presentation.transfer.TransferEasyPasswordFragment"
+        tools:layout="@layout/fragment_transfer_easy_password"/>
+
+
+
+
+
+</navigation>
