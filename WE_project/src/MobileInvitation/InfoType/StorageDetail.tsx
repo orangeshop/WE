@@ -32,6 +32,16 @@ const StorageDetail: React.FC = () => {
   const [fadeClass, setFadeClass] = useState("fade-in");
   const [showSecondFade, setShowSecondFade] = useState(false);
   const accessToken = localStorage.getItem("accessToken");
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    if (/NAVER|KAKAO|WE/i.test(userAgent)) {
+      setIsButtonEnabled(true);
+    } else {
+      setIsButtonEnabled(false);
+    }
+  }, []);
 
   useEffect(() => {
     const mainTimer = setTimeout(() => {
@@ -208,18 +218,9 @@ const StorageDetail: React.FC = () => {
       });
   };
 
-  function isWebView() {
-    const userAgent = navigator.userAgent;
-    return userAgent.includes("APP_WISHRROM_Android");
-  }
-
   function shareDeepLink() {
-    if (isWebView()) {
-      const deepLinkUrl = `we://transfer?id=${invitationData?.ledgerId}`;
-      window.location.href = deepLinkUrl;
-    } else {
-      alert("웹 브라우저에서는 이 기능을 사용할 수 없습니다.");
-    }
+    const deepLinkUrl = `we://transfer?id=${invitationData?.ledgerId}`;
+    window.location.href = deepLinkUrl;
   }
 
   return (
@@ -488,8 +489,13 @@ const StorageDetail: React.FC = () => {
                     </p>
                   </div>
                   <button
-                    className="h-10 mr-5 text-sm mt-2 text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow px-2 py-1"
-                    onClick={shareDeepLink}
+                    className={`h-10 mr-5 text-sm mt-2 border border-gray-300 rounded-md shadow-sm px-2 py-1 ${
+                      isButtonEnabled
+                        ? "text-gray-800 hover:shadow-md transition-shadow"
+                        : "text-gray-400 cursor-not-allowed"
+                    }`}
+                    onClick={isButtonEnabled ? shareDeepLink : () => {}}
+                    disabled={!isButtonEnabled}
                   >
                     이체하기
                   </button>

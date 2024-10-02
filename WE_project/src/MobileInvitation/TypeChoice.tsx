@@ -39,7 +39,7 @@ const TypeChoice: React.FC = () => {
               <div className="flex gap-3 mb-5">
                 <button
                   type="submit"
-                  className="py-3 px-7 rounded-md text-md bg-[#FFECCA] mt-5"
+                  className="py-3 px-8 rounded-md text-md bg-[#FFECCA] mt-5"
                   onClick={() => (window.location.href = "/invite/info/sample")}
                 >
                   <div className="flex">
@@ -49,7 +49,7 @@ const TypeChoice: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="py-3 px-7 rounded-md text-md bg-[#FFD0DE] mt-5"
+                  className="py-3 px-8 rounded-md text-md bg-[#FFD0DE] mt-5"
                   onClick={handleCreateInvitation}
                 >
                   <div className="flex">

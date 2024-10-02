@@ -24,11 +24,14 @@ ChartJS.register(
   Legend
 );
 import * as XLSX from "xlsx";
+import excel from "../assets/images/excel.png";
 
 const AccountBook: React.FC = () => {
   const [accountData, setAccountData] = useState<GetAccountBook | null>(null);
   const [sortedData, setSortedData] = useState<GetAccountBook | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(10);
 
   const accessToken = localStorage.getItem("accessToken");
 
@@ -173,120 +176,164 @@ const AccountBook: React.FC = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = sortedData?.data.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const totalPages = sortedData
+    ? Math.ceil(sortedData.data.length / itemsPerPage)
+    : 0;
+
   return (
     <div className="font-nanum">
       <Navbar isScrollSensitive={false} />
-      <div className="mt-24 mb-20 min-w-[1200px] flex flex-wrap gap-8">
+      <div className="font-default mt-24 mb-20 min-w-[1200px] flex flex-wrap">
         {sortedData && sortedData.data.length > 0 ? (
           <div className="flex flex-col w-full">
-            <button
-              onClick={exportToExcel}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              엑셀로 저장하기
-            </button>
-              <div className="flex flex-1 gap-10 mt-10">
-            <div className="bg-white shadow-md rounded-lg p-4 col-span-1 w-[600px]">
-                <div>
-                  <h2 className="text-lg mb-4">청첩장 장부 내역</h2>
-                  <table className="table-auto border-collapse w-full text-left mt-4">
+            <div className="flex flex-1 gap-6">
+              <div className="bg-white shadow-md rounded-lg p-4 col-span-1 w-[560px] justify-between h-full relative">
+                {" "}
+                <div className="flex justify-between">
+                  <h2 className="text-md font-bold">청첩장 장부 내역</h2>
+                  <button
+                    onClick={exportToExcel}
+                    className="px-2 py-2 bg-gray-200 shadow-md rounded"
+                  >
+                    <img src={excel} alt="excel" className="w-5 h-5" />
+                  </button>
+                </div>
+                <div className="flex justify-center">
+                  <table className="table-auto border-collapse w-full text-left mt-2">
                     <thead>
                       <tr>
-                        <th className="border px-4 py-2 bg-gray-200">순번</th>
-                        <th className="border px-4 py-2 bg-gray-200">성함</th>
+                        <th className="border-b px-4 py-2">순번</th>
+                        <th className="border-b px-4 py-2">성함</th>
                         <th
-                          className="border px-4 py-2 bg-gray-200 cursor-pointer"
+                          className="border-b px-4 py-2 cursor-pointer"
                           onClick={handleSortByCharge}
                         >
                           금액(원)
                           {sortOrder === "asc" ? " ▲" : " ▼"}
                         </th>
-                        <th className="border px-4 py-2 bg-gray-200">구분</th>
-                        <th className="border px-4 py-2 bg-gray-200">메시지</th>
+                        <th className="border-b px-4 py-2">구분</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {sortedData.data.map((item, index) => (
+                      {currentItems?.map((item, index) => (
                         <tr key={item.id} className="hover:bg-gray-100">
-                          <td className="border px-4 py-2">{index + 1}</td>
-                          <td className="border px-4 py-2">
+                          <td className="border-b px-4 py-2">
+                            {currentPage === 1
+                              ? index + 1
+                              : (currentPage - 1) * itemsPerPage + index + 1}
+                          </td>
+                          <td className="border-b px-4 py-2">
                             {item.memberInfo.nickname}
                           </td>
-                          <td className="border px-4 py-2">
+                          <td className="border-b px-4 py-2">
                             {item.charge.toLocaleString()}
                           </td>
-                          <td className="border px-4 py-2">
+                          <td className="border-b px-4 py-2">
                             {item.isBride === true
                               ? "신부"
                               : item.isBride === false
                               ? "신랑"
                               : "신랑신부 모두"}
                           </td>
-                          <td className="border px-4 py-2">
-                            {item.message ? item.message : "메시지가 없습니다."}
-                          </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex">
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                      key={index + 1}
+                      onClick={() => setCurrentPage(index + 1)}
+                      className={`mx-1 px-3 py-1 rounded ${
+                        currentPage === index + 1
+                          ? "bg-gray-800 text-white"
+                          : "bg-gray-200"
+                      }`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div>
-                <div className="mb-10">
-                  <div className="bg-white shadow-md rounded-lg p-4 col-span-1 h-[370px] w-auto">
-                    <h2 className="text-lg mb-4">청첩장 장부 차트</h2>
-                    <Line data={chartData} options={chartOptions} />
+                <div className="mb-5">
+                  <div className="bg-white shadow-md rounded-lg p-4 col-span-1 h-[300px] w-auto flex flex-col">
+                    <h2 className="text-md mb-4 font-bold">청첩장 장부 차트</h2>
+                    <div className="flex-grow">
+                      {" "}
+                      <Line
+                        data={chartData}
+                        options={{
+                          ...chartOptions,
+                          maintainAspectRatio: false,
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex flex-1 gap-5">
-                  <div className="bg-white shadow-md rounded-lg p-4 col-span-1 h-auto w-[300px]">
-                    <div className="w-auto">
-                      <h2 className="text-lg mb-4">전체 축의금 비율</h2>
-                      <Doughnut data={doughnutData} />
+                  <div className="bg-white shadow-md rounded-lg p-4 col-span-1 h-auto flex flex-col w-[300px]">
+                    <h2 className="text-md mb-4 font-bold">전체 축의금 비율</h2>
+                    <div className="flex-grow">
+                      {" "}
+                      <Doughnut
+                        data={doughnutData}
+                        options={{ maintainAspectRatio: false }}
+                      />
                     </div>
                   </div>
 
-                  <div className="bg-white shadow-md rounded-lg p-4 col-span-1 w-[300px]">
-                    <h2 className="text-lg mb-4">금액 요약</h2>
-                    <table className="table-auto border-collapse w-full text-left mt-2">
-                      <thead>
-                        <tr>
-                          <th className="border px-4 py-2 bg-gray-200">구분</th>
-                          <th className="border px-4 py-2 bg-gray-200">
-                            금액(원)
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="border px-4 py-2">총 합계</td>
-                          <td className="border px-4 py-2">
-                            {totalCharge?.toLocaleString() || 0}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border px-4 py-2">신부측 합계</td>
-                          <td className="border px-4 py-2">
-                            {brideTotal?.toLocaleString() || 0}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border px-4 py-2">신랑측 합계</td>
-                          <td className="border px-4 py-2">
-                            {groomTotal?.toLocaleString() || 0}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div className="bg-white shadow-md rounded-lg p-4 w-[300px] h-auto flex flex-col">
+                    {" "}
+                    <h2 className="text-md mb-2 font-bold">금액 요약</h2>
+                    <div className="flex-grow">
+                      {" "}
+                      <table className="table-auto border-collapse w-full text-left mt-2">
+                        <thead>
+                          <tr>
+                            <th className="border-b px-4 py-2">구분</th>
+                            <th className="border-b px-4 py-2">금액(원)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="border-b px-4 py-2">총 합계</td>
+                            <td className="border-b px-4 py-2">
+                              {totalCharge?.toLocaleString() || 0}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="border-b px-4 py-2">신부측 합계</td>
+                            <td className="border-b px-4 py-2">
+                              {brideTotal?.toLocaleString() || 0}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="border-b px-4 py-2">신랑측 합계</td>
+                            <td className="border-b px-4 py-2">
+                              {groomTotal?.toLocaleString() || 0}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         ) : (
-          <p>등록된 축의금이 없습니다.</p>
+          ""
         )}
       </div>
     </div>
