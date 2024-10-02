@@ -2,7 +2,6 @@ package com.we.presentation.home
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -87,9 +86,13 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
                 navigatePopBackStack()
             }
             invitationAdapter.setItemClickListener { num ->
-                startActivity(Intent(requireActivity(), InvitationDetailActivity::class.java).apply {
-                    putExtra("param", num)
-                })
+                startActivity(
+                    Intent(
+                        requireActivity(),
+                        InvitationDetailActivity::class.java
+                    ).apply {
+                        putExtra("param", num)
+                    })
 
             }
             btnShare.setOnClickListener {
@@ -102,15 +105,23 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
         val data = invitationViewModel.selectedInvitation.value
         val defaultFeed = FeedTemplate(
             content = Content(
-                title = data.title,
-                imageUrl = data.imageUrl,
+                title = data.title.toString(),
+                imageUrl = data.imageUrl.toString(),
                 link = Link(
                     webUrl = "https://google.com",
-                    mobileWebUrl = "https://google.com"
+                    mobileWebUrl = "https://google.com",
+                    androidExecutionParams = mapOf("invitationId" to data.invitationId.toString())
                 )
             ),
+            buttons = listOf(
+                Button(
+                    "청첩장 보러 가기",
+                    Link(
+                        androidExecutionParams = mapOf("invitationId" to data.invitationId.toString())
+                    )
+                )
+            )
         )
-
         // 카카오톡 설치여부 확인
         if (ShareClient.instance.isKakaoTalkSharingAvailable(requireActivity())) {
             ShareClient.instance.shareDefault(
@@ -120,7 +131,7 @@ class InvitationFragment : BaseFragment<FragmentInvitationBinding>(R.layout.frag
                 if (error != null) {
                     Timber.tag("카카오톡 공유").d("공유 실패 $error")
                 } else if (sharingResult != null) {
-                    Timber.tag("카카오톡 공유").d("공유 성공 ${sharingResult.intent}")
+                    Timber.tag("카카오톡 공유").d("공유 성공 ${sharingResult.intent.data}")
                     startActivity(sharingResult.intent)
                 }
             }

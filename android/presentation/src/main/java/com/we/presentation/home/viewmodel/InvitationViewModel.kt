@@ -21,11 +21,18 @@ class InvitationViewModel @Inject constructor(
     private val coupleRepository: CoupleRepository
 ) : ViewModel() {
 
+    private val _invitationId = MutableStateFlow<Int>(0)
+    val invitationId: StateFlow<Int> get() = _invitationId
+
+    fun setInvitationId(value: Int) {
+        _invitationId.update { value }
+    }
+
     private val _selectedInvitation = MutableStateFlow<InvitationData>(InvitationData())
-    val selectedInvitation : StateFlow<InvitationData> get() = _selectedInvitation
+    val selectedInvitation: StateFlow<InvitationData> get() = _selectedInvitation
 
 
-    fun setSelectedInvitation(value : InvitationData){
+    fun setSelectedInvitation(value: InvitationData) {
         _selectedInvitation.value = value
     }
 
