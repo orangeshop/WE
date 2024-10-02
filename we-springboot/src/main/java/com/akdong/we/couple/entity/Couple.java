@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -42,4 +44,8 @@ public class Couple {
 
     @OneToOne(mappedBy = "couple", cascade = CascadeType.ALL)
     private Ledger ledger;
+
+    @Column(name="weddingDate")
+    private String weddingDate;
+
 }
