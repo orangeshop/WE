@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.*;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -56,9 +56,21 @@ public class MemberService {
 				.regDate(LocalDateTime.now())
 				.userKey(userKey)
 				.build();
+		List<String> accountTypeUniqueNoList = new ArrayList<>();
+		accountTypeUniqueNoList.add("001-1-0914b8aac1e947"); // 한국은행
+		accountTypeUniqueNoList.add("004-1-ee1de29dfc5e4a"); // 국민은행
+		accountTypeUniqueNoList.add("011-1-c147927f5d2e4b"); // 농협은행
+		accountTypeUniqueNoList.add("020-1-c6f609414f854c"); // 우리은행
+		accountTypeUniqueNoList.add("032-1-b302b3d33f4442"); // 대구은행
+		accountTypeUniqueNoList.add("088-1-8836096e21e447"); // 신한은행
+		accountTypeUniqueNoList.add("090-1-a52dc1fe801f4a"); // 카카오뱅크
+		Random random = new Random();
 
 		for(int i=0; i<4; i++){
-			String accountNo = finApiCallService.makeAccount(userKey);
+			int idx = random.nextInt(accountTypeUniqueNoList.size());
+			String accountTypeUniqueNo = accountTypeUniqueNoList.get(idx);
+			accountTypeUniqueNoList.remove(idx);
+			String accountNo = finApiCallService.makeAccount(userKey,accountTypeUniqueNo);
 			if(accountNo == null){
 				throw new MemberException(MemberErrorCode.API_MAKE_ACCOUNT_ERROR);
 			}
@@ -134,6 +146,5 @@ public class MemberService {
 		} else if(member.isPresent()){
 			throw new MemberException(MemberErrorCode.MEMBER_EMAIL_EXIST_ERROR);
 		}
-
 	}
 }

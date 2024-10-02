@@ -109,8 +109,7 @@ public class FinApiCallService {
     }
     }
 
-    public String makeAccount(String userKey) {
-
+    public String makeAccount(String userKey, String accountTypeUniqueNo) {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
 
@@ -133,7 +132,7 @@ public class FinApiCallService {
         // AccountRequest 생성 (Header + accountTypeUniqueNo)
         CreateAccountRequest accountRequest = CreateAccountRequest.builder()
                 .Header(Header)
-                .accountTypeUniqueNo("001-1-0914b8aac1e947")
+                .accountTypeUniqueNo(accountTypeUniqueNo)
                 .build();
 
         // HTTP 헤더 설정
