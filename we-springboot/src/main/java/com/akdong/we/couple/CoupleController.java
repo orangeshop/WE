@@ -67,7 +67,6 @@ public class CoupleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 new SuccessResponse<>("성공적으로 커플&장부를 생성했습니다.", response)
         );
-
     }
 
     @GetMapping
@@ -86,7 +85,5 @@ public class CoupleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 new SuccessResponse<>("성공적으로 커플을 조회했습니다.", response)
         );
-
     }
-
 }
