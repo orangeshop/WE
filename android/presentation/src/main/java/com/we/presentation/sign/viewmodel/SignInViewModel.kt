@@ -47,8 +47,11 @@ class SignInViewModel @Inject constructor(
                 when (it) {
                     is ApiResult.Success -> {
                         setSignInUiState(SignInUiState.SignInSuccess(it.data.coupleJoined))
-                        tokenProvider.saveAccessToken(it.data.accessToken)
-                        tokenProvider.loadingToken()
+                        tokenProvider.saveAccessToken(it.data.accessToken){
+                            tokenProvider.loadingToken()
+                        }
+
+
                         Timber.tag("로그인").d("성공 ${it.data}")
                     }
 

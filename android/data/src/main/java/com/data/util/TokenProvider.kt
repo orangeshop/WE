@@ -27,10 +27,11 @@ class TokenProvider @Inject constructor(
 
     init {
         runBlocking {
-            saveAccessToken("")
+            saveAccessToken(""){}
+            loadingToken()
         }
         // 앱 시작 시 토큰 로드
-        loadingToken()
+
     }
 
     fun loadingToken() {
@@ -48,11 +49,12 @@ class TokenProvider @Inject constructor(
     fun getRefreshToken(): String? = cachedRefreshToken
 
     // 토큰 저장 메서드 추가
-    suspend fun saveAccessToken(token: String) {
+    suspend fun saveAccessToken(token: String, onResult: () -> Unit) {
         dataStore.edit { preferences ->
             preferences[ACCESS_TOKEN_KEY] = token
         }
         updateAccessTokenCache(token)
+        onResult()
     }
 
     suspend fun saveRefreshToken(token: String) {
