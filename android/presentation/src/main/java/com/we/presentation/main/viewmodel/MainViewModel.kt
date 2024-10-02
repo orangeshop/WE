@@ -21,10 +21,10 @@ class MainViewModel @Inject constructor(
             fcmRepository.postToken(requestToken = token).collectLatest {
                 when(it){
                     is ApiResult.Success -> {
-                        Timber.d("Token Success")
+                        Timber.tag("토큰등록").d("Token Success")
                     }
                     is ApiResult.Error -> {
-                        Timber.d("Token Fail ${it.exception}")
+                        Timber.tag("토큰등록").d("Token Fail ${it.exception}")
                     }
                 }
             }

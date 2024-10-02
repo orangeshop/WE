@@ -5,6 +5,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
+import com.we.presentation.component.ShareData
 import com.we.presentation.component.adapter.HomeViewPagerAccountAdapter
 import com.we.presentation.databinding.FragmentGuestBinding
 import com.we.presentation.guest.viewmodel.GuestViewModel
@@ -21,7 +22,14 @@ class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest
 
     override fun initView() {
         initClickEventListener()
+        initTransfer()
         setUpAccountViewPager()
+    }
+
+    private fun initTransfer(){
+        if(ShareData.transferType){
+            navigateDestination(R.id.action_guestFragment_to_transfer_nav_graph)
+        }
     }
 
     private fun initClickEventListener() {

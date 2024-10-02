@@ -55,16 +55,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         navController.navInflater.inflate(R.navigation.nav_graph).apply {
-            val id = when (type) {
+            val id = when (type) { // 이체 : 3-> 대표 계좌 있는 경우, 4 -> 대표 계좌 없는 경우
                 1 -> {
                     R.id.homeFragment
                 }
                 2 -> {
                     R.id.guestFragment
                 }
+                3 -> {
+                    R.id.guestFragment
+                }
                 else -> {
                     R.id.accountFragment
                 }
+
             }
             setStartDestination(id)
             navController.setGraph(this, null)

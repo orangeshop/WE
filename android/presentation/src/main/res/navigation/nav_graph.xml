@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_guestFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_guestFragment_to_transfer_nav_graph"
+            app:destination="@id/transfer_nav_graph" />
     </fragment>
 
     <fragment

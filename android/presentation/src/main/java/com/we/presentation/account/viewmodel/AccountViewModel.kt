@@ -9,7 +9,9 @@ import com.data.util.ApiResult
 import com.we.presentation.account.util.BankList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -90,15 +92,19 @@ class AccountViewModel @Inject constructor(
         }
     }
 
+    private val _accountAuthSuccess = MutableSharedFlow<Boolean>()
+    val accountAuthSuccess : SharedFlow<Boolean> get() = _accountAuthSuccess
+
     fun accountAuth(){
         viewModelScope.launch {
             bankRepository.accountAuth(RequestAccountAuth(accountNumber.first())).collect{
                 when(it){
                     is ApiResult.Success -> {
+                        _accountAuthSuccess.emit(true)
                         Timber.d("AccountAuth : success")
                     }
                     is ApiResult.Error -> {
-                        Timber.d("AccountAuth : fail")
+                        Timber.d("AccountAuth : fail ${it.exception}")
                     }                    }
             }
         }

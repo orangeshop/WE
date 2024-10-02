@@ -2,21 +2,15 @@ package com.we.presentation.account
 
 import android.view.View
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.we.presentation.R
 import com.we.presentation.account.util.BankList
 import com.we.presentation.account.viewmodel.AccountViewModel
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentAccountBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -37,6 +31,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
         bankChooseComplete()
         accountInputComplete()
         btnActivateCheck()
+        observeAccountAuthSuccess()
     }
 
     private fun btnActivateCheck() {
@@ -44,8 +39,7 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
             combine(
                 accountViewModel.accountNumber.flowWithLifecycle(viewLifecycleOwner.lifecycle),
                 accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            ){
-                accountNumber, chooseBank ->
+            ) { accountNumber, chooseBank ->
                 Timber.d("accountNumber : $accountNumber chooseBank : ${chooseBank.bankName}")
                 if (accountNumber.isNotBlank() && chooseBank.bankName.isNotBlank()) {
                     tvRegisterAccount.isEnabled = true
@@ -83,14 +77,24 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
     private fun initTransferClickListener() {
         binding.apply {
             tvRegisterAccount.setOnClickListener {
-                navigateDestination(R.id.action_accountFragment_to_accountTransferFragment)
                 accountViewModel.accountAuth()
+
             }
 
             ivAccountBack.setOnClickListener {
                 navigatePopBackStack()
             }
         }
+    }
+
+    private fun observeAccountAuthSuccess() {
+        accountViewModel.accountAuthSuccess.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                if (it) {
+                    navigateDestination(R.id.action_accountFragment_to_accountTransferFragment)
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
 
