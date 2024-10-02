@@ -18,7 +18,6 @@ import timber.log.Timber
 @AndroidEntryPoint
 class AccountCheckFragment :
     BaseFragment<FragmentAccountCheckBinding>(R.layout.fragment_account_check) {
-class AccountCheckFragment : BaseFragment<FragmentAccountCheckBinding>(R.layout.fragment_account_check) {
 
     private val accountCheckViewModel : AccountCheckViewModel by viewModels()
 
