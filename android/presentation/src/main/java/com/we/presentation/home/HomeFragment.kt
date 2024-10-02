@@ -1,5 +1,7 @@
 package com.we.presentation.home
 
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -104,8 +106,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             })
         }
 
-
-
         homeViewModel.accountList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { list ->
                 Timber.d("list flowWithLifecycle: $list")
@@ -121,6 +121,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.apply {
             vpHomeBanner.adapter = adapter
             vpHomeTotalBannerDotsIndicator.attachTo(vpHomeBanner)
+
+            val handler = Handler(Looper.getMainLooper())
+            val runnable = object : Runnable {
+                override fun run() {
+                    val nextItem = if (vpHomeBanner.currentItem == vpHomeBanner.adapter?.itemCount?.minus(1)) 0 else vpHomeBanner.currentItem + 1
+                    vpHomeBanner.setCurrentItem(nextItem, true)
+                    handler.postDelayed(this, 3000) // 3초마다 다음 페이지로 전환
+                }
+            }
+
+            vpHomeAccount.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    // 사용자 상호작용 후 자동 스크롤 재설정
+                    handler.removeCallbacks(runnable)
+                    handler.postDelayed(runnable, 3000)
+                }
+            })
         }
     }
 

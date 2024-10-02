@@ -15,5 +15,5 @@ data class BankData(
     val lastTransactionDate: String,
     val oneTimeTransferLimit: String,
     val userName: String,
-    val accountInfo : String
+    val accountInfo : String?
 )
