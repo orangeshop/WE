@@ -17,7 +17,7 @@ import com.we.presentation.databinding.ItemAccountBinding
 
 class HomeViewPagerAccountAdapter(
 
-    private val accountClickListener: (idx : Int) -> Unit,
+    private val accountClickListener: (idx : Int, account : String) -> Unit,
     private val accountRemittance: (accountNo : String) -> Unit,
     private val typeCheck : Boolean,
     private val moreVertClickListener : (View, String, String) -> Unit
@@ -49,13 +49,13 @@ class HomeViewPagerAccountAdapter(
                             ivRotateArrow.visibility = View.VISIBLE
 
                             clItemAccount.setOnClickListener {
-                                accountClickListener(adapterPosition)
+                                accountClickListener(adapterPosition, item.accountNo)
                             }
                         }
                         else{
 
                             clItemAccount.setOnClickListener {
-                                accountClickListener(adapterPosition)
+                                accountClickListener(adapterPosition,item.accountNo + " " + item.bankName + " " + item.accountBalance)
                             }
 
                             tvAccountAdapterRemittance.setOnClickListener {

@@ -46,11 +46,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
         homeAdapter = HomeViewPagerAccountAdapter(
-            accountClickListener = { idx ->
+            accountClickListener = { idx, account ->
                 if (idx == homeAdapter.currentList.lastIndex) {
                     navigateDestination(R.id.action_homeFragment_to_accountFragment)
                 } else {
-                    navigateDestination(R.id.action_homeFragment_accountCheckFragment)
+                    navigateDestination(R.id.action_homeFragment_accountCheckFragment, bundleOf("account" to account))
                 }
             },
             accountRemittance = { account ->

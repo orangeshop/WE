@@ -3,6 +3,7 @@ package com.we.presentation.accountcheck
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
 import com.we.presentation.account.AccountModalBottomSheet
 import com.we.presentation.accountcheck.viewmodel.AccountCheckViewModel
@@ -19,17 +20,32 @@ class AccountCheckFragment : BaseFragment<FragmentAccountCheckBinding>(R.layout.
 
     private val accountCheckViewModel : AccountCheckViewModel by viewModels()
 
+    private val args: AccountCheckFragmentArgs by navArgs()
+
     override fun initView() {
         initAdapter()
         initClickListener()
     }
 
     private fun initAdapter() {
-        accountCheckViewModel.transactionListLoading("0012181503379982")
+
+
+
+        val account = args.account.split(" ")[0]
+        val bankName = args.account.split(" ")[1]
+        val remainMoney = args.account.split(" ")[2]
+
+//        Timber.d("account ${args.account}")
+
+
+        accountCheckViewModel.transactionListLoading(account)
+
         val adapter = AccountCheckAdapter()
 
         binding.apply {
             rvAccountCheckList.adapter = adapter
+            tvCheckAccountNumber.text = bankName + " " + account
+            tvRemainMoney.text = "잔액 " + remainMoney + "원"
 
         }
 

@@ -97,6 +97,8 @@ fun ResponseTransactionHistory.Data.toModel() : TransactionHistoryData{
         transactionTypeName,
         transactionAccountNo,
         transactionBalance,
-        transactionAfterBalance
+        transactionAfterBalance,
+        transactionType,
+        transactionDate
     )
 }
