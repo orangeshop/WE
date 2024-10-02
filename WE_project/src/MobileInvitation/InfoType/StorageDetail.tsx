@@ -27,11 +27,11 @@ const StorageDetail: React.FC = () => {
     useState<GetFormalInvitationDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { invitationId } = useParams<{ invitationId: string }>();
-  const accessToken = localStorage.getItem("accessToken");
   const [isExist, setisExist] = useState<boolean>(false);
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [fadeClass, setFadeClass] = useState("fade-in");
   const [showSecondFade, setShowSecondFade] = useState(false);
+  const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
     const mainTimer = setTimeout(() => {
@@ -208,9 +208,18 @@ const StorageDetail: React.FC = () => {
       });
   };
 
+  function isWebView() {
+    const userAgent = navigator.userAgent;
+    return userAgent.includes("APP_WISHRROM_Android");
+  }
+
   function shareDeepLink() {
-    const deepLinkUrl = `we://transfer`;
-    window.location.href = deepLinkUrl;
+    if (isWebView()) {
+      const deepLinkUrl = `we://transfer?id=${invitationData?.ledgerId}`;
+      window.location.href = deepLinkUrl;
+    } else {
+      alert("웹 브라우저에서는 이 기능을 사용할 수 없습니다.");
+    }
   }
 
   return (
@@ -256,7 +265,7 @@ const StorageDetail: React.FC = () => {
             <img
               src={beige}
               alt="썸네일"
-              className={`w-1/3 h-auto ${fadeClass}`}
+              className={`max-w-xs md:max-w-md lg:max-w-lg h-auto ${fadeClass}`}
             />
           ) : (
             <div

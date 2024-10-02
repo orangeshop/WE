@@ -30,7 +30,7 @@ const TypeChoice: React.FC = () => {
               alt="invitation_card"
               className="w-[500px] h-auto mb-5"
             />
-            <div className="font-default mt-48">
+            <div className="mt-48">
               <p className="text-[40px] font-semibold mb-5">정보형 청첩장</p>
               <p className="text-[16px]">일생에 가장 아름다운 날,</p>
               <p className="text-[16px]">
@@ -39,22 +39,22 @@ const TypeChoice: React.FC = () => {
               <div className="flex gap-3 mb-5">
                 <button
                   type="submit"
-                  className="py-3 px-7 rounded-md text-md bg-[#FFECCA] mt-5 font-default"
+                  className="py-3 px-7 rounded-md text-md bg-[#FFECCA] mt-5"
                   onClick={() => (window.location.href = "/invite/info/sample")}
                 >
                   <div className="flex">
-                  <IoIosLink size={20} className="mr-2" />
-                  샘플보기
+                    <IoIosLink size={20} className="mr-2" />
+                    샘플보기
                   </div>
                 </button>
                 <button
                   type="submit"
-                  className="py-3 px-7 rounded-md text-md bg-[#FFD0DE] mt-5 font-default"
+                  className="py-3 px-7 rounded-md text-md bg-[#FFD0DE] mt-5"
                   onClick={handleCreateInvitation}
                 >
                   <div className="flex">
-                  <FaWandMagicSparkles size={20} className="mr-2" />
-                  제작하기
+                    <FaWandMagicSparkles size={20} className="mr-2" />
+                    제작하기
                   </div>
                 </button>
               </div>
