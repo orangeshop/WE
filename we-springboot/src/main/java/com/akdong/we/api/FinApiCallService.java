@@ -379,6 +379,13 @@ public class FinApiCallService {
     }
 
     public String transfer(Member member, TransferRequest request){
+        // 핀번호+지문번호 확인
+        String pin = request.getPin();
+        log.info("핀번호 : " + pin);
+        if((pin.length() < 7) && (!pin.equals(member.getPin()))){
+            throw new BusinessException(MemberErrorCode.MEMBER_PIN_ERROR);
+        }
+
         String[] dateAndTime = createFormatDateTime();
         CommonRequestHeader Header = CommonRequestHeader.customBuilder()
                 .apiName("updateDemandDepositAccountTransfer")
