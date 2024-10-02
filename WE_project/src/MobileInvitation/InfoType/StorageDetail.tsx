@@ -32,6 +32,16 @@ const StorageDetail: React.FC = () => {
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [fadeClass, setFadeClass] = useState("fade-in");
   const [showSecondFade, setShowSecondFade] = useState(false);
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    if (/NAVER|KAKAO|WE/i.test(userAgent)) {
+      setIsButtonEnabled(true);
+    } else {
+      setIsButtonEnabled(false);
+    }
+  }, []);
 
   useEffect(() => {
     const mainTimer = setTimeout(() => {
@@ -256,7 +266,7 @@ const StorageDetail: React.FC = () => {
             <img
               src={beige}
               alt="썸네일"
-              className={`w-1/3 h-auto ${fadeClass}`}
+              className={`max-w-xs md:max-w-md lg:max-w-lg h-auto ${fadeClass}`}
             />
           ) : (
             <div
@@ -479,8 +489,13 @@ const StorageDetail: React.FC = () => {
                     </p>
                   </div>
                   <button
-                    className="h-10 mr-5 text-sm mt-2 text-gray-800 border border-gray-300 rounded-md shadow-sm hover:shadow-md transition-shadow px-2 py-1"
-                    onClick={shareDeepLink}
+                    className={`h-10 mr-5 text-sm mt-2 border border-gray-300 rounded-md shadow-sm px-2 py-1 ${
+                      isButtonEnabled
+                        ? "text-gray-800 hover:shadow-md transition-shadow"
+                        : "text-gray-400 cursor-not-allowed"
+                    }`}
+                    onClick={isButtonEnabled ? shareDeepLink : () => {}}
+                    disabled={!isButtonEnabled}
                   >
                     이체하기
                   </button>
