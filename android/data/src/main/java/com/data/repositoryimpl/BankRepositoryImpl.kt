@@ -8,6 +8,7 @@ import com.data.model.request.RequestAuthCode
 import com.data.model.request.RequestCouple
 import com.data.model.request.RequestRegisterCoupleAccount
 import com.data.model.request.RequestRegisterPriorAccount
+import com.data.model.request.RequestTransactionHistory
 import com.data.model.request.RequestTransfer
 import com.data.model.response.ResponseBank
 import com.data.model.response.ResponseRegisterCoupleAccount
@@ -21,6 +22,7 @@ import com.we.model.BankData
 import com.we.model.CoupleAccountData
 import com.we.model.RegisterCoupleAccountData
 import com.we.model.ResigterPriorAccountData
+import com.we.model.TransactionHistoryData
 import com.we.model.TransferData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -105,6 +107,16 @@ class BankRepositoryImpl @Inject constructor(
         return flow {
             val result = safeApiCall {
                 val value = bankDataSource.postCoupleAccount(request).data.toModel()
+                value
+            }
+            emit(result)
+        }
+    }
+
+    override suspend fun postTransactionHistoryList(request: RequestTransactionHistory): Flow<ApiResult<List<TransactionHistoryData>>> {
+        return flow {
+            val result = safeApiCall {
+                val value = bankDataSource.postTransactionHistoryList(request).data.map { it.toModel() }
                 value
             }
             emit(result)

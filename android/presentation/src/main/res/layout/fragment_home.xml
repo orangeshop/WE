@@ -87,11 +87,11 @@
 
             <TextView
                 style="@style/suite_bold_20"
+                android:id="@+id/tv_accountInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="315dp"
-                android:text="@string/couple_account"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -138,7 +138,9 @@
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toStartOf="@+id/ic_invitation"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:title="@{@string/meal_ticket}" />
+                    app:title="@{@string/meal_ticket}"
+                    app:img="@{@drawable/recommended_menu}"
+                />
 
                 <include
                     android:id="@+id/ic_invitation"
@@ -150,7 +152,9 @@
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toStartOf="@+id/ic_qr_code"
                     app:layout_constraintStart_toEndOf="@+id/ic_home_button"
-                    app:title="@{@string/invitation}" />
+                    app:title="@{@string/invitation}"
+                    app:img="@{@drawable/sms_tracking}"
+                />
 
                 <include
                     android:id="@+id/ic_qr_code"
@@ -162,7 +166,9 @@
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ic_invitation"
-                    app:title="@{@string/guest_book}" />
+                    app:title="@{@string/guest_book}"
+                    app:img="@{@drawable/baseline_qr_code_24}"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

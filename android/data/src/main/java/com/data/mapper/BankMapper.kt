@@ -6,6 +6,7 @@ import com.data.model.response.ResponseBank
 import com.data.model.response.ResponseCoupleAccount
 import com.data.model.response.ResponseRegisterCoupleAccount
 import com.data.model.response.ResponseResigterPriorAccount
+import com.data.model.response.ResponseTransactionHistory
 import com.data.model.response.ResponseTransfer
 import com.we.model.AccountAuthData
 import com.we.model.AuthCodeData
@@ -13,6 +14,7 @@ import com.we.model.BankData
 import com.we.model.CoupleAccountData
 import com.we.model.RegisterCoupleAccountData
 import com.we.model.ResigterPriorAccountData
+import com.we.model.TransactionHistoryData
 import com.we.model.TransferData
 
 fun ResponseBank.Data.toEntity(): BankData {
@@ -30,7 +32,8 @@ fun ResponseBank.Data.toEntity(): BankData {
         dailyTransferLimit = dailyTransferLimit,
         lastTransactionDate = lastTransactionDate,
         oneTimeTransferLimit = oneTimeTransferLimit,
-        userName = userName
+        userName = userName,
+        accountInfo = accountInfo
     )
 }
 
@@ -87,5 +90,16 @@ fun ResponseResigterPriorAccount.Data.toModel() : ResigterPriorAccountData {
 fun ResponseRegisterCoupleAccount.Data.toModel() : RegisterCoupleAccountData {
     return RegisterCoupleAccountData(
         id
+    )
+}
+
+fun ResponseTransactionHistory.Data.toModel() : TransactionHistoryData{
+    return TransactionHistoryData(
+        transactionTypeName,
+        transactionAccountNo,
+        transactionBalance,
+        transactionAfterBalance,
+        transactionType,
+        transactionDate
     )
 }

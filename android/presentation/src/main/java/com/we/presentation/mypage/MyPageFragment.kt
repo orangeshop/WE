@@ -28,7 +28,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private fun setUpAccountViewPager() {
         homeAdapter = HomeViewPagerAccountAdapter(
-            accountClickListener = { idx ->
+            accountClickListener = { idx, account ->
                 if (idx == homeAdapter.currentList.lastIndex) {
                     navigateDestination(R.id.action_homeFragment_to_accountFragment)
                 } else {

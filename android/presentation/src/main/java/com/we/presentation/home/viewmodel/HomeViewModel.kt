@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
     val accountList: StateFlow<List<BankData>> get() =  _accountList
 
     init {
-        setAccountList(arrayListOf(BankData("", "", "", "", "", "", "", "", "", "", "", "","","")))
+        setAccountList(arrayListOf(BankData("", "", "", "", "", "", "", "", "", "", "", "","","", "")))
         getAccountList()
     }
 

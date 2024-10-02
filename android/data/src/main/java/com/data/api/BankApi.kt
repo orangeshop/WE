@@ -4,6 +4,7 @@ import com.data.model.request.RequestAccountAuth
 import com.data.model.request.RequestAuthCode
 import com.data.model.request.RequestRegisterCoupleAccount
 import com.data.model.request.RequestRegisterPriorAccount
+import com.data.model.request.RequestTransactionHistory
 import com.data.model.request.RequestTransfer
 import com.data.model.response.ResponseAccountAuth
 import com.data.model.response.ResponseAuthCode
@@ -11,6 +12,7 @@ import com.data.model.response.ResponseBank
 import com.data.model.response.ResponseCoupleAccount
 import com.data.model.response.ResponseRegisterCoupleAccount
 import com.data.model.response.ResponseResigterPriorAccount
+import com.data.model.response.ResponseTransactionHistory
 import com.data.model.response.ResponseTransfer
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -42,5 +44,8 @@ interface BankApi {
 
     @POST("bank/register-couple-account")
     suspend fun postCoupleAccount(@Body request: RequestRegisterCoupleAccount): ResponseRegisterCoupleAccount
+
+    @POST("bank/transaction-history-list")
+    suspend fun postTransactionHistoryList(@Body requestTransactionHistory: RequestTransactionHistory): ResponseTransactionHistory
 
 }

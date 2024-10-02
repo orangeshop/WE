@@ -5,10 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.we.presentation.databinding.ItemBannerBinding
 
-class HomeViewPagerBannerAdapter(val item: List<String>) : RecyclerView.Adapter<HomeViewPagerBannerAdapter.HomeViewPagerBannerViewHolder>() {
+class HomeViewPagerBannerAdapter(val item: List<Int>) : RecyclerView.Adapter<HomeViewPagerBannerAdapter.HomeViewPagerBannerViewHolder>() {
     inner class HomeViewPagerBannerViewHolder(val binding: ItemBannerBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item: String){
-//            binding.tvAccountNumber.text = item
+        fun bind(item: Int){
+            binding.apply {
+                ivBanner.setImageResource(item)
+            }
         }
     }
 
