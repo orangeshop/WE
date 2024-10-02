@@ -147,7 +147,7 @@ const AccountBook: React.FC = () => {
   return (
     <div className="font-nanum">
       <Navbar isScrollSensitive={false} />
-      <div className="mt-24 mb-20">
+      <div className="mt-24 mb-20 min-w-[1200px]">
         {sortedData && sortedData.data.length > 0 ? (
           <div>
             <h2 className="text-xl mb-4">청첩장 장부 내역</h2>

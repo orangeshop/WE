@@ -219,7 +219,7 @@ const StorageDetail: React.FC = () => {
   };
 
   function shareDeepLink() {
-    const deepLinkUrl = `we://transfer`;
+    const deepLinkUrl = `we://transfer?id=${invitationData?.ledgerId}`;
     window.location.href = deepLinkUrl;
   }
 
