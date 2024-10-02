@@ -27,11 +27,6 @@
             android:name="com.we.presentation.sign.SignActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
-        </activity>
-
-        <activity
-            android:name="com.we.presentation.home.InvitationDetailActivity"
-            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -39,6 +34,11 @@
                 <data android:scheme="we"
                     android:host="transfer" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.we.presentation.home.InvitationDetailActivity"
+            android:exported="true" >
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

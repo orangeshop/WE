@@ -14,5 +14,16 @@ class SignActivity : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
 
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleDeepLink(intent)
+    }
 
+    private fun handleDeepLink(intent: Intent) {
+        val data: Uri? = intent.data
+        data?.let {
+            val legId = data.getQueryParameter("id")
+
+        }
+    }
 }
