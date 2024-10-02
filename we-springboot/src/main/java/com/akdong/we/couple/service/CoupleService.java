@@ -59,11 +59,10 @@ public class CoupleService {
                 .member1(member1)
                 .member2(member2)
                 .bankbookCreated(false)
+                .weddingDate(request.getWeddingDate())
                 .build();
 
-//        member1.setCouple(couple);
         member1.setCoupleJoined(true);
-//        member2.setCouple(couple);
         member2.setCoupleJoined(true);
 
         return coupleRepository.save(couple);
