@@ -21,6 +21,8 @@ public class FormalInvitationDto {
     private String coupleBankName;
     private String coupleAccount;
 
+    private Long ledgerId;
+
     private String title;
 
     // 초대장 URL
