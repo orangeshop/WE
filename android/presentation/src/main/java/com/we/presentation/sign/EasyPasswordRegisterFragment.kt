@@ -12,15 +12,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
+import com.we.presentation.component.ShareData
 import com.we.presentation.databinding.FragmentEasyPasswordRegisterBinding
 import com.we.presentation.remittance.viewmodel.RemittanceViewModel
+import com.we.presentation.sign.model.SignInUiState
 import com.we.presentation.sign.model.SignUpUiState
+import com.we.presentation.sign.viewmodel.SignInViewModel
 import com.we.presentation.sign.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -35,7 +39,7 @@ class EasyPasswordRegisterFragment :
     BaseFragment<FragmentEasyPasswordRegisterBinding>(R.layout.fragment_easy_password_register) {
 
     private val signUpViewModel: SignUpViewModel by activityViewModels()
-
+    private val signInViewModel: SignInViewModel by viewModels()
     private val remittanceViewModel: RemittanceViewModel by hiltNavGraphViewModels(R.id.remittance_gragh)
 
     private lateinit var buttonList: MutableList<Button>
@@ -69,7 +73,7 @@ class EasyPasswordRegisterFragment :
             observeEasyPassWord()
             initTransferSetting()
         }
-
+        observeSignIn()
         biometricPrompt = setBiometricPrompt()
         promptInfo = setPromptInfo()
 
@@ -246,7 +250,16 @@ class EasyPasswordRegisterFragment :
                     is SignUpUiState.SignUpEmpty -> {}
                     is SignUpUiState.SignUpLoading -> {}
                     is SignUpUiState.SignUpSuccess -> {
-                        navigateDestination(R.id.action_fragment_easy_password_register_to_fragment_sign_up_success)
+                        if (ShareData.transferType) {
+                            val signUpData = signUpViewModel.signUpParam.value
+                            Timber.tag("회원가입 로그인").d("$signUpData")
+                            signInViewModel.setSignInParam(true, signUpData.email+"@"+signUpData.emailName)
+                            signInViewModel.setSignInParam(false, signUpData.password)
+                            signInViewModel.singIn()
+                        } else {
+                            navigateDestination(R.id.action_fragment_easy_password_register_to_fragment_sign_up_success)
+                        }
+
                     }
 
                     is SignUpUiState.EasyPasswordSuccess -> {
@@ -255,6 +268,26 @@ class EasyPasswordRegisterFragment :
 
                     is SignUpUiState.SignUpError -> {
                         Timber.d("회원가입 오류 ${it.error}")
+                    }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun observeSignIn(){
+        signInViewModel.signInUiState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                when (it) {
+                    is SignInUiState.SignInSuccess -> {
+                        navigateDestination(R.id.action_fragment_easy_password_register_to_fragment_sign_up_success)
+                    }
+
+                    is SignInUiState.SignInError -> {
+
+                    }
+
+                    else -> {
+
                     }
                 }
             }

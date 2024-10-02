@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -121,10 +122,12 @@ class SignUpViewModel @Inject constructor(
                 when (it) {
                     is ApiResult.Success -> {
                         _signUpUiState.emit(SignUpUiState.SignUpSuccess)
+                        Timber.tag("회원가입").d("성공")
                     }
 
                     is ApiResult.Error -> {
                         _signUpUiState.emit(SignUpUiState.SignUpError(it.exception.toString()))
+                        Timber.tag("회원가입").d("실패 ${it.exception}")
                     }
                 }
             }

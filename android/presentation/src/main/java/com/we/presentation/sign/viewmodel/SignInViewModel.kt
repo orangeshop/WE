@@ -42,7 +42,6 @@ class SignInViewModel @Inject constructor(
     }
 
     fun singIn() {
-
         viewModelScope.launch {
             signRepository.postLogin(signInParam.value).collectLatest {
                 when (it) {
