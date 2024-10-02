@@ -48,9 +48,8 @@ public class LedgerService {
         Ledger savedLedger = ledgerRepository.save(ledger);
 
         // QR 코드 생성 및 S3 업로드
-        String ledgerAccessUrl = "we://transfer/" + savedLedger.getId();
+        String ledgerAccessUrl = "we://transfer?id=" + savedLedger.getId();
         try {
-
             byte[] qrCodeBytes = QRCodeGenerator.generateQRCodeImage(ledgerAccessUrl, 350, 350);
 
             // 바이트 배열을 MultipartFile로 변환
@@ -100,5 +99,7 @@ public class LedgerService {
 
         return giftInfoList;
     }
+
+
 
 }
