@@ -42,6 +42,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             moreVertClickListener = {view, account, bankName ->
 
             }
+            ,
+            accountInfo = {}
         )
 
         binding.apply {

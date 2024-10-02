@@ -87,11 +87,11 @@
 
             <TextView
                 style="@style/suite_bold_20"
+                android:id="@+id/tv_accountInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="315dp"
-                android:text="@string/couple_account"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

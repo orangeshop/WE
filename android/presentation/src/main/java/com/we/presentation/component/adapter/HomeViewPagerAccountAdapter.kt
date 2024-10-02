@@ -14,9 +14,10 @@ import com.we.model.BankData
 import com.we.presentation.R
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemAccountBinding
+import timber.log.Timber
 
 class HomeViewPagerAccountAdapter(
-
+    private val accountInfo : (accountInfo : String) -> Unit,
     private val accountClickListener: (idx : Int, account : String) -> Unit,
     private val accountRemittance: (accountNo : String) -> Unit,
     private val typeCheck : Boolean,
@@ -29,6 +30,9 @@ class HomeViewPagerAccountAdapter(
                 tvHomeAccount.text = item.bankName
                 tvHomeNo.text = item.accountNo
                 tvHomeMoney.text = item.accountBalance
+                accountInfo(item.accountInfo)
+
+                Timber.d("accountInfo : " + item.accountInfo)
 
                 when(typeCheck){
                     true -> {

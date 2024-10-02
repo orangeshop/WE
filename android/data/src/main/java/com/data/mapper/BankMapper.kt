@@ -32,7 +32,8 @@ fun ResponseBank.Data.toEntity(): BankData {
         dailyTransferLimit = dailyTransferLimit,
         lastTransactionDate = lastTransactionDate,
         oneTimeTransferLimit = oneTimeTransferLimit,
-        userName = userName
+        userName = userName,
+        accountInfo = accountInfo
     )
 }
 

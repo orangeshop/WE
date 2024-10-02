@@ -46,6 +46,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
         homeAdapter = HomeViewPagerAccountAdapter(
+            accountInfo = {
+                binding.tvAccountInfo.text = it
+            },
             accountClickListener = { idx, account ->
                 if (idx == homeAdapter.currentList.lastIndex) {
                     navigateDestination(R.id.action_homeFragment_to_accountFragment)
