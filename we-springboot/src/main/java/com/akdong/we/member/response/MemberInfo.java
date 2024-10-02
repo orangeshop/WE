@@ -34,6 +34,9 @@ public class MemberInfo {
     @Schema(description = "커플 여부", example = "0")
     private final boolean coupleJoined;
 
+    @Schema(description = "대표 계좌", example = "12345678910")
+    private final String priorAccount;
+
     public static MemberInfo of(Member member) {
         return builder()
                 .id(member.getId())
@@ -43,6 +46,7 @@ public class MemberInfo {
                 .leavedDate(member.getLeavedDate())
                 .isLeaved(member.isLeaved())
                 .coupleJoined(member.isCoupleJoined())
+                .priorAccount(member.getPriorAccount())
                 .build();
     }
 }
