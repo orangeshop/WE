@@ -20,6 +20,7 @@ data class BankList(
             BankList(bankIcList = R.drawable.ic_woo_bank, bankName = "우체국"),
             BankList(bankIcList = R.drawable.ic_busan_bank, bankName = "부산은행"),
             BankList(bankIcList = R.drawable.ic_toss_bank, bankName = "토스"),
+            BankList(bankIcList = R.drawable.ic_korea_bank, bankName = "한국은행"),
         )
     }
 }

@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.we.model.BankData
 import com.we.presentation.R
+import com.we.presentation.account.util.BankList
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemAccountBinding
 import timber.log.Timber
 
 class HomeViewPagerAccountAdapter(
-    private val accountInfo : (accountInfo : String) -> Unit,
     private val accountClickListener: (idx : Int, account : String) -> Unit,
     private val accountRemittance: (accountNo : String) -> Unit,
     private val typeCheck : Boolean,
@@ -30,7 +30,7 @@ class HomeViewPagerAccountAdapter(
                 tvHomeAccount.text = item.bankName
                 tvHomeNo.text = item.accountNo
                 tvHomeMoney.text = item.accountBalance
-                accountInfo(item.accountInfo)
+                ivBankIcon.setImageResource(bankIcon(item.bankName))
 
                 Timber.d("accountInfo : " + item.accountInfo)
 
@@ -76,9 +76,6 @@ class HomeViewPagerAccountAdapter(
         }
     }
 
-    private fun menuSetting(){
-
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -94,6 +91,15 @@ class HomeViewPagerAccountAdapter(
         holder.bind(currentList[position])
     }
 
+
+    private fun bankIcon(bankName: String): Int {
+        BankList.bankLs.map {
+            if (it.bankName == bankName) {
+                return it.bankIcList
+            }
+        }
+        return 0
+    }
 
 
 }
