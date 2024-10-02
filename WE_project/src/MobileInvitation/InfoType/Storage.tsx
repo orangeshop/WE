@@ -79,16 +79,10 @@ const Storage: React.FC = () => {
                 </div>
               ))}
             </div>
-            <button
-              className="absolute left-0 bg-[#FFD0DE] rounded-full p-2"
-              onClick={handlePrev}
-            >
+            <button className="absolute left-0 p-2" onClick={handlePrev}>
               <ChevronLeft />
             </button>
-            <button
-              className="absolute right-0 bg-[#FFD0DE] rounded-full p-2"
-              onClick={handleNext}
-            >
+            <button className="absolute right-0 p-2" onClick={handleNext}>
               <ChevronRight />
             </button>
             <div className="flex justify-center mt-4">
