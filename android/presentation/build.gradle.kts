@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.firebase.messaging.ktx)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.biometric)
 
 
     //Test
