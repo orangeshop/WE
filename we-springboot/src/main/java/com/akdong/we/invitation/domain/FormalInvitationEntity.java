@@ -111,7 +111,7 @@ public class FormalInvitationEntity {
 
     @Column
     private double latitude;
-    public FormalInvitationDto asDto(String account,String ownerName, String bankName) {
+    public FormalInvitationDto asDto(String account,String ownerName, String bankName,Long ledgerId) {
         return FormalInvitationDto.builder()
 
                 .invitationId(invitation_id)
@@ -119,6 +119,8 @@ public class FormalInvitationEntity {
                 .coupleAccount(account)
                 .coupleAccountOwner(ownerName)
                 .coupleBankName(bankName)
+
+                .ledgerId(ledgerId)
 
                 .title(title)
                 .url(url)
@@ -159,7 +161,7 @@ public class FormalInvitationEntity {
     }
 
     public FormalInvitationDto asDto(){
-        return asDto(null,null,null);
+        return asDto(null,null,null,null);
     }
 
     public PersonDto asBrideDto()

@@ -8,6 +8,8 @@ import com.akdong.we.invitation.domain.FormalInvitationDto;
 import com.akdong.we.invitation.domain.FormalInvitationEntity;
 import com.akdong.we.invitation.domain.formal.*;
 import com.akdong.we.invitation.repository.FormalInvitationRepository;
+import com.akdong.we.ledger.entity.Ledger;
+import com.akdong.we.ledger.repository.LedgerRepository;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.repository.MemberRepository;
 import com.akdong.we.util.Util;
@@ -26,6 +28,7 @@ import java.util.List;
 @Service
 public class FormalInvitationService {
 
+    private final LedgerRepository ledgerRepository;
     private final MemberRepository memberRepository;
     private final CoupleRepository coupleRepository;
     private final FormalInvitationRepository formalInvitationRepository;
@@ -101,9 +104,12 @@ public class FormalInvitationService {
         var member = memberRepository
                 .findById(couple.getId())
                 .orElseThrow();
+        var ledger = ledgerRepository
+                .findByCouple(couple)
+                .orElse(null);
 
         return invitation.asDto(couple.getAccountNumber(),member.getNickname(),
-                couple.getAccountBankName());
+                couple.getAccountBankName(),ledger == null ? null : ledger.getId());
     }
 
     public FormalInvitationDto updateFormalInvitation(long invitationId,ModifiedFormalInvitation invitation){
