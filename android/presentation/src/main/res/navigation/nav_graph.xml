@@ -31,7 +31,8 @@
 
         <action
             android:id="@+id/action_homeFragment_accountCheckFragment"
-            app:destination="@id/accountCheckFragment" />
+            app:destination="@id/accountCheckFragment">
+        </action>
         <action
             android:id="@+id/action_fragment_home_to_remittanceFragment"
             app:destination="@id/remittanceFragment">
@@ -96,7 +97,11 @@
         android:id="@+id/accountCheckFragment"
         android:name="com.we.presentation.accountcheck.AccountCheckFragment"
         android:label="AccountCheckFragment"
-        tools:layout="@layout/fragment_account_check" />
+        tools:layout="@layout/fragment_account_check" >
+        <argument
+            android:name="account"
+            app:argType="string" />
+    </fragment>
 
     <!-- 청첩장 -->
     <fragment

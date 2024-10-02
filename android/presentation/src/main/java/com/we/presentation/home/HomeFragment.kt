@@ -1,5 +1,7 @@
 package com.we.presentation.home
 
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -9,6 +11,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
 import com.we.model.BankData
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
@@ -39,18 +42,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         setUpAccountViewPager()
         setUpBannerViewPager()
         initClickEventListener()
-
     }
 
     private fun setUpAccountViewPager() {
 
-
         homeAdapter = HomeViewPagerAccountAdapter(
-            accountClickListener = { idx ->
+            accountClickListener = { idx, account ->
                 if (idx == homeAdapter.currentList.lastIndex) {
                     navigateDestination(R.id.action_homeFragment_to_accountFragment)
                 } else {
-                    navigateDestination(R.id.action_homeFragment_accountCheckFragment)
+                    navigateDestination(R.id.action_homeFragment_accountCheckFragment, bundleOf("account" to account))
                 }
             },
             accountRemittance = { account ->
@@ -96,8 +97,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 delay(700)
                 vpHomeAccount.setCurrentItem(0, false)
             }
-        }
 
+            vpHomeAccount.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                    tvAccountInfo.text = homeAdapter.currentList[position].accountInfo
+                }
+            })
+        }
 
         homeViewModel.accountList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { list ->
@@ -108,12 +115,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setUpBannerViewPager() {
-        val test = arrayListOf("1", "2", "3")
+        val test = arrayListOf(R.drawable.image_25, R.drawable.image_25, R.drawable.image_25)
 
         val adapter = HomeViewPagerBannerAdapter(test)
         binding.apply {
             vpHomeBanner.adapter = adapter
             vpHomeTotalBannerDotsIndicator.attachTo(vpHomeBanner)
+
+            val handler = Handler(Looper.getMainLooper())
+            val runnable = object : Runnable {
+                override fun run() {
+                    val nextItem = if (vpHomeBanner.currentItem == vpHomeBanner.adapter?.itemCount?.minus(1)) 0 else vpHomeBanner.currentItem + 1
+                    vpHomeBanner.setCurrentItem(nextItem, true)
+                    handler.postDelayed(this, 3000) // 3초마다 다음 페이지로 전환
+                }
+            }
+
+            vpHomeAccount.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    // 사용자 상호작용 후 자동 스크롤 재설정
+                    handler.removeCallbacks(runnable)
+                    handler.postDelayed(runnable, 3000)
+                }
+            })
         }
     }
 

@@ -34,7 +34,7 @@ class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest
 
     private fun setUpAccountViewPager() {
         homeAdapter = HomeViewPagerAccountAdapter(
-            accountClickListener = { idx ->
+            accountClickListener = { idx,account ->
                 if (idx == homeAdapter.currentList.lastIndex) {
                     navigateDestination(R.id.action_guestFragment_to_accountFragment)
                 } else {
@@ -45,7 +45,7 @@ class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest
             typeCheck = false,
             moreVertClickListener = { resultView, account, bankName ->
 
-            }
+            },
         )
 
         binding.apply {

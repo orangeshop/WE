@@ -8,7 +8,7 @@ data class BankList(
 ) {
     companion object {
         val bankLs = arrayListOf<BankList>(
-            BankList(bankIcList = R.drawable.ic_nh_bank, bankName = "NH은행"),
+            BankList(bankIcList = R.drawable.ic_nh_bank, bankName = "농협은행"),
             BankList(bankIcList = R.drawable.ic_kb_bank, bankName = "국민은행"),
             BankList(bankIcList = R.drawable.ic_sinhan_bank, bankName = "신한은행"),
             BankList(bankIcList = R.drawable.ic_woori_bank, bankName = "우리은행"),
@@ -20,6 +20,7 @@ data class BankList(
             BankList(bankIcList = R.drawable.ic_woo_bank, bankName = "우체국"),
             BankList(bankIcList = R.drawable.ic_busan_bank, bankName = "부산은행"),
             BankList(bankIcList = R.drawable.ic_toss_bank, bankName = "토스"),
+            BankList(bankIcList = R.drawable.ic_korea_bank, bankName = "한국은행"),
         )
     }
 }

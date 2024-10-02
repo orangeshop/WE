@@ -18,6 +18,7 @@ data class ResponseBank(
         val dailyTransferLimit: String,
         val lastTransactionDate: String,
         val oneTimeTransferLimit: String,
-        val userName: String
+        val userName: String,
+        val accountInfo: String
     )
 }

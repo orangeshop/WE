@@ -19,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val signRepository: SignRepository,
+    private val tokenProvider: TokenProvider
 ) : ViewModel() {
 
 
@@ -47,6 +48,11 @@ class SignInViewModel @Inject constructor(
                 when (it) {
                     is ApiResult.Success -> {
                         setSignInUiState(SignInUiState.SignInSuccess(it.data.coupleJoined))
+                        tokenProvider.saveAccessToken(it.data.accessToken){
+                            tokenProvider.loadingToken()
+                        }
+
+
                         Timber.tag("로그인").d("성공 ${it.data}")
                     }
 

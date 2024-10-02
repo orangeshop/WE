@@ -5,6 +5,10 @@
         <variable
             name="title"
             type="String" />
+
+        <variable
+            name="img"
+            type="android.graphics.drawable.Drawable" />
     </data>
 
     <FrameLayout
@@ -25,5 +29,12 @@
             android:text="@{title}"
             style="@style/suite_bold_16"
             />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom | end"
+            android:layout_margin="8dp"
+            android:src="@{img}"
+        />
     </FrameLayout>
 </layout>
