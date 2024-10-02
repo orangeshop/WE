@@ -25,6 +25,7 @@ ChartJS.register(
 );
 import * as XLSX from "xlsx";
 import excel from "../assets/images/excel.png";
+import { TooltipItem } from "chart.js";
 
 const AccountBook: React.FC = () => {
   const [accountData, setAccountData] = useState<GetAccountBook | null>(null);
@@ -92,7 +93,7 @@ const AccountBook: React.FC = () => {
     .filter((item) => item.isBride === false)
     .reduce((acc, item) => acc + item.charge, 0);
 
-  const chartColors = ["hsl(0, 100%, 85%)", "hsl(210, 100%, 85%)"];
+  const chartColors = ["hsl(270, 100%, 70%)", "hsl(30, 100%, 70%)"];
 
   const sortedChartData = sortedData ? [...sortedData.data] : [];
 
@@ -161,6 +162,25 @@ const AccountBook: React.FC = () => {
     },
   };
 
+  const doughnutOptions = {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem: TooltipItem<"doughnut">) => {
+            const dataset = tooltipItem.dataset;
+            const total = dataset.data.reduce(
+              (acc: number, value: number) => acc + value,
+              0
+            );
+            const currentValue = dataset.data[tooltipItem.dataIndex];
+            const percentage = ((currentValue / total) * 100).toFixed(2);
+            return `${currentValue.toLocaleString()}원 (${percentage}%)`;
+          },
+        },
+      },
+    },
+  };
+
   const handleSortByCharge = () => {
     if (!accountData) return;
 
@@ -190,7 +210,7 @@ const AccountBook: React.FC = () => {
   return (
     <div className="font-nanum">
       <Navbar isScrollSensitive={false} />
-      <div className="font-default mt-24 mb-20 min-w-[1200px] flex flex-wrap">
+      <div className="font-default mt-24 mb-6 min-w-[1200px] flex flex-wrap">
         {sortedData && sortedData.data.length > 0 ? (
           <div className="flex flex-col w-full">
             <div className="flex flex-1 gap-6">
@@ -254,7 +274,7 @@ const AccountBook: React.FC = () => {
                       onClick={() => setCurrentPage(index + 1)}
                       className={`mx-1 px-3 py-1 rounded ${
                         currentPage === index + 1
-                          ? "bg-gray-800 text-white"
+                          ? "bg-gray-700 text-white"
                           : "bg-gray-200"
                       }`}
                     >
@@ -266,67 +286,72 @@ const AccountBook: React.FC = () => {
 
               <div>
                 <div className="mb-5">
-                  <div className="bg-white shadow-md rounded-lg p-4 col-span-1 h-[300px] w-auto flex flex-col">
-                    <h2 className="text-md mb-4 font-bold">청첩장 장부 차트</h2>
-                    <div className="flex-grow">
+                  <div className="flex flex-1 gap-5">
+                    <div className="bg-white shadow-md rounded-lg p-4 col-span-1 h-[280px] flex flex-col w-[320px]">
+                      <h2 className="text-md mb-4 font-bold">
+                        전체 축의금 비율
+                      </h2>
+                      <div className="flex-grow h-[180px] flex items-center justify-center">
+                        {" "}
+                        <Doughnut
+                          data={doughnutData}
+                          options={doughnutOptions}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="bg-white shadow-md rounded-lg p-4 w-[320px] h-auto flex flex-col">
                       {" "}
-                      <Line
-                        data={chartData}
-                        options={{
-                          ...chartOptions,
-                          maintainAspectRatio: false,
-                        }}
-                      />
+                      <h2 className="text-md mb-5 font-bold">금액 합계</h2>
+                      <div className="flex-grow">
+                        {" "}
+                        <table className="table-auto border-collapse w-full text-left mt-2">
+                          <thead>
+                            <tr>
+                              <th className="border-b px-4 py-2">구분</th>
+                              <th className="border-b px-4 py-2">금액(원)</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td className="border-b px-4 py-2">총 합계</td>
+                              <td className="border-b px-4 py-2">
+                                {totalCharge?.toLocaleString() || 0}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="border-b px-4 py-2">
+                                신부측 합계
+                              </td>
+                              <td className="border-b px-4 py-2">
+                                {brideTotal?.toLocaleString() || 0}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="border-b px-4 py-2">
+                                신랑측 합계
+                              </td>
+                              <td className="border-b px-4 py-2">
+                                {groomTotal?.toLocaleString() || 0}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                <div className="flex flex-1 gap-5">
-                  <div className="bg-white shadow-md rounded-lg p-4 col-span-1 h-auto flex flex-col w-[300px]">
-                    <h2 className="text-md mb-4 font-bold">전체 축의금 비율</h2>
-                    <div className="flex-grow">
-                      {" "}
-                      <Doughnut
-                        data={doughnutData}
-                        options={{ maintainAspectRatio: false }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="bg-white shadow-md rounded-lg p-4 w-[300px] h-auto flex flex-col">
+                <div className="bg-white shadow-md rounded-lg p-4 col-span-1 h-[280px] w-auto flex flex-col">
+                  <h2 className="text-md mb-2 font-bold">청첩장 장부 차트</h2>
+                  <div className="flex-grow h-[220px]">
                     {" "}
-                    <h2 className="text-md mb-2 font-bold">금액 요약</h2>
-                    <div className="flex-grow">
-                      {" "}
-                      <table className="table-auto border-collapse w-full text-left mt-2">
-                        <thead>
-                          <tr>
-                            <th className="border-b px-4 py-2">구분</th>
-                            <th className="border-b px-4 py-2">금액(원)</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td className="border-b px-4 py-2">총 합계</td>
-                            <td className="border-b px-4 py-2">
-                              {totalCharge?.toLocaleString() || 0}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="border-b px-4 py-2">신부측 합계</td>
-                            <td className="border-b px-4 py-2">
-                              {brideTotal?.toLocaleString() || 0}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="border-b px-4 py-2">신랑측 합계</td>
-                            <td className="border-b px-4 py-2">
-                              {groomTotal?.toLocaleString() || 0}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                    <Line
+                      data={chartData}
+                      options={{
+                        ...chartOptions,
+                        maintainAspectRatio: false,
+                      }}
+                    />
                   </div>
                 </div>
               </div>

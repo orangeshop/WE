@@ -79,10 +79,16 @@ const Storage: React.FC = () => {
                 </div>
               ))}
             </div>
-            <button className="absolute left-0 p-2" onClick={handlePrev}>
+            <button
+              className="absolute left-0 p-2 bg-transparent"
+              onClick={handlePrev}
+            >
               <ChevronLeft />
             </button>
-            <button className="absolute right-0 p-2" onClick={handleNext}>
+            <button
+              className="absolute right-0 p-2 bg-transparent"
+              onClick={handleNext}
+            >
               <ChevronRight />
             </button>
             <div className="flex justify-center mt-4">
@@ -97,7 +103,7 @@ const Storage: React.FC = () => {
             </div>
           </div>
         ) : (
-          <p>청첩장이 없습니다.</p>
+          ""
         )}
       </div>
     </div>
