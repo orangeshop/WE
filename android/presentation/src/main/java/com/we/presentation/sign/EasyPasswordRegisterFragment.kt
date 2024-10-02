@@ -194,14 +194,15 @@ class EasyPasswordRegisterFragment :
                             bundle = bundleOf("remittanceCheck" to it)
                         )
                     }
-                } else {
-                    remittanceViewModel.postTransfer(false, passwordListToString, ledgers) {
-                        navigateDestination(
-                            R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,
-                            bundle = bundleOf("remittanceCheck" to it)
-                        )
-                    }
                 }
+//                else {
+//                    remittanceViewModel.postTransfer(false, passwordListToString, ledgers) {
+//                        navigateDestination(
+//                            R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,
+//                            bundle = bundleOf("remittanceCheck" to it)
+//                        )
+//                    }
+//                }
             }
         }
     }
@@ -287,7 +288,15 @@ class EasyPasswordRegisterFragment :
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    Toast.makeText(requireContext(), "지문 인식 성공", Toast.LENGTH_SHORT).show()
+
+                    remittanceViewModel.postTransfer(true, "99999999", -1) {
+                        navigateDestination(
+                            R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,
+                            bundle = bundleOf("remittanceCheck" to it)
+                        )
+                    }
+
+//                    Toast.makeText(requireContext(), "지문 인식 성공", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onAuthenticationFailed() {
