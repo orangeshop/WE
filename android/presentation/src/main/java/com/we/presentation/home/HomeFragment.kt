@@ -9,6 +9,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
 import com.we.model.BankData
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
@@ -39,15 +40,31 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         setUpAccountViewPager()
         setUpBannerViewPager()
         initClickEventListener()
-
     }
 
     private fun setUpAccountViewPager() {
 
+        binding.vpHomeAccount.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                // 페이지가 스크롤되는 중에 호출됩니다.
+                Timber.d("ViewPager", "Page scrolled to position: $position with offset: $positionOffset")
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                // 페이지 스크롤 상태가 변경될 때 호출됩니다.
+                when (state) {
+                    ViewPager2.SCROLL_STATE_IDLE -> Timber.d("ViewPager", "Scroll state: IDLE")
+                    ViewPager2.SCROLL_STATE_DRAGGING -> Timber.d("ViewPager", "Scroll state: DRAGGING")
+                    ViewPager2.SCROLL_STATE_SETTLING -> Timber.d("ViewPager", "Scroll state: SETTLING")
+                }
+            }
+        })
 
         homeAdapter = HomeViewPagerAccountAdapter(
             accountInfo = {
-                binding.tvAccountInfo.text = it
+
             },
             accountClickListener = { idx, account ->
                 if (idx == homeAdapter.currentList.lastIndex) {
