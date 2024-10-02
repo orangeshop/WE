@@ -32,7 +32,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
       };
     }
   }, [isScrollSensitive]);
-  
 
   const handleMouseEnter = () => setDropdownVisible(true);
   const handleMouseLeave = () => setDropdownVisible(false);
@@ -136,16 +135,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
         <div className="flex gap-8 md:gap-10 lg:gap-12 ml-auto mr-12">
           {isLoggedIn ? (
             <>
-              <a
-                href="/mypage"
-                className={`${
-                  navbarBackground || !isScrollSensitive
-                    ? "text-black"
-                    : "text-white"
-                } text-sm md:text-base lg:text-lg`}
-              >
-                Mypage
-              </a>
               <a
                 href="#"
                 onClick={handleLogout}

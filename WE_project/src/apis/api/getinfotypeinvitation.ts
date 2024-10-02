@@ -17,6 +17,7 @@ export type GetFormalInvitationDto = {
   coupleAccountOwner: string;
   coupleBankName: string;
   coupleAccount: string;
+  ledgerId: number;
   url: string;
   title: string;
 

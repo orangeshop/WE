@@ -42,16 +42,20 @@ const TypeChoice: React.FC = () => {
                   className="py-3 px-8 rounded-md text-md bg-[#FFECCA] mt-5"
                   onClick={() => (window.location.href = "/invite/info/sample")}
                 >
-                  <IoIosLink size={20} className="mr-2" />
-                  샘플보기
+                  <div className="flex">
+                    <IoIosLink size={20} className="mr-2" />
+                    샘플보기
+                  </div>
                 </button>
                 <button
                   type="submit"
                   className="py-3 px-8 rounded-md text-md bg-[#FFD0DE] mt-5"
                   onClick={handleCreateInvitation}
                 >
-                  <FaWandMagicSparkles size={20} className="mr-2" />
-                  제작하기
+                  <div className="flex">
+                    <FaWandMagicSparkles size={20} className="mr-2" />
+                    제작하기
+                  </div>
                 </button>
               </div>
               <p className="text-[12px]">

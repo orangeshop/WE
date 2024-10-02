@@ -27,11 +27,11 @@ const StorageDetail: React.FC = () => {
     useState<GetFormalInvitationDto | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { invitationId } = useParams<{ invitationId: string }>();
-  const accessToken = localStorage.getItem("accessToken");
   const [isExist, setisExist] = useState<boolean>(false);
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [fadeClass, setFadeClass] = useState("fade-in");
   const [showSecondFade, setShowSecondFade] = useState(false);
+  const accessToken = localStorage.getItem("accessToken");
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
   useEffect(() => {

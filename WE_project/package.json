@@ -23,6 +23,7 @@
     "axios": "^1.7.7",
     "canvas-toBlob": "^1.0.0",
     "chart.js": "^4.4.4",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "cropperjs": "^1.6.2",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
@@ -49,10 +50,11 @@
     "react-slick": "^0.30.2",
     "react-type-animation": "^3.2.0",
     "react-typed": "^2.0.12",
-    "rollup": "^4.22.5",
+    "rollup": "^4.23.0",
     "slick-carousel": "^1.8.1",
     "styled-reset": "^4.5.2",
-    "sweetalert2": "^11.14.1"
+    "sweetalert2": "^11.14.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

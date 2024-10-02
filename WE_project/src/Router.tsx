@@ -11,7 +11,6 @@ import FreeTypeInvitation from "./MobileInvitation/FreeType/FreeTypeInvitation";
 import FreeTypeSample from "./MobileInvitation/FreeType/FreeTypeSample";
 import SignUp from "./SignUp/SignUp";
 import LogIn from "./LogIn/Login";
-import Mypage from "./MyPage/mypage";
 import AccountBook from "./AccountBook/AccountBook";
 
 const AppRouter: React.FC = () => {
@@ -38,7 +37,6 @@ const AppRouter: React.FC = () => {
         <Route path="/invite/info/sample" element={<InfoTypeSample />} />
         <Route path="/invite/free" element={<FreeTypeInvitation />} />
         <Route path="/invite/free/sample" element={<FreeTypeSample />} />
-        <Route path="/mypage" element={<Mypage />} />
         <Route path="/account" element={<AccountBook />} />
         {/* 추가적인 라우트들을 여기에 추가하세요@@ */}
       </Routes>
