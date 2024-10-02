@@ -26,7 +26,14 @@ class TokenProvider @Inject constructor(
     private var cachedRefreshToken: String? = null
 
     init {
+        runBlocking {
+            saveAccessToken("")
+        }
         // 앱 시작 시 토큰 로드
+        loadingToken()
+    }
+
+    fun loadingToken() {
         runBlocking {
             cachedAccessToken = dataStore.data
                 .map { preferences -> preferences[ACCESS_TOKEN_KEY] }
