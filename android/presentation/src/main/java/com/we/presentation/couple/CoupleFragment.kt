@@ -1,6 +1,7 @@
 package com.we.presentation.couple
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,10 +18,12 @@ import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.couple.viewmodel.CoupleViewModel
 import com.we.presentation.databinding.FragmentCoupleBinding
+import com.we.presentation.util.ScheduleRegisterType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 @AndroidEntryPoint
 class CoupleFragment : BaseFragment<FragmentCoupleBinding>(R.layout.fragment_couple) {
@@ -64,6 +67,15 @@ class CoupleFragment : BaseFragment<FragmentCoupleBinding>(R.layout.fragment_cou
                         }
                     }
                 }
+            }
+
+            tvInputDate.setOnClickListener {
+//                DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+//                    val selectedDate = Calendar.getInstance()
+//                    selectedDate.set(selectedYear, selectedMonth, selectedDay)
+//                    val formattedDate = dateFormat.format(selectedDate.time)
+//                    scheduleRegisterViewModel.setRegisterParam(ScheduleRegisterType.DATE, formattedDate)
+//                }, year, month, day).show()
             }
         }
     }
