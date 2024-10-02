@@ -20,4 +20,5 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutRe
     }
 
     protected abstract fun init()
+
 }

@@ -1,22 +1,14 @@
 package com.we.presentation.account
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.activityViewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
 import com.we.presentation.R
 import com.we.presentation.account.viewmodel.AccountViewModel
 import com.we.presentation.base.BaseFragment
+import com.we.presentation.component.ShareData
 import com.we.presentation.databinding.FragmentAccountTransferBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class AccountTransferFragment :
@@ -39,8 +31,12 @@ class AccountTransferFragment :
                 )
                 accountViewModel.getAuthCodeCertified() { result ->
                     if (result == true) {
-                        Toast.makeText(requireContext(), "성공", Toast.LENGTH_SHORT).show()
-                        navigatePopBackStack()
+                        if (ShareData.transferType) { // 이체하기
+                            navigateDestination(R.id.action_accountTransferFragment_to_transfer_nav_graph)
+                        } else { // 이체가 아닌 경우
+                            Toast.makeText(requireContext(), "성공", Toast.LENGTH_SHORT).show()
+                            navigatePopBackStack()
+                        }
                     } else {
                         Toast.makeText(requireContext(), "잘못된 접근입니다.", Toast.LENGTH_SHORT).show()
                     }

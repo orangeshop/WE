@@ -23,6 +23,8 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
     private val bankRepository: BankRepository
 ) : ViewModel() {
+
+
     private val _bankList = MutableStateFlow<List<BankList>>(mutableListOf())
     val bankList: Flow<List<BankList>> get() = _bankList
 

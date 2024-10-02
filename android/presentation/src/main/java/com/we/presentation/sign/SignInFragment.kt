@@ -2,11 +2,12 @@ package com.we.presentation.sign
 
 import android.content.Intent
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
+import com.we.presentation.component.ShareData
 import com.we.presentation.databinding.FragmentSignInBinding
 import com.we.presentation.main.MainActivity
 import com.we.presentation.sign.model.SignInUiState
@@ -18,7 +19,7 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
-    private val signInViewModel: SignInViewModel by viewModels()
+    private val signInViewModel: SignInViewModel by activityViewModels()
     override fun initView() {
         initClickEvent()
         observeSignInParam()
@@ -55,7 +56,16 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                     is SignInUiState.SignInSuccess -> {
                         Timber.tag("로그인 메인").d("${it.coupleJoined}")
                         startActivity(Intent(requireActivity(), MainActivity::class.java).apply {
-                            putExtra("type", it.coupleJoined)
+                            val data = if (ShareData.transferType == false) {
+                                if (it.coupleJoined) {
+                                    1
+                                } else {
+                                    2
+                                }
+                            } else {
+                                3
+                            }
+                            putExtra("type", data)
                         })
                         requireActivity().finish()
                     }

@@ -72,9 +72,6 @@ class HomeViewPagerAccountAdapter(
         }
     }
 
-    private fun menuSetting(){
-
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

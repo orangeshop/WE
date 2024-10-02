@@ -1,26 +1,44 @@
 package com.we.presentation.sign
 
-import android.content.Intent
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.we.presentation.R
 import com.we.presentation.base.BaseActivity
+import com.we.presentation.component.ShareData
 import com.we.presentation.databinding.ActivitySignBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SignActivity : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
+    private lateinit var navController: NavController
+
 
     override fun init() {
-        initData()
+        setNavGraph()
     }
 
-    private fun initData() {
-        if (Intent.ACTION_VIEW == intent.action) {
-            val uri = intent.data
-            if (uri != null) {
-                val id = uri.getQueryParameter("id")
-                Timber.tag("이체하기").d("$id")
+    private fun setNavGraph() {
+        val type = intent.getBooleanExtra("type", true)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container_sign) as NavHostFragment
+        navController = navHostFragment.navController
+        navController.navInflater.inflate(R.navigation.sign_nav_graph).apply {
+            val id = when (ShareData.transferType) {
+                true -> {
+                    if (type) {
+                        R.id.signInFragment
+                    } else {
+                        R.id.signUpFragment
+                    }
+                }
+
+                else -> {
+                    R.id.signInFragment
+                }
             }
+            setStartDestination(id)
+            navController.setGraph(this, null)
         }
     }
+
 }

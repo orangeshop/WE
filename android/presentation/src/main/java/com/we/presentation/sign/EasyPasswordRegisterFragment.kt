@@ -1,5 +1,6 @@
 package com.we.presentation.sign
 
+
 import android.view.View
 import android.widget.Button
 import android.widget.TableRow
@@ -262,7 +263,8 @@ class EasyPasswordRegisterFragment :
 
 
     private fun setPromptInfo(): BiometricPrompt.PromptInfo {
-        val promptBuilder: BiometricPrompt.PromptInfo.Builder = BiometricPrompt.PromptInfo.Builder()
+        val promptBuilder: BiometricPrompt.PromptInfo.Builder =
+            androidx.biometric.BiometricPrompt.PromptInfo.Builder()
 
         promptBuilder.setTitle("생체인증을 진행합니다")
         promptBuilder.setNegativeButtonText("취소")
@@ -314,13 +316,16 @@ class EasyPasswordRegisterFragment :
         when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
 
             // 생체 인증 가능
-            BiometricManager.BIOMETRIC_SUCCESS -> textStatus = "App can authenticate using biometrics."
+            BiometricManager.BIOMETRIC_SUCCESS -> textStatus =
+                "App can authenticate using biometrics."
 
             // 기기에서 생체 인증을 지원하지 않는 경우
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> textStatus = "No biometric features available on this device."
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> textStatus =
+                "No biometric features available on this device."
 
             // 현재 생체 인증을 사용할 수 없는 경우
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> textStatus = "Biometric features are currently unavailable."
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> textStatus =
+                "Biometric features are currently unavailable."
 
             // 생체 인식 정보가 등록되어 있지 않은 경우
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
@@ -330,7 +335,7 @@ class EasyPasswordRegisterFragment :
                 dialogBuilder
                     .setTitle("나의앱")
                     .setMessage("지문 등록이 필요합니다. 지문등록 설정화면으로 이동하시겠습니까?")
-                    .setPositiveButton("확인") { dialog, which ->  }
+                    .setPositiveButton("확인") { dialog, which -> }
                     .setNegativeButton("취소") { dialog, which -> dialog.cancel() }
                 dialogBuilder.show()
             }
