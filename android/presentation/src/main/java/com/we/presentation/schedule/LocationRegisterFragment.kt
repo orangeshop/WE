@@ -51,7 +51,6 @@ class LocationRegisterFragment :
 
             loadUrl("https://wewe-a3725.web.app")
         }
-
     }
 
     inner class BridgeInterface() {
