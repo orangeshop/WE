@@ -8,6 +8,7 @@ data class ResponseGetCouples(
         val coupleInfo: CoupleInfo
     ) {
         data class CoupleInfo(
+            val dday: Int?,
             val accountNumber: String,
             val bankbookCreated: Boolean,
             val id: Int,

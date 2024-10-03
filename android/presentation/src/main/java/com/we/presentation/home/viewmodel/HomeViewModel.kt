@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.data.model.request.RequestRegisterCoupleAccount
 import com.data.model.request.RequestRegisterPriorAccount
+import com.data.model.response.ResponseGetCouples
 import com.data.repository.BankRepository
+import com.data.repository.CoupleRepository
 import com.data.util.ApiResult
 import com.we.model.BankData
+import com.we.model.GetCoupleData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val bankRepository: BankRepository
+    private val bankRepository: BankRepository,
+    private val coupleRepository: CoupleRepository
 ) : ViewModel(){
     private val _accountList = MutableStateFlow<List<BankData>>(mutableListOf<BankData>())
     val accountList: StateFlow<List<BankData>> get() =  _accountList
@@ -27,6 +31,30 @@ class HomeViewModel @Inject constructor(
     init {
         setAccountList(arrayListOf(BankData("", "", "", "", "", "", "", "", "", "", "", "","","", "")))
         getAccountList()
+
+    }
+
+    private val _coupleInfo = MutableStateFlow<GetCoupleData>(GetCoupleData(-1,-1))
+    val coupleInfo: StateFlow<GetCoupleData> get() = _coupleInfo
+
+    fun getCoupleData(){
+        viewModelScope.launch {
+            coupleRepository.getCouples().collectLatest {
+                when (it){
+                    is ApiResult.Success -> {
+                        setCoupleInfo(it.data)
+                        Timber.d("d day load s")
+                    }
+                    is ApiResult.Error -> {
+                        Timber.d("d day load fail" + it.exception.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun setCoupleInfo(couple : GetCoupleData){
+        _coupleInfo.update {  couple }
     }
 
     fun getAccountList() {
