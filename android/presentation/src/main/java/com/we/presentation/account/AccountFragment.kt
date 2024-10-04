@@ -5,6 +5,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
 import com.we.presentation.account.util.BankList
 import com.we.presentation.account.viewmodel.AccountViewModel
@@ -20,6 +21,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_account) {
     private val accountViewModel: AccountViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val safeArgs : AccountFragmentArgs by navArgs()
 
     override fun initView() {
 
@@ -33,6 +35,8 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
         btnActivateCheck()
         observeAccountAuthSuccess()
     }
+
+
 
     private fun btnActivateCheck() {
         binding.apply {
@@ -91,7 +95,14 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
         accountViewModel.accountAuthSuccess.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
                 if (it) {
-                    navigateDestination(R.id.action_accountFragment_to_accountTransferFragment)
+                    val data = safeArgs.inputType
+                    Timber.tag("들어오는 타입").d("$data")
+                    val action = if(data){
+                        R.id.action_accountFragment_to_accountTransferFragment
+                    }else{
+                        R.id.action_guest_accountFragment_to_accountTransferFragment
+                    }
+                    navigateDestination(action)
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

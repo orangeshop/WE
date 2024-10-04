@@ -3,40 +3,27 @@ package com.data.repositoryimpl
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.data.repository.DataStoreRepository
-import com.data.util.TokenProvider
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-
 import javax.inject.Inject
 
 class DataStoreRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    private val tokenProvider: TokenProvider
-) : DataStoreRepository{
+) : DataStoreRepository {
 
-    override val accessToken: Flow<String> = dataStore.data
-        .catch { exception ->
-            emit(emptyPreferences())
-        }
-        .map { preferences ->
-            preferences[stringPreferencesKey("accessToken")] ?: "defaultAccessToken"
-        }
-
-    override val refreshToken: Flow<String> = dataStore.data
-        .catch { exception ->
-            emit(emptyPreferences())
-        }
-        .map { preferences ->
-            preferences[stringPreferencesKey("refreshToken")] ?: "defaultRefreshToken"
-        }
+    override suspend fun getAccessToken(): Flow<String> = flow {
+        emit(dataStore.data.map { prefs ->
+            prefs[ACCESS_TOKEN_KEY] ?: ""
+        }.first())
+    }
 
     override suspend fun setAccessToken(accessToken: String) {
         dataStore.edit { preferences ->
-            preferences[stringPreferencesKey("accessToken")] = accessToken
+            preferences[ACCESS_TOKEN_KEY] = accessToken
         }
         // TokenProvider 관련 코드 제거
     }
@@ -46,5 +33,9 @@ class DataStoreRepositoryImpl @Inject constructor(
             preferences[stringPreferencesKey("refreshToken")] = refreshToken
         }
         // TokenProvider 관련 코드 제거
+    }
+
+    companion object {
+        val ACCESS_TOKEN_KEY = stringPreferencesKey("accessToken")
     }
 }

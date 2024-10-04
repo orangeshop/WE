@@ -22,11 +22,6 @@ class GuestViewModel @Inject constructor(
     val accountList: StateFlow<List<BankData>> get() = _accountList
 
     init {
-        setAccountList(
-            arrayListOf(
-                BankData()
-            )
-        )
         getAccountList()
     }
 
@@ -48,9 +43,6 @@ class GuestViewModel @Inject constructor(
     }
 
     private fun setAccountList(list: List<BankData>) {
-        _accountList.update { oldList ->
-            (list + oldList)
-                .distinctBy { it.accountNo } // 중복 제거 기준 설정
-        }
+        _accountList.update { list }
     }
 }

@@ -34,7 +34,7 @@ class AccountViewModel @Inject constructor(
     val chooseBank: Flow<BankList> get() = _chooseBank
 
     private val _accountNumber = MutableStateFlow("")
-    val accountNumber: Flow<String> get() = _accountNumber
+    val accountNumber: StateFlow<String> get() = _accountNumber
 
     private val _authCode = MutableStateFlow("")
     val authCode: Flow<String> get() = _authCode
@@ -66,7 +66,7 @@ class AccountViewModel @Inject constructor(
             Timber.d("Authcode : ${authCode.first()} ${accountNumber.first()}")
             bankRepository.checkAuthCode(
                 RequestAuthCode(
-                    accountNo = accountNumber.first(),
+                    accountNo = accountNumber.value,
                     authCode = authCode.first(),
                     authText = "akdong"
                 )

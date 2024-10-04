@@ -22,6 +22,12 @@ class TransferViewModel @Inject constructor(
     private val bankRepository: BankRepository
 ) : ViewModel() {
 
+    private val _accountNo = MutableStateFlow<String>("")
+    val accountNo: StateFlow<String> get() = _accountNo
+
+    fun setAccountNo(value: String) {
+        _accountNo.update { value }
+    }
 
     private val _easyPassword = MutableStateFlow<MutableList<String>>(mutableListOf())
     val easyPassword: StateFlow<List<String>> get() = _easyPassword
@@ -60,7 +66,25 @@ class TransferViewModel @Inject constructor(
     val transferSuccess: SharedFlow<Boolean> get() = _transferSuccess
 
     fun postTransfer(ledgerId: Int) {
+        val accountNo = if (accountNo.value.isNotEmpty()) {
+            accountNo.value
+        } else {
+            null
+        }
         viewModelScope.launch {
+            Timber.tag("계좌 이체 데이터").d(
+                "${
+                    RequestTransfer(
+                        ledgerId = ledgerId,
+                        depositAccountNo = null,
+                        transactionBalance = money.value.toInt(),
+                        isBride = brideType.value,
+                        pin = easyPassword.value.joinToString(""),
+                        withdrawalAccountNo = accountNo
+                    )
+                }"
+            )
+
             bankRepository.postTransfer(
                 RequestTransfer(
                     ledgerId = ledgerId,
@@ -68,7 +92,7 @@ class TransferViewModel @Inject constructor(
                     transactionBalance = money.value.toInt(),
                     isBride = brideType.value,
                     pin = easyPassword.value.joinToString(""),
-                    withdrawalAccountNo = null
+                    withdrawalAccountNo = accountNo
                 )
             ).collectLatest {
                 when (it) {

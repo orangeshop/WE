@@ -52,9 +52,7 @@ class SignInViewModel @Inject constructor(
                                 it.data.priorAccount
                             )
                         )
-                        tokenProvider.saveAccessToken(it.data.accessToken) {
-                            tokenProvider.loadingToken()
-                        }
+
                         Timber.tag("로그인").d("성공 ${it.data}")
                     }
 

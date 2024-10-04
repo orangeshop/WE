@@ -1,8 +1,10 @@
 package com.we.presentation.guest
 
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.we.model.BankData
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.ShareData
@@ -44,7 +46,10 @@ class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest
         homeAdapter = HomeViewPagerAccountAdapter(
             accountClickListener = { idx,account ->
                 if (idx == homeAdapter.currentList.lastIndex) {
-                    navigateDestination(R.id.action_guestFragment_to_accountFragment)
+                    navigateDestination(R.id.action_guestFragment_to_accountFragment,
+                        bundleOf("inputType" to false)
+                    )
+                    ShareData.guestTransfer = true
                 } else {
                     navigateDestination(R.id.action_guestFragment_to_accountCheckFragment)
                 }
@@ -70,7 +75,10 @@ class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest
 
         guestViewModel.accountList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
-                homeAdapter.submitList(it)
+                val updatedList = it.toMutableList().apply {
+                    add(BankData())
+                }
+                homeAdapter.submitList(updatedList)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
