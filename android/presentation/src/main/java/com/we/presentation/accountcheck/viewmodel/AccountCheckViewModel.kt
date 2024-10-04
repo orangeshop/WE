@@ -31,18 +31,21 @@ class AccountCheckViewModel @Inject constructor(
     }
 
 
-    fun transactionListLoading(accountNo : String){
+    fun transactionListLoading(accountNo: String) {
         viewModelScope.launch {
-            bankRepository.postTransactionHistoryList(RequestTransactionHistory(accountNo)).collectLatest {
-                when(it){
-                    is ApiResult.Success -> {
-                        Timber.d("AccountAuth : success")
-                        setTransactionList(it.data)
+            bankRepository.postTransactionHistoryList(RequestTransactionHistory(accountNo))
+                .collectLatest {
+                    when (it) {
+                        is ApiResult.Success -> {
+                            Timber.d("AccountAuth : success")
+                            setTransactionList(it.data)
+                        }
+
+                        is ApiResult.Error -> {
+                            Timber.d("AccountAuth : fail " + it.exception.message)
+                        }
                     }
-                    is ApiResult.Error -> {
-                        Timber.d("AccountAuth : fail")
-                    }                    }
-            }
+                }
         }
     }
 }

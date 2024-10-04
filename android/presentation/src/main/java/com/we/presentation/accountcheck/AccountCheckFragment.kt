@@ -36,7 +36,7 @@ class AccountCheckFragment :
         val bankName = args.account.split(" ")[1]
         val remainMoney = args.account.split(" ")[2]
 
-//        Timber.d("account ${args.account}")
+        Timber.d("account ${args.account}")
 
 
         accountCheckViewModel.transactionListLoading(account)
