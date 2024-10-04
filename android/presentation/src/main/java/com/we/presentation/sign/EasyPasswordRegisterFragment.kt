@@ -200,14 +200,6 @@ class EasyPasswordRegisterFragment :
                         )
                     }
                 }
-//                else {
-//                    remittanceViewModel.postTransfer(false, passwordListToString, ledgers) {
-//                        navigateDestination(
-//                            R.id.action_easyPasswordRegisterFragment_to_remittanceFinishFragment,
-//                            bundle = bundleOf("remittanceCheck" to it)
-//                        )
-//                    }
-//                }
             }
         }
     }
@@ -267,6 +259,9 @@ class EasyPasswordRegisterFragment :
                     }
 
                     is SignUpUiState.SignUpError -> {
+                        Toast.makeText(requireActivity(), "회원가입 오류 ${it.error}", Toast.LENGTH_SHORT).show()
+                        signUpViewModel.setSignUpUiState(SignUpUiState.SignUpEmpty)
+                        navigatePopBackStack()
                         Timber.d("회원가입 오류 ${it.error}")
                     }
                 }

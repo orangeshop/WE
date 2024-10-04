@@ -56,6 +56,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
     private fun observeNextButton() { //회원가입 버튼 활성화
         signUpViewModel.nextButtonActivate.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
+                Timber.tag("회원가입 버튼").d("$it")
                 binding.tvSignUpComplete.run {
                     isSelected = it
                     isEnabled = it
@@ -72,9 +73,10 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                 navigatePopBackStack()
             }
             tvSignUpComplete.setOnClickListener {
-
-                navigateDestination(R.id.action_fragment_sign_up_to_fragment_easy_password_register, bundleOf("easyPasswordType" to true))
-
+                navigateDestination(
+                    R.id.action_fragment_sign_up_to_fragment_easy_password_register,
+                    bundleOf("easyPasswordType" to true)
+                )
             }
         }
     }
