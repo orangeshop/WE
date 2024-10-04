@@ -64,6 +64,7 @@ class SignUpViewModel @Inject constructor(
         _signUpParam.update { SignUpParam.DEFAULT }
     }
 
+
     suspend fun isSignUpParamValid(param: SignUpParam) { // 회원가입 파라미터 유효성 검증
         _nextButtonActivate.emit(
             param.email.isNotEmpty() &&
@@ -104,7 +105,7 @@ class SignUpViewModel @Inject constructor(
         if (easyPassword.equals(easyPasswordCheck)) {
             setSignUpUiState(SignUpUiState.EasyPasswordSuccess)
         } else {
-            setSignUpUiState(SignUpUiState.SignUpError("에러입니다요"))
+            setSignUpUiState(SignUpUiState.SignUpEmpty)
         }
     }
 
@@ -113,7 +114,7 @@ class SignUpViewModel @Inject constructor(
     val signUpUiState: StateFlow<SignUpUiState> get() = _signUpUiState
 
     fun setSignUpUiState(value: SignUpUiState) {
-        _signUpUiState.value = value
+        _signUpUiState.update { value }
     }
 
     fun signUp() {
@@ -122,11 +123,13 @@ class SignUpViewModel @Inject constructor(
                 when (it) {
                     is ApiResult.Success -> {
                         _signUpUiState.emit(SignUpUiState.SignUpSuccess)
+                        clearSignUpParam()
                         Timber.tag("회원가입").d("성공")
                     }
 
                     is ApiResult.Error -> {
-                        _signUpUiState.emit(SignUpUiState.SignUpError(it.exception.toString()))
+                        setSignUpUiState(SignUpUiState.SignUpError(it.exception.message.toString()))
+                        clearEasyPasswordAndCheck()
                         Timber.tag("회원가입").d("실패 ${it.exception}")
                     }
                 }

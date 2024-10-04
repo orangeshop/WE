@@ -160,16 +160,16 @@
 
         <TextView
             android:id="@+id/tv_sign_up_complete"
-            style="@style/suite_extra_bold_24"
+            style="@style/suite_medium_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="25dp"
-            android:background="@drawable/selector_rectangle_we_gray_10_to_rectangle_we_pink_10"
+            android:background="@drawable/selector_rectangle_we_gray_10_to_rectangle_we_light_pink_10"
             android:gravity="center"
             android:paddingVertical="11dp"
             android:text="@string/sign_up"
-            android:textColor="@color/white"
+            android:textColor="@color/selector_white_to_we_brown"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
