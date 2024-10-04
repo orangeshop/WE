@@ -32,6 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrollSensitive = false }) => {
       };
     }
   }, [isScrollSensitive]);
+  
 
   const handleMouseEnter = () => setDropdownVisible(true);
   const handleMouseLeave = () => setDropdownVisible(false);
