@@ -68,6 +68,22 @@
                 android:layout_marginEnd="20dp"
             />
 
+        <TextView
+            android:id="@+id/tv_input_date"
+            style="@style/suite_extra_bold_24"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rectangle_we_pink_10"
+            android:gravity="center"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_input_couple"
+            android:text="결혼식 날짜 입력"
+            android:textColor="@color/white"
+            android:layout_marginTop="40dp"
+            />
+
 
 
 

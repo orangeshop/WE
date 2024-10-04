@@ -5,6 +5,7 @@ import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
@@ -39,9 +40,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var homeAdapter: HomeViewPagerAccountAdapter
 
     override fun initView() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            homeViewModel.getCoupleData()
+            binding.tvHomeRemainingDays.visibility = View.VISIBLE
+            initDDay()
+        }
         setUpAccountViewPager()
         setUpBannerViewPager()
         initClickEventListener()
+    }
+
+    private fun initDDay() {
+        binding.apply {
+
+            homeViewModel.coupleInfo.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .onEach {
+                    tvHomeRemainingDays.text = "결혼식까지" + it.DDay + "일"
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        }
     }
 
     private fun setUpAccountViewPager() {
@@ -51,7 +69,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 if (idx == homeAdapter.currentList.lastIndex) {
                     navigateDestination(R.id.action_homeFragment_to_accountFragment)
                 } else {
-                    navigateDestination(R.id.action_homeFragment_accountCheckFragment, bundleOf("account" to account))
+                    navigateDestination(
+                        R.id.action_homeFragment_accountCheckFragment,
+                        bundleOf("account" to account)
+                    )
                 }
             },
             accountRemittance = { account ->
@@ -97,8 +118,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 vpHomeAccount.setCurrentItem(0, false)
             }
 
-            vpHomeAccount.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            vpHomeAccount.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
                     super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                     tvAccountInfo.text = homeAdapter.currentList[position].accountInfo
                 }
@@ -124,7 +149,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             val handler = Handler(Looper.getMainLooper())
             val runnable = object : Runnable {
                 override fun run() {
-                    val nextItem = if (vpHomeBanner.currentItem == vpHomeBanner.adapter?.itemCount?.minus(1)) 0 else vpHomeBanner.currentItem + 1
+                    val nextItem =
+                        if (vpHomeBanner.currentItem == vpHomeBanner.adapter?.itemCount?.minus(1)) 0 else vpHomeBanner.currentItem + 1
                     vpHomeBanner.setCurrentItem(nextItem, true)
                     handler.postDelayed(this, 3000) // 3초마다 다음 페이지로 전환
                 }

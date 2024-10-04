@@ -14,6 +14,7 @@ data class ResponseTransactionHistory(
         val transactionTime: String,
         val transactionType: String,
         val transactionTypeName: String,
-        val transactionUniqueNo: String
+        val transactionUniqueNo: String,
+        val transactionUserName : String
     )
 }

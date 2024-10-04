@@ -8,11 +8,15 @@ import com.data.repository.CoupleRepository
 import com.data.util.ApiResult
 import com.data.util.safeApiCall
 import com.we.model.CoupleData
+import com.we.model.ScheduleParam
 import com.we.presentation.couple.model.CoupleUiState
+import com.we.presentation.util.ScheduleRegisterType
+import com.we.presentation.util.toIso8601
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
@@ -35,7 +39,7 @@ class CoupleViewModel @Inject constructor(
     private val _coupleCode = MutableStateFlow<CoupleData>(CoupleData(""))
     val coupleCode: Flow<CoupleData> get() = _coupleCode
 
-    private val _coupleSuccessCode = MutableStateFlow<RequestCouple>(RequestCouple(""))
+    private val _coupleSuccessCode = MutableStateFlow<RequestCouple>(RequestCouple("", ""))
     val coupleSuccessCode: Flow<RequestCouple> get() = _coupleSuccessCode
 
     init {
@@ -46,8 +50,8 @@ class CoupleViewModel @Inject constructor(
         _coupleCode.update { it.copy(coupleCode) }
     }
 
-    fun setCoupleSuccessCode(coupleSuccessCode: String) {
-        _coupleSuccessCode.update { it.copy(coupleSuccessCode) }
+    fun setCoupleSuccessCode(coupleSuccessCode: RequestCouple) {
+        _coupleSuccessCode.update { coupleSuccessCode }
     }
 
     private fun getCoupleCode() {
@@ -60,7 +64,7 @@ class CoupleViewModel @Inject constructor(
                     }
 
                     is ApiResult.Error -> {
-                        Timber.d("couple code : fail")
+                        Timber.d("couple code : fail" + it.exception.message)
                     }
                 }
             }
@@ -82,6 +86,48 @@ class CoupleViewModel @Inject constructor(
                     }
                 }
 
+            }
+        }
+    }
+
+    private val _scheduleRegisterParam = MutableStateFlow<ScheduleParam>(ScheduleParam())
+    val scheduleRegisterParam: StateFlow<ScheduleParam> get() = _scheduleRegisterParam
+
+    fun setRegisterParam(type: ScheduleRegisterType, content: Any?) {
+        when (type) {
+            ScheduleRegisterType.DATE -> {
+                Timber.tag("일정 시간").d("${content.toString().toIso8601()}")
+                _scheduleRegisterParam.update {
+                    it.copy(
+                        date = content.toString().toIso8601() ?: ""
+                    )
+                }
+            }
+
+            ScheduleRegisterType.PRICE -> {
+                if (content != null) {
+                    _scheduleRegisterParam.update {
+                        it.copy(
+                            price = content as Long
+                        )
+                    }
+                }
+            }
+
+            ScheduleRegisterType.CONTENT -> {
+                _scheduleRegisterParam.update {
+                    it.copy(
+                        content = content.toString()
+                    )
+                }
+            }
+
+            ScheduleRegisterType.LOCATION -> {
+                _scheduleRegisterParam.update {
+                    it.copy(
+                        address = content.toString()
+                    )
+                }
             }
         }
     }

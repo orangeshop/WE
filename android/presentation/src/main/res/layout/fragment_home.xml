@@ -49,6 +49,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_home_remaining_days"
                     style="@style/suite_extra_bold_20"
                     android:layout_width="wrap_content"

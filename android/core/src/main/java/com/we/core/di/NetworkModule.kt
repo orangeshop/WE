@@ -24,7 +24,6 @@ object NetworkModule {
 
     val baseUrl = "https://j11d104.p.ssafy.io/be/v1/"
 
-
     @Qualifier.InterceptorRetrofit
     @Singleton
     @Provides

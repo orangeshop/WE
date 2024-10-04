@@ -330,8 +330,6 @@ class EasyPasswordRegisterFragment :
                             bundle = bundleOf("remittanceCheck" to it)
                         )
                     }
-
-//                    Toast.makeText(requireContext(), "지문 인식 성공", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onAuthenticationFailed() {

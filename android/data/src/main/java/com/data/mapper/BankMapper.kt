@@ -100,6 +100,7 @@ fun ResponseTransactionHistory.Data.toModel() : TransactionHistoryData{
         transactionBalance,
         transactionAfterBalance,
         transactionType,
-        transactionDate
+        transactionDate,
+        transactionUserName
     )
 }
