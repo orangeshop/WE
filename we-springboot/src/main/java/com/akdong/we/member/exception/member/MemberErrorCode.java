@@ -18,6 +18,7 @@ public enum MemberErrorCode implements ErrorCode {
     API_DEPOSIT_ERROR(HttpStatus.BAD_REQUEST, "FIN OPEN API 입금 오류입니다."),
     COUPLE_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "커플을 찾을 수 없습니다."),
     MEMBER_PIN_ERROR(HttpStatus.BAD_REQUEST, "잘못된 간편 비밀번호(핀번호)입니다."),
+    ACCOUNT_MEMBER_ERROR(HttpStatus.BAD_REQUEST, "계좌에 해당하는 멤버 정보를 찾을 수 없습니다."),
     ;
 
     private final HttpStatus httpStatus;
