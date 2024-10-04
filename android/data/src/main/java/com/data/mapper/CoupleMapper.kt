@@ -23,7 +23,8 @@ fun ResponseCouples.toModel(): CoupleSuccessData {
 
 fun ResponseGetCouples.Data.CoupleInfo.toModel(): GetCoupleData{
     return GetCoupleData(
-        CoupeInfo = id
+        CoupeInfo = id,
+        DDay = dday
     )
 }
 
