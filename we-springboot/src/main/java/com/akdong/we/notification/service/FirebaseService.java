@@ -93,13 +93,13 @@ public class FirebaseService {
     }
 
     public TokenDto registToken(String token) {
-        TokenEntity tokenEntity = Optional.ofNullable(tokenRepository
-                .findTokenByUserId(Util.getUserIdFromJwt()))
-                .orElse(TokenEntity
-                        .builder()
-                        .token(token)
-                        .user_id(Util.getUserIdFromJwt())
-                        .build());
+        TokenEntity tokenEntity = tokenRepository
+                .findTokenByUserId(Util.getUserIdFromJwt());
+
+        tokenEntity = tokenEntity == null ? TokenEntity.builder()
+                .user_id(Util.getUserIdFromJwt()).build() : tokenEntity;
+
+        tokenEntity.setToken(token);
         return tokenRepository.save(tokenEntity).asDto();
     }
 }
