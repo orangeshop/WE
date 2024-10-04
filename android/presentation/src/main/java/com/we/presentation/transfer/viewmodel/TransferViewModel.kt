@@ -56,6 +56,12 @@ class TransferViewModel @Inject constructor(
         }
     }
 
+    fun setBioEasyPassword(value: String) {
+        _easyPassword.update {
+            mutableListOf(value)
+        }
+    }
+
     fun clearEasyPasswordAndCheck() { // 간편 비밀번호 초기화
         _easyPassword.update {
             mutableListOf()
