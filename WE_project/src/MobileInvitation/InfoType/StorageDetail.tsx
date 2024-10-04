@@ -336,7 +336,8 @@ const StorageDetail: React.FC = () => {
               <p className="mt-10">
                 {invitationData.date}{" "}
                 {invitationData.timezone === "AM" ? "오전" : "오후"}{" "}
-                {invitationData.hour}시 {invitationData.minute}분
+                {invitationData.hour}시{" "}
+                {invitationData.minute > 0 ? `${invitationData.minute}분` : ""}
               </p>
               <p className="mt-5">
                 {invitationData.weddingHall}, {invitationData.addressDetail}
