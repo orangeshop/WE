@@ -1,6 +1,7 @@
 package com.we.presentation.account
 
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.we.presentation.R
@@ -9,6 +10,7 @@ import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.ShareData
 import com.we.presentation.databinding.FragmentAccountTransferBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class AccountTransferFragment :
@@ -31,9 +33,12 @@ class AccountTransferFragment :
                 )
                 accountViewModel.getAuthCodeCertified() { result ->
                     if (result == true) {
-                        if (ShareData.transferType) { // 이체하기
-                            navigateDestination(R.id.action_accountTransferFragment_to_transfer_nav_graph)
+                        if (ShareData.transferType && !ShareData.guestTransfer) { // 이체하기
+                            navigateDestination(R.id.action_accountTransferFragment_to_transfer_nav_graph,
+                                bundleOf("accountNo" to accountViewModel.accountNumber.value)
+                            )
                         } else { // 이체가 아닌 경우
+                            Timber.tag("계좌 등록").d("성공")
                             Toast.makeText(requireContext(), "성공", Toast.LENGTH_SHORT).show()
                             navigatePopBackStack()
                         }

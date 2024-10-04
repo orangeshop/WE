@@ -42,16 +42,16 @@ class SignInViewModel @Inject constructor(
     }
 
     fun singIn() {
-
         viewModelScope.launch {
             signRepository.postLogin(signInParam.value).collectLatest {
                 when (it) {
                     is ApiResult.Success -> {
-                        setSignInUiState(SignInUiState.SignInSuccess(it.data.coupleJoined))
-                        tokenProvider.saveAccessToken(it.data.accessToken){
-                            tokenProvider.loadingToken()
-                        }
-
+                        setSignInUiState(
+                            SignInUiState.SignInSuccess(
+                                it.data.coupleJoined,
+                                it.data.priorAccount
+                            )
+                        )
 
                         Timber.tag("로그인").d("성공 ${it.data}")
                     }

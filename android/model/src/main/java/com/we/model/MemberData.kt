@@ -10,5 +10,6 @@ data class MemberData (
     val regDate: String = "",
     val accessToken: String = "",
     val refreshToken: String = "",
-    val coupleJoined : Boolean = false
+    val coupleJoined : Boolean = false,
+    val priorAccount : String ?= ""
 )

@@ -62,8 +62,12 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                                 } else {
                                     2
                                 }
-                            } else {
-                                3
+                            } else { // 3-> 대표 계좌 있는 경우, 4 -> 대표 게좌 없는 경우
+                                if (it.priorAccount?.isNotEmpty() == true) {
+                                    3
+                                } else {
+                                    4
+                                }
                             }
                             putExtra("type", data)
                         })

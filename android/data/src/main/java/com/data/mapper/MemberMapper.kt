@@ -2,7 +2,6 @@ package com.data.mapper
 
 import com.data.model.response.ResponseSignIn
 import com.we.model.MemberData
-import timber.log.Timber
 
 fun ResponseSignIn.toEntity(): MemberData {
     return MemberData(
@@ -16,5 +15,6 @@ fun ResponseSignIn.toEntity(): MemberData {
         coupleJoined = this.data.memberInfo.coupleJoined,
         accessToken = this.data.tokens.accessToken,
         refreshToken = this.data.tokens.refreshToken,
+        priorAccount = this.data.memberInfo.priorAccount
     )
 }

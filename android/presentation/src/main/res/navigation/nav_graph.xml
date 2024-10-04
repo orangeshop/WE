@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_guestFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_guestFragment_to_transfer_nav_graph"
+            app:destination="@id/transfer_nav_graph" />
     </fragment>
 
     <fragment
@@ -79,10 +82,22 @@
         android:name="com.we.presentation.account.AccountFragment"
         android:label="AccountFragment"
         tools:layout="@layout/fragment_account">
+
+        <argument
+            android:name="inputType"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+
         <action
             android:id="@+id/action_accountFragment_to_accountTransferFragment"
             app:destination="@id/accountTransferFragment"
             app:popUpTo="@id/homeFragment" />
+
+        <action
+            android:id="@+id/action_guest_accountFragment_to_accountTransferFragment"
+            app:destination="@id/accountTransferFragment"
+            app:popUpTo="@id/guestFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/accountTransferFragment"

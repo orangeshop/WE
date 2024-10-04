@@ -16,7 +16,8 @@ data class ResponseSignIn(
             val regDate: String,
             val leavedDate: Any,
             val coupleJoined: Boolean,
-            val leaved: Boolean
+            val leaved: Boolean,
+            val priorAccount : String?
         )
     }
 

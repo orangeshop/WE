@@ -8,7 +8,13 @@
     <fragment
         android:id="@+id/transferInfoRegisterFragment"
         android:name="com.we.presentation.transfer.TransferInfoRegisterFragment"
-        tools:layout="@layout/fragment_transfer_info_register" >
+        tools:layout="@layout/fragment_transfer_info_register">
+
+        <argument
+            android:name="accountNo"
+            app:argType="string"
+            android:defaultValue="``"
+            app:nullable="true" />
 
         <action
             android:id="@+id/action_transferInfoRegisterFragment_to_transferEasyPasswordFragment"
@@ -18,10 +24,14 @@
     <fragment
         android:id="@+id/transferEasyPasswordFragment"
         android:name="com.we.presentation.transfer.TransferEasyPasswordFragment"
-        tools:layout="@layout/fragment_transfer_easy_password"/>
+        tools:layout="@layout/fragment_transfer_easy_password" >
+        <action
+            android:id="@+id/action_transferEasyPasswordFragment_to_transferSuccessFragment"
+            app:destination="@id/transferSuccessFragment" />
+    </fragment>
 
-
-
-
-
+    <fragment
+        android:id="@+id/transferSuccessFragment"
+        android:name="com.we.presentation.transfer.TransferSuccessFragment"
+        tools:layout="@layout/fragment_transfer_success"/>
 </navigation>
