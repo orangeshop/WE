@@ -34,7 +34,6 @@ const AppRouter: React.FC = () => {
         />
         <Route path="/invite/info/sample" element={<InfoTypeSample />} />
         <Route path="/account" element={<AccountBook />} />
-        {/* 추가적인 라우트들을 여기에 추가하세요@@ */}
       </Routes>
     </Router>
   );
