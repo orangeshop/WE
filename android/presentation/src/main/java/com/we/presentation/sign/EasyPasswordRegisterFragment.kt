@@ -72,12 +72,13 @@ class EasyPasswordRegisterFragment :
             initClickEvent()
             observeEasyPassWord()
             initTransferSetting()
+            biometricPrompt = setBiometricPrompt()
+            promptInfo = setPromptInfo()
+
+            authenticateToEncrypt()  // 생체 인증 가능 여부 확인
         }
         observeSignIn()
-        biometricPrompt = setBiometricPrompt()
-        promptInfo = setPromptInfo()
 
-        authenticateToEncrypt()  // 생체 인증 가능 여부 확인
 
     }
 
@@ -382,14 +383,4 @@ class EasyPasswordRegisterFragment :
             biometricPrompt.authenticate(it)  // 인증 실행
         }
     }
-
-//    fun goBiometricSettings() {
-//        val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-//            putExtra(
-//                Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-//                BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL
-//            )
-//        }
-//        loginLauncher.launch(enrollIntent)
-//    }
 }
