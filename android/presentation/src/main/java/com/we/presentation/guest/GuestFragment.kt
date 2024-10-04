@@ -1,5 +1,6 @@
 package com.we.presentation.guest
 
+import android.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -57,7 +58,23 @@ class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest
             accountRemittance = {},
             typeCheck = false,
             moreVertClickListener = { resultView, account, bankName ->
+                val popupMenu = PopupMenu(requireContext(), resultView)
+                popupMenu.menuInflater.inflate(R.menu.menu_guest_account_register, popupMenu.menu)
 
+                // 메뉴 아이템 클릭 리스너 설정
+                popupMenu.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.representative -> {
+                            // 대표 계좌 등록 동작
+                            guestViewModel.postPriorAccount(account)
+                            true
+                        }
+
+                        else -> false
+                    }
+                }
+                // 팝업 메뉴 표시
+                popupMenu.show()
             },
         )
 

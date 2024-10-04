@@ -62,7 +62,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             },
             typeCheck = false,
             moreVertClickListener = { resultView, account, bankName ->
-                Timber.d("asdasd")
                 val popupMenu = PopupMenu(requireContext(), resultView)
                 popupMenu.menuInflater.inflate(R.menu.menu_account_register, popupMenu.menu)
 

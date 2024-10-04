@@ -2,6 +2,7 @@ package com.we.presentation.guest.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.data.model.request.RequestRegisterPriorAccount
 import com.data.repository.BankRepository
 import com.data.util.ApiResult
 import com.we.model.BankData
@@ -36,6 +37,22 @@ class GuestViewModel @Inject constructor(
 
                     is ApiResult.Error -> {
                         Timber.d("bank load fail " + it.exception.message)
+                    }
+                }
+            }
+        }
+    }
+
+    fun postPriorAccount(accountNo : String){
+        val request = RequestRegisterPriorAccount(accountNo = accountNo)
+        viewModelScope.launch {
+            bankRepository.postPriorAccount(request).collectLatest {
+                when(it){
+                    is ApiResult.Success -> {
+                        Timber.tag("대표 계좌 등록").d("bank load 성공 " + it.data)
+                    }
+                    is ApiResult.Error -> {
+                        Timber.tag("대표 계좌 등록").d("bank load fail " + it.exception.message)
                     }
                 }
             }
