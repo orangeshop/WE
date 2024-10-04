@@ -4,6 +4,7 @@ import com.akdong.we.api.FinApiCallService;
 import com.akdong.we.common.dto.ErrorResponse;
 import com.akdong.we.common.dto.SuccessResponse;
 import com.akdong.we.common.exception.BusinessException;
+import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.response.CoupleInfo;
 import com.akdong.we.couple.service.CoupleService;
 import com.akdong.we.ledger.LedgerErrorCode;
@@ -182,7 +183,6 @@ public class BankController {
                     .build();
             giftRepository.save(gift);
 
-            // 장부도 추가해야함. 지금 장부 생성 api가 없어서 여기까지만
             Ledger ledger = ledgerRepository.findById(request.getLedgerId())
                     .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
 
@@ -193,15 +193,18 @@ public class BankController {
 
             ledgerGiftRepository.save(ledgerGift);
 
-//            Ledger ledger = ledgerRepository.findById(request.getLedgerId())
-//                    .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
-//            Couple couple = ledger.getCouple();
-//            Member member1 = couple.getMember1();
-//            Member member2 = couple.getMember2();
+            Couple couple = ledger.getCouple();
+            Member member1 = couple.getMember1();
+            Member member2 = couple.getMember2();
 
             // 아직 알림 연동(디바이스 토큰 설정) 재대로 안되서 오류남
-            //firebaseService.sendMessageTo(member1.getId(), "입금 알림", String.valueOf(request.getTransactionBalance())+"원 입금되었습니다.");
-            //firebaseService.sendMessageTo(member2.getId(), "입금 알림", String.valueOf(request.getTransactionBalance())+"원 입금되었습니다.");
+            firebaseService.sendMessageTo(member1.getId(), "입금 알림", String.valueOf(member.getNickname()+"님이 " +request.getTransactionBalance())+"원을 송금했습니다.");
+            firebaseService.sendMessageTo(member2.getId(), "입금 알림", String.valueOf(member.getNickname()+"님이 " +request.getTransactionBalance())+"원을 송금했습니다.");
+        } else if (Objects.equals(responseCode, "H0000") && request.getLedgerId() == null){
+            MemberAccount memberAccount = memberAccountRepository.findByAccountNo(request.getDepositAccountNo())
+                    .orElseThrow(() -> new BusinessException(MemberErrorCode.ACCOUNT_MEMBER_ERROR));
+            Long memberId = memberAccount.getMember().getId();
+            firebaseService.sendMessageTo(memberId, "입금 알림", String.valueOf(member.getNickname()+"님이 " +request.getTransactionBalance())+"원을 송금했습니다.");
         }
 
         Map<String, String> responseMap = new HashMap<>();
