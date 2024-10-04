@@ -93,33 +93,26 @@ const AccountBook: React.FC = () => {
     .filter((item) => item.isBride === false)
     .reduce((acc, item) => acc + item.charge, 0);
 
+  const chargeCountMap: { [charge: number]: number } = {};
+  sortedData?.data.forEach((item) => {
+    const charge = item.charge;
+    if (chargeCountMap[charge]) {
+      chargeCountMap[charge] += 1;
+    } else {
+      chargeCountMap[charge] = 1;
+    }
+  });
+
   const chartColors = ["hsl(270, 100%, 70%)", "hsl(30, 100%, 70%)"];
 
-  const sortedChartData = sortedData ? [...sortedData.data] : [];
-
-  const brideData = sortedChartData
-    .filter((item) => item.isBride === true)
-    .map((item) => item.charge);
-
-  const groomData = sortedChartData
-    .filter((item) => item.isBride === false)
-    .map((item) => item.charge);
-
   const chartData = {
-    labels: sortedChartData.map((item) => item.memberInfo.nickname),
+    labels: Object.keys(chargeCountMap).map(Number),
     datasets: [
       {
-        label: "신부측 금액",
-        data: brideData,
-        borderColor: chartColors[0],
-        backgroundColor: chartColors[0],
-        fill: false,
-      },
-      {
-        label: "신랑측 금액",
-        data: groomData,
-        borderColor: chartColors[1],
-        backgroundColor: chartColors[1],
+        label: "금액별 인원 수",
+        data: Object.values(chargeCountMap),
+        borderColor: "hsl(120, 100%, 70%)",
+        backgroundColor: "hsl(120, 100%, 70%)",
         fill: false,
       },
     ],
@@ -148,16 +141,24 @@ const AccountBook: React.FC = () => {
             );
             const currentValue = dataset.data[tooltipItem.dataIndex];
             const percentage = ((currentValue / total) * 100).toFixed(2);
-            return `${
-              tooltipItem.label
-            }: ${currentValue.toLocaleString()}원 (${percentage}%)`;
+            return `인원 수: ${currentValue}명 (${percentage}%)`;
           },
         },
       },
     },
     scales: {
+      x: {
+        title: {
+          display: true,
+          text: "금액 (원)",
+        },
+      },
       y: {
         beginAtZero: true,
+        title: {
+          display: true,
+          text: "인원 수 (명)",
+        },
       },
     },
   };
@@ -344,7 +345,6 @@ const AccountBook: React.FC = () => {
                 <div className="bg-white shadow-md rounded-lg p-4 col-span-1 h-[280px] w-auto flex flex-col">
                   <h2 className="text-md mb-2 font-bold">청첩장 장부 차트</h2>
                   <div className="flex-grow h-[220px]">
-                    {" "}
                     <Line
                       data={chartData}
                       options={{
