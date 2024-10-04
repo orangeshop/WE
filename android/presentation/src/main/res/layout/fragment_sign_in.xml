@@ -105,32 +105,32 @@
 
             <TextView
                 android:id="@+id/tv_sign_up"
-                style="@style/suite_extra_bold_16"
+                style="@style/suite_medium_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/rectangle_we_pink_10"
+                android:background="@drawable/rectangle_we_light_pink_10"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
                 android:text="@string/sign_up"
-                android:textColor="@color/white"
+                android:textColor="@color/we_brown"
                 app:layout_constraintTop_toBottomOf="@+id/cl_sign_in_password"
                 app:layout_constraintEnd_toEndOf="@+id/cl_sign_in_password"
                 />
 
             <TextView
                 android:id="@+id/tv_sign_in_login"
-                style="@style/suite_extra_bold_24"
+                style="@style/suite_medium_16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="25dp"
-                android:background="@drawable/rectangle_we_pink_10"
+                android:background="@drawable/rectangle_we_light_pink_10"
                 android:gravity="center"
                 android:paddingVertical="11dp"
                 android:text="@string/sign_login"
-                android:textColor="@color/white"
+                android:textColor="@color/we_brown"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
