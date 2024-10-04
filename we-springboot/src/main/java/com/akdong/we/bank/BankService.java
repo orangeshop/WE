@@ -110,6 +110,16 @@ public class BankService {
             transactionInfoList.add(objectMapper.treeToValue(node, TransactionInfo.class));
         }
 
+        for(TransactionInfo transactionInfo: transactionInfoList){
+            if(!transactionInfo.getTransactionAccountNo().isEmpty()){
+                MemberAccount memberAccount = memberAccountRepository.findByAccountNo(transactionInfo.getTransactionAccountNo())
+                        .orElseThrow(() -> new BusinessException(MemberErrorCode.ACCOUNT_MEMBER_ERROR));
+                transactionInfo.setTransactionUserName(memberAccount.getMember().getNickname());
+            }else{
+                transactionInfo.setTransactionUserName("SYSTEM");
+            }
+        }
+
         return transactionInfoList;
     }
 }

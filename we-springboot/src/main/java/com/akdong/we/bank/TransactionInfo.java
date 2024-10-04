@@ -1,12 +1,10 @@
 package com.akdong.we.bank;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,4 +38,7 @@ public class TransactionInfo {
 
     @Schema(description = "거래 메모", example = "")
     private String transactionMemo;
+
+    @Schema(description = "송금한 사람 이름" , example = "박하객")
+    private String transactionUserName;
 }
