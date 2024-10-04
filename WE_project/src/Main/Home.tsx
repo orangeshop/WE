@@ -3,8 +3,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import video_intro from "../assets/images/video_intro.mp4";
 import happymoney from "../assets/images/happymoney.png";
-import invitation from "../assets/images/invitation.jpg";
-import calendar from "../assets/images/calendar.jpg";
+import invitation from "../assets/images/invitation.png";
+import calendar from "../assets/images/calendar.png";
 import Navbar from "../Components/Navbar";
 import Modal from "../Components/Modal";
 
