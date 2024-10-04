@@ -16,7 +16,7 @@ class AccountCheckAdapter :
         fun bind(item: TransactionHistoryData) {
             binding.apply {
                 tvAccountCheckPrice.text = item.transactionBalance
-                tvAccountCheckLocation.text = "test"
+                tvAccountCheckLocation.text = item.transactionUserName
                 val year = item.transactionDate.substring(0, 4) // "2024"
 
                 val month = item.transactionDate.substring(4, 6) // "10"

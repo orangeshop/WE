@@ -41,7 +41,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun initView() {
         viewLifecycleOwner.lifecycleScope.launch {
-            delay(10)
             homeViewModel.getCoupleData()
             binding.tvHomeRemainingDays.visibility = View.VISIBLE
             initDDay()

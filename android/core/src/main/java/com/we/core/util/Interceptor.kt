@@ -24,7 +24,7 @@ class TokenInterceptor @Inject constructor(
     }
 
     private fun Request.putTokenHeader(accessToken: String?): Request {
-
+        Timber.d("bank accessToken : $accessToken")
         return this.newBuilder()
             .addHeader(AUTHORIZATION, "Bearer $accessToken")
             .build()

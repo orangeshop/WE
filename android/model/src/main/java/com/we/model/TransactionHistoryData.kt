@@ -6,5 +6,6 @@ data class TransactionHistoryData (
     val transactionBalance : String,
     val transactionAfterBalance : String,
     val transactionType : String,
-    val transactionDate : String
+    val transactionDate : String,
+    val transactionUserName : String
 )
