@@ -29,8 +29,8 @@ const TypeChoice: React.FC = () => {
             alt="invitation_card"
             className="w-[300px] md:w-[500px] h-auto"
           />
-          <div className="md:mt-48 text-center md:text-left">
-            <p className="text-[30px] md:text-[40px] font-semibold highlight">
+          <div className="md:mt-12 text-center md:text-left">
+            <p className="text-[30px] md:text-[40px] font-semibold pink-highlight">
               정보형 청첩장
             </p>
             <p className="text-[14px] md:text-[16px]">
