@@ -41,12 +41,27 @@ public class BankService {
     public List<AccountInfo> accountList(Member member) throws JsonProcessingException {
         List<MemberAccount> myAccounts = memberAccountRepository.findByMember(member);
         List<String> accountNoList = new ArrayList<String>();
+
+
         for(MemberAccount memberAccount: myAccounts){
             accountNoList.add(memberAccount.getAccountNo());
         }
-
         JsonNode jsonResponse = finApiCallService.accountList(member.getUserKey());
         List<AccountInfo> response = new ArrayList<>();
+        String coupleAccountNo = null;
+        // 1. 커플 계좌 먼저 추가
+        if(member.isCoupleJoined()){
+            Couple couple = coupleService.getMyCoupleInfo(member)
+                    .orElseThrow(() -> new BusinessException(CoupleErrorCode.ACCOUNT_NOT_FOUND_ERROR));
+            if(couple.getAccountNumber() != null){
+                JsonNode coupleAccountInfo = finApiCallService.getCoupleAccount(member);
+                AccountInfo coupleAccount = objectMapper.treeToValue(coupleAccountInfo, AccountInfo.class);
+                coupleAccount.setAccountInfo("커플계좌");
+                response.add(coupleAccount);
+                coupleAccountNo = coupleAccount.getAccountNo();
+            }
+        }
+        // 2. 대표 계좌, 일반 계좌 추가.
         for (JsonNode node : jsonResponse) {
             // node에 있는 accountNo가 accountNoList에 있다면 담는다.
             for(String accountNo : accountNoList){
@@ -55,6 +70,9 @@ public class BankService {
                     if(Objects.equals(member.getPriorAccount(), myAccount.getAccountNo())){
                         myAccount.setAccountInfo("대표계좌");
                     }else{
+                        if(Objects.equals(myAccount.getAccountNo(), coupleAccountNo)){
+                            continue;
+                        }
                         myAccount.setAccountInfo("일반계좌");
                     }
                     response.add(myAccount);
@@ -62,17 +80,7 @@ public class BankService {
             }
         }
         
-        if(member.isCoupleJoined()){
-            Couple couple = coupleService.getMyCoupleInfo(member)
-                    .orElseThrow(() -> new BusinessException(CoupleErrorCode.ACCOUNT_NOT_FOUND_ERROR));
 
-            if(couple.getAccountNumber() != null){
-                JsonNode coupleAccountInfo = finApiCallService.getCoupleAccount(member);
-                AccountInfo coupleAccount = objectMapper.treeToValue(coupleAccountInfo, AccountInfo.class);
-                coupleAccount.setAccountInfo("커플계좌");
-                response.add(coupleAccount);
-            }
-        }
         return response;
     }
 
