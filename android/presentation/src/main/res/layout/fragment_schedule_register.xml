@@ -70,9 +70,10 @@
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/rectangle_we_pink_10"
                 android:includeFontPadding="false"
-                android:minHeight="26dp"
+                android:paddingHorizontal="20dp"
                 android:paddingVertical="8dp"
                 android:text="@string/schedule_search_location"
+                android:gravity="center"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -173,7 +174,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_register"
             style="@style/suite_extra_bold_24"
             android:layout_width="match_parent"
@@ -184,6 +185,7 @@
             android:paddingVertical="11dp"
             android:text="@string/schedule_register_complete"
             android:textColor="@color/white"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent" />
 
 
