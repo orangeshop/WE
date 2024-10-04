@@ -405,6 +405,9 @@ public class FinApiCallService {
 
             String depositAccountNo = couple.getAccountNumber();
             String withdrawalAccountNo = member.getPriorAccount();
+            if(withdrawalAccountNo == null){
+                withdrawalAccountNo = request.getWithdrawalAccountNo();
+            }
 
             // 각각 계좌가 없으면 에러 메시지 출력할것
             request.setDepositAccountNo(depositAccountNo);
