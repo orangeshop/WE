@@ -30,6 +30,7 @@
 .modal button {
   align-self: flex-end;
 }
+
 .letter-space {
   letter-spacing: 8px;
 }
@@ -37,6 +38,7 @@
 .letter-space-sm {
   letter-spacing: 2px;
 }
+
 .letter-space-md {
   letter-spacing: 4px;
 }
@@ -47,4 +49,9 @@
 
 .line-height {
   line-height: 30px;
+}
+
+.highlight{
+  display: inline;
+  box-shadow: inset 0 -25px 0 #ffcac9; 
 }
