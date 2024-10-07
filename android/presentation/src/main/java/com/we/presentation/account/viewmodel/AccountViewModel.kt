@@ -13,9 +13,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -30,7 +32,7 @@ class AccountViewModel @Inject constructor(
     private val _bankList = MutableStateFlow<List<BankList>>(mutableListOf())
     val bankList: Flow<List<BankList>> get() = _bankList
 
-    private val _chooseBank = MutableStateFlow(BankList(0, ""))
+    private val _chooseBank = MutableStateFlow(BankList.DEFAULT)
     val chooseBank: Flow<BankList> get() = _chooseBank
 
     private val _accountNumber = MutableStateFlow("")
@@ -39,10 +41,26 @@ class AccountViewModel @Inject constructor(
     private val _authCode = MutableStateFlow("")
     val authCode: Flow<String> get() = _authCode
 
+    private val _nextButton = MutableSharedFlow<Boolean>(1)
+    val nextButton: SharedFlow<Boolean> get() = _nextButton
+
+    fun setNextButton() {
+        combine(
+            chooseBank,
+            accountNumber
+        ) { bank, account ->
+            bank != BankList.DEFAULT && account.isNotEmpty()
+        }.onEach {
+            _nextButton.emit(it)
+        }.launchIn(viewModelScope)
+
+    }
+
     init {
         setBankList(BankList.bankLs)
         setChooseBank(BankList(0, ""))
         setAccountNumber("")
+        setNextButton()
     }
 
     private fun setBankList(list: List<BankList>) {
@@ -74,10 +92,9 @@ class AccountViewModel @Inject constructor(
                 when (it) {
                     is ApiResult.Success -> {
                         Timber.d("Authcode : success ${it.data.Status}")
-                        if(it.data.Status == "SUCCESS"){
+                        if (it.data.Status == "SUCCESS") {
                             onResult(true)
-                        }
-                        else{
+                        } else {
                             onResult(false)
                         }
 
@@ -93,19 +110,21 @@ class AccountViewModel @Inject constructor(
     }
 
     private val _accountAuthSuccess = MutableSharedFlow<Boolean>()
-    val accountAuthSuccess : SharedFlow<Boolean> get() = _accountAuthSuccess
+    val accountAuthSuccess: SharedFlow<Boolean> get() = _accountAuthSuccess
 
-    fun accountAuth(){
+    fun accountAuth() {
         viewModelScope.launch {
-            bankRepository.accountAuth(RequestAccountAuth(accountNumber.first())).collect{
-                when(it){
+            bankRepository.accountAuth(RequestAccountAuth(accountNumber.first())).collect {
+                when (it) {
                     is ApiResult.Success -> {
                         _accountAuthSuccess.emit(true)
                         Timber.d("AccountAuth : success")
                     }
+
                     is ApiResult.Error -> {
                         Timber.d("AccountAuth : fail ${it.exception}")
-                    }                    }
+                    }
+                }
             }
         }
     }

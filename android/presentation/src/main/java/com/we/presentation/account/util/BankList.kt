@@ -7,6 +7,9 @@ data class BankList(
     val bankName: String = ""
 ) {
     companion object {
+        val DEFAULT = BankList(
+            0,""
+        )
         val bankLs = arrayListOf<BankList>(
             BankList(bankIcList = R.drawable.ic_nh_bank, bankName = "농협은행"),
             BankList(bankIcList = R.drawable.ic_kb_bank, bankName = "국민은행"),

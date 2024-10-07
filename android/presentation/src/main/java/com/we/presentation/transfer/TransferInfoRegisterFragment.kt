@@ -2,12 +2,16 @@ package com.we.presentation.transfer
 
 import androidx.core.widget.addTextChangedListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentTransferInfoRegisterBinding
 import com.we.presentation.transfer.viewmodel.TransferViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class TransferInfoRegisterFragment :
@@ -19,6 +23,7 @@ class TransferInfoRegisterFragment :
         initData()
         setMoney()
         initClickEvent()
+        observeNextButton()
     }
 
     private fun initData(){
@@ -31,6 +36,7 @@ class TransferInfoRegisterFragment :
 
     private fun initClickEvent() {
         binding.apply {
+            tvBride.isSelected = true
             tvBride.setOnClickListener {
                 it.isSelected = true
                 tvGroom.isSelected = false
@@ -45,6 +51,17 @@ class TransferInfoRegisterFragment :
                 navigateDestination(R.id.action_transferInfoRegisterFragment_to_transferEasyPasswordFragment)
             }
         }
+    }
+
+    private fun observeNextButton(){
+        transferViewModel.nextButton.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                binding.tvInputComplete.apply {
+                    isSelected = it
+                    isEnabled = it
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
 

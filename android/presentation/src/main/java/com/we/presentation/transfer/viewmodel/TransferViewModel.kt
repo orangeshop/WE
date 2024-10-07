@@ -33,14 +33,20 @@ class TransferViewModel @Inject constructor(
     val easyPassword: StateFlow<List<String>> get() = _easyPassword
 
 
+    private val _nextButton = MutableSharedFlow<Boolean>(1)
+    val nextButton: SharedFlow<Boolean> get() = _nextButton
+
     private val _money = MutableStateFlow<String>("")
     val money: StateFlow<String> get() = _money
 
     fun setMoney(value: String) {
+        viewModelScope.launch {
+            _nextButton.emit(value.isNotEmpty())
+        }
         _money.update { value }
     }
 
-    private val _brideType = MutableStateFlow<Boolean>(false)
+    private val _brideType = MutableStateFlow<Boolean>(true)
     val brideType: StateFlow<Boolean> get() = _brideType
 
     fun setBrideType(value: Boolean) {
