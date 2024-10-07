@@ -8,9 +8,11 @@ import com.akdong.we.file.service.FileService;
 import com.akdong.we.ledger.entity.Gift;
 import com.akdong.we.ledger.entity.Ledger;
 import com.akdong.we.ledger.entity.LedgerGift;
+import com.akdong.we.ledger.repository.GiftRepository;
 import com.akdong.we.ledger.repository.LedgerGiftRepository;
 import com.akdong.we.ledger.repository.LedgerRepository;
 import com.akdong.we.ledger.response.GiftInfo;
+import com.akdong.we.member.entity.Member;
 import com.google.zxing.WriterException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +31,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class LedgerService {
     private final LedgerRepository ledgerRepository;
-    private final CoupleRepository coupleRepository;
+    private final GiftRepository giftRepository;
     private final FileService fileService;
     private final LedgerGiftRepository ledgerGiftRepository;
 
@@ -97,5 +99,9 @@ public class LedgerService {
                 .collect(Collectors.toList());
 
         return giftInfoList;
+    }
+
+    public List<Gift> findGift(Member member){
+        return giftRepository.findByMemberAndMealTicketUrlIsNotNull(member);
     }
 }

@@ -4,9 +4,11 @@ import com.akdong.we.api.FinApiCallService;
 import com.akdong.we.common.dto.ErrorResponse;
 import com.akdong.we.common.dto.SuccessResponse;
 import com.akdong.we.common.exception.BusinessException;
+import com.akdong.we.common.qr.QRCodeGenerator;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.response.CoupleInfo;
 import com.akdong.we.couple.service.CoupleService;
+import com.akdong.we.file.service.FileService;
 import com.akdong.we.ledger.LedgerErrorCode;
 import com.akdong.we.ledger.entity.Gift;
 import com.akdong.we.ledger.entity.Ledger;
@@ -25,6 +27,7 @@ import com.akdong.we.notification.service.FirebaseService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.zxing.WriterException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,7 +38,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
@@ -50,6 +55,7 @@ public class BankController {
     private final CoupleService coupleService;
     private final FirebaseService firebaseService;
     private final BankService bankService;
+    private final FileService fileService;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final GiftRepository giftRepository;
     private final LedgerRepository ledgerRepository;
@@ -176,12 +182,38 @@ public class BankController {
         String responseCode = finApiCallService.transfer(member, request);
 
         if(Objects.equals(responseCode, "H0000") && request.getLedgerId() != null){
+
             Gift gift = Gift.builder()
                     .member(member)
                     .isBride(request.getIsBride())
                     .charge(request.getTransactionBalance())
                     .build();
             giftRepository.save(gift);
+
+            // 식권 QR코드 생성
+            // QR 코드 생성 및 S3 업로드
+            String mealTicketUrl = "we://mealTicket?giftId="+gift.getId();
+            try {
+                byte[] qrCodeBytes = QRCodeGenerator.generateQRCodeImage(mealTicketUrl, 350, 350);
+
+                // 바이트 배열을 MultipartFile로 변환
+                MultipartFile qrCodeMultipartFile = new MockMultipartFile(
+                        "mealTicket_" + gift.getId() + ".png", // 파일 이름
+                        "mealTicket_" + gift.getId() + ".png", // 원본 파일 이름
+                        "image/png",                              // 파일 타입
+                        qrCodeBytes                               // 파일 데이터
+                );
+
+                // S3에 업로드
+                String qrCodeUrl = fileService.upload(qrCodeMultipartFile, "qr-codes");  // 디렉토리 이름 설정
+
+                // QR 코드 URL을 저장
+                log.info("QR code URL: {}", qrCodeUrl);
+                gift.setMealTicketUrl(qrCodeUrl);
+
+            } catch (WriterException | IOException e) {
+                throw new BusinessException(LedgerErrorCode.QR_GENERATE_FAILED_ERROR);
+            }
 
             Ledger ledger = ledgerRepository.findById(request.getLedgerId())
                     .orElseThrow(() -> new BusinessException(LedgerErrorCode.LEDGER_NOT_FOUND_ERROR));
