@@ -24,6 +24,9 @@ public class GiftInfo {
     @Schema(description = "메시지")
     private final String message;
 
+    @Schema(description = "식권 URL")
+    private final String mealTicketUrl;
+
     public static GiftInfo of(Gift gift){
         return builder()
                 .id(gift.getId())
@@ -31,6 +34,7 @@ public class GiftInfo {
                 .isBride(gift.getIsBride())
                 .charge(gift.getCharge())
                 .message(gift.getMessage())
+                .mealTicketUrl(gift.getMealTicketUrl())
                 .build();
     }
 }

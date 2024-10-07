@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,6 +113,27 @@ public class LedgerController {
                 new SuccessResponse<>(
                         "MY 축의금 조회에 성공했습니다.",
                         giftList
+                )
+        );
+    }
+
+    @GetMapping("/myMealTicket")
+    @Operation(summary = "MY 식권 리스트 조회", description = "로그인 정보로 나의 식권 리스트를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "MY 축의금 조회 조회 성공", useReturnTypeSchema = true)
+    })
+    public ResponseEntity<SuccessResponse<List<String>>> findMealTicket(
+            @Parameter(hidden = true)  @Login Member member
+    ){
+        List<Gift> giftList = ledgerService.findGift(member);
+        List<String> mealTicketList = new ArrayList<>();
+        for(Gift gift : giftList){
+            mealTicketList.add(gift.getMealTicketUrl());
+        }
+        return ResponseEntity.ok(
+                new SuccessResponse<>(
+                        "MY 식권 리스트 조회에 성공했습니다.",
+                        mealTicketList
                 )
         );
     }

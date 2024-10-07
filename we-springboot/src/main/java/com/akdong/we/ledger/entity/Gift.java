@@ -24,4 +24,6 @@ public class Gift {
     private Long charge;
 
     private String message;
+
+    private String mealTicketUrl; // 식권 URL
 }
