@@ -18,6 +18,8 @@
 
         <action
             android:id="@+id/action_transferInfoRegisterFragment_to_transferEasyPasswordFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/transferEasyPasswordFragment" />
     </fragment>
 
@@ -27,6 +29,8 @@
         tools:layout="@layout/fragment_transfer_easy_password" >
         <action
             android:id="@+id/action_transferEasyPasswordFragment_to_transferSuccessFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/transferSuccessFragment" />
     </fragment>
 

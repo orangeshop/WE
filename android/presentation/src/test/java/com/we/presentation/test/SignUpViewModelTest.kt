@@ -1,27 +1,20 @@
 package com.we.presentation.test
 
-import androidx.lifecycle.viewModelScope
 import com.data.repository.SignRepository
 import com.we.model.SignUpParam
 import com.we.presentation.sign.model.SignUpUiState
 import com.we.presentation.sign.viewmodel.SignUpViewModel
-import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import kotlin.text.isNotEmpty
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(JUnit4::class)
@@ -103,7 +96,7 @@ class SignUpViewModelTest {
     }
 
     @Test
-    fun `회원가입 뒤로가기시 기존 Parameter 초기화`() = runTest{
+    fun `회원가입 뒤로가기시 기존 Parameter 초기화`() = runTest {
         //given : 이메일, 닉네임, 비밀번호 데이터 넣기
         signUpViewModel.apply {
             setEmail("123")
@@ -140,7 +133,7 @@ class SignUpViewModelTest {
     @Test
     fun `간편 비밀번호 하나씩 삭제`() {
         //given : 리스트에 2,4,6이 들어간 상태
-        val list = listOf("2","4")
+        val list = listOf("2", "4")
         signUpViewModel.apply {
             addRemoveEasyPassword(true, "2")
             addRemoveEasyPassword(true, "4")
@@ -156,9 +149,9 @@ class SignUpViewModelTest {
     }
 
     @Test
-    fun `간편 비밀번호 및 간편 비밀번호 확인 값 비교`() = runTest{
+    fun `간편 비밀번호 및 간편 비밀번호 확인 값 비교`() = runTest {
         //given : 간편 비밀 번호, 간편 비밀 번호 확인 값 입력
-        val list = listOf("1","2","3","4","5")
+        val list = listOf("1", "2", "3", "4", "5")
         list.forEach {
             signUpViewModel.addRemoveEasyPassword(true, it)
             signUpViewModel.addRemoveEasyPasswordCheck(true, it)
@@ -174,7 +167,7 @@ class SignUpViewModelTest {
     }
 
     @Test
-    fun `간편 비밀번호 뒤로가기 시에 기존 설정한 간편 비밀번호 초기화`() = runTest{
+    fun `간편 비밀번호 뒤로가기 시에 기존 설정한 간편 비밀번호 초기화`() = runTest {
         // given : 간편 비밀번호 뒤로가기
 
         // when : 간편 비밀번호 뒤로가기시

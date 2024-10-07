@@ -37,15 +37,15 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_share"
-            style="@style/suite_extra_bold_24"
+            style="@style/suite_medium_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="30dp"
             android:visibility="@{shareVisible ? View.VISIBLE : View.GONE}"
-            android:background="@drawable/rectangle_we_pink_10"
+            android:background="@drawable/rectangle_we_light_pink_10"
             android:text="@string/invitation_share"
-            android:textColor="@color/white"
+            android:textColor="@color/we_brown"
             app:layout_constraintBottom_toBottomOf="parent" />
 
 
