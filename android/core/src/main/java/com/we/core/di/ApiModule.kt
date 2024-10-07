@@ -5,6 +5,7 @@ import com.data.api.CoupleApi
 import com.data.api.FcmApi
 import com.data.api.ScheduleApi
 import com.data.api.LedgersApi
+import com.data.api.MemberApi
 import com.data.api.SignApi
 import com.we.core.util.Qualifier
 import dagger.Module
@@ -62,4 +63,11 @@ object ApiModule {
         @Qualifier.InterceptorRetrofit
         retrofit: Retrofit
     ): FcmApi = retrofit.create()
+
+    @Singleton
+    @Provides
+    fun provideMemberApi(
+        @Qualifier.InterceptorRetrofit
+        retrofit: Retrofit
+    ): MemberApi = retrofit.create()
 }

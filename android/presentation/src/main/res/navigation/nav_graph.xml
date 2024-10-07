@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_homeFragment_to_remittance_gragh"
             app:destination="@id/remittance_gragh" />
+        <action
+            android:id="@+id/action_homeFragment_to_mealTicketFragment"
+            app:destination="@id/mealTicketFragment" />
 
     </fragment>
 
@@ -143,6 +146,12 @@
     <include app:graph="@navigation/remittance_gragh" />
 
     <!-- 이체 하기 -->
-    <include app:graph="@navigation/transfer_nav_graph" />
+
+    <include app:graph="@navigation/transfer_nav_graph"/>
+    <fragment
+        android:id="@+id/mealTicketFragment"
+        android:name="com.we.presentation.mealTicket.MealTicketFragment"
+        android:label="MealTicketFragment" />
+
 
 </navigation>

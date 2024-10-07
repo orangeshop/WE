@@ -37,5 +37,11 @@
     <fragment
         android:id="@+id/transferSuccessFragment"
         android:name="com.we.presentation.transfer.TransferSuccessFragment"
-        tools:layout="@layout/fragment_transfer_success"/>
+        tools:layout="@layout/fragment_transfer_success">
+        <argument
+            android:name="result"
+            app:argType="boolean"
+            />
+    </fragment>
+
 </navigation>
