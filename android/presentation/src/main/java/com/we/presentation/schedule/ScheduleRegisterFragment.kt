@@ -6,7 +6,6 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.databinding.FragmentScheduleRegisterBinding
@@ -16,6 +15,7 @@ import com.we.presentation.schedule.viewmodel.ScheduleRegisterViewModel
 import com.we.presentation.util.ScheduleRegisterType
 import com.we.presentation.util.toYearMonthDay
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.text.SimpleDateFormat
@@ -73,6 +73,7 @@ class ScheduleRegisterFragment :
                         scheduleRegisterViewModel.updateId.value
                     )
                 }
+                showLoading()
             }
         }
     }
@@ -114,12 +115,19 @@ class ScheduleRegisterFragment :
 
 
 
-        DatePickerDialog(requireContext(), R.style.CustomDatePickerDialog ,{ _, selectedYear, selectedMonth, selectedDay ->
-            val selectedDate = Calendar.getInstance()
-            selectedDate.set(selectedYear, selectedMonth, selectedDay)
-            val formattedDate = dateFormat.format(selectedDate.time)
-            scheduleRegisterViewModel.setRegisterParam(ScheduleRegisterType.DATE, formattedDate)
-        }, year, month, day).show()
+        DatePickerDialog(
+            requireContext(),
+            R.style.CustomDatePickerDialog,
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = Calendar.getInstance()
+                selectedDate.set(selectedYear, selectedMonth, selectedDay)
+                val formattedDate = dateFormat.format(selectedDate.time)
+                scheduleRegisterViewModel.setRegisterParam(ScheduleRegisterType.DATE, formattedDate)
+            },
+            year,
+            month,
+            day
+        ).show()
     }
 
     private fun observeScheduleRegisterParam() {
@@ -150,6 +158,8 @@ class ScheduleRegisterFragment :
     private fun observeScheduleRegisterUiState() {
         scheduleRegisterViewModel.scheduleRegisterUiState.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
+                delay(1000L)
+                dismissLoading()
                 when (it) {
                     is ScheduleRegisterUiState.RegisterSuccess -> {
                         navigatePopBackStack()
@@ -164,8 +174,8 @@ class ScheduleRegisterFragment :
                     }
 
                     else -> {}
-
                 }
+
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
