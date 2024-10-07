@@ -75,8 +75,7 @@ public class CoupleController {
             @ApiResponse(responseCode = "200", description = "커플 조회 성공", useReturnTypeSchema = true)
     })
     public ResponseEntity<?> getMyCoupleInfo(@Parameter(hidden = true)  @Login Member member) {
-        Couple couple = coupleService.getMyCoupleInfo(member).
-                orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+        Couple couple = coupleService.getMyCoupleInfo(member);
 
         // 데이터 객체 생성
         Map<String, CoupleInfo> response = new HashMap<>();

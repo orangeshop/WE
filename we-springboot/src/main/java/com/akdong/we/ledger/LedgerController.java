@@ -41,8 +41,7 @@ public class LedgerController {
             @ApiResponse(responseCode = "201", description = "장부 생성 성공", useReturnTypeSchema = true)
     })
     public ResponseEntity<?> join(@Parameter(hidden = true)  @Login Member member) {
-        Couple couple = coupleService.getMyCoupleInfo(member)
-                .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+        Couple couple = coupleService.getMyCoupleInfo(member);
         Ledger ledger = ledgerService.createLedger(couple);
 
         // 데이터 객체 생성
@@ -83,8 +82,7 @@ public class LedgerController {
     public ResponseEntity<?> findLedgerByCoupleId(
             @Parameter(hidden = true)  @Login Member member
     ) {
-        Couple couple = coupleService.getMyCoupleInfo(member)
-                .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+        Couple couple = coupleService.getMyCoupleInfo(member);
 
         Ledger ledger = couple.getLedger();
 
@@ -107,8 +105,7 @@ public class LedgerController {
             @Parameter(hidden = true)  @Login Member member,
             @RequestParam(required = false) Boolean isBride
     ){
-        Couple couple = coupleService.getMyCoupleInfo(member)
-                .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+        Couple couple = coupleService.getMyCoupleInfo(member);
         Ledger ledger = couple.getLedger();
         List<GiftInfo> giftList = ledgerService.findLedgerGift(ledger.getId(), isBride);
         return ResponseEntity.ok(
@@ -117,6 +114,5 @@ public class LedgerController {
                         giftList
                 )
         );
-
     }
 }
