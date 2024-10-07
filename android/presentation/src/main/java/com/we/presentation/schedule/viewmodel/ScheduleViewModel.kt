@@ -165,7 +165,7 @@ class ScheduleViewModel @Inject constructor(
 
     fun findScheduleDate(calendarItem: List<CalendarItem>): List<ScheduleData> {
         val date = selectedItem.value?.date ?: LocalDate.now()
-        return calendarItem.filter { it.date.isEqual(date) }.first().schedule.ifEmpty { listOf() }
+        return calendarItem.filter { it.date.isEqual(date) }.firstOrNull()?.schedule ?: listOf()
 
     }
 
