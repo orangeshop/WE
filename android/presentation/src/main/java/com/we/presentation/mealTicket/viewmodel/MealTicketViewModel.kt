@@ -19,6 +19,7 @@ class MealTicketViewModel @Inject constructor(
 ) : ViewModel(){
 
 
+
     private val _qrCodeUrl = MutableStateFlow<String>("")
     val qrCodeUrl: Flow<String> get() = _qrCodeUrl
 
