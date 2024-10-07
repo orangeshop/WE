@@ -51,8 +51,7 @@ public class BankService {
         String coupleAccountNo = null;
         // 1. 커플 계좌 먼저 추가
         if(member.isCoupleJoined()){
-            Couple couple = coupleService.getMyCoupleInfo(member)
-                    .orElseThrow(() -> new BusinessException(CoupleErrorCode.ACCOUNT_NOT_FOUND_ERROR));
+            Couple couple = coupleService.getMyCoupleInfo(member);
             if(couple.getAccountNumber() != null){
                 JsonNode coupleAccountInfo = finApiCallService.getCoupleAccount(member);
                 AccountInfo coupleAccount = objectMapper.treeToValue(coupleAccountInfo, AccountInfo.class);
@@ -91,8 +90,7 @@ public class BankService {
     }
 
     public CoupleInfo registerCoupleAccount(Member member, String accountNo, String bankName){
-        Couple couple = coupleService.getMyCoupleInfo(member)
-                .orElseThrow(() -> new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR));
+        Couple couple = coupleService.getMyCoupleInfo(member);
 
         couple.setAccountNumber(accountNo);
         couple.setAccountBankName(bankName);

@@ -73,7 +73,6 @@ public class LedgerService {
         couple.setLedgerCreated(true);
 
         return savedLedger;
-
     }
 
     @Transactional
@@ -99,7 +98,4 @@ public class LedgerService {
 
         return giftInfoList;
     }
-
-
-
 }

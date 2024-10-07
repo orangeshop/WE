@@ -2,6 +2,8 @@ package com.akdong.we.member.controller;
 
 import com.akdong.we.common.dto.ErrorResponse;
 import com.akdong.we.common.dto.SuccessResponse;
+import com.akdong.we.file.domain.FileDto;
+import com.akdong.we.file.service.FileService;
 import com.akdong.we.member.Login;
 import com.akdong.we.member.entity.Member;
 import com.akdong.we.member.request.MemberRegisterPostReq;
@@ -21,8 +23,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/v1/members")
@@ -32,6 +38,9 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
     private final AuthService authService;
+    private final FileService fileService;
+
+    private final String DIR_NAME = "profile";
 
     @PostMapping("/register")
     @Operation(summary = "회원가입", description = "Member를 생성합니다")
@@ -206,6 +215,7 @@ public class MemberController {
                 new SuccessResponse<>("탈퇴 되었습니다.", MemberInfo.of(deletedmember))
         );
     }
+
 
 
 }

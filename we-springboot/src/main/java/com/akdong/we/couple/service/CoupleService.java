@@ -1,6 +1,7 @@
 package com.akdong.we.couple.service;
 
 import com.akdong.we.common.exception.BusinessException;
+import com.akdong.we.couple.CoupleErrorCode;
 import com.akdong.we.couple.entity.Couple;
 import com.akdong.we.couple.repository.CoupleRepository;
 import com.akdong.we.couple.request.CoupleRegisterRequest;
@@ -12,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -50,7 +50,7 @@ public class CoupleService {
                 .orElseThrow(() -> new BusinessException(MemberErrorCode.MEMBER_NOT_FOUND_ERROR));
 
         // 멤버가 이미 다른 커플에 속해 있는지 확인
-        if (getMyCoupleInfo(member1).isPresent() || getMyCoupleInfo(member2).isPresent()) {
+        if (member1.isCoupleJoined() || member2.isCoupleJoined()) {
             throw new IllegalStateException("One or both members are already in a couple.");
         }
 
@@ -68,7 +68,8 @@ public class CoupleService {
         return coupleRepository.save(couple);
     }
 
-    public Optional<Couple> getMyCoupleInfo(Member member) {
-        return coupleRepository.findByMember(member);
+    public Couple getMyCoupleInfo(Member member) {
+        return coupleRepository.findByMember(member)
+                .orElseThrow(() -> new BusinessException(CoupleErrorCode.COUPLE_NOT_FOUND_ERROR));
     }
 }

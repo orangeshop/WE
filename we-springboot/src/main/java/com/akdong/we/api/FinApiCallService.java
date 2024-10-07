@@ -439,8 +439,8 @@ public class FinApiCallService {
         if(!member.isCoupleJoined()){
             throw new BusinessException(MemberErrorCode.COUPLE_NOT_FOUND_ERROR);
         }
-        Couple couple = coupleService.getMyCoupleInfo(member)
-                .orElseThrow(() -> new BusinessException(CoupleErrorCode.COUPLE_NOT_FOUND_ERROR));
+        Couple couple = coupleService.getMyCoupleInfo(member);
+
         String accountNo = couple.getAccountNumber();
         if(accountNo == null){
             throw new BusinessException(CoupleErrorCode.ACCOUNT_NOT_FOUND_ERROR);
