@@ -35,8 +35,8 @@
             app:itemRippleColor="@null"
             android:background="@color/white"
             android:visibility="@{bottomVisibility ? View.VISIBLE : View.GONE}"
-            app:itemTextAppearanceActive="@style/suite_bold_15"
-            app:itemTextAppearanceInactive="@style/suite_bold_15"
+            app:itemTextAppearanceActive="@style/suite_bold_12"
+            app:itemTextAppearanceInactive="@style/suite_bold_12"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/menu_bottom_nav" />

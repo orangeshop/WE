@@ -89,7 +89,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
         }
     }
 
-    private fun initDropDownMenu(data : ScheduleData, view: View) {
+    private fun initDropDownMenu(data: ScheduleData, view: View) {
         showCustomDropDownMenu(
             requireActivity(),
             view,
@@ -101,7 +101,8 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                     }
 
                     DropDownMenu.UPDATE -> {
-                        navigateDestination(R.id.action_scheduleFragment_to_schedule_register_nav_graph,
+                        navigateDestination(
+                            R.id.action_scheduleFragment_to_schedule_register_nav_graph,
                             bundleOf("scheduleUpdateParam" to data.toScheduleUpdateParam())
                         )
                     }
@@ -127,7 +128,10 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
                         scheduleCalendarAdapter.submitList(it.calendarItem)
 
                         if (it.calendarItem.isNotEmpty()) { // 할일 넣기
-                            scheduleTodoAdapter.submitList(scheduleViewModel.findScheduleDate(it.calendarItem))
+                            Timber.tag("할일").d("할일 체크 ${it.calendarItem}")
+                            val list = scheduleViewModel.findScheduleDate(it.calendarItem)
+                            scheduleTodoAdapter.submitList(list)
+
                         }
                     }
 
