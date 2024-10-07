@@ -68,13 +68,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/rectangle_we_pink_10"
+                android:background="@drawable/rectangle_we_light_pink_10"
                 android:includeFontPadding="false"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="8dp"
+                android:minHeight="20dp"
                 android:text="@string/schedule_search_location"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/we_brown"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

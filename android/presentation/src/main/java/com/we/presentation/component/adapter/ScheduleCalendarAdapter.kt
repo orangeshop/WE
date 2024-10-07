@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.we.model.ScheduleData
 import com.we.presentation.R
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemScheduleBinding
@@ -78,7 +77,7 @@ class ScheduleCalendarAdapter :
                 }
                 this.tvScheduleDate.apply {
                     if (drawable != null) {
-                        background = ContextCompat.getDrawable(context, drawable)
+                        binding.clScheduleDateContent.background = ContextCompat.getDrawable(context, drawable)
                     }
                     setTextColor(color)
                 }
