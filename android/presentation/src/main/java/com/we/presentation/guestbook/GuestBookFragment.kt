@@ -46,7 +46,7 @@ class GuestBookFragment : BaseFragment<FragmentGuestBookBinding>(R.layout.fragme
                         flQrCode.visibility = View.GONE
                         ivQrCode.visibility = View.VISIBLE
                         Glide.with(this@GuestBookFragment).load(it).into(ivQrCode)
-                        tvRegisterAccount.visibility = View.VISIBLE
+//                        tvRegisterAccount.visibility = View.VISIBLE
                     }
                 }
                 .launchIn(viewLifecycleOwner.lifecycleScope)

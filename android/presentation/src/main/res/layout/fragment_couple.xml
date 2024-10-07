@@ -19,23 +19,42 @@
             android:layout_height="wrap_content"
             app:title="@{@string/couple_register}" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_couple_code"
+                android:layout_marginLeft="20dp"
+                android:text="매칭 코드"
+                style="@style/suite_semibold_20"
+                android:textSize="28dp"
+            />
 
             <TextView
                 android:id="@+id/tv_couple_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/et_input_couple"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="100dp"
+                android:layout_marginLeft="20dp"
                 tools:text="1 2 3 4 5"
                 style="@style/suite_bold_20"
             />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/et_input_couple"
+                android:layout_margin="20dp"
+                android:text="코드 입력"
+                style="@style/suite_semibold_20"
+            />
             <EditText
                 android:id="@+id/et_input_couple"
                 style="@style/suite_regular_16"
-                android:layout_width="270dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="250dp"
@@ -55,27 +74,27 @@
             <TextView
                 android:id="@+id/tv_input_complete"
                 style="@style/suite_extra_bold_24"
-                android:layout_width="70dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:background="@drawable/rectangle_we_pink_10"
                 android:gravity="center"
-                app:layout_constraintStart_toEndOf="@+id/et_input_couple"
-                app:layout_constraintTop_toTopOf="@+id/et_input_couple"
-                app:layout_constraintBottom_toBottomOf="@id/et_input_couple"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="검색"
+                android:text="완료"
                 android:textColor="@color/white"
-                android:layout_marginEnd="20dp"
+                android:layout_margin="20dp"
             />
 
         <TextView
             android:id="@+id/tv_input_date"
             style="@style/suite_extra_bold_24"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@drawable/rectangle_we_pink_10"
             android:gravity="center"
             android:padding="5dp"
+            android:layout_margin="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_input_couple"

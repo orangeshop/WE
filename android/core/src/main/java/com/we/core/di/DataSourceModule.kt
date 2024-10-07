@@ -5,12 +5,14 @@ import com.data.datasource.BankDataSource
 import com.data.datasource.CoupleDataSource
 import com.data.datasource.FcmDataSource
 import com.data.datasource.LedgersDataSource
+import com.data.datasource.MemberDataSource
 import com.data.datasource.ScheduleDataSource
 import com.data.datasource.SignDataSource
 import com.data.datasourceimpl.BankDataSourceImpl
 import com.data.datasourceimpl.CoupleDataSourceImpl
 import com.data.datasourceimpl.FcmDataSourceImpl
 import com.data.datasourceimpl.LedgersDataSourceImpl
+import com.data.datasourceimpl.MemberDataSourceImpl
 import com.data.datasourceimpl.ScheduleDataSourceImpl
 import com.data.datasourceimpl.SignDataSourceImpl
 import dagger.Binds
@@ -61,4 +63,9 @@ interface DataSourceModule {
         ledgersDataSourceImpl: LedgersDataSourceImpl
     ): LedgersDataSource
 
+    @Singleton
+    @Binds
+    fun bindsMemberDataSource(
+        memberDataSourceImpl: MemberDataSourceImpl
+    ): MemberDataSource
 }
