@@ -48,7 +48,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         setUpAccountViewPager()
         setUpBannerViewPager()
         initClickEventListener()
+        memberData()
     }
+
+    private fun memberData(){
+        binding.apply {
+            homeViewModel.members.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .onEach {
+                    tvHomeUserName.text = it.name + "님 환영합니다"
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+        }
+    }
+
 
     private fun initDDay() {
         binding.apply {

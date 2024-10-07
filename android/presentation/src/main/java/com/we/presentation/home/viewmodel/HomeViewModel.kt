@@ -7,9 +7,11 @@ import com.data.model.request.RequestRegisterPriorAccount
 import com.data.model.response.ResponseGetCouples
 import com.data.repository.BankRepository
 import com.data.repository.CoupleRepository
+import com.data.repository.MemberRepository
 import com.data.util.ApiResult
 import com.we.model.BankData
 import com.we.model.GetCoupleData
+import com.we.model.GetMemberData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val bankRepository: BankRepository,
-    private val coupleRepository: CoupleRepository
+    private val coupleRepository: CoupleRepository,
+    private val memberRepository: MemberRepository
 ) : ViewModel(){
     private val _accountList = MutableStateFlow<List<BankData>>(mutableListOf<BankData>())
     val accountList: StateFlow<List<BankData>> get() =  _accountList
@@ -31,7 +34,30 @@ class HomeViewModel @Inject constructor(
     init {
         setAccountList(arrayListOf(BankData("", "", "", "", "", "", "", "", "", "", "", "","","", "")))
         getAccountList()
+        getMembers()
+    }
 
+    private val _members = MutableStateFlow<GetMemberData>(GetMemberData(""))
+    val members: StateFlow<GetMemberData> get() = _members
+
+    private fun getMembers(){
+        viewModelScope.launch {
+            memberRepository.getMembers().collectLatest {
+                when(it){
+                    is ApiResult.Success -> {
+                        Timber.d("member load 성공 " + it.data)
+                        setMembers(it.data)
+                    }
+                    is ApiResult.Error -> {
+                        Timber.d("member load fail " + it.exception.message)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setMembers(member : GetMemberData){
+        _members.update { member }
     }
 
     private val _coupleInfo = MutableStateFlow<GetCoupleData>(GetCoupleData(-1,-1))

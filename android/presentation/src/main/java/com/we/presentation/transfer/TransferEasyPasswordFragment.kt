@@ -137,9 +137,10 @@ class TransferEasyPasswordFragment :
             .onEach {
                 if (it) {
                     Timber.tag("이체").d("성공")
-                    navigateDestination(R.id.action_transferEasyPasswordFragment_to_transferSuccessFragment)
+                    navigateDestination(R.id.action_transferEasyPasswordFragment_to_transferSuccessFragment, bundleOf("result" to it))
                 } else {
                     Timber.tag("이체").d("실패")
+                    navigateDestination(R.id.action_transferEasyPasswordFragment_to_transferSuccessFragment, bundleOf("result" to it))
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

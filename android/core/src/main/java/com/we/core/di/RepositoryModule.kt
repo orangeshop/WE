@@ -5,6 +5,7 @@ import com.data.repository.DataStoreRepository
 import com.data.repository.CoupleRepository
 import com.data.repository.FcmRepository
 import com.data.repository.LedgersRepository
+import com.data.repository.MemberRepository
 import com.data.repository.ScheduleRepository
 import com.data.repository.SignRepository
 import com.data.repositoryimpl.BankRepositoryImpl
@@ -12,6 +13,7 @@ import com.data.repositoryimpl.DataStoreRepositoryImpl
 import com.data.repositoryimpl.CoupleRepositoryImpl
 import com.data.repositoryimpl.FcmRepositoryImpl
 import com.data.repositoryimpl.LedgersRepositoryImpl
+import com.data.repositoryimpl.MemberRepositoryImpl
 import com.data.repositoryimpl.ScheduleRepositoryImpl
 import com.data.repositoryimpl.SignRepositoryImpl
 import com.data.util.TokenProvider
@@ -69,5 +71,11 @@ interface RepositoryModule {
     fun bindsLedgersRepository(
         ledgersRepositoryImpl: LedgersRepositoryImpl
     ): LedgersRepository
+
+    @Singleton
+    @Binds
+    fun bindsMemberRepository(
+        memberRepositoryImpl: MemberRepositoryImpl
+    ): MemberRepository
 
 }
