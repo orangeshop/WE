@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.flowWithLifecycle
@@ -129,12 +128,15 @@ class TransferEasyPasswordFragment :
         }
         if (list.size == 6) {
             transferViewModel.postTransfer(ShareData.legId)
+            showLoading()
         }
     }
 
     private fun observeTransferSuccess() {
         transferViewModel.transferSuccess.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
+                delay(1000L)
+                dismissLoading()
                 if (it) {
                     Timber.tag("이체").d("성공")
                     navigateDestination(R.id.action_transferEasyPasswordFragment_to_transferSuccessFragment)

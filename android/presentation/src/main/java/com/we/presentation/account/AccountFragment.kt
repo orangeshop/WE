@@ -21,7 +21,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_account) {
     private val accountViewModel: AccountViewModel by hiltNavGraphViewModels(R.id.nav_graph)
-    private val safeArgs : AccountFragmentArgs by navArgs()
+    private val safeArgs: AccountFragmentArgs by navArgs()
 
     override fun initView() {
 
@@ -34,8 +34,8 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
         accountInputComplete()
         btnActivateCheck()
         observeAccountAuthSuccess()
+        observeAccountNextButton()
     }
-
 
 
     private fun btnActivateCheck() {
@@ -97,12 +97,23 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
                 if (it) {
                     val data = safeArgs.inputType
                     Timber.tag("들어오는 타입").d("$data")
-                    val action = if(data){
+                    val action = if (data) {
                         R.id.action_accountFragment_to_accountTransferFragment
-                    }else{
+                    } else {
                         R.id.action_guest_accountFragment_to_accountTransferFragment
                     }
                     navigateDestination(action)
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun observeAccountNextButton() {
+        accountViewModel.nextButton.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                binding.tvRegisterAccount.apply {
+                    isSelected = it
+                    isEnabled = it
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
