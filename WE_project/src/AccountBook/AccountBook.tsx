@@ -103,16 +103,36 @@ const AccountBook: React.FC = () => {
     }
   });
 
-  const chartColors = ["hsl(270, 100%, 70%)", "hsl(30, 100%, 70%)"];
+  const chartColors = ["hsl(30, 100%, 47%)", "hsl(51, 100%, 48%)"];
+
+  const sortedLabels = Object.keys(chargeCountMap)
+    .map(Number)
+    .sort((a, b) => (sortOrder === "asc" ? a - b : b - a));
+
+  const brideData =
+    sortedData?.data.filter((item) => item.isBride === true) || [];
+  const groomData =
+    sortedData?.data.filter((item) => item.isBride === false) || [];
 
   const chartData = {
-    labels: Object.keys(chargeCountMap).map(Number),
+    labels: sortedLabels,
     datasets: [
       {
-        label: "금액별 인원 수",
-        data: Object.values(chargeCountMap),
-        borderColor: "hsl(120, 100%, 70%)",
-        backgroundColor: "hsl(120, 100%, 70%)",
+        label: "신부측 인원 수",
+        data: sortedLabels.map(
+          (label) => brideData.filter((item) => item.charge === label).length
+        ),
+        borderColor: "hsl(30, 100%, 67%)",
+        backgroundColor: "hsl(30, 100%, 47%)",
+        fill: false,
+      },
+      {
+        label: "신랑측 인원 수",
+        data: sortedLabels.map(
+          (label) => groomData.filter((item) => item.charge === label).length
+        ),
+        borderColor: "hsl(51, 100%, 68%)",
+        backgroundColor: "hsl(51, 100%, 48%)",
         fill: false,
       },
     ],
@@ -162,7 +182,6 @@ const AccountBook: React.FC = () => {
       },
     },
   };
-
   const doughnutOptions = {
     plugins: {
       tooltip: {
