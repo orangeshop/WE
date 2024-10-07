@@ -17,6 +17,7 @@ import com.we.presentation.schedule.model.ScheduleUiState.Loading
 import com.we.presentation.schedule.model.toScheduleUpdateParam
 import com.we.presentation.schedule.viewmodel.ScheduleViewModel
 import com.we.presentation.util.DropDownMenu
+import com.we.presentation.util.functionStatusBarColor
 import com.we.presentation.util.toYearMonth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -42,7 +43,7 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
 
     override fun onResume() {
         super.onResume()
-
+        functionStatusBarColor(requireActivity(), R.color.we_light_pink)
         scheduleViewModel.checkDate()
         Timber.tag("스케쥴 onResume").d("체크")
     }
@@ -143,4 +144,8 @@ class ScheduleFragment : BaseFragment<FragmentScheduleBinding>(R.layout.fragment
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        functionStatusBarColor(requireActivity(), R.color.we_ivory)
+    }
 }
