@@ -23,6 +23,7 @@
             android:id="@+id/cr_invitation"
             android:layout_width="match_parent"
             app:cardCornerRadius="15dp"
+
             android:layout_marginBottom="50dp"
             android:background="@drawable/rectangle_white_10_stroke_1_we_brown"
             android:layout_height="match_parent">

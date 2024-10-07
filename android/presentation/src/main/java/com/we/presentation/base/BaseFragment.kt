@@ -1,5 +1,6 @@
 package com.we.presentation.base
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.we.presentation.component.custom.CustomDialog
 
 abstract class BaseFragment<T : ViewDataBinding>(private val layoutResId: Int) : Fragment() {
     private var _binding: T? = null
     val binding get() = _binding!!
 
+    protected var loadingDialog: Dialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +50,15 @@ abstract class BaseFragment<T : ViewDataBinding>(private val layoutResId: Int) :
     //popBackstack
     fun navigatePopBackStack() {
         findNavController().popBackStack()
+    }
+
+    protected fun showLoading() {
+        loadingDialog = CustomDialog(requireActivity()).progressDialog()
+    }
+
+    protected fun dismissLoading() {
+        if (loadingDialog != null)
+            loadingDialog!!.dismiss()
     }
 
 
