@@ -53,6 +53,7 @@ class AccountCheckFragment :
 
         }
 
+
         accountCheckViewModel.transactionList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
                 Timber.d("list $it")
