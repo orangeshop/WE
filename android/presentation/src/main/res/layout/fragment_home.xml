@@ -57,6 +57,7 @@
                     android:text="@string/remaining_days" />
 
                 <TextView
+                    android:id="@+id/tv_home_remain"
                     style="@style/suite_bold_20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

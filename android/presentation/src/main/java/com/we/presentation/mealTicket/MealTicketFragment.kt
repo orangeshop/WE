@@ -31,7 +31,9 @@ class MealTicketFragment : BaseFragment<FragmentMealTicketBinding>(R.layout.frag
 
             mealTicketViewModel.qrCodeUrl.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .onEach {
+                    ivQrCode.visibility = View.VISIBLE
                     Glide.with(this@MealTicketFragment).load(it).into(ivQrCode)
+                    flQrCode.visibility = View.GONE
                 }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }

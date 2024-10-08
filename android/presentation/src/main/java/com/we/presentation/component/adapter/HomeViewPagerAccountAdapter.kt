@@ -16,6 +16,8 @@ import com.we.presentation.account.util.BankList
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemAccountBinding
 import timber.log.Timber
+import java.text.NumberFormat
+import java.util.Locale
 
 class HomeViewPagerAccountAdapter(
     private val accountClickListener: (idx : Int, account : String) -> Unit,
@@ -30,9 +32,14 @@ class HomeViewPagerAccountAdapter(
                 tvHomeAccount.text = item.bankName
                 tvHomeNo.text = item.accountNo
                 tvHomeMoney.text = item.accountBalance
+                if (item.accountBalance != "") {
+                    tvHomeMoney.text = formatNumberWithCommas(item.accountBalance.toLong())
+                }
                 ivBankIcon.setImageResource(bankIcon(item.bankName))
 
                 Timber.d("accountInfo : " + item.accountInfo)
+
+
 
                 when(typeCheck){
                     true -> {
@@ -74,6 +81,11 @@ class HomeViewPagerAccountAdapter(
                 }
             }
         }
+    }
+
+    private fun formatNumberWithCommas(money: Long):String{
+        val numberFormat = NumberFormat.getNumberInstance(Locale.US)
+        return numberFormat.format(money)
     }
 
 
