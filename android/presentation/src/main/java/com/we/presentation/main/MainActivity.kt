@@ -26,6 +26,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private lateinit var navController: NavController
     private val mainViewModel: MainViewModel by viewModels()
 
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        Timber.tag("FCM 링크").d("$intent")
+
+    }
+
     override fun init() {
         initKakao()
         initDeepLink()
