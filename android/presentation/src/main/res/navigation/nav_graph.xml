@@ -11,15 +11,22 @@
         tools:layout="@layout/fragment_guest">
         <action
             android:id="@+id/action_guestFragment_to_coupleFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/coupleFragment" />
         <action
             android:id="@+id/action_guestFragment_to_accountCheckFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/accountCheckFragment" />
         <action
             android:id="@+id/action_guestFragment_to_accountFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/accountFragment" />
         <action
             android:id="@+id/action_guestFragment_to_transfer_nav_graph"
+
             app:destination="@id/transfer_nav_graph" />
     </fragment>
 
@@ -29,14 +36,20 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_accountFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/accountFragment" />
 
 
         <action
             android:id="@+id/action_homeFragment_accountCheckFragment"
-            app:destination="@id/accountCheckFragment"></action>
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
+            app:destination="@id/accountCheckFragment"/>
         <action
             android:id="@+id/action_fragment_home_to_remittanceFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/remittanceFragment">
             <argument
                 android:name="account"
@@ -50,15 +63,23 @@
             app:popEnterAnim="@animator/anim_fade_in_x_left_to_right" />
         <action
             android:id="@+id/action_homeFragment_to_guestBookFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/guestBookFragment" />
         <action
             android:id="@+id/action_homeFragment_to_coupleFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/coupleFragment" />
         <action
             android:id="@+id/action_homeFragment_to_remittance_gragh"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/remittance_gragh" />
         <action
             android:id="@+id/action_homeFragment_to_mealTicketFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/mealTicketFragment" />
 
     </fragment>
@@ -100,6 +121,8 @@
 
         <action
             android:id="@+id/action_guest_accountFragment_to_accountTransferFragment"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/accountTransferFragment"
             app:popUpTo="@id/guestFragment" />
 
@@ -111,6 +134,8 @@
         tools:layout="@layout/fragment_account_transfer">
         <action
             android:id="@+id/action_accountTransferFragment_to_transfer_nav_graph"
+            app:enterAnim="@animator/anim_fade_in_x_right_to_left"
+            app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/transfer_nav_graph" />
     </fragment>
     <fragment

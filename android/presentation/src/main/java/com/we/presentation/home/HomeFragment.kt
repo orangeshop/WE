@@ -2,18 +2,13 @@ package com.we.presentation.home
 
 import android.os.Handler
 import android.os.Looper
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import androidx.core.os.bundleOf
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import com.we.model.BankData
 import com.we.presentation.R
 import com.we.presentation.base.BaseFragment
 import com.we.presentation.component.adapter.HomeViewPagerAccountAdapter
@@ -21,13 +16,10 @@ import com.we.presentation.component.adapter.HomeViewPagerBannerAdapter
 import com.we.presentation.databinding.FragmentHomeBinding
 import com.we.presentation.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 private const val TAG = "HomeFragment_싸피"
@@ -51,7 +43,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         memberData()
     }
 
-    private fun memberData(){
+    private fun memberData() {
         binding.apply {
             homeViewModel.members.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .onEach {
@@ -151,7 +143,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun setUpBannerViewPager() {
-        val test = arrayListOf(R.drawable.image_25, R.drawable.image_25, R.drawable.image_25)
+        val test = arrayListOf(
+            R.drawable.image_25,
+            R.drawable.ic_banner_two,
+            R.drawable.ic_banner_three,
+            R.drawable.ic_banner_four
+        )
 
         val adapter = HomeViewPagerBannerAdapter(test)
         binding.apply {
