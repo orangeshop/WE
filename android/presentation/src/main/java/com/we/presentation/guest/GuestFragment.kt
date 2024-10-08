@@ -27,7 +27,18 @@ class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest
         initClickEventListener()
         initTransfer()
         setUpAccountViewPager()
+        initMember()
     }
+    private fun initMember(){
+        binding.apply {
+            guestViewModel.members.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                .onEach {
+                    tvHomeUserName.text = it.name + "님 환영합니다"
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+        }
+    }
+
 
     private fun initTransfer(){
         if(ShareData.transferType){

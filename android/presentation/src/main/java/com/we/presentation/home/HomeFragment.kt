@@ -59,7 +59,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
             homeViewModel.coupleInfo.flowWithLifecycle(viewLifecycleOwner.lifecycle)
                 .onEach {
-                    tvHomeRemainingDays.text = "결혼식까지" + it.DDay + "일"
+
+                    if (it.DDay == 0) {
+                        tvHomeRemainingDays.text = "결혼을 축하드립니다!!"
+                    } else if (it.DDay!! > 0) {
+                        tvHomeRemainingDays.text = "결혼식까지" + it.DDay + "일"
+                        tvHomeRemain.text = "남았습니다."
+                    }
+                    else{
+                        tvHomeRemainingDays.text = "결혼식을 한지 " + (it.DDay!! * -1)  + "일"
+                        tvHomeRemain.text = "지났습니다."
+                    }
                 }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
 

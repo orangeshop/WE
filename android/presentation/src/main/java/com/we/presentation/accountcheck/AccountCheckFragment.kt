@@ -14,6 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
+import java.text.NumberFormat
+import java.util.Locale
 
 @AndroidEntryPoint
 class AccountCheckFragment :
@@ -47,9 +49,10 @@ class AccountCheckFragment :
         binding.apply {
             rvAccountCheckList.adapter = adapter
             tvCheckAccountNumber.text = bankName + " " + account
-            tvRemainMoney.text = "잔액 " + remainMoney + "원"
+            tvRemainMoney.text = "잔액 " + formatNumberWithCommas(remainMoney.toLong()) + "원"
 
         }
+
 
         accountCheckViewModel.transactionList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
@@ -72,5 +75,10 @@ class AccountCheckFragment :
 //                modal.show(parentFragmentManager, modal.tag)
 //            }
         }
+    }
+
+    private fun formatNumberWithCommas(money: Long):String{
+        val numberFormat = NumberFormat.getNumberInstance(Locale.US)
+        return numberFormat.format(money)
     }
 }

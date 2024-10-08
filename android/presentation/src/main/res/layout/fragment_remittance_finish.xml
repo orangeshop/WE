@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".remittance.RemittanceFinishFragment">
 
+        <!-- TODO: Update blank fragment layout -->
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_remittance_success"
@@ -27,12 +28,12 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_remittance_fail"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
             app:layout_constraintBottom_toTopOf="@+id/remittanceFinish"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:lottie_autoPlay="true"
             app:lottie_loop="false"
             app:lottie_rawRes="@raw/remittance_fail" />

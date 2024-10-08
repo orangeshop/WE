@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.we.model.TransactionHistoryData
 import com.we.presentation.base.BaseDiffUtil
 import com.we.presentation.databinding.ItemAccountCheckBinding
+import java.text.NumberFormat
+import java.util.Locale
 
 class AccountCheckAdapter :
     ListAdapter<TransactionHistoryData, AccountCheckAdapter.AccountCheckItemViewHolder>(BaseDiffUtil<TransactionHistoryData>()) {
@@ -16,6 +18,10 @@ class AccountCheckAdapter :
         fun bind(item: TransactionHistoryData) {
             binding.apply {
                 tvAccountCheckPrice.text = item.transactionBalance
+                if (item.transactionBalance != "") {
+                    tvAccountCheckPrice.text = formatNumberWithCommas(item.transactionBalance.toLong())
+                }
+
                 tvAccountCheckLocation.text = item.transactionUserName
                 val year = item.transactionDate.substring(0, 4) // "2024"
 
@@ -40,6 +46,11 @@ class AccountCheckAdapter :
 
             }
         }
+    }
+
+    private fun formatNumberWithCommas(money: Long):String{
+        val numberFormat = NumberFormat.getNumberInstance(Locale.US)
+        return numberFormat.format(money)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountCheckItemViewHolder {
