@@ -81,7 +81,9 @@ class ScheduleCalendarAdapter :
                     }
                     setTextColor(color)
                 }
-                this.clScheduleDate.isSelected = calendarItem.isSelected
+                if(calendarItem.calendarType != CalendarType.TODAY){
+                    this.clScheduleDate.isSelected = calendarItem.isSelected
+                }
             }
         }
     }
