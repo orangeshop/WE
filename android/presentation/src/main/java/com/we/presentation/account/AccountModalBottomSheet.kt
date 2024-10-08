@@ -36,23 +36,24 @@ class AccountModalBottomSheet(
             } else {
                 remittanceViewModel.setChooseBank(item)
             }
-
-            accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .onEach { value ->
-                    if (value.bankName.isNotEmpty()) {
-                        Timber.d("item ${value.bankName} ${value.bankIcList}")
-                        dismiss()
+            if(type){
+                accountViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                    .onEach { value ->
+                        if (value.bankName.isNotEmpty()) {
+                            Timber.d("item ${value.bankName} ${value.bankIcList}")
+                            dismiss()
+                        }
                     }
-                }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
-
-            remittanceViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
-                .onEach { value ->
-                    if (value.bankName.isNotEmpty()) {
-                        dismiss()
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            }else{
+                remittanceViewModel.chooseBank.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+                    .onEach { value ->
+                        if (value.bankName.isNotEmpty()) {
+                            dismiss()
+                        }
                     }
-                }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
+                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            }
         }
 
         binding.apply {

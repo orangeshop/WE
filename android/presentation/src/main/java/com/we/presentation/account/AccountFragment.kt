@@ -123,7 +123,8 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
     private fun accountBottomSheetClickListener() {
         binding.apply {
             flChooseBank.setOnClickListener {
-                val modal = AccountModalBottomSheet(true)
+                Timber.tag("계좌 은행").d("${safeArgs.inputType}")
+                val modal = AccountModalBottomSheet(safeArgs.inputType)
                 modal.show(parentFragmentManager, modal.tag)
             }
         }
