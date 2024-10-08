@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
 
         <variable
             name="shareVisible"
@@ -42,10 +43,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="30dp"
-            android:visibility="@{shareVisible ? View.VISIBLE : View.GONE}"
             android:background="@drawable/rectangle_we_light_pink_10"
+            android:elevation="5dp"
+            android:gravity="center"
             android:text="@string/invitation_share"
             android:textColor="@color/we_brown"
+            android:visibility="@{shareVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
 
