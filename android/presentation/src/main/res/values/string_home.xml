@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_app_name">[we:]</string>
+    <string name="home_app_name">[WE:]</string>
     <string name="couple_account">커플 통장</string>
     <string name="meal_ticket">식권</string>
     <string name="welcome">ooo님 환영합니다</string>
