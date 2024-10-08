@@ -103,7 +103,7 @@ const AccountBook: React.FC = () => {
     }
   });
 
-  const chartColors = ["hsl(30, 100%, 47%)", "hsl(51, 100%, 48%)"];
+  const chartColors = ["hsl(344, 100%, 90%)", "hsl(236, 100%, 80%)"];
 
   const sortedLabels = Object.keys(chargeCountMap)
     .map(Number)
@@ -122,8 +122,8 @@ const AccountBook: React.FC = () => {
         data: sortedLabels.map(
           (label) => brideData.filter((item) => item.charge === label).length
         ),
-        borderColor: "hsl(30, 100%, 67%)",
-        backgroundColor: "hsl(30, 100%, 47%)",
+        borderColor: "hsl(344, 100%, 90%)",
+        backgroundColor: "hsl(344, 100%, 70%)",
         fill: false,
       },
       {
@@ -131,13 +131,12 @@ const AccountBook: React.FC = () => {
         data: sortedLabels.map(
           (label) => groomData.filter((item) => item.charge === label).length
         ),
-        borderColor: "hsl(51, 100%, 68%)",
-        backgroundColor: "hsl(51, 100%, 48%)",
+        borderColor: "hsl(236, 100%, 80%)",
+        backgroundColor: "hsl(236, 100%, 60%)",
         fill: false,
       },
     ],
   };
-
   const doughnutData = {
     labels: ["신부측", "신랑측"],
     datasets: [

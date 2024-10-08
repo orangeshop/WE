@@ -18,11 +18,14 @@ const Storage: React.FC = () => {
         if (!accessToken) {
           throw new Error("Access token not found");
         }
-        const response = await getCoupleInvitation(accessToken);
-        setInvitations(response.reverse());
 
-        const middleIndex = Math.floor(response.length / 2);
-        setCurrentIndex(middleIndex);
+        const response = await getCoupleInvitation(accessToken);
+
+        const rearrangedInvitations = rearrangeArrayToCenterLatest(response);
+
+        setInvitations(rearrangedInvitations);
+
+        setCurrentIndex(Math.floor(rearrangedInvitations.length / 2));
       } catch (err) {
         console.error(err);
       }
@@ -30,6 +33,19 @@ const Storage: React.FC = () => {
 
     fetchCoupleInvitations();
   }, [accessToken]);
+
+  const rearrangeArrayToCenterLatest = (array: GetCoupleInvitationDto[]) => {
+    const length = array.length;
+    if (length <= 1) return array;
+
+    const middleIndex = Math.floor(length / 2);
+    const latestInvitation = array[length - 1];
+
+    const remainingInvitations = array.slice(0, length - 1);
+    remainingInvitations.splice(middleIndex, 0, latestInvitation);
+
+    return remainingInvitations;
+  };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % invitations.length);
