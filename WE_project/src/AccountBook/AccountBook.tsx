@@ -138,7 +138,6 @@ const AccountBook: React.FC = () => {
       },
     ],
   };
-
   const doughnutData = {
     labels: ["신부측", "신랑측"],
     datasets: [
