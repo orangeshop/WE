@@ -229,7 +229,6 @@ public class BankController {
             Member member1 = couple.getMember1();
             Member member2 = couple.getMember2();
 
-            // 아직 알림 연동(디바이스 토큰 설정) 재대로 안되서 오류남
             firebaseService.sendMessageTo(member1.getId(), "입금 알림", String.valueOf(member.getNickname()+"님이 " +request.getTransactionBalance())+"원을 송금했습니다.");
             firebaseService.sendMessageTo(member2.getId(), "입금 알림", String.valueOf(member.getNickname()+"님이 " +request.getTransactionBalance())+"원을 송금했습니다.");
         } else if (Objects.equals(responseCode, "H0000") && request.getLedgerId() == null){
