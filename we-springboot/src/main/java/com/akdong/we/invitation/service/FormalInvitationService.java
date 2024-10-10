@@ -102,7 +102,7 @@ public class FormalInvitationService {
         var couple = coupleRepository.findById(invitation.getCouple_id())
                 .orElseThrow();
         var member = memberRepository
-                .findById(couple.getId())
+                .findById(couple.getAccountOwnerId())
                 .orElseThrow();
         var ledger = ledgerRepository
                 .findByCouple(couple)
