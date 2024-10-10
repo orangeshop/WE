@@ -124,7 +124,12 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(R.layout.fragment_a
         binding.apply {
             flChooseBank.setOnClickListener {
                 Timber.tag("계좌 은행").d("${safeArgs.inputType}")
-                val modal = AccountModalBottomSheet(safeArgs.inputType)
+                val value = if(!safeArgs.modalType){
+                    true
+                }else{
+                    safeArgs.inputType
+                }
+                val modal = AccountModalBottomSheet(value)
                 modal.show(parentFragmentManager, modal.tag)
             }
         }
