@@ -108,7 +108,8 @@ const AccountBook: React.FC = () => {
 
   const sortedLabels = Object.keys(chargeCountMap)
     .map(Number)
-    .sort((a, b) => (sortOrder === "asc" ? a - b : b - a));
+    .sort((a, b) => (sortOrder === "asc" ? a - b : b - a))
+    .map((label) => label.toLocaleString());
 
   const brideData =
     sortedData?.data.filter((item) => item.isBride === true) || [];
@@ -121,7 +122,10 @@ const AccountBook: React.FC = () => {
       {
         label: "신부측 인원 수",
         data: sortedLabels.map(
-          (label) => brideData.filter((item) => item.charge === label).length
+          (label) =>
+            brideData.filter(
+              (item) => item.charge === parseInt(label.replace(/,/g, ""))
+            ).length
         ),
         borderColor: "hsl(344, 100%, 90%)",
         backgroundColor: "hsl(344, 100%, 70%)",
@@ -130,7 +134,10 @@ const AccountBook: React.FC = () => {
       {
         label: "신랑측 인원 수",
         data: sortedLabels.map(
-          (label) => groomData.filter((item) => item.charge === label).length
+          (label) =>
+            groomData.filter(
+              (item) => item.charge === parseInt(label.replace(/,/g, ""))
+            ).length
         ),
         borderColor: "hsl(236, 100%, 80%)",
         backgroundColor: "hsl(236, 100%, 60%)",
@@ -178,6 +185,10 @@ const AccountBook: React.FC = () => {
         title: {
           display: true,
           text: "인원 수 (명)",
+        },
+        ticks: {
+          stepSize: 1,
+          precision: 0,
         },
       },
     },
