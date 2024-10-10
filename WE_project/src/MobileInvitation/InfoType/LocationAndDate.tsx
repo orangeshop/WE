@@ -77,7 +77,6 @@ const LocationAndDate = forwardRef((_, ref) => {
               response.minute === 0 ? 0 : response.minute === 30 ? 30 : 1
             );
           }
-          console.log(response.minute);
           setWeddingHall(response.weddingHall || "");
           setAddressDetail(response.addressDetail || "");
           setAddress(response.address || "");
