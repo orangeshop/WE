@@ -26,7 +26,6 @@ class GuestViewModel @Inject constructor(
     val accountList: StateFlow<List<BankData>> get() = _accountList
 
     init {
-        getAccountList()
         getMembers()
     }
 

@@ -28,6 +28,9 @@
             android:id="@+id/action_guestFragment_to_transfer_nav_graph"
 
             app:destination="@id/transfer_nav_graph" />
+        <action
+            android:id="@+id/action_guestFragment_to_remittance_gragh"
+            app:destination="@id/remittance_gragh" />
     </fragment>
 
     <fragment
@@ -113,18 +116,24 @@
             android:defaultValue="true"
             app:argType="boolean" />
 
+        <argument
+            android:name="modalType"
+            android:defaultValue="true"
+            app:argType="boolean"/>
+
         <action
             android:id="@+id/action_accountFragment_to_accountTransferFragment"
             app:destination="@id/accountTransferFragment"
-
-            app:popUpTo="@id/homeFragment" />
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/accountFragment" />
 
         <action
             android:id="@+id/action_guest_accountFragment_to_accountTransferFragment"
             app:enterAnim="@animator/anim_fade_in_x_right_to_left"
             app:popEnterAnim="@animator/anim_fade_in_x_left_to_right"
             app:destination="@id/accountTransferFragment"
-            app:popUpTo="@id/guestFragment" />
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/accountFragment" />
 
     </fragment>
     <fragment

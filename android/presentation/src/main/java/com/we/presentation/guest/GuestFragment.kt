@@ -46,6 +46,11 @@ class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        guestViewModel.getAccountList()
+    }
+
     private fun initClickEventListener() {
         binding.apply {
             icCoupleRegister.flContent.setOnClickListener {
@@ -59,14 +64,17 @@ class GuestFragment : BaseFragment<FragmentGuestBinding>(R.layout.fragment_guest
             accountClickListener = { idx,account ->
                 if (idx == homeAdapter.currentList.lastIndex) {
                     navigateDestination(R.id.action_guestFragment_to_accountFragment,
-                        bundleOf("inputType" to false)
+                        bundleOf("inputType" to true,
+                            "modalType" to false)
                     )
                     ShareData.guestTransfer = true
                 } else {
                     navigateDestination(R.id.action_guestFragment_to_accountCheckFragment)
                 }
             },
-            accountRemittance = {},
+            accountRemittance = {account ->
+                navigateDestination(R.id.action_guestFragment_to_remittance_gragh, bundleOf("account" to account))
+            },
             typeCheck = false,
             moreVertClickListener = { resultView, account, bankName ->
                 val popupMenu = PopupMenu(requireContext(), resultView)
