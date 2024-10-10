@@ -94,6 +94,7 @@ const AccountBook: React.FC = () => {
     .reduce((acc, item) => acc + item.charge, 0);
 
   const chargeCountMap: { [charge: number]: number } = {};
+
   sortedData?.data.forEach((item) => {
     const charge = item.charge;
     if (chargeCountMap[charge]) {
